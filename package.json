@@ -13,8 +13,7 @@
     "react-scripts": "3.1.1",
     "redux-devtools-extension": "^2.13.8",
     "redux-starter-kit": "^0.7.0",
-    "redux-thunk": "^2.3.0",
-    "remove": "^0.1.5"
+    "redux-thunk": "^2.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
