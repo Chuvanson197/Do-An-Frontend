@@ -10,10 +10,10 @@ const Example = (props) => {
   return (
     <div>
       <h1>{count}</h1>
-      <Button type="primary" onClick={() => increment()}>
+      <Button type="dashed" onClick={() => increment()}>
         Increment
       </Button>
-      <Button type="primary" onClick={() => decrement()}>
+      <Button type="dashed" onClick={() => decrement()}>
         Decrement
       </Button>
     </div>
