@@ -47,6 +47,8 @@
         "react/jsx-one-expression-per-line": 0,
         "react/prop-types": "error",
         "react/jsx-tag-spacing": 0,
-        "react/jsx-wrap-multilines": 0
+        "react/jsx-wrap-multilines": 0,
+        "react/jsx-props-no-spreading": 0,
+        "react/jsx-fragments": 0
     }
 }
