@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector, connect } from 'react-redux';
 import { decrement, increment } from '../redux/reducers/Example';
+import { Button } from 'antd';
 
 const Example = (props) => {
   const count = useSelector((state) => state.example.count);
@@ -9,18 +10,17 @@ const Example = (props) => {
   return (
     <div>
       <h1>{count}</h1>
-      <button onClick={() => increment()}>Increment</button>
-      <button onClick={() => decrement()}>Decrement</button>
+      <Button type="primary" onClick={() => increment()}>
+        Increment
+      </Button>
+      <Button type="primary" onClick={() => decrement()}>
+        Decrement
+      </Button>
     </div>
   );
 };
 
-const mapDispatchToProps = {
-  decrement,
-  increment
-};
-
 export default connect(
   null,
-  mapDispatchToProps
+  { decrement, increment }
 )(Example);
