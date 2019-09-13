@@ -5,7 +5,6 @@ import { css } from 'emotion';
 
 const propTypes = {
   getRepos: PropTypes.func.isRequired,
-
   loading: PropTypes.bool,
   repos: PropTypes.arrayOf(PropTypes.shape({}))
 };
@@ -34,12 +33,12 @@ const Example = ({ repos, getRepos, loading }) => {
         placeholder="Input git username"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
-        onPressEnter={() => handleSearch()}
+        onPressEnter={handleSearch}
       />
       {loading && <div> Loading....</div>}
       <ul>
-        {(repos || []).map((repo) => (
-          <li>{repo.name}</li>
+        {repos.map((repo, index) => (
+          <li key={index}>{repo.name}</li>
         ))}
       </ul>
     </div>

@@ -1,20 +1,22 @@
-import { combineReducers } from 'redux';
-import thunk from 'redux-thunk';
-import { configureStore } from 'redux-starter-kit';
-
+import { configureStore, getDefaultMiddleware, combineReducers } from 'redux-starter-kit';
+import { routerReducer, routerMiddleware } from 'react-router-redux';
+import { createBrowserHistory } from 'history';
 import { reducer as exampleReducer } from '../modules/example/store';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 
-const reducer = combineReducers({
-  example: exampleReducer
-});
+export const history = createBrowserHistory();
+const routeMiddleware = routerMiddleware(history);
+const persistConfig = { key: 'root', storage };
 
-const rootReducer = (state, action) => reducer(state, action);
-
-const middleware = [thunk];
+const rootReducer = combineReducers({ example: exampleReducer, router: routerReducer });
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const store = configureStore({
-  reducer: rootReducer,
-  middleware
+  reducer: persistedReducer,
+  middleware: [routeMiddleware, ...getDefaultMiddleware({ serializableCheck: false })],
+  devTools: process.env.NODE_ENV !== 'production'
 });
 
+export const persistor = persistStore(store);
 export default store;
