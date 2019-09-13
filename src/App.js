@@ -1,19 +1,28 @@
 import React from 'react';
-import './App.css';
-import { Provider } from 'react-redux';
-import store from './redux/store';
-import Routes from './routes';
-import { ConfigProvider } from 'antd';
-import viVN from 'antd/es/locale/vi_VN';
+import { Route, Switch, withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import 'antd/dist/antd.css';
 
-function App() {
-  return (
-    <ConfigProvider locale={viVN}>
-      <Provider store={store}>
-        <Routes></Routes>
-      </Provider>
-    </ConfigProvider>
-  );
-}
+import routes from './routes';
 
-export default App;
+const propTypes = {
+  history: PropTypes.shape({}).isRequired,
+  location: PropTypes.shape({}).isRequired,
+  match: PropTypes.shape({}).isRequired
+};
+
+const defaultProps = {};
+
+const App = () => (
+  <Switch>
+    {routes.map((route) => (
+      <Route key={route.path} {...route} />
+    ))}
+  </Switch>
+);
+
+App.propTypes = propTypes;
+
+App.defaultProps = defaultProps;
+
+export default withRouter(App);
