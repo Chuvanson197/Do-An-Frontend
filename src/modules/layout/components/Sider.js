@@ -66,6 +66,12 @@ const Header = ({ selectedItem, selectedSubMenu, selectItem, selectSubMenu, isCo
             <span>Dashboard</span>
           </Link>
         </Menu.Item>
+        <Menu.Item key="1">
+          <Link to="/project/list">
+            <Icon type="project" />
+            <span>Project</span>
+          </Link>
+        </Menu.Item>
         <Menu.SubMenu
           key="sub1"
           title={
@@ -74,7 +80,7 @@ const Header = ({ selectedItem, selectedSubMenu, selectItem, selectSubMenu, isCo
               <span>Example</span>
             </React.Fragment>
           }>
-          <Menu.Item key="1">
+          <Menu.Item key="sub1.1">
             <Link to="/example/redux-example">Redux example</Link>
           </Menu.Item>
         </Menu.SubMenu>
