@@ -83,6 +83,9 @@ const Header = ({ selectedItem, selectedSubMenu, selectItem, selectSubMenu, isCo
           <Menu.Item key="sub1.1">
             <Link to="/example/redux-example">Redux example</Link>
           </Menu.Item>
+          <Menu.Item key="2">
+            <Link to="/projectDetail">Project Detail</Link>
+          </Menu.Item>
         </Menu.SubMenu>
       </Menu>
     </Layout.Sider>
