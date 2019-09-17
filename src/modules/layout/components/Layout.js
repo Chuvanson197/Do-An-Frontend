@@ -23,6 +23,7 @@ const styles = {
     padding: 24px;
     margin: 0;
     minheight: 280px;
+    border-radius: 3px;
   `
 };
 
