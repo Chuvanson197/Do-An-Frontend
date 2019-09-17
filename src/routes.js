@@ -24,6 +24,6 @@ export default [
   {
     component: ProjectDetail,
     exact: false,
-    path: '/projectDetail'
+    path: '/project/detail/:id'
   }
 ];
