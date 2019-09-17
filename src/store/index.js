@@ -4,6 +4,7 @@ import { createBrowserHistory } from 'history';
 
 import { reducer as exampleReducer } from '../modules/example/store';
 import { reducer as layoutReducer } from '../modules/layout/store';
+import { reducer as projectDetailReducer } from '../modules/projectDetails/store';
 
 export const history = createBrowserHistory();
 const routeMiddleware = routerMiddleware(history);
@@ -11,7 +12,8 @@ const routeMiddleware = routerMiddleware(history);
 const rootReducer = combineReducers({
   example: exampleReducer,
   router: routerReducer,
-  layout: layoutReducer
+  layout: layoutReducer,
+  projectDetail: projectDetailReducer
 });
 
 const store = configureStore({
