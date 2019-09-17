@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { Table } from 'antd';
 import moment from 'moment';
 
+import { history } from '../../../store';
+
 const propTypes = {
   listProject: PropTypes.arrayOf(PropTypes.shape({}))
 };
@@ -21,7 +23,7 @@ const defaultProps = {
 
 const ListProject = ({ listProject }) => {
   const onSelectProject = (record) => {
-    console.log(record);
+    history.push(`/project/detail/${record.id}`);
   };
 
   const columns = [

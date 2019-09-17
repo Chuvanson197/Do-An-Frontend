@@ -1,6 +1,6 @@
-import { Table } from 'antd';
-import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { Table, Row, Typography, Button, Col, Tooltip } from 'antd';
 
 const propTypes = {
   getProjectDetail: PropTypes.func.isRequired,
@@ -78,27 +78,39 @@ const ProjectDetail = ({ getProjectDetail, projectDetail, loading }) => {
 
   return (
     <React.Fragment>
-      <div>
-        <div display="flex">
-          <h2>Ten Project</h2>
-          <p>{`Khach hang: ${
+      <Row>
+        <Row>
+          <Typography.Title level={4}>Project information</Typography.Title>
+          <Typography.Paragraph>{`Customer: ${
             projectDetail && projectDetail.customer_name ? projectDetail.customer_name : ''
-          }`}</p>
-          <p>{`So thanh vien: ${
+          }`}</Typography.Paragraph>
+          <Typography.Paragraph>{`Members: ${
             projectDetail && projectDetail.total_member ? projectDetail.total_member : 0
-          }`}</p>
-          <p>{`Ngay bat dau: ${
+          }`}</Typography.Paragraph>
+          <Typography.Paragraph>{`Start day: ${
             projectDetail && projectDetail.start_date ? projectDetail.start_date : ''
-          }`}</p>
-          <p>{`Ngay ket thuc: ${
+          }`}</Typography.Paragraph>
+          <Typography.Paragraph>{`End day: ${
             projectDetail && projectDetail.end_date ? projectDetail.end_date : ''
-          }`}</p>
-        </div>
-        <div display="flex">
-          <h2>Danh sach cac thanh vien trong du an</h2>
+          }`}</Typography.Paragraph>
+        </Row>
+        <Row>
+          <Row>
+            <Col span={12}>
+              <Typography.Title level={4}>List current member joined project</Typography.Title>
+            </Col>
+            <Col span={12}>
+              <Row type="flex" justify="end">
+                <Tooltip placement="bottom" title="member diagram">
+                  <Button type="primary" shape="circle" icon="line-chart" />
+                </Tooltip>
+              </Row>
+            </Col>
+          </Row>
+
           <Table {...tableProps} />
-        </div>
-      </div>
+        </Row>
+      </Row>
     </React.Fragment>
   );
 };

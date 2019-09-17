@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, DatePicker } from 'antd';
+import { Row, Col, DatePicker, Button, Icon } from 'antd';
 import { css } from 'emotion';
 import TableMemberHistory from './TableMemberHistory';
 import moment from 'moment';
@@ -24,17 +24,27 @@ const ProjectMemberHistory = () => {
 
   return (
     <React.Fragment>
-      <Row type="flex" justify="end" className={styles.datePicker}>
-        <RangePicker
-          defaultValue={[moment().startOf('month'), moment().endOf('month')]}
-          placeholder={['Start Time', 'End Time']}
-          onChange={onChange}
-          onOk={onOk}
-        />
+      <Row className={styles.datePicker}>
+        <Col span={12}>
+          <Button type="primary">
+            <Icon type="line-chart" />
+            Show diagram
+          </Button>
+        </Col>
+        <Col span={12}>
+          <Row type="flex" justify="end">
+            <RangePicker
+              defaultValue={[moment().startOf('month'), moment().endOf('month')]}
+              placeholder={['Start Time', 'End Time']}
+              onChange={onChange}
+              onOk={onOk}
+            />
+          </Row>
+        </Col>
       </Row>
-      <div className={styles.table}>
+      <Row>
         <TableMemberHistory />
-      </div>
+      </Row>
     </React.Fragment>
   );
 };
