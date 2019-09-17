@@ -75,23 +75,18 @@ const data = [
 ];
 
 const TableMemberHistory = () => {
-//   const rowSelection = {
-//     onChange: (selectedRowKeys, selectedRows) => {
-//       console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-//     },
-//     getCheckboxProps: (record) => ({
-//       //   disabled: record.name === 'Disabled User', // Column configuration not to be checked
-//       name: record.fullname
-//     })
-//   };
+  //   const rowSelection = {
+  //     onChange: (selectedRowKeys, selectedRows) => {
+  //       console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+  //     },
+  //     getCheckboxProps: (record) => ({
+  //       //   disabled: record.name === 'Disabled User', // Column configuration not to be checked
+  //       name: record.fullname
+  //     })
+  //   };
 
   return (
-    <Table
-      rowKey={(record) => record.id}
-    //   rowSelection={rowSelection}
-      columns={columns}
-      dataSource={data}
-    />
+    <Table rowKey={(record) => record.id} pagination={false} columns={columns} dataSource={data} />
   );
 };
 

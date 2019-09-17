@@ -1,13 +1,22 @@
 import React from 'react';
-import ProjectMemberHistory from '../modules/projectMemberHistory/components/ProjectMemberHistory';
+import { Row, Col } from 'antd';
+
 import Layout from '../modules/layout/components/Layout';
 
-const ProjectMemberHistoryPage = () => {
-  return (
-    <Layout>
-      <ProjectMemberHistory></ProjectMemberHistory>
-    </Layout>
-  );
-};
+import HeaderTitle from '../components/Content/HeaderTitle';
+import ProjectMemberHistory from '../modules/projectMemberHistory/components/ProjectMemberHistory';
+
+const ProjectMemberHistoryPage = () => (
+  <Layout>
+    <React.Fragment>
+      <Row>
+        <HeaderTitle title="Project member history" />
+      </Row>
+    </React.Fragment>
+    <Row>
+      <ProjectMemberHistory />
+    </Row>
+  </Layout>
+);
 
 export default ProjectMemberHistoryPage;

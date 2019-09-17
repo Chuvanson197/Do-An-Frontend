@@ -57,7 +57,7 @@ const Header = ({ selectedItem, selectedSubMenu, selectItem, selectSubMenu, isCo
           <img
             src="https://static.wixstatic.com/media/60bb3f_974f57225e7243bab110fd17afb4f4f2~mv2.png/v1/fill/w_194,h_77,al_c,q_80,usm_0.66_1.00_0.01/1544942609.webp"
             alt=""
-            style={{ height: '100%', width: '100%' }}
+            style={{ height: '100%', width: '100%'}}
           />
         </div>
         <Menu.Item key="0">
@@ -66,19 +66,25 @@ const Header = ({ selectedItem, selectedSubMenu, selectItem, selectSubMenu, isCo
             <span>Dashboard</span>
           </Link>
         </Menu.Item>
+        <Menu.Item key="1">
+          <Link to="/project/list">
+            <Icon type="project" />
+            <span>Project</span>
+          </Link>
+        </Menu.Item>
         <Menu.SubMenu
           key="sub1"
           title={
             <React.Fragment>
               <Icon type="file" />
-              <span>Project</span>
+              <span>Example</span>
             </React.Fragment>
           }>
           <Menu.Item key="sub1.1">
             <Link to="/example/redux-example">Redux example</Link>
           </Menu.Item>
           <Menu.Item key="2">
-            <Link to="/projectMemberHistory">Project Member History</Link>
+            <Link to="/projectDetail">Project Detail</Link>
           </Menu.Item>
         </Menu.SubMenu>
       </Menu>
