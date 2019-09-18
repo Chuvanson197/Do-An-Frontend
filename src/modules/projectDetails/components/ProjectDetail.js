@@ -1,15 +1,17 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Table, Row, Typography, Button, Col, Tooltip } from 'antd';
+import moment from 'moment';
+import { Table, Row, Typography, Button, Col, Tooltip, Descriptions, Divider } from 'antd';
 
 const propTypes = {
   getProjectDetail: PropTypes.func.isRequired,
 
   projectDetail: PropTypes.shape({
+    name: PropTypes.name,
     customer_name: PropTypes.string,
     total_member: PropTypes.number,
-    start_date: PropTypes.string,
-    end_date: PropTypes.string,
+    start_date: PropTypes.number,
+    end_date: PropTypes.number,
     members: PropTypes.array
   }),
   loading: PropTypes.bool
@@ -17,10 +19,11 @@ const propTypes = {
 
 const defaultProps = {
   projectDetail: {
+    name: '',
     customer_name: '',
     total_member: 0,
-    start_date: '',
-    end_date: '',
+    start_date: 1568626107000,
+    end_date: 1600248507000,
     members: []
   },
   loading: false
@@ -31,73 +34,65 @@ const ProjectDetail = ({ getProjectDetail, projectDetail, loading }) => {
     getProjectDetail && getProjectDetail({});
   }, []);
 
-  const columnNames = ['staff_code', 'name', 'position', 'effort', 'join_at'];
-  const columnConfigs = {
-    staff_code: {
-      render: (value) => {
-        return <span>{value || ''}</span>;
-      }
+  const columns = [
+    {
+      title: 'Staff Code',
+      dataIndex: 'staff_code',
+      key: 'staff_code'
     },
-    name: {
-      render: (value) => {
-        return <span>{value || ''}</span>;
-      }
+    {
+      title: 'Full name',
+      dataIndex: 'name',
+      key: 'name'
     },
-    position: {
-      render: (value) => {
-        return <span>{value || ''}</span>;
-      }
+    {
+      title: 'Position',
+      dataIndex: 'position',
+      key: 'position'
     },
-    effort: {
-      render: (value) => {
-        return <span>{value || ''}</span>;
-      }
+    {
+      title: 'Effort',
+      dataIndex: 'effort',
+      key: 'effort'
     },
-    join_at: {
-      render: (value) => {
-        return <span>{value || ''}</span>;
+    {
+      title: 'Joined date',
+      dataIndex: 'join_at',
+      key: 'join_at',
+      render: (date) => {
+        return moment(date).format('DD/MM/YYYY');
       }
     }
-  };
-  const columns = columnNames.reduce((columnList, value) => {
-    const column = {
-      title: value,
-      dataIndex: value,
-      key: value,
-      ...columnConfigs[value]
-    };
-    return columnList.concat(column);
-  }, []);
-  const tableProps = {
-    rowKey: 'staff_code',
-    dataSource: projectDetail && projectDetail.members ? projectDetail.members : [],
-    pagination: false,
-    columns,
-    loading
-  };
+  ];
 
   return (
     <React.Fragment>
-      <Row>
-        <Row>
-          <Typography.Title level={4}>Project information</Typography.Title>
-          <Typography.Paragraph>{`Customer: ${
-            projectDetail && projectDetail.customer_name ? projectDetail.customer_name : ''
-          }`}</Typography.Paragraph>
-          <Typography.Paragraph>{`Members: ${
-            projectDetail && projectDetail.total_member ? projectDetail.total_member : 0
-          }`}</Typography.Paragraph>
-          <Typography.Paragraph>{`Start day: ${
-            projectDetail && projectDetail.start_date ? projectDetail.start_date : ''
-          }`}</Typography.Paragraph>
-          <Typography.Paragraph>{`End day: ${
-            projectDetail && projectDetail.end_date ? projectDetail.end_date : ''
-          }`}</Typography.Paragraph>
-        </Row>
+      <Row style={{ marginBottom: 75 }}>
+        <Descriptions
+          title={projectDetail && projectDetail.name ? projectDetail.name : 'empty'}
+          column={1}>
+          <Descriptions.Item label="Customer">
+            {projectDetail && projectDetail.customer_name ? projectDetail.customer_name : 'empty'}
+          </Descriptions.Item>
+          <Descriptions.Item label="Members">
+            {projectDetail && projectDetail.total_member ? projectDetail.total_member : 0}
+          </Descriptions.Item>
+          <Descriptions.Item label="Start day">
+            {projectDetail && projectDetail.start_date
+              ? moment(projectDetail.start_date).format('DD/MM/YYYY')
+              : 'empty'}
+          </Descriptions.Item>
+          <Descriptions.Item label="End day">
+            {projectDetail && projectDetail.end_date
+              ? moment(projectDetail.end_date).format('DD/MM/YYYY')
+              : 'empty'}
+          </Descriptions.Item>
+        </Descriptions>
+        <Divider />
         <Row>
           <Row>
             <Col span={12}>
-              <Typography.Title level={4}>List current member joined project</Typography.Title>
+              <Typography.Title level={4}>Current members</Typography.Title>
             </Col>
             <Col span={12}>
               <Row type="flex" justify="end">
@@ -107,8 +102,13 @@ const ProjectDetail = ({ getProjectDetail, projectDetail, loading }) => {
               </Row>
             </Col>
           </Row>
-
-          <Table {...tableProps} />
+          <Table
+            columns={columns}
+            rowKey={(record) => record.staff_code}
+            dataSource={projectDetail ? projectDetail.members : []}
+            loading={loading}
+            pagination={false}
+          />
         </Row>
       </Row>
     </React.Fragment>
