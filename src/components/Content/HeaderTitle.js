@@ -10,7 +10,7 @@ const defaultProps = {};
 
 const HeaderTitle = ({ title }) => (
   <React.Fragment>
-    <Typography.Title level={3}>{title}</Typography.Title>
+    <Typography.Title level={2}>{title}</Typography.Title>
     <Divider />
   </React.Fragment>
 );

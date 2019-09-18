@@ -1,76 +1,68 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Table } from 'antd';
+import { List, Skeleton, Typography, Row, Tag } from 'antd';
 import moment from 'moment';
+import { css } from 'emotion';
 
 import { history } from '../../../store';
 
 const propTypes = {
-  listProject: PropTypes.arrayOf(PropTypes.shape({}))
+  listProject: PropTypes.arrayOf(PropTypes.shape({})).isRequired
 };
 
-const defaultProps = {
-  listProject: [
-    {
-      id: 1,
-      name: 'MUJI-ADMIN',
-      customer: 'MUJI.jp',
-      start_time: 1568626107000,
-      end_time: 1600248507000
+const styles = {
+  title: css`
+    font-size: 17px;
+    font-weight: bold;
+    margin-left: 5px;
+  `,
+  listItem: css`
+    cursor: pointer;
+    &:hover {
+      background-color: #f1f1f1;
     }
-  ]
+  `
 };
 
 const ListProject = ({ listProject }) => {
-  const onSelectProject = (record) => {
-    history.push(`/project/detail/${record.id}`);
+  const onSelectProject = (item) => {
+    history.push(`/project/detail/${item.id}`);
   };
 
-  const columns = [
-    {
-      title: 'Project name',
-      dataIndex: 'name',
-      key: 'name'
-    },
-    {
-      title: 'Customer',
-      dataIndex: 'customer',
-      key: 'customer'
-    },
-    {
-      title: 'Start',
-      dataIndex: 'start_time',
-      key: 'start_time',
-      render: (time) => {
-        return moment(time).format('DD/MM/YYYY');
-      }
-    },
-    {
-      title: 'End',
-      dataIndex: 'end_time',
-      key: 'end_time',
-      render: (time) => {
-        return moment(time).format('DD/MM/YYYY');
-      }
-    }
-  ];
   return (
-    <Table
-      rowKey={(record) => record.id}
-      columns={columns}
+    <List
+      itemLayout="horizontal"
       dataSource={listProject}
-      pagination={false}
-      onRow={(record) => {
-        return {
-          onClick: () => onSelectProject(record)
-        };
-      }}
+      renderItem={(item) => (
+        <List.Item onClick={() => onSelectProject(item)} className={styles.listItem}>
+          <Skeleton loading={false} active>
+            <List.Item.Meta
+              title={<Row className={styles.title}>{item.name}</Row>}
+              description={
+                <Row style={{ marginLeft: 5 }}>
+                  <Typography.Paragraph style={{ margin: 0 }}>
+                    customer: {item.customer}
+                  </Typography.Paragraph>
+                  <Typography.Paragraph style={{ margin: 0 }}>
+                    date:&nbsp;
+                    {moment(item.start_time).format('DD/MM/YYYY')} -&nbsp;
+                    {moment(item.end_time).format('DD/MM/YYYY')}
+                  </Typography.Paragraph>
+                </Row>
+              }
+            />
+            <Row>
+              {item.status === 'running' && <Tag color="#108ee9">Running</Tag>}
+              {item.status === 'stopped' && <Tag color="#f5222D">Stopped</Tag>}
+              {item.status === 'completed' && <Tag color="#87d068">Completed</Tag>}
+            </Row>
+          </Skeleton>
+        </List.Item>
+      )}
     />
   );
 };
 
 ListProject.propTypes = propTypes;
-
-ListProject.defaultProps = defaultProps;
 
 export default ListProject;
