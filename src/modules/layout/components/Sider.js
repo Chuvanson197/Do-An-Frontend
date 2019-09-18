@@ -21,6 +21,7 @@ const defaultProps = {
 const styles = {
   sider: css`
     width: 200px;
+    margin-top: 64px;
     background-color: #fff;
   `,
   menu: css`
@@ -53,15 +54,6 @@ const Header = ({ selectedItem, selectedSubMenu, selectItem, selectSubMenu, isCo
         defaultOpenKeys={selectedSubMenu}
         onSelect={(item) => handleSelect(item)}
         onOpenChange={(selectedKeys) => handleSelectSubMenu(selectedKeys)}>
-        <div className={styles.logo}>
-          {!isCollapsed && (
-            <img
-              src="https://static.wixstatic.com/media/60bb3f_974f57225e7243bab110fd17afb4f4f2~mv2.png/v1/fill/w_194,h_77,al_c,q_80,usm_0.66_1.00_0.01/1544942609.webp"
-              alt=""
-              style={{ height: '100%', width: '100%' }}
-            />
-          )}
-        </div>
         <Menu.Item key="dashboard">
           <Link to="/">
             <Icon type="pie-chart" />
