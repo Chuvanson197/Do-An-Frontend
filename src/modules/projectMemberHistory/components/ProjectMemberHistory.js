@@ -11,10 +11,7 @@ const styles = {
 };
 
 const ProjectMemberHistory = () => {
-  const onChange = (dates, dateStrings) => {
-    console.log('From: ', dates[0], ', to: ', dates[1]);
-    console.log('From: ', dateStrings[0], ', to: ', dateStrings[1]);
-  };
+  const onChange = (dates, dateStrings) => {};
 
   const onOk = (selectedTime) => {
     console.log(selectedTime);
@@ -24,26 +21,30 @@ const ProjectMemberHistory = () => {
 
   return (
     <React.Fragment>
-      <Row className={styles.datePicker}>
-        <Col span={12}>
-          <Button type="primary">
-            <Icon type="line-chart" />
-            Show diagram
-          </Button>
-        </Col>
-        <Col span={12}>
-          <Row type="flex" justify="end">
-            <RangePicker
-              defaultValue={[moment().startOf('month'), moment().endOf('month')]}
-              placeholder={['Start Time', 'End Time']}
-              onChange={onChange}
-              onOk={onOk}
-            />
-          </Row>
-        </Col>
-      </Row>
-      <Row>
-        <TableMemberHistory />
+      <Row style={{ marginBottom: 75 }}>
+        <Row className={styles.datePicker}>
+          <Col span={12}>
+            <Button type="primary">
+              <Icon type="line-chart" />
+              Show diagram
+            </Button>
+          </Col>
+          <Col span={12}>
+            <Row type="flex" justify="end">
+              <RangePicker
+                defaultValue={[moment().startOf('month'), moment().endOf('month')]}
+                format="DD-MM-YYYY"
+                mode={['month', 'month']}
+                placeholder={['Start Time', 'End Time']}
+                onChange={onChange}
+                onOk={onOk}
+              />
+            </Row>
+          </Col>
+        </Row>
+        <Row>
+          <TableMemberHistory />
+        </Row>
       </Row>
     </React.Fragment>
   );
