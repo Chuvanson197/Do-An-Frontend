@@ -1,6 +1,6 @@
 import createOperation from '../../../ultis/createOperation';
 import slice from './slice';
-import service from '../service';
+import serviceApi from '../serviceApi';
 
 const {
   actions: { getProjectDetailStart, getProjectDetailSuccess, getProjectDetailFailed }
@@ -12,5 +12,5 @@ export const getProjectDetail = createOperation({
     successAction: getProjectDetailSuccess,
     failAction: getProjectDetailFailed
   },
-  process: ({ payload }) => service.getProjectDetail(payload)
+  process: ({ payload }) => serviceApi.getProjectDetail()
 });

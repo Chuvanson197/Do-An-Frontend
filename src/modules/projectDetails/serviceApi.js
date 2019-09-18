@@ -1,7 +1,7 @@
 // import axios from 'axios';
 
 const service = {
-  getProjectDetail: (body) => {
+  getProjectDetail: () => {
     // dummy data
     return {
       name: 'MUJI-ADMIN',

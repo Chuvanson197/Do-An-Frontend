@@ -1,47 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Table, Tag } from 'antd';
 import moment from 'moment';
 
-const data = [
-  {
-    id: 'member_001',
-    staff_code: 'impl_S01',
-    name: 'Nguyễn Xuân An',
-    phonenumber: '0975352786',
-    email: 'an.nguyen@impl.vn',
-    time_in: 1568271275000,
-    time_out: 1599893675000,
-    status: 'working',
-    effort: 1,
-    position: 'Developer'
-  },
-  {
-    id: 'member_002',
-    staff_code: 'impl_S02',
-    name: 'Nguyễn Xuân An',
-    phonenumber: '0975352786',
-    email: 'an.nguyen@impl.vn',
-    time_in: 1568271275000,
-    time_out: 1599893675000,
-    status: 'out',
-    effort: 1,
-    position: 'Developer'
-  },
-  {
-    id: 'member_003',
-    staff_code: 'impl_S03',
-    name: 'Nguyễn Xuân An',
-    phonenumber: '0975352786',
-    email: 'an.nguyen@impl.vn',
-    time_in: 1568271275000,
-    time_out: 1599893675000,
-    status: 'busy',
-    effort: 1,
-    position: 'Developer'
-  }
-];
+const propTypes = {
+  projectMemberHistory: PropTypes.arrayOf
+};
 
-const TableMemberHistory = () => {
+const defaultProps = {
+  projectMemberHistory: []
+};
+
+const TableMemberHistory = ({ projectMemberHistory }) => {
   const columns = [
     {
       title: 'Staff Code',
@@ -99,8 +69,16 @@ const TableMemberHistory = () => {
   ];
 
   return (
-    <Table rowKey={(record) => record.id} pagination={false} columns={columns} dataSource={data} />
+    <Table
+      rowKey={(record) => record.id}
+      pagination={false}
+      columns={columns}
+      dataSource={projectMemberHistory}
+    />
   );
 };
+
+TableMemberHistory.propTypes = propTypes;
+TableMemberHistory.defaultProps = defaultProps;
 
 export default TableMemberHistory;
