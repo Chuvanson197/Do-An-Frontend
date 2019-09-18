@@ -18,6 +18,10 @@ const styles = {
     align-items: center;
     display: flex;
     padding: 0px 24px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
   `,
   trigger: css`
     color: #fff;

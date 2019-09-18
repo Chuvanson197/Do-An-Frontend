@@ -32,7 +32,7 @@ const Layout = ({ children }) => (
     <Sider />
     <AntdLayout>
       <Header />
-      <AntdLayout style={{ padding: '24px' }}>
+      <AntdLayout style={{ padding: '88px 24px 24px 24px' }}>
         <AntdLayout.Content className={styles.content}>{children}</AntdLayout.Content>
       </AntdLayout>
     </AntdLayout>
