@@ -2,7 +2,7 @@ import { createSlice } from 'redux-starter-kit';
 
 const initialState = {
   sider: {
-    selectedItem: ['0'],
+    selectedItem: [],
     selectedSubMenu: [],
     isCollapsed: false
   }
