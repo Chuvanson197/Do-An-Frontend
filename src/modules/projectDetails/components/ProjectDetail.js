@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Table, Row, Typography, Button, Col, Tooltip, Descriptions, Divider } from 'antd';
@@ -6,8 +6,6 @@ import { Table, Row, Typography, Button, Col, Tooltip, Descriptions, Divider } f
 import MemberDiagram from '../../memberDiagram/MemberDiagram';
 
 const propTypes = {
-  getProjectDetail: PropTypes.func.isRequired,
-
   projectDetail: PropTypes.shape({
     name: PropTypes.name,
     customer_name: PropTypes.string,
@@ -31,12 +29,8 @@ const defaultProps = {
   loading: false
 };
 
-const ProjectDetail = ({ getProjectDetail, projectDetail, loading }) => {
+const ProjectDetail = ({ projectDetail, loading }) => {
   const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    getProjectDetail && getProjectDetail({});
-  }, [getProjectDetail]);
 
   const columns = [
     {

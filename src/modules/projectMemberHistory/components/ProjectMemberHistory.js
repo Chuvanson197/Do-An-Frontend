@@ -1,8 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Row, Col, DatePicker, Button, Icon } from 'antd';
 import { css } from 'emotion';
 import TableMemberHistory from './TableMemberHistory';
 import moment from 'moment';
+
+const propTypes = {
+  projectMemberHistory: PropTypes.arrayOf
+};
+
+const defaultProps = {
+  projectMemberHistory: []
+};
 
 const styles = {
   datePicker: css`
@@ -10,7 +19,7 @@ const styles = {
   `
 };
 
-const ProjectMemberHistory = () => {
+const ProjectMemberHistory = ({ projectMemberHistory }) => {
   const onChange = (dates, dateStrings) => {};
 
   const onOk = (selectedTime) => {
@@ -43,11 +52,14 @@ const ProjectMemberHistory = () => {
           </Col>
         </Row>
         <Row>
-          <TableMemberHistory />
+          <TableMemberHistory projectMemberHistory={projectMemberHistory} />
         </Row>
       </Row>
     </React.Fragment>
   );
 };
+
+ProjectMemberHistory.propTypes = propTypes;
+ProjectMemberHistory.defaultProps = defaultProps;
 
 export default ProjectMemberHistory;

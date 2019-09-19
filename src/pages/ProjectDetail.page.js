@@ -1,16 +1,17 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Row, Col, Button, Icon } from 'antd';
 import { css } from 'emotion';
 
 import { history } from '../store';
-import { actions } from '../modules/layout/store';
+import { actions as layoutActions } from '../modules/layout/store';
+import { actions as projectActions } from '../modules/projectDetails/store';
 
 import Layout from '../modules/layout/components/Layout';
 
 import HeaderTitle from '../components/Content/HeaderTitle';
-import ProjectDetail from '../modules/projectDetails/components/ProjectDetail.container';
+import ProjectDetail from '../modules/projectDetails/components/ProjectDetail';
 import BackButton from '../components/Button/BackButton';
 
 const propTypes = {
@@ -31,8 +32,11 @@ const styles = {
 
 const ProjectDetailPage = ({ match }) => {
   const dispatch = useDispatch();
+  const { projectDetail, loading } = useSelector((state) => state.projectDetail);
+
   useEffect(() => {
-    dispatch(actions.selectItem(['project']));
+    dispatch(layoutActions.selectItem(['project']));
+    dispatch(projectActions.getProjectDetail());
   }, [dispatch]);
 
   const onBack = () => {
@@ -51,7 +55,7 @@ const ProjectDetailPage = ({ match }) => {
           <HeaderTitle title="Project detail" />
         </Row>
         <Row>
-          <ProjectDetail />
+          <ProjectDetail projectDetail={projectDetail} loading={loading} />
         </Row>
         <Row className={styles.footer}>
           <Col span={12}>
