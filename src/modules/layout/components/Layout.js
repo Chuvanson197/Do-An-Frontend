@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { Layout as AntdLayout } from 'antd';
 import { css } from 'emotion';
 
-import Header from './Header.container';
-import Sider from './Sider.container';
+import Header from './Header';
+import Sider from './Sider';
 
 const propTypes = {
   children: PropTypes.oneOfType([PropTypes.element, PropTypes.string])

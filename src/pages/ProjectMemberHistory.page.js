@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Row, Col } from 'antd';
 import { css } from 'emotion';
 
 import { history } from '../store';
-import { actions } from '../modules/layout/store';
+import { actions as layoutActions } from '../modules/layout/store';
+import { actions as projectActions } from '../modules/projectMemberHistory/store';
 
 import Layout from '../modules/layout/components/Layout';
 
@@ -31,8 +32,11 @@ const styles = {
 
 const ProjectMemberHistoryPage = ({ match }) => {
   const dispatch = useDispatch();
+  const { projectMemberHistory } = useSelector((state) => state.projectMemberHistory);
+
   useEffect(() => {
-    dispatch(actions.selectItem(['project']));
+    dispatch(layoutActions.selectItem(['project']));
+    dispatch(projectActions.getProjectMemberHistory());
   }, [dispatch]);
 
   const onBack = () => {
@@ -47,7 +51,7 @@ const ProjectMemberHistoryPage = ({ match }) => {
           <HeaderTitle title="Project member history" />
         </Row>
         <Row>
-          <ProjectMemberHistory />
+          <ProjectMemberHistory projectMemberHistory={projectMemberHistory} />
         </Row>
         <Row className={styles.footer}>
           <Col span={12}>

@@ -1,11 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Table, Row, Typography, Button, Col, Tooltip, Descriptions, Divider } from 'antd';
 
 const propTypes = {
-  getProjectDetail: PropTypes.func.isRequired,
-
   projectDetail: PropTypes.shape({
     name: PropTypes.name,
     customer_name: PropTypes.string,
@@ -29,11 +27,7 @@ const defaultProps = {
   loading: false
 };
 
-const ProjectDetail = ({ getProjectDetail, projectDetail, loading }) => {
-  useEffect(() => {
-    getProjectDetail && getProjectDetail({});
-  }, [getProjectDetail]);
-
+const ProjectDetail = ({ projectDetail, loading }) => {
   const columns = [
     {
       title: 'Staff Code',

@@ -1,17 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
+import { actions } from '../store';
 import { Layout, Icon } from 'antd';
 import { css } from 'emotion';
-
-const propTypes = {
-  handleSetCollapse: PropTypes.func.isRequired,
-
-  isCollapsed: PropTypes.bool
-};
-
-const defaultProps = {
-  isCollapsed: false
-};
 
 const styles = {
   header: css`
@@ -32,9 +23,12 @@ const styles = {
   `
 };
 
-const Header = ({ isCollapsed, handleSetCollapse }) => {
+const Header = () => {
+  const dispatch = useDispatch();
+  const { isCollapsed } = useSelector((state) => state.layout.sider);
+
   const toggle = () => {
-    handleSetCollapse && handleSetCollapse();
+    dispatch(actions.setCollapse());
   };
 
   return (
@@ -47,9 +41,5 @@ const Header = ({ isCollapsed, handleSetCollapse }) => {
     </Layout.Header>
   );
 };
-
-Header.propTypes = propTypes;
-
-Header.defaultProps = defaultProps;
 
 export default Header;

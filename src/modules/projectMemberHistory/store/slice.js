@@ -1,4 +1,4 @@
-import { createSlice } from './node_modules/redux-starter-kit';
+import { createSlice } from 'redux-starter-kit';
 
 const initialState = {
   projectMemberHistory: [],
@@ -12,20 +12,21 @@ const slice = createSlice({
   slice: 'projectMemberHistory',
   initialState,
   reducers: {
-    getReposStart: (state) => ({
+    getProjectMemeberHistoryStart: (state) => ({
       ...state,
-      loading: true,
       projectMemberHistory: [],
+      loading: true,
+      loaded: false,
       isError: false,
       errors: undefined
     }),
-    getReposSuccess: (state, { payload }) => ({
+    getProjectMemeberHistorySuccess: (state, { payload }) => ({
       ...state,
+      projectMemberHistory: payload.result,
       loading: false,
-      loaded: true,
-      projectMemberHistory: payload.result
+      loaded: true
     }),
-    getReposFailed: (state, { payload }) => ({
+    getProjectMemeberHistoryFailed: (state, { payload }) => ({
       ...state,
       loading: false,
       isError: true,

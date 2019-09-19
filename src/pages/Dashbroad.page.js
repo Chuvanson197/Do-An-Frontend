@@ -7,6 +7,7 @@ import Layout from '../modules/layout/components/Layout';
 
 const DashbroadPage = () => {
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(actions.selectItem(['dashboard']));
   }, [dispatch]);

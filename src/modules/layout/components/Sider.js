@@ -1,22 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
+import { actions } from '../store';
 import { Link } from 'react-router-dom';
 import { Layout, Menu, Icon } from 'antd';
 import { css } from 'emotion';
-
-const propTypes = {
-  selectedItem: PropTypes.arrayOf(PropTypes.string).isRequired,
-  selectItem: PropTypes.func.isRequired,
-  selectSubMenu: PropTypes.func.isRequired,
-
-  selectedSubMenu: PropTypes.arrayOf(PropTypes.string),
-  isCollapsed: PropTypes.bool
-};
-
-const defaultProps = {
-  selectedSubMenu: [],
-  isCollapsed: false
-};
 
 const styles = {
   sider: css`
@@ -35,13 +22,12 @@ const styles = {
   `
 };
 
-const Header = ({ selectedItem, selectedSubMenu, selectItem, selectSubMenu, isCollapsed }) => {
-  const handleSelect = (item) => {
-    selectItem && selectItem(item.selectedKeys);
-  };
+const Sider = () => {
+  const dispacth = useDispatch();
+  const { selectedItem, selectedSubMenu, isCollapsed } = useSelector((state) => state.layout.sider);
 
   const handleSelectSubMenu = (selectedKeys) => {
-    selectSubMenu && selectSubMenu(selectedKeys);
+    dispacth(actions.selectSubMenu(selectedKeys));
   };
 
   return (
@@ -50,9 +36,8 @@ const Header = ({ selectedItem, selectedSubMenu, selectItem, selectSubMenu, isCo
         mode="inline"
         theme="dark"
         className={styles.menu}
-        defaultSelectedKeys={selectedItem}
-        defaultOpenKeys={selectedSubMenu}
-        onSelect={(item) => handleSelect(item)}
+        selectedKeys={selectedItem}
+        openKeys={selectedSubMenu}
         onOpenChange={(selectedKeys) => handleSelectSubMenu(selectedKeys)}>
         <Menu.Item key="dashboard">
           <Link to="/">
@@ -83,8 +68,4 @@ const Header = ({ selectedItem, selectedSubMenu, selectItem, selectSubMenu, isCo
   );
 };
 
-Header.propTypes = propTypes;
-
-Header.defaultProps = defaultProps;
-
-export default Header;
+export default Sider;
