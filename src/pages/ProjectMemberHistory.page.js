@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Row, Col } from 'antd';
 import { css } from 'emotion';
 
@@ -14,8 +14,7 @@ import ProjectMemberHistory from '../modules/projectMemberHistory/components/Pro
 import BackButton from '../components/Button/BackButton';
 
 const propTypes = {
-  match: PropTypes.shape({}).isRequired,
-  selectItem: PropTypes.func.isRequired
+  match: PropTypes.shape({}).isRequired
 };
 
 const styles = {
@@ -30,48 +29,36 @@ const styles = {
   `
 };
 
-class ProjectMemberHistoryPage extends Component {
-  componentWillMount() {
-    const { selectItem } = this.props;
-    selectItem(['project']);
-  }
+const ProjectMemberHistoryPage = ({ match }) => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(actions.selectItem(['project']));
+  }, [dispatch]);
 
-  onBack = () => {
-    const { match } = this.props;
+  const onBack = () => {
     // eslint-disable-next-line react/prop-types
     history.push(`/project/detail/${match.params.id}`);
   };
 
-  render() {
-    return (
-      <Layout>
-        <Row className={styles.container}>
-          <Row>
-            <HeaderTitle title="Project member history" />
-          </Row>
-          <Row>
-            <ProjectMemberHistory />
-          </Row>
-          <Row className={styles.footer}>
-            <Col span={12}>
-              <BackButton onBack={() => this.onBack()} />
-            </Col>
-          </Row>
+  return (
+    <Layout>
+      <Row className={styles.container}>
+        <Row>
+          <HeaderTitle title="Project member history" />
         </Row>
-      </Layout>
-    );
-  }
-}
-
-const mapStateToProps = (state) => ({});
-
-const mapDispatchToProps = (dispatch) => ({
-  selectItem: (selectedKeys) => dispatch(actions.selectItem(selectedKeys))
-});
+        <Row>
+          <ProjectMemberHistory />
+        </Row>
+        <Row className={styles.footer}>
+          <Col span={12}>
+            <BackButton onBack={() => onBack()} />
+          </Col>
+        </Row>
+      </Row>
+    </Layout>
+  );
+};
 
 ProjectMemberHistoryPage.propTypes = propTypes;
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ProjectMemberHistoryPage);
+export default ProjectMemberHistoryPage;

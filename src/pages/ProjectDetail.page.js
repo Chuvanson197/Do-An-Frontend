@@ -1,12 +1,11 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Row, Col, Button, Icon } from 'antd';
 import { css } from 'emotion';
 
 import { history } from '../store';
 import { actions } from '../modules/layout/store';
-
 
 import Layout from '../modules/layout/components/Layout';
 
@@ -15,8 +14,7 @@ import ProjectDetail from '../modules/projectDetails/components/ProjectDetail.co
 import BackButton from '../components/Button/BackButton';
 
 const propTypes = {
-  match: PropTypes.shape({}).isRequired,
-  selectItem: PropTypes.func.isRequired
+  match: PropTypes.shape({}).isRequired
 };
 
 const styles = {
@@ -31,60 +29,48 @@ const styles = {
   `
 };
 
-class ProjectDetailPage extends Component {
-  componentWillMount() {
-    const { selectItem } = this.props;
-    selectItem(['project']);
-  }
+const ProjectDetailPage = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(actions.selectItem(['project']));
+  }, [dispatch]);
 
-  onBack = () => {
+  const onBack = () => {
     history.push('/project/list');
   };
 
-  toMemberHistory = () => {
-    const { match } = this.props;
+  const toMemberHistory = ({ match }) => {
     // eslint-disable-next-line react/prop-types
     history.push(`/project/memberHistory/${match.params.id}`);
   };
 
-  render() {
-    return (
-      <Layout>
-        <Row className={styles.container}>
-          <Row>
-            <HeaderTitle title="Project detail" />
-          </Row>
-          <Row>
-            <ProjectDetail />
-          </Row>
-          <Row className={styles.footer}>
-            <Col span={12}>
-              <BackButton onBack={() => this.onBack()} />
-            </Col>
-            <Col span={12}>
-              <Row type="flex" justify="end">
-                <Button type="primary" onClick={() => this.toMemberHistory()}>
-                  <Icon type="history" />
-                  Member History
-                </Button>
-              </Row>
-            </Col>
-          </Row>
+  return (
+    <Layout>
+      <Row className={styles.container}>
+        <Row>
+          <HeaderTitle title="Project detail" />
         </Row>
-      </Layout>
-    );
-  }
-}
-
-const mapStateToProps = (state) => ({});
-
-const mapDispatchToProps = (dispatch) => ({
-  selectItem: (selectedKeys) => dispatch(actions.selectItem(selectedKeys))
-});
+        <Row>
+          <ProjectDetail />
+        </Row>
+        <Row className={styles.footer}>
+          <Col span={12}>
+            <BackButton onBack={() => onBack()} />
+          </Col>
+          <Col span={12}>
+            <Row type="flex" justify="end">
+              <Button type="primary" onClick={() => toMemberHistory()}>
+                <Icon type="history" />
+                Member History
+              </Button>
+            </Row>
+          </Col>
+        </Row>
+      </Row>
+    </Layout>
+  );
+};
 
 ProjectDetailPage.propTypes = propTypes;
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ProjectDetailPage);
+export default ProjectDetailPage;
