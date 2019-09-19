@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Table, Row, Typography, Button, Col, Tooltip, Descriptions, Divider } from 'antd';
+
+import MemberDiagram from '../../memberDiagram/MemberDiagram';
 
 const propTypes = {
   projectDetail: PropTypes.shape({
@@ -28,6 +30,8 @@ const defaultProps = {
 };
 
 const ProjectDetail = ({ projectDetail, loading }) => {
+  const [visible, setVisible] = useState(false);
+
   const columns = [
     {
       title: 'Staff Code',
@@ -91,7 +95,12 @@ const ProjectDetail = ({ projectDetail, loading }) => {
             <Col span={12}>
               <Row type="flex" justify="end">
                 <Tooltip placement="bottom" title="member diagram">
-                  <Button type="primary" shape="circle" icon="line-chart" />
+                  <Button
+                    type="primary"
+                    shape="circle"
+                    icon="line-chart"
+                    onClick={() => setVisible(!visible)}
+                  />
                 </Tooltip>
               </Row>
             </Col>
@@ -105,6 +114,7 @@ const ProjectDetail = ({ projectDetail, loading }) => {
           />
         </Row>
       </Row>
+      <MemberDiagram visible={visible} close={() => setVisible(!visible)} />
     </React.Fragment>
   );
 };
