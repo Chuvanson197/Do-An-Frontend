@@ -14,7 +14,6 @@ const styles = {
   title: css`
     font-size: 17px;
     font-weight: bold;
-    margin-left: 5px;
   `,
   listItem: css`
     cursor: pointer;
@@ -37,7 +36,11 @@ const ListProject = ({ listProject }) => {
         <List.Item onClick={() => onSelectProject(item)} className={styles.listItem}>
           <Skeleton loading={false} active>
             <List.Item.Meta
-              title={<Row className={styles.title}>{item.name}</Row>}
+              title={
+                <Row style={{ marginLeft: 5 }} className={styles.title}>
+                  {item.name}
+                </Row>
+              }
               description={
                 <Row style={{ marginLeft: 5 }}>
                   <Typography.Paragraph style={{ margin: 0 }}>

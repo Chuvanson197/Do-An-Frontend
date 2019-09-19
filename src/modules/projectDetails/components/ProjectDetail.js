@@ -32,7 +32,7 @@ const defaultProps = {
 const ProjectDetail = ({ getProjectDetail, projectDetail, loading }) => {
   useEffect(() => {
     getProjectDetail && getProjectDetail({});
-  }, []);
+  }, [getProjectDetail]);
 
   const columns = [
     {
