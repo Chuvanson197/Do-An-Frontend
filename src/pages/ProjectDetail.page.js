@@ -29,7 +29,7 @@ const styles = {
   `
 };
 
-const ProjectDetailPage = () => {
+const ProjectDetailPage = ({ match }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(actions.selectItem(['project']));
@@ -39,7 +39,7 @@ const ProjectDetailPage = () => {
     history.push('/project/list');
   };
 
-  const toMemberHistory = ({ match }) => {
+  const toMemberHistory = () => {
     // eslint-disable-next-line react/prop-types
     history.push(`/project/memberHistory/${match.params.id}`);
   };

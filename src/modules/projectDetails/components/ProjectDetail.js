@@ -1,7 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Table, Row, Typography, Button, Col, Tooltip, Descriptions, Divider } from 'antd';
+
+import MemberDiagram from '../../memberDiagram/MemberDiagram';
 
 const propTypes = {
   getProjectDetail: PropTypes.func.isRequired,
@@ -30,6 +32,8 @@ const defaultProps = {
 };
 
 const ProjectDetail = ({ getProjectDetail, projectDetail, loading }) => {
+  const [visible, setVisible] = useState(false);
+
   useEffect(() => {
     getProjectDetail && getProjectDetail({});
   }, [getProjectDetail]);
@@ -97,7 +101,12 @@ const ProjectDetail = ({ getProjectDetail, projectDetail, loading }) => {
             <Col span={12}>
               <Row type="flex" justify="end">
                 <Tooltip placement="bottom" title="member diagram">
-                  <Button type="primary" shape="circle" icon="line-chart" />
+                  <Button
+                    type="primary"
+                    shape="circle"
+                    icon="line-chart"
+                    onClick={() => setVisible(!visible)}
+                  />
                 </Tooltip>
               </Row>
             </Col>
@@ -111,6 +120,7 @@ const ProjectDetail = ({ getProjectDetail, projectDetail, loading }) => {
           />
         </Row>
       </Row>
+      <MemberDiagram visible={visible} close={() => setVisible(!visible)} />
     </React.Fragment>
   );
 };
