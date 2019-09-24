@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Row, Col, Tabs, Tag } from 'antd';
+import { Row, Col, Tabs, Tag, Tooltip, Button } from 'antd';
 
 import { actions as layoutActions } from '../modules/layout/store';
 import { actions as projectActions } from '../modules/listProject/store';
@@ -8,10 +8,13 @@ import { actions as projectActions } from '../modules/listProject/store';
 import Layout from '../modules/layout/components/Layout';
 import HeaderTitle from '../components/Content/HeaderTitle';
 import ListProject from '../modules/listProject/components/ListProject';
+import CreateProject from '../modules/createProject/components/CreateProject';
 
 const ListProjectPage = () => {
   const dispatch = useDispatch();
   const { projectList } = useSelector((state) => state.projectList);
+  const [visible, setVisible] = useState(false);
+
 
   useEffect(() => {
     dispatch(layoutActions.selectItem(['project']));
@@ -44,8 +47,18 @@ const ListProjectPage = () => {
               </Tabs.TabPane>
             </Tabs>
           </Col>
-          <Col span={12}></Col>
+          <Col span={12}>
+            <Tooltip placement="bottom" title="Create Project">
+              <Button
+                type="primary"
+                shape="circle"
+                icon="plus"
+                onClick={() => setVisible(!visible)}
+              />
+            </Tooltip>
+          </Col>
         </Row>
+        <CreateProject visible={visible} close={() => setVisible(!visible)} />
       </React.Fragment>
     </Layout>
   );

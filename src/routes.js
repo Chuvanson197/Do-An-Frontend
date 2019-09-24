@@ -5,6 +5,8 @@ const Dashboard = lazy(() => import('./pages/Dashbroad.page'));
 const ListProject = lazy(() => import('./pages/ListProject.page'));
 const ProjectDetail = lazy(() => import('./pages/ProjectDetail.page'));
 const ProjectMemberHistory = lazy(() => import('./pages/ProjectMemberHistory.page'));
+// const ProjectCreate = lazy(() => import('./pages/ProjectCreate.page'));
+
 
 export default [
   {
