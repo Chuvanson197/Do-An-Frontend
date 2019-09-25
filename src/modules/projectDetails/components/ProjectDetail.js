@@ -4,6 +4,7 @@ import moment from 'moment';
 import { Table, Row, Typography, Button, Col, Tooltip, Descriptions, Divider } from 'antd';
 
 import MemberDiagram from '../../memberDiagram/MemberDiagram';
+import ServiceDetail from './ServiceDetail';
 
 const propTypes = {
   projectDetail: PropTypes.shape({
@@ -12,9 +13,12 @@ const propTypes = {
     total_member: PropTypes.number,
     start_date: PropTypes.number,
     end_date: PropTypes.number,
-    members: PropTypes.array
+    members: PropTypes.array,
+    service_detail: PropTypes.shape({})
   }),
-  loading: PropTypes.bool
+  loading: PropTypes.bool,
+
+  updateServiceDetail: PropTypes.func.isRequired
 };
 
 const defaultProps = {
@@ -24,12 +28,13 @@ const defaultProps = {
     total_member: 0,
     start_date: 1568626107000,
     end_date: 1600248507000,
-    members: []
+    members: [],
+    service_detail: {}
   },
   loading: false
 };
 
-const ProjectDetail = ({ projectDetail, loading }) => {
+const ProjectDetail = ({ projectDetail, loading, updateServiceDetail }) => {
   const [visible, setVisible] = useState(false);
 
   const columns = [
@@ -87,6 +92,12 @@ const ProjectDetail = ({ projectDetail, loading }) => {
           </Descriptions.Item>
         </Descriptions>
         <Divider />
+        {projectDetail.service_detail && (
+          <ServiceDetail
+            serviceDetail={projectDetail.service_detail}
+            updateServiceDetail={updateServiceDetail}
+          />
+        )}
         <Row>
           <Row>
             <Col span={12}>

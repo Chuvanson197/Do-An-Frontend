@@ -45,7 +45,14 @@ const service = {
           effort: '5',
           join_at: 1568626107000
         }
-      ]
+      ],
+      service_detail: {
+        home_page: 'https://homepage.abc.com.vn',
+        details:
+          'abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc',
+        folder_link: 'https://driver.folder.com.vn',
+        admin_page: 'https://admin.abc.com.vn'
+      }
     };
     // axios.get(`https://api.github.com/users/${username}/repos`).then((res) => res.data)
   }
