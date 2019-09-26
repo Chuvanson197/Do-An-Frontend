@@ -7,6 +7,7 @@ import { reducer as layoutReducer } from '../modules/layout/store';
 import { reducer as projectDetailReducer } from '../modules/projectDetails/store';
 import { reducer as projectListReducer } from '../modules/listProject/store';
 import { reducer as projectMemberHistoryReducer } from '../modules/projectMemberHistory/store';
+// import { reducer as projectCreateReducer } from '../modules/createProject/store';
 
 export const history = createBrowserHistory();
 const routeMiddleware = routerMiddleware(history);
@@ -17,7 +18,8 @@ export const rootReducer = combineReducers({
   layout: layoutReducer,
   projectDetail: projectDetailReducer,
   projectList: projectListReducer,
-  projectMemberHistory: projectMemberHistoryReducer
+  projectMemberHistory: projectMemberHistoryReducer,
+  // projectCreate: projectCreateReducer,
 });
 
 const store = configureStore({

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { List, Skeleton, Typography, Row, Tag } from 'antd';
+
 import moment from 'moment';
 import { css } from 'emotion';
 
