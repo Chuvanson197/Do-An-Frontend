@@ -114,7 +114,7 @@ const CreateProject = ({ visible, close }) => {
           <Col span={5}>
             <DatePicker
               format="DD-MM-YYYY"
-              value={form.start_date && moment(form.start_date, 'DD-MM-YYYY')}
+              defaultPickerValue={form.start_date ? moment(form.start_date, 'DD-MM-YYYY') : null}
               placeholder="Start"
               onChange={(value) => {
                 const data = moment(value).format('DD-MM-YYYY');
@@ -125,7 +125,7 @@ const CreateProject = ({ visible, close }) => {
           <Col span={5}>
             <DatePicker
               format="DD-MM-YYYY"
-              value={form.end_date && moment(form.end_date, 'DD-MM-YYYY')}
+              defaultPickerValue={form.end_date ? moment(form.start_date, 'DD-MM-YYYY') : null}
               placeholder="End"
               onChange={(value) => {
                 const data = moment(value).format('DD-MM-YYYY');
