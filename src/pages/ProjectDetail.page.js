@@ -39,6 +39,17 @@ const ProjectDetailPage = ({ match }) => {
     dispatch(projectActions.getProjectDetail());
   }, [dispatch]);
 
+  const updateServiceDetail = (customOption) => {
+    const detail = { ...projectDetail };
+    if (detail.custom_options) {
+      detail.custom_options.push(customOption);
+    } else {
+      // eslint-disable-next-line dot-notation
+      detail['custom_options'] = [customOption];
+    }
+    dispatch(projectActions.updateProjectDetail(detail));
+  };
+
   const onBack = () => {
     history.push('/project/list');
   };
@@ -55,7 +66,11 @@ const ProjectDetailPage = ({ match }) => {
           <HeaderTitle title="Project detail" />
         </Row>
         <Row>
-          <ProjectDetail projectDetail={projectDetail} loading={loading} />
+          <ProjectDetail
+            projectDetail={projectDetail}
+            loading={loading}
+            updateServiceDetail={updateServiceDetail}
+          />
         </Row>
         <Row className={styles.footer}>
           <Col span={12}>

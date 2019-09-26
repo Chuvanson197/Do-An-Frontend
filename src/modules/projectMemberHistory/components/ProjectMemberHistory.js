@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col, DatePicker, Button, Icon } from 'antd';
 import { css } from 'emotion';
 import TableMemberHistory from './TableMemberHistory';
 import moment from 'moment';
+
+import MemberDiagram from '../../memberDiagram/MemberDiagram';
 
 const propTypes = {
   projectMemberHistory: PropTypes.arrayOf
@@ -20,6 +22,7 @@ const styles = {
 };
 
 const ProjectMemberHistory = ({ projectMemberHistory }) => {
+  const [visible, setVisible] = useState(false);
   const onChange = (dates, dateStrings) => {};
 
   const onOk = (selectedTime) => {
@@ -33,7 +36,7 @@ const ProjectMemberHistory = ({ projectMemberHistory }) => {
       <Row style={{ marginBottom: 75 }}>
         <Row className={styles.datePicker}>
           <Col span={12}>
-            <Button type="primary">
+            <Button type="primary" onClick={() => setVisible(!visible)}>
               <Icon type="line-chart" />
               Show diagram
             </Button>
@@ -55,6 +58,7 @@ const ProjectMemberHistory = ({ projectMemberHistory }) => {
           <TableMemberHistory projectMemberHistory={projectMemberHistory} />
         </Row>
       </Row>
+      <MemberDiagram visible={visible} close={() => setVisible(!visible)} />
     </React.Fragment>
   );
 };

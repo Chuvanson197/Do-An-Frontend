@@ -31,6 +31,12 @@ const slice = createSlice({
       loaded: false,
       isError: true,
       error: payload.result
+    }),
+    updateProjectDetail: (state, { payload }) => ({
+      ...state,
+      projectDetail: {
+        ...payload
+      }
     })
   }
 });
