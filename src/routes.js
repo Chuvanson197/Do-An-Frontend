@@ -1,10 +1,8 @@
-import { lazy } from 'react';
-
-const Example = lazy(() => import('./pages/Example.page'));
-const Dashboard = lazy(() => import('./pages/Dashbroad.page'));
-const ListProject = lazy(() => import('./pages/ListProject.page'));
-const ProjectDetail = lazy(() => import('./pages/ProjectDetail.page'));
-const ProjectMemberHistory = lazy(() => import('./pages/ProjectMemberHistory.page'));
+import Example from './pages/Example.page';
+import Dashboard from './pages/Dashbroad.page';
+import ListProject from './pages/ListProject.page';
+import ProjectDetail from './pages/ProjectDetail.page';
+import ProjectMemberHistory from './pages/ProjectMemberHistory.page';
 
 export default [
   {
