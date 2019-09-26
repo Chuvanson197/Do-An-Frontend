@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Row, Col, Modal, Button, Input, DatePicker} from 'antd';
+import { Row, Col, Modal, Button, Input, DatePicker, Select } from 'antd';
 import moment from 'moment';
-
 
 const propTypes = {
   visible: PropTypes.bool.isRequired,
@@ -14,10 +13,13 @@ const CreateProject = ({ visible, close }) => {
     project_name: null,
     customer_name: null,
     mentor: null,
-    start_day: null,
-    end_day: null
+    start_date: null,
+    end_date: null,
+    members: []
   });
-  const updateFeild = e => {
+  const OPTIONS = ['Chu Van Son', 'Nguyen Van A', 'Nguyen Van B', 'Nguyen Van C'];
+
+  const updateFeild = (e) => {
     setForm({
       ...form,
       [e.target.id]: e.target.value
@@ -27,7 +29,7 @@ const CreateProject = ({ visible, close }) => {
     e.preventDefault();
     console.log(form);
   };
-  const updateDate = (key, value) => {
+  const updateData = (key, value) => {
     const data = form;
     data[key] = value;
     setForm({
@@ -35,99 +37,102 @@ const CreateProject = ({ visible, close }) => {
     });
   };
 
+  const filteredOptions = OPTIONS.filter((o) => !form.members.includes(o));
+
   return (
     <Modal
-      centered
-      style={{top: 50}}
       title="Create Project"
       cancelText="Close"
       visible={visible}
-      width="85vw"
+      width="80vw"
       onCancel={() => close()}
       footer={[
-        <Button type="primary" key="close" onClick={() => close()}>
-          Close
-        </Button>
+        <Row type="flex" key="abc" justify="space-between">
+            <Button type="primary" onClick={handleSubmit}
+            >
+              Create Project
+            </Button>
+            <Button type="primary" key="close" onClick={() => close()}>
+              Close
+            </Button>
+        </Row>
       ]}>
-      <div style={{ height: '75vh' }}>
-        <Row style={{ marginBottom: 10 }}>
-          <Col span={2}>
-            Project Name
-          </Col>
+      <div style={{ height: '50vh' }}>
+        <Row style={{ marginBottom: 35, marginTop: 50 }}>
+          <Col span={2}>Project Name</Col>
           <Col span={18}>
-          <Input
-            id="project_name"
-            placeholder="Project name"
-            value={form.project_name}
-            onChange={e => updateFeild(e)}
-          />
+            <Input
+              id="project_name"
+              placeholder="Project name"
+              value={form.project_name}
+              onChange={(e) => updateFeild(e)}
+            />
           </Col>
         </Row>
-        <Row style={{ marginBottom: 10 }}>
-          <Col span={2}>
-            Customer
-          </Col>
+        <Row style={{ marginBottom: 35 }}>
+          <Col span={2}>Customer</Col>
           <Col span={18}>
-          <Input
-            id="customer_name"
-            placeholder="Customer name"
-            value={form.customer_name}
-            onChange={e => updateFeild(e)}
-          />
+            <Input
+              id="customer_name"
+              placeholder="Customer name"
+              value={form.customer_name}
+              onChange={(e) => updateFeild(e)}
+            />
           </Col>
         </Row>
-        <Row style={{ marginBottom: 10 }}>
-          <Col span={2}>
-            Mentor
-          </Col>
+        <Row style={{ marginBottom: 35 }}>
+          <Col span={2}>Mentor</Col>
           <Col span={18}>
             <Input
               id="mentor"
               placeholder="Mentor"
               value={form.mentor}
-              onChange={e => updateFeild(e)}
+              onChange={(e) => updateFeild(e)}
             />
           </Col>
         </Row>
-        <Row type="flex" justify="start" style={{ marginBottom: 10 }}>
-          <Col span={2}>
-            Start Day
-          </Col>
+        <Row style={{ marginBottom: 35 }}>
+          <Col span={2}>Members</Col>
           <Col span={18}>
-            <DatePicker
-            format="DD-MM-YYYY"
-            value={form.start_day && moment(form.start_day, 'DD-MM-YYYY')}
-            placeholder="Start"
-            onChange={(value) => {
-              const data = (moment(value).format('DD-MM-YYYY'));
-              updateDate('start_day', data);
-            }}
-            />
+            <Select
+              id="members"
+              mode="multiple"
+              value={form.members}
+              style={{ width: '100%' }}
+              placeholder="Please select"
+              onChange={(e) => updateData('members', e)}>
+              {filteredOptions.map((item) => (
+                <Select.Option key={item} value={item}>
+                  {item}
+                </Select.Option>
+              ))}
+            </Select>
           </Col>
         </Row>
-        <Row type="flex" justify="start" style={{ marginBottom: 10 }}>
-          <Col span={2}>
-            End Day
-          </Col>
-          <Col span={18}>
+        <Row type="flex" justify="start" style={{ marginBottom: 35 }}>
+          <Col span={2}>Time</Col>
+          <Col span={5}>
             <DatePicker
-            format="DD-MM-YYYY"
-            value={form.end_day && moment(form.end_day, 'DD-MM-YYYY')}
-            placeholder="End"
-            onChange={(value) => {
-              const data = (moment(value).format('DD-MM-YYYY'));
-              updateDate('end_day', data);
-            }}
+              format="DD-MM-YYYY"
+              value={form.start_date && moment(form.start_date, 'DD-MM-YYYY')}
+              placeholder="Start"
+              onChange={(value) => {
+                const data = moment(value).format('DD-MM-YYYY');
+                updateData('start_date', data);
+              }}
             />
           </Col>
-        </Row>
-        <Row type="flex" justify="center">
-          <Button
-            type="primary"
-            onClick={handleSubmit}
-          >
-            Create Project
-          </Button>
+          <Col span={5}>
+            <DatePicker
+              format="DD-MM-YYYY"
+              value={form.end_date && moment(form.end_date, 'DD-MM-YYYY')}
+              placeholder="End"
+              onChange={(value) => {
+                const data = moment(value).format('DD-MM-YYYY');
+                updateData('end_date', data);
+              }}
+            />
+          </Col>
         </Row>
       </div>
     </Modal>

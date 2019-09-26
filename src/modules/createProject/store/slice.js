@@ -12,20 +12,20 @@ const slice = createSlice({
   slice: 'projectNew',
   initialState,
   reducers: {
-    postProjectDetailStart: (state) => ({
+    createProjectStart: (state) => ({
       ...state,
       loading: true,
       loaded: false,
       isError: false,
       error: null
     }),
-    postProjectDetailSuccess: (state, { payload }) => ({
+    createProjectSuccess: (state, { payload }) => ({
       ...state,
       projectNew: payload.result,
       loading: false,
       loaded: true
     }),
-    postProjectDetailFailed: (state, { payload }) => ({
+    createProjectFailed: (state, { payload }) => ({
       ...state,
       loading: false,
       loaded: false,

@@ -3,14 +3,14 @@ import slice from './slice';
 // import serviceApi from '../serviceApi';
 
 const {
-  actions: { postProjectNewStart, postProjectNewSuccess, postProjectNewFailed }
+  actions: { createProjectStart, createProjectSuccess, createProjectFailed }
 } = slice;
 
 export const getProjectDetail = createOperation({
   actions: {
-    startAction: postProjectNewStart,
-    successAction: postProjectNewSuccess,
-    failAction: postProjectNewFailed
+    startAction: createProjectStart,
+    successAction: createProjectSuccess,
+    failAction: createProjectFailed
   },
   // process: ({ payload }) => serviceApi.getProjectDetail()
 });
