@@ -1,0 +1,13 @@
+{
+  "projectDetail.serviceDetail.title": "Thông tin dịch vụ",
+  "projectDetail.serviceDetail.homePage.title": "Trang chủ:",
+  "projectDetail.serviceDetail.detail.title": "Mô tả:",
+  "projectDetail.serviceDetail.folderLink.title": "Link thư mục:",
+  "projectDetail.serviceDetail.adminPage.title": "Trang quản lý:",
+  "projectDetail.serviceDetail.buttonAddMore.title": "Thêm mô tả",
+  "projectDetail.serviceDetail.buttonAdd.title": "Thêm",
+  "projectDetail.serviceDetail.buttonCancel.title": "Hủy",
+
+  "languageSwitcher.vi": "Tiếng Việt",
+  "languageSwitcher.en": "Tiếng Anh"
+}

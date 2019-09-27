@@ -1,22 +1,28 @@
 import React from 'react';
 import { Route, Router } from 'react-router-dom';
-import { ConfigProvider } from 'antd';
-import viVN from 'antd/es/locale/vi_VN';
-import store, { history } from './store';
-import Provider from 'react-redux/es/components/Provider';
+import { LocaleProvider } from 'antd';
+import { IntlProvider } from 'react-intl';
+import { useSelector } from 'react-redux';
+import { history } from './store';
+import AppLocale from './languageProvider';
 
 import routes from './routes';
 
-const App = () => (
-  <ConfigProvider locale={viVN}>
-    <Provider store={store}>
-      <Router history={history}>
-        {routes.map((route) => (
-          <Route key={route.path} {...route} />
-        ))}
-      </Router>
-    </Provider>
-  </ConfigProvider>
-);
+const App = () => {
+  const { locale } = useSelector((state) => state.languageSwitcher);
+  const currentAppLocale = AppLocale[locale];
+
+  return (
+    <LocaleProvider locale={currentAppLocale.antd}>
+      <IntlProvider locale={currentAppLocale.locale} messages={currentAppLocale.messages}>
+        <Router history={history}>
+          {routes.map((route) => (
+            <Route key={route.path} {...route} />
+          ))}
+        </Router>
+      </IntlProvider>
+    </LocaleProvider>
+  );
+};
 
 export default App;

@@ -1,7 +1,8 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { actions } from '../store';
-import { Layout, Icon } from 'antd';
+import { Layout, Icon, Row } from 'antd';
+import LanguageSwitcher from '../../languageSwitcher/components/LanguagaSwitcher';
 import { css } from 'emotion';
 
 const styles = {
@@ -21,6 +22,14 @@ const styles = {
     &:hover {
       color: #1890ff;
     }
+  `,
+  leftContents: css`
+    flex: 1;
+  `,
+  rightContents: css`
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
   `
 };
 
@@ -34,11 +43,16 @@ const Header = () => {
 
   return (
     <Layout.Header className={styles.header}>
-      <Icon
-        className={styles.trigger}
-        type={isCollapsed ? 'menu-unfold' : 'menu-fold'}
-        onClick={() => toggle()}
-      />
+      <Row className={styles.leftContents}>
+        <Icon
+          className={styles.trigger}
+          type={isCollapsed ? 'menu-unfold' : 'menu-fold'}
+          onClick={() => toggle()}
+        />
+      </Row>
+      <Row className={styles.rightContents}>
+        <LanguageSwitcher />
+      </Row>
     </Layout.Header>
   );
 };
