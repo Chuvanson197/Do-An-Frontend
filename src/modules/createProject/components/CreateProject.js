@@ -1,140 +1,239 @@
 import React, { useState } from 'react';
+import { createForm, formShape } from 'rc-form';
 import PropTypes from 'prop-types';
-import { Row, Col, Modal, Button, Input, DatePicker, Select } from 'antd';
-import moment from 'moment';
+import {
+  Row,
+  Col,
+  Modal,
+  Button,
+  Input,
+  DatePicker,
+  Select,
+  Form,
+  Typography,
+  Descriptions,
+  Icon
+} from 'antd';
+import { css } from 'emotion';
+
+import FormError from '../../../components/ErrorAlert/FormError';
 
 const propTypes = {
   visible: PropTypes.bool.isRequired,
-  close: PropTypes.func.isRequired
+  close: PropTypes.func.isRequired,
+  form: formShape.isRequired,
+
+  listStatus: PropTypes.arrayOf(PropTypes.shape({})),
+  listCustomer: PropTypes.arrayOf(PropTypes.shape({})),
+  selectedCustomer: PropTypes.shape({})
 };
-const defaultProps = {};
-const CreateProject = ({ visible, close }) => {
-  const [form, setForm] = useState({
-    project_name: null,
-    customer_name: null,
-    mentor: null,
-    start_date: null,
-    end_date: null,
-    members: []
-  });
-  const OPTIONS = ['Chu Van Son', 'Nguyen Van A', 'Nguyen Van B', 'Nguyen Van C'];
 
-  const updateFeild = (e) => {
-    setForm({
-      ...form,
-      [e.target.id]: e.target.value
+const defaultProps = {
+  listStatus: [
+    { id: 1, name: 'running' },
+    { id: 2, name: 'completed' },
+    { id: 3, name: 'stopped' }
+  ],
+  listCustomer: [
+    {
+      id: 1,
+      name: 'Muji.jp',
+      email: 'muji.jp@gmail.com',
+      phoneNumber: '0123456789',
+      address: 'Tokyo, Japan'
+    },
+    {
+      id: 2,
+      name: 'Tekmate.co',
+      email: 'tekamte@tek.vn',
+      phoneNumber: '0123456',
+      address: 'Hanoi, VietNam'
+    }
+  ],
+  selectedCustomer: {}
+};
+
+const styles = {
+  modal: css``
+};
+
+const formItemLayout = {
+  labelCol: {
+    span: 5
+  },
+  wrapperCol: {
+    span: 19
+  }
+};
+
+const CreateProject = ({ visible, close, form, listStatus, listCustomer, selectedCustomer }) => {
+  const [customerDetail, setCustomerDetail] = useState(selectedCustomer);
+  const handleSubmit = () => {
+    form.validateFields((err, values) => {
+      if (!err) {
+        console.log('Received values of form: ', values);
+      } else {
+        console.log(err);
+      }
     });
   };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(form);
-  };
-  const updateData = (key, value) => {
-    const data = form;
-    data[key] = value;
-    setForm({
-      ...data
-    });
-  };
 
-  const filteredOptions = OPTIONS.filter((o) => !form.members.includes(o));
+  const handleSelect = (value) => {
+    switch (value) {
+      case 1:
+        setCustomerDetail({
+          id: 1,
+          name: 'Muji.jp',
+          email: 'muji.jp@gmail.com',
+          phoneNumber: '0123456789',
+          address: 'Tokyo, Japan'
+        });
+        break;
+      case 2:
+        setCustomerDetail({
+          id: 2,
+          name: 'Tekmate.co',
+          email: 'tekamte@tek.vn',
+          phoneNumber: '0123456',
+          address: 'Hanoi, VietNam'
+        });
+        break;
+      default:
+        break;
+    }
+  };
 
   return (
     <Modal
       title="Create Project"
       cancelText="Close"
       visible={visible}
-      width="80vw"
+      width="50vw"
+      className={styles.modal}
       onCancel={() => close()}
+      maskClosable={false}
       footer={[
-        <Row type="flex" key="abc" justify="space-between">
-            <Button type="primary" onClick={handleSubmit}
-            >
-              Create Project
-            </Button>
-            <Button type="primary" key="close" onClick={() => close()}>
-              Close
-            </Button>
+        <Row type="flex" key="abc" justify="end">
+          <Button icon="plus" type="primary" onClick={() => handleSubmit()}>
+            Create
+          </Button>
+          <Button icon="close-circle" type="default" key="close" onClick={() => close()}>
+            Close
+          </Button>
         </Row>
       ]}>
-      <div style={{ height: '50vh' }}>
-        <Row style={{ marginBottom: 35, marginTop: 50 }}>
-          <Col span={2}>Project Name</Col>
-          <Col span={18}>
-            <Input
-              id="project_name"
-              placeholder="Project name"
-              value={form.project_name}
-              onChange={(e) => updateFeild(e)}
-            />
-          </Col>
+      <Form onSubmit={() => handleSubmit()} {...formItemLayout}>
+        <Row style={{ marginBottom: 10 }}>
+          <Icon type="project" style={{ marginRight: 10 }} />
+          <Typography.Text style={{ fontWeight: 'bold' }}>Project information</Typography.Text>
         </Row>
-        <Row style={{ marginBottom: 35 }}>
-          <Col span={2}>Customer</Col>
-          <Col span={18}>
-            <Input
-              id="customer_name"
-              placeholder="Customer name"
-              value={form.customer_name}
-              onChange={(e) => updateFeild(e)}
-            />
-          </Col>
-        </Row>
-        <Row style={{ marginBottom: 35 }}>
-          <Col span={2}>Mentor</Col>
-          <Col span={18}>
-            <Input
-              id="mentor"
-              placeholder="Mentor"
-              value={form.mentor}
-              onChange={(e) => updateFeild(e)}
-            />
-          </Col>
-        </Row>
-        <Row style={{ marginBottom: 35 }}>
-          <Col span={2}>Members</Col>
-          <Col span={18}>
-            <Select
-              id="members"
-              mode="multiple"
-              value={form.members}
-              style={{ width: '100%' }}
-              placeholder="Please select"
-              onChange={(e) => updateData('members', e)}>
-              {filteredOptions.map((item) => (
-                <Select.Option key={item} value={item}>
-                  {item}
-                </Select.Option>
-              ))}
+
+        <Form.Item
+          style={{ display: 'flex' }}
+          label="Project name"
+          validateStatus={form.getFieldError('name') ? 'error' : 'validating'}>
+          {form.getFieldDecorator('name', {
+            rules: [
+              {
+                required: true,
+                message: 'Project name is required !'
+              }
+            ]
+          })(<Input />)}
+          <FormError form={form} label="name" />
+        </Form.Item>
+
+        <Form.Item
+          style={{ display: 'flex' }}
+          label="Status"
+          validateStatus={form.getFieldError('status') ? 'error' : 'validating'}>
+          {form.getFieldDecorator('status', {
+            rules: [
+              {
+                required: true,
+                message: 'Project status is required !'
+              }
+            ]
+          })(
+            <Select allowClear>
+              {(listStatus || []).map((e) => {
+                return (
+                  <Select.Option key={e.id} value={e.name}>
+                    {e.name}
+                  </Select.Option>
+                );
+              })}
             </Select>
+          )}
+          <FormError form={form} label="status" />
+        </Form.Item>
+
+        <Form.Item
+          style={{ display: 'flex' }}
+          label="Estimated time"
+          validateStatus={form.getFieldError('estimate') ? 'error' : 'validating'}>
+          {form.getFieldDecorator('estimate', {
+            rules: [
+              {
+                required: true,
+                message: 'Project estimated time is required !'
+              }
+            ]
+          })(
+            <DatePicker.RangePicker format="DD/MM/YYYY" placeholder={['Start time', 'End time']} />
+          )}
+          <FormError form={form} label="estimate" />
+        </Form.Item>
+
+        <Row style={{ marginBottom: 10 }}>
+          <Icon type="user" style={{ marginRight: 10 }} />
+          <Typography.Text style={{ fontWeight: 'bold' }}>Customer information</Typography.Text>
+        </Row>
+
+        <Form.Item
+          style={{ display: 'flex' }}
+          label="Customer"
+          validateStatus={form.getFieldError('customer') ? 'error' : 'validating'}>
+          {form.getFieldDecorator('customer', {
+            rules: [
+              {
+                required: true,
+                message: 'Please select customer !'
+              }
+            ]
+          })(
+            <Select
+              showSearch
+              allowClear
+              autoClearSearchValue
+              onSelect={(value) => handleSelect(value)}>
+              {(listCustomer || []).map((e) => {
+                return (
+                  <Select.Option key={e.id} value={e.id}>
+                    {e.name}
+                  </Select.Option>
+                );
+              })}
+            </Select>
+          )}
+          <FormError form={form} label="customer" />
+        </Form.Item>
+
+        <Row>
+          <Col span={5}></Col>
+          <Col span={19}>
+            <Descriptions column={1}>
+              <Descriptions.Item label="Email">{customerDetail.email || null}</Descriptions.Item>
+              <Descriptions.Item label="Phone Number">
+                {customerDetail.phoneNumber || null}
+              </Descriptions.Item>
+              <Descriptions.Item label="Address">
+                {customerDetail.address || null}
+              </Descriptions.Item>
+            </Descriptions>
           </Col>
         </Row>
-        <Row type="flex" justify="start" style={{ marginBottom: 35 }}>
-          <Col span={2}>Time</Col>
-          <Col span={5}>
-            <DatePicker
-              format="DD-MM-YYYY"
-              defaultPickerValue={form.start_date ? moment(form.start_date, 'DD-MM-YYYY') : null}
-              placeholder="Start"
-              onChange={(value) => {
-                const data = moment(value).format('DD-MM-YYYY');
-                updateData('start_date', data);
-              }}
-            />
-          </Col>
-          <Col span={5}>
-            <DatePicker
-              format="DD-MM-YYYY"
-              defaultPickerValue={form.end_date ? moment(form.start_date, 'DD-MM-YYYY') : null}
-              placeholder="End"
-              onChange={(value) => {
-                const data = moment(value).format('DD-MM-YYYY');
-                updateData('end_date', data);
-              }}
-            />
-          </Col>
-        </Row>
-      </div>
+      </Form>
     </Modal>
   );
 };
@@ -143,4 +242,4 @@ CreateProject.propTypes = propTypes;
 
 CreateProject.defaultProps = defaultProps;
 
-export default CreateProject;
+export default createForm()(CreateProject);
