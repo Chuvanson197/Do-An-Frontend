@@ -59,7 +59,7 @@ const ListProjectPage = () => {
             </Tabs>
           </Col>
         </Row>
-        <CreateProject visible={visible} close={() => setVisible(!visible)} />
+        {visible && <CreateProject visible={visible} close={() => setVisible(!visible)} />}
       </React.Fragment>
     </Layout>
   );

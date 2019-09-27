@@ -16,6 +16,7 @@
     "nprogress": "^0.2.0",
     "pathfinding": "^0.4.18",
     "paths-js": "^0.4.10",
+    "rc-form": "^2.4.8",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-redux": "^7.1.1",

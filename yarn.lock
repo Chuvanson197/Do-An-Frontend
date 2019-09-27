@@ -9048,7 +9048,7 @@ rc-editor-mention@^1.1.13:
     rc-animate "^2.3.0"
     rc-editor-core "~0.8.3"
 
-rc-form@^2.4.5:
+rc-form@^2.4.5, rc-form@^2.4.8:
   version "2.4.8"
   resolved "https://registry.yarnpkg.com/rc-form/-/rc-form-2.4.8.tgz#79a1f124d4fa81dff2af2992e94aa3e58cad683c"
   integrity sha512-hlHajcYg51pFQf+B6neAbhy2ZA+8DmxnDxiOYZRAXCLhPN788ZnrtZq5/iADDWcZqjHFnXiThoZE/Fu8syciDQ==
