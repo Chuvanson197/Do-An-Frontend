@@ -1,8 +1,17 @@
-import slice from './slice';
-import * as operations from './operations';
+import createResourceHandler from '../../../ultis/createResourceHandler';
 
-export const { reducer } = slice;
-
-export const actions = {
-  ...operations
+const apiActions = [
+  {
+    actionName: 'getProjectMemberHistory',
+    stateName: 'projectMemberHistory',
+    apiUrl: 'project/member-history',
+    method: 'GET'
+  }
+];
+const defaultState = {
+  projectMemberHistory: []
 };
+
+const store = createResourceHandler('projectMemberHistory', apiActions, [], defaultState);
+
+export const { actions, reducer } = store;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Router } from 'react-router-dom';
-import { LocaleProvider } from 'antd';
+import { ConfigProvider } from 'antd';
 import { IntlProvider } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { history } from './store';
@@ -13,7 +13,7 @@ const App = () => {
   const currentAppLocale = AppLocale[locale];
 
   return (
-    <LocaleProvider locale={currentAppLocale.antd}>
+    <ConfigProvider locale={currentAppLocale.antd}>
       <IntlProvider locale={currentAppLocale.locale} messages={currentAppLocale.messages}>
         <Router history={history}>
           {routes.map((route) => (
@@ -21,7 +21,7 @@ const App = () => {
           ))}
         </Router>
       </IntlProvider>
-    </LocaleProvider>
+    </ConfigProvider>
   );
 };
 

@@ -72,9 +72,9 @@ const ServiceDetail = ({ serviceDetail, updateServiceDetail }) => {
   //     );
   //   });
   // }
-  customOptions = listOptions.map((value) => {
+  customOptions = listOptions.map((value, index) => {
     return (
-      <Row style={{ marginBottom: 10 }}>
+      <Row key={index} style={{ marginBottom: 10 }}>
         <Col span={3}>{value.custom_label || ''}</Col>
         <Col span={20}>{value.custom_description || ''}</Col>
       </Row>

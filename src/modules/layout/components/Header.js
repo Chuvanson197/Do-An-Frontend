@@ -35,10 +35,10 @@ const styles = {
 
 const Header = () => {
   const dispatch = useDispatch();
-  const { isCollapsed } = useSelector((state) => state.layout.sider);
+  const { isCollapsed } = useSelector((state) => state.layout);
 
   const toggle = () => {
-    dispatch(actions.setCollapse());
+    dispatch(actions.setCollapse(!isCollapsed));
   };
 
   return (
