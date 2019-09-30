@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import { Row, Typography, Button, Col, Divider, Input } from 'antd';
 
@@ -83,21 +84,31 @@ const ServiceDetail = ({ serviceDetail, updateServiceDetail }) => {
   return (
     <React.Fragment>
       <Row style={{ marginBottom: 15 }}>
-        <Typography.Title level={4}>Service Details</Typography.Title>
+        <Typography.Title level={4}>
+          <FormattedMessage id="projectDetail.serviceDetail.title" />
+        </Typography.Title>
         <Row style={{ marginBottom: 10 }}>
-          <Col span={3}>Trang chu dich vu:</Col>
+          <Col span={3}>
+            <FormattedMessage id="projectDetail.serviceDetail.homePage.title" />
+          </Col>
           <Col span={20}>{serviceDetail.home_page || ''}</Col>
         </Row>
         <Row style={{ marginBottom: 10 }}>
-          <Col span={3}>Mo ta:</Col>
+          <Col span={3}>
+            <FormattedMessage id="projectDetail.serviceDetail.detail.title" />
+          </Col>
           <Col span={20}>{serviceDetail.details || ''}</Col>
         </Row>
         <Row style={{ marginBottom: 10 }}>
-          <Col span={3}>Link thu muc:</Col>
+          <Col span={3}>
+            <FormattedMessage id="projectDetail.serviceDetail.folderLink.title" />
+          </Col>
           <Col span={20}>{serviceDetail.folder_link || ''}</Col>
         </Row>
         <Row style={{ marginBottom: 10 }}>
-          <Col span={3}>Link trang quan ly:</Col>
+          <Col span={3}>
+            <FormattedMessage id="projectDetail.serviceDetail.adminPage.title" />
+          </Col>
           <Col span={20}>{serviceDetail.admin_page || ''}</Col>
         </Row>
         {customOptions}
@@ -105,7 +116,7 @@ const ServiceDetail = ({ serviceDetail, updateServiceDetail }) => {
       {!isAddOptions && (
         <Row style={{ marginBottom: 50 }} type="flex" justify="end">
           <Button type="primary" onClick={() => setAddOptions(true)}>
-            Them mo ta
+            <FormattedMessage id="projectDetail.serviceDetail.buttonAddMore.title" />
           </Button>
         </Row>
       )}
@@ -134,10 +145,10 @@ const ServiceDetail = ({ serviceDetail, updateServiceDetail }) => {
                 addNewCustomOptionInState();
                 setAddOptions(false);
               }}>
-              Them
+              <FormattedMessage id="projectDetail.serviceDetail.buttonAdd.title" />
             </Button>
             <Button style={{ marginLeft: 20 }} type="primary" onClick={() => setAddOptions(false)}>
-              Huy
+              <FormattedMessage id="projectDetail.serviceDetail.buttonCancel.title" />
             </Button>
           </Row>
         </React.Fragment>

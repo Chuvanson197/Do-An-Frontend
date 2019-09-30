@@ -1,0 +1,13 @@
+{
+  "projectDetail.serviceDetail.title": "Service Details",
+  "projectDetail.serviceDetail.homePage.title": "Home page:",
+  "projectDetail.serviceDetail.detail.title": "Details:",
+  "projectDetail.serviceDetail.folderLink.title": "Folder link:",
+  "projectDetail.serviceDetail.adminPage.title": "Admin page:",
+  "projectDetail.serviceDetail.buttonAddMore.title": "Add more",
+  "projectDetail.serviceDetail.buttonAdd.title": "Add",
+  "projectDetail.serviceDetail.buttonCancel.title": "Cancel",
+
+  "languageSwitcher.vi": "Vietnamese",
+  "languageSwitcher.en": "English"
+}
