@@ -24,7 +24,7 @@ const styles = {
 
 const Sider = () => {
   const dispacth = useDispatch();
-  const { selectedItem, selectedSubMenu, isCollapsed } = useSelector((state) => state.layout.sider);
+  const { selectedItem, selectedSubMenu, isCollapsed } = useSelector((state) => state.layout);
 
   const handleSelectSubMenu = (selectedKeys) => {
     dispacth(actions.selectSubMenu(selectedKeys));
@@ -51,18 +51,6 @@ const Sider = () => {
             <span>Project</span>
           </Link>
         </Menu.Item>
-        <Menu.SubMenu
-          key="example-menu"
-          title={
-            <React.Fragment>
-              <Icon type="file" />
-              <span>Example</span>
-            </React.Fragment>
-          }>
-          <Menu.Item key="redux-example">
-            <Link to="/example/redux-example">Redux example</Link>
-          </Menu.Item>
-        </Menu.SubMenu>
       </Menu>
     </Layout.Sider>
   );

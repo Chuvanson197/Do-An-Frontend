@@ -1,9 +1,25 @@
-import slice from './slice';
-import * as operations from './operations';
+import createResourceHandler from '../../../ultis/createResourceHandler';
 
-export const { reducer } = slice;
-
-export const actions = {
-  ...slice.actions,
-  ...operations
+const reducerActions = [
+  {
+    actionName: 'selectItem',
+    stateName: 'selectedItem'
+  },
+  {
+    actionName: 'selectSubMenu',
+    stateName: 'selectedSubMenu'
+  },
+  {
+    actionName: 'setCollapse',
+    stateName: 'isCollapsed'
+  }
+];
+const defaultState = {
+  selectedItem: [],
+  selectedSubMenu: [],
+  isCollapsed: false
 };
+
+const store = createResourceHandler('layout', [], reducerActions, defaultState);
+
+export const { actions, reducer } = store;
