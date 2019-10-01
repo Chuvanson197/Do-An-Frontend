@@ -2,7 +2,6 @@ import { configureStore, getDefaultMiddleware, combineReducers } from 'redux-sta
 import { routerReducer, routerMiddleware } from 'react-router-redux';
 import { createBrowserHistory } from 'history';
 
-import { reducer as exampleReducer } from '../modules/example/store';
 import { reducer as layoutReducer } from '../modules/layout/store';
 import { reducer as projectDetailReducer } from '../modules/projectDetails/store';
 import { reducer as projectListReducer } from '../modules/listProject/store';
@@ -14,7 +13,6 @@ export const history = createBrowserHistory();
 const routeMiddleware = routerMiddleware(history);
 
 export const rootReducer = combineReducers({
-  example: exampleReducer,
   router: routerReducer,
   layout: layoutReducer,
   projectDetail: projectDetailReducer,
