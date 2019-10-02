@@ -4,6 +4,7 @@ import ProjectDetail from './pages/ProjectDetail.page';
 import ProjectMemberHistory from './pages/ProjectMemberHistory.page';
 import LoginPage from './pages/Login.page';
 import RegisterPage from './pages/Register.page';
+import Customers from './pages/Customers.page';
 
 export default [
   {
@@ -36,4 +37,9 @@ export default [
     exact: false,
     path: '/register'
   },
+  {
+    component: Customers,
+    exact: false,
+    path: '/customers'
+  }
 ];

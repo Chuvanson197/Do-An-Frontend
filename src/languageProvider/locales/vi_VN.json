@@ -8,6 +8,18 @@
   "projectDetail.serviceDetail.buttonAdd.title": "Thêm",
   "projectDetail.serviceDetail.buttonCancel.title": "Hủy",
 
+  "dashboard.title": "Dashboard",
+
+  "projects.title": "Dự Án",
+
+  "customers.title": "Khách Hàng",
+  "customers.header.title": "Quản lí Khách hàng",
+  "customers.customerTable.buttonAdd.title": "Thêm",
+  "customers.customerTable.buttonDelete.title": "Xóa",
+  "customers.customerTable.name.title": "Tên khách hàng",
+  "customers.customerTable.address.title": "Địa chỉ",
+  "customers.customerTable.projectName.title": "Tên dự án",
+
   "languageSwitcher.vi": "Tiếng Việt",
   "languageSwitcher.en": "Tiếng Anh"
 }

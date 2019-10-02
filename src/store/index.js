@@ -9,6 +9,7 @@ import { reducer as projectMemberHistoryReducer } from '../modules/projectMember
 // import { reducer as projectCreateReducer } from '../modules/createProject/store';
 // import { reducer as memberAddReducer } from '../modules/memberAdd/store';
 import { reducer as languageSwitcherReducer } from '../modules/languageSwitcher/store';
+import { reducer as customersReducer } from '../modules/cutomers/store';
 
 export const history = createBrowserHistory();
 const routeMiddleware = routerMiddleware(history);
@@ -21,7 +22,8 @@ export const rootReducer = combineReducers({
   projectMemberHistory: projectMemberHistoryReducer,
   // projectCreate: projectCreateReducer,
   // memberAdd: memberAddReducer,
-  languageSwitcher: languageSwitcherReducer
+  languageSwitcher: languageSwitcherReducer,
+  customers: customersReducer
 });
 
 const store = configureStore({

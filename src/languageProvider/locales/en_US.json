@@ -8,6 +8,18 @@
   "projectDetail.serviceDetail.buttonAdd.title": "Add",
   "projectDetail.serviceDetail.buttonCancel.title": "Cancel",
 
+  "dashboard.title": "Dashboard",
+
+  "projects.title": "Projects",
+
+  "customers.title": "Customers",
+  "customers.header.title": "Customers Management",
+  "customers.customerTable.buttonAdd.title": "Add",
+  "customers.customerTable.buttonDelete.title": "Delete",
+  "customers.customerTable.name.title": "Customer Name",
+  "customers.customerTable.address.title": "Address",
+  "customers.customerTable.projectName.title": "Project Name",
+
   "languageSwitcher.vi": "Vietnamese",
   "languageSwitcher.en": "English"
 }
