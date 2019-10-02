@@ -4,6 +4,7 @@ import moment from 'moment';
 import { Table, Row, Typography, Button, Col, Tooltip, Descriptions, Divider } from 'antd';
 
 import MemberDiagram from '../../memberDiagram/MemberDiagram';
+import MemberAdd from '../../memberAdd/components/MemberAdd';
 import ServiceDetail from './ServiceDetail';
 
 const propTypes = {
@@ -36,6 +37,8 @@ const defaultProps = {
 
 const ProjectDetail = ({ projectDetail, loading, updateServiceDetail }) => {
   const [visible, setVisible] = useState(false);
+  const [visible1, setVisible1] = useState(false);
+
 
   const columns = [
     {
@@ -100,10 +103,22 @@ const ProjectDetail = ({ projectDetail, loading, updateServiceDetail }) => {
         )}
         <Row>
           <Row>
-            <Col span={12}>
+            <Col span={3}>
               <Typography.Title level={4}>Current members</Typography.Title>
             </Col>
-            <Col span={12}>
+            <Col span={2}>
+              <Row type="flex" justify="start">
+              <Tooltip placement="bottom" title="member add">
+                  <Button
+                    type="primary"
+                    shape="circle"
+                    icon="usergroup-add"
+                    onClick={() => setVisible1(!visible1)}
+                  />
+                </Tooltip>
+              </Row>
+            </Col>
+            <Col span={19}>
               <Row type="flex" justify="end">
                 <Tooltip placement="bottom" title="member diagram">
                   <Button
@@ -126,6 +141,7 @@ const ProjectDetail = ({ projectDetail, loading, updateServiceDetail }) => {
         </Row>
       </Row>
       <MemberDiagram visible={visible} close={() => setVisible(!visible)} />
+      <MemberAdd visible={visible1} close={() => setVisible1(!visible1)}></MemberAdd>
     </React.Fragment>
   );
 };
