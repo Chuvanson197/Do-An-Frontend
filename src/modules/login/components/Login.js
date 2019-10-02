@@ -13,7 +13,7 @@ const defaultProps = {};
 
 const styles = {
   loginForm: css`
-    max-width: 300px;
+    width: 300px;
   `,
   loginformForgot: css`
     float: right;
@@ -58,13 +58,6 @@ const NormalLoginForm = ({ form }) => {
           )}
         </Form.Item>
         <Form.Item>
-          {getFieldDecorator('remember', {
-            valuePropName: 'checked',
-            initialValue: true
-          })(<Checkbox>Remember me</Checkbox>)}
-          {/* <a className={styles.loginformForgot} href=""> */}
-          Forgot password
-          {/* </a> */}
           <Button type="primary" htmlType="submit" className={styles.loginformButton}>
             Log in
           </Button>

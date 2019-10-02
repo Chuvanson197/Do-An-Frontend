@@ -16,7 +16,7 @@ const defaultProps = {
 
 const styles = {
   container: css`
-    min-height: 100vh;
+    min-height: 100vh !important;
   `,
   content: css`
     background: #fff;

@@ -24,9 +24,6 @@ const styles = {
     bottom: 0;
     left: 0;
     right: 0;
-  `,
-  container: css`
-    height: 100% !important;
   `
 };
 
@@ -113,7 +110,7 @@ const ProjectDetailPage = ({ match }) => {
 
   return (
     <Layout>
-      <Row className={styles.container}>
+      <Row>
         <Row>
           <HeaderTitle title="Project detail" />
         </Row>
