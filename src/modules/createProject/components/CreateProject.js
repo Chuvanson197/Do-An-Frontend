@@ -140,7 +140,6 @@ const CreateProject = ({ visible, close, form, listStatus, listCustomer, selecte
               }
             ]
           })(<Input />)}
-          <FormError form={form} label="name" />
         </Form.Item>
 
         <Form.Item
@@ -165,7 +164,6 @@ const CreateProject = ({ visible, close, form, listStatus, listCustomer, selecte
               })}
             </Select>
           )}
-          <FormError form={form} label="status" />
         </Form.Item>
 
         <Form.Item
@@ -182,7 +180,6 @@ const CreateProject = ({ visible, close, form, listStatus, listCustomer, selecte
           })(
             <DatePicker.RangePicker format="DD/MM/YYYY" placeholder={['Start time', 'End time']} />
           )}
-          <FormError form={form} label="estimate" />
         </Form.Item>
 
         <Row style={{ marginBottom: 10 }}>
@@ -216,7 +213,6 @@ const CreateProject = ({ visible, close, form, listStatus, listCustomer, selecte
               })}
             </Select>
           )}
-          <FormError form={form} label="customer" />
         </Form.Item>
 
         <Row>
@@ -242,4 +238,6 @@ CreateProject.propTypes = propTypes;
 
 CreateProject.defaultProps = defaultProps;
 
-export default createForm()(CreateProject);
+const CreateProjectForm = Form.create({ name: 'createProject' })(CreateProject);
+
+export default CreateProjectForm;

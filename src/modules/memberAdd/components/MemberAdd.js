@@ -150,7 +150,6 @@ const MemberAdd = ({ visible, close, form, listStatus, listMember, selectedMembe
               })}
             </Select>
           )}
-          <FormError form={form} label="member" />
         </Form.Item>
         <Form.Item
           style={{ display: 'flex' }}
@@ -174,7 +173,6 @@ const MemberAdd = ({ visible, close, form, listStatus, listMember, selectedMembe
               })}
             </Select>
           )}
-          <FormError form={form} label="status" />
         </Form.Item>
         <Form.Item
           style={{ display: 'flex' }}
@@ -188,7 +186,6 @@ const MemberAdd = ({ visible, close, form, listStatus, listMember, selectedMembe
               }
             ]
           })(<Input />)}
-          <FormError form={form} label="role" />
         </Form.Item>
 
         <Form.Item
@@ -205,7 +202,6 @@ const MemberAdd = ({ visible, close, form, listStatus, listMember, selectedMembe
           })(
             <DatePicker.RangePicker format="DD/MM/YYYY" placeholder={['Start time', 'End time']} />
           )}
-          <FormError form={form} label="estimate" />
         </Form.Item>
 
         <Form.Item
@@ -220,7 +216,6 @@ const MemberAdd = ({ visible, close, form, listStatus, listMember, selectedMembe
               }
             ]
           })(<InputNumber min={0} max={1} step={0.1} />)}
-          <FormError form={form} label="effort" />
         </Form.Item>
 
         <Row>
@@ -243,4 +238,6 @@ MemberAdd.propTypes = propTypes;
 
 MemberAdd.defaultProps = defaultProps;
 
-export default createForm()(MemberAdd);
+const MemberAddForm = Form.create({ name: 'memberAdd' })(MemberAdd);
+
+export default MemberAddForm;

@@ -74,18 +74,9 @@ const RegistrationForm = ({ form }) => {
   };
   return (
     <Form {...formItemLayout} onSubmit={handleSubmit} className={styles.container}>
-      <Form.Item label="E-mail">
-        {getFieldDecorator('email', {
-          rules: [
-            {
-              type: 'email',
-              message: 'The input is not valid E-mail!'
-            },
-            {
-              required: true,
-              message: 'Please input your E-mail!'
-            }
-          ]
+      <Form.Item label="Username">
+        {getFieldDecorator('nickname', {
+          rules: [{ required: true, message: 'Please input your username!', whitespace: true }]
         })(<Input />)}
       </Form.Item>
       <Form.Item label="Password" hasFeedback>
@@ -114,17 +105,18 @@ const RegistrationForm = ({ form }) => {
           ]
         })(<Input.Password onBlur={handleConfirmBlur} />)}
       </Form.Item>
-      <Form.Item
-        label={
-          <span>
-            Nickname&nbsp;
-            <Tooltip title="What do you want others to call you?">
-              <Icon type="question-circle-o" />
-            </Tooltip>
-          </span>
-        }>
-        {getFieldDecorator('nickname', {
-          rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }]
+      <Form.Item label="E-mail">
+        {getFieldDecorator('email', {
+          rules: [
+            {
+              type: 'email',
+              message: 'The input is not valid E-mail!'
+            },
+            {
+              required: true,
+              message: 'Please input your E-mail!'
+            }
+          ]
         })(<Input />)}
       </Form.Item>
       <Form.Item {...tailFormItemLayout}>
