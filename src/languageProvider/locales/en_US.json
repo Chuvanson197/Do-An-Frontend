@@ -8,6 +8,32 @@
   "projectDetail.serviceDetail.buttonAdd.title": "Add",
   "projectDetail.serviceDetail.buttonCancel.title": "Cancel",
 
+  "dashboard.title": "Dashboard",
+
+  "projects.title": "Projects",
+
+  "customers.title": "Customers",
+  "customers.header.title": "Customers Management",
+  "customers.customerTable.buttonAdd.title": "Add",
+  "customers.customerTable.buttonDelete.title": "Delete",
+  "customers.customerTable.name.title": "Customer Name",
+  "customers.customerTable.address.title": "Address",
+  "customers.customerTable.projectName.title": "Project Name",
+
+  "members.title": "Members",
+  "members.header.title": "Members Management",
+  "members.memberTable.buttonAdd.title": "Add",
+  "members.memberTable.id.title": "ID",
+  "members.memberTable.buttonDelete.title": "Delete",
+  "members.memberTable.name.title": "Member name",
+  "members.memberTable.phoneNumber.title": "Phone number",
+  "members.memberTable.staffCode.title": "Staff code",
+  "members.memberTable.email.title": "Email",
+  "members.memberTable.timeIn.title": "Time in",
+  "members.memberTable.timeOut.title": "Time out",
+  "members.memberTable.status.title": "Status",
+  "members.membersTable.effort.title": "Effort",
+
   "languageSwitcher.vi": "Vietnamese",
   "languageSwitcher.en": "English"
 }

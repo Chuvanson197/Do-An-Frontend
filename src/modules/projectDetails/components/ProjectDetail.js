@@ -37,8 +37,7 @@ const defaultProps = {
 
 const ProjectDetail = ({ projectDetail, loading, updateServiceDetail }) => {
   const [visible, setVisible] = useState(false);
-  const [visible1, setVisible1] = useState(false);
-
+  const [openAddModal, setOpenAddModal] = useState(false);
 
   const columns = [
     {
@@ -103,20 +102,17 @@ const ProjectDetail = ({ projectDetail, loading, updateServiceDetail }) => {
         )}
         <Row>
           <Row>
-            <Col span={3}>
+            <Col span={5} style={{ display: 'flex' }}>
               <Typography.Title level={4}>Current members</Typography.Title>
-            </Col>
-            <Col span={2}>
-              <Row type="flex" justify="start">
               <Tooltip placement="bottom" title="member add">
-                  <Button
-                    type="primary"
-                    shape="circle"
-                    icon="usergroup-add"
-                    onClick={() => setVisible1(!visible1)}
-                  />
-                </Tooltip>
-              </Row>
+                <Button
+                  style={{ marginLeft: 10 }}
+                  type="primary"
+                  shape="circle"
+                  icon="usergroup-add"
+                  onClick={() => setOpenAddModal(!openAddModal)}
+                />
+              </Tooltip>
             </Col>
             <Col span={19}>
               <Row type="flex" justify="end">
@@ -141,7 +137,9 @@ const ProjectDetail = ({ projectDetail, loading, updateServiceDetail }) => {
         </Row>
       </Row>
       <MemberDiagram visible={visible} close={() => setVisible(!visible)} />
-      <MemberAdd visible={visible1} close={() => setVisible1(!visible1)}></MemberAdd>
+      {openAddModal && (
+        <MemberAdd visible={openAddModal} close={() => setOpenAddModal(!openAddModal)}></MemberAdd>
+      )}
     </React.Fragment>
   );
 };

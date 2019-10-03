@@ -17,17 +17,16 @@ const styles = {
     z-index: 2;
   `,
   trigger: css`
-    color: #fff;
+    color: #fff !important;
     font-size: 25px;
     &:hover {
-      color: #1890ff;
+      color: #1890ff !important;
     }
   `,
   leftContents: css`
     flex: 1;
   `,
   rightContents: css`
-    display: flex;
     flex: 1;
     justify-content: flex-end;
   `
@@ -50,7 +49,7 @@ const Header = () => {
           onClick={() => toggle()}
         />
       </Row>
-      <Row className={styles.rightContents}>
+      <Row type="flex" className={styles.rightContents}>
         <LanguageSwitcher />
       </Row>
     </Layout.Header>

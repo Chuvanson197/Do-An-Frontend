@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
 import { actions } from '../store';
 import { Link } from 'react-router-dom';
 import { Layout, Menu, Icon } from 'antd';
@@ -42,19 +43,25 @@ const Sider = () => {
         <Menu.Item key="dashboard">
           <Link to="/">
             <Icon type="pie-chart" />
-            <span>Dashboard</span>
+            <FormattedMessage id="dashboard.title"/>
           </Link>
         </Menu.Item>
         <Menu.Item key="project">
           <Link to="/project/list">
             <Icon type="project" />
-            <span>Project</span>
+            <FormattedMessage id="projects.title"/>
+          </Link>
+        </Menu.Item>
+        <Menu.Item key="customers">
+          <Link to="/customers">
+            <Icon type="team" />
+            <FormattedMessage id="customers.title"/>
           </Link>
         </Menu.Item>
         <Menu.Item key="member">
           <Link to="/member/list">
-            <Icon type="team" />
-            <span>Member</span>
+            <Icon type="smile" />
+            <FormattedMessage id="members.title"/>
           </Link>
         </Menu.Item>
       </Menu>

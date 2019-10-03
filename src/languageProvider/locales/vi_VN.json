@@ -8,6 +8,32 @@
   "projectDetail.serviceDetail.buttonAdd.title": "Thêm",
   "projectDetail.serviceDetail.buttonCancel.title": "Hủy",
 
+  "dashboard.title": "Dashboard",
+
+  "projects.title": "Dự Án",
+
+  "customers.title": "Khách Hàng",
+  "customers.header.title": "Quản lí Khách hàng",
+  "customers.customerTable.buttonAdd.title": "Thêm",
+  "customers.customerTable.buttonDelete.title": "Xóa",
+  "customers.customerTable.name.title": "Tên khách hàng",
+  "customers.customerTable.address.title": "Địa chỉ",
+  "customers.customerTable.projectName.title": "Tên dự án",
+
+  "members.title": "Nhân Viên",
+  "members.header.title": "Quản lí Nhân Viên",
+  "members.memberTable.buttonAdd.title": "Thêm",
+  "members.memberTable.buttonDelete.title": "Xóa",
+  "members.memberTable.id.title": "ID",
+  "members.memberTable.name.title": "Tên nhân viên",
+  "members.memberTable.phoneNumber.title": "Số  điện thoại",
+  "members.memberTable.staffCode.title": "Mã nhân viên",
+  "members.memberTable.email.title": "Email",
+  "members.memberTable.timeIn.title": "Bắt đầu",
+  "members.memberTable.timeOut.title": "Kết thúc",
+  "members.memberTable.status.title": "Trạng thái",
+  "members.membersTable.effort.title": "Làm việc",
+
   "languageSwitcher.vi": "Tiếng Việt",
   "languageSwitcher.en": "Tiếng Anh"
 }

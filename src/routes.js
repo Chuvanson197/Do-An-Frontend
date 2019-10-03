@@ -5,6 +5,7 @@ import ProjectMemberHistory from './pages/ProjectMemberHistory.page';
 import LoginPage from './pages/Login.page';
 import RegisterPage from './pages/Register.page';
 import ListMemberPage from './pages/ListMember.page';
+import Customers from './pages/Customers.page';
 
 export default [
   {
@@ -42,4 +43,9 @@ export default [
     exact: false,
     path: '/member/list'
   },
+  {
+    component: Customers,
+    exact: false,
+    path: '/customers'
+  }
 ];
