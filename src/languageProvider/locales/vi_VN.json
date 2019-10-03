@@ -1,4 +1,7 @@
 {
+  "login.form.title": "Đăng nhập để tiếp tục",
+  "login.form.google.button.title": "Đăng nhập với google",
+
   "projectDetail.serviceDetail.title": "Thông tin dịch vụ",
   "projectDetail.serviceDetail.homePage.title": "Trang chủ:",
   "projectDetail.serviceDetail.detail.title": "Mô tả:",
@@ -8,7 +11,7 @@
   "projectDetail.serviceDetail.buttonAdd.title": "Thêm",
   "projectDetail.serviceDetail.buttonCancel.title": "Hủy",
 
-  "dashboard.title": "Dashboard",
+  "dashboard.title": "Thống Kê",
 
   "projects.title": "Dự Án",
 

@@ -1,4 +1,7 @@
 {
+  "login.form.title": "Login to continue",
+  "login.form.google.button.title": "Login with google",
+
   "projectDetail.serviceDetail.title": "Service Details",
   "projectDetail.serviceDetail.homePage.title": "Home page:",
   "projectDetail.serviceDetail.detail.title": "Details:",

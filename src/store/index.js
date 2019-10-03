@@ -3,6 +3,7 @@ import { routerReducer, routerMiddleware } from 'react-router-redux';
 import { createBrowserHistory } from 'history';
 
 import { reducer as layoutReducer } from '../modules/layout/store';
+import { reducer as authenticationReducer } from '../modules/login/store';
 import { reducer as projectDetailReducer } from '../modules/projectDetails/store';
 import { reducer as projectListReducer } from '../modules/listProject/store';
 import { reducer as projectMemberHistoryReducer } from '../modules/projectMemberHistory/store';
@@ -17,6 +18,7 @@ const routeMiddleware = routerMiddleware(history);
 export const rootReducer = combineReducers({
   router: routerReducer,
   layout: layoutReducer,
+  authentication: authenticationReducer,
   projectDetail: projectDetailReducer,
   projectList: projectListReducer,
   projectMemberHistory: projectMemberHistoryReducer,

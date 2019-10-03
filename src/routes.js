@@ -3,7 +3,6 @@ import ListProject from './pages/ListProject.page';
 import ProjectDetail from './pages/ProjectDetail.page';
 import ProjectMemberHistory from './pages/ProjectMemberHistory.page';
 import LoginPage from './pages/Login.page';
-import RegisterPage from './pages/Register.page';
 import Customers from './pages/Customers.page';
 
 export default [
@@ -31,11 +30,6 @@ export default [
     component: LoginPage,
     exact: false,
     path: '/login'
-  },
-  {
-    component: RegisterPage,
-    exact: false,
-    path: '/register'
   },
   {
     component: Customers,

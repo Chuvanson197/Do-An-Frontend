@@ -5,10 +5,11 @@ import { actions } from '../modules/layout/store';
 
 import Layout from '../modules/layout/components/Layout';
 
-const DashbroadPage = () => {
+const DashbroadPage = ({ location }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log(location);
     dispatch(actions.selectItem(['dashboard']));
   }, [dispatch]);
 
