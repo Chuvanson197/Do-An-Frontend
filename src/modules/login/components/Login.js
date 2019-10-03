@@ -1,76 +1,50 @@
-// import react from 'react';
 import React from 'react';
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
-import 'antd/dist/antd.css';
-import { formShape } from 'rc-form';
+import { GoogleLogin } from 'react-google-login';
+import { Form, Icon, Input, Button, Checkbox, Row } from 'antd';
+import { FormattedMessage } from 'react-intl';
 import { css } from 'emotion';
 
-const propTypes = {
-  form: formShape.isRequired
-};
+const propTypes = {};
 
 const defaultProps = {};
 
 const styles = {
-  loginForm: css`
-    width: 300px;
-  `,
-  loginformForgot: css`
-    float: right;
-  `,
-  loginformButton: css`
-    width: 100%;
+  googleButton: css`
+    div {
+      display: flex;
+      align-items: center;
+    }
+    span {
+      font-weight: bold !important;
+    }
+    &:hover {
+      opacity: 0.5 !important;
+    }
   `
 };
-const NormalLoginForm = ({ form }) => {
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    form.validateFields((err, values) => {
-      if (!err) {
-        console.log(form);
-        console.log('Received values of form: ', values);
-      }
-    });
+
+const Login = () => {
+  const responseGoogle = (response) => {
+    console.log(response);
   };
 
-  const { getFieldDecorator } = form;
   return (
-      <Form onSubmit={handleSubmit} className={styles.loginForm}>
-        <Form.Item>
-          {getFieldDecorator('username', {
-            rules: [{ required: true, message: 'Please input your username!' }]
-          })(
-            <Input
-              prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-              placeholder="Username"
-            />
-          )}
-        </Form.Item>
-        <Form.Item>
-          {getFieldDecorator('password', {
-            rules: [{ required: true, message: 'Please input your Password!' }]
-          })(
-            <Input
-              prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-              type="password"
-              placeholder="Password"
-            />
-          )}
-        </Form.Item>
-        <Form.Item>
-          <Button type="primary" htmlType="submit" className={styles.loginformButton}>
-            Log in
-          </Button>
-          Or <a href="/register">register now!</a>
-        </Form.Item>
-      </Form>
+    <GoogleLogin
+      className={styles.googleButton}
+      clientId="284407640052-rh5lil9td3r1dluc93sc2vqr3coe7c1t.apps.googleusercontent.com"
+      buttonText={<FormattedMessage id="login.form.google.button.title" />}
+      onSuccess={() => responseGoogle}
+      onFailure={() => responseGoogle}
+      prompt="consent"
+      cookiePolicy="single_host_origin"
+    />
   );
 };
 
-NormalLoginForm.propTypes = propTypes;
+Login.propTypes = propTypes;
 
-NormalLoginForm.defaultProps = defaultProps;
+Login.defaultProps = defaultProps;
 
-const LoginForm = Form.create()(NormalLoginForm);
+const LoginForm = Form.create()(Login);
 
 export default LoginForm;
