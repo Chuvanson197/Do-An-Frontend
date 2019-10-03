@@ -51,6 +51,12 @@ const Sider = () => {
             <span>Project</span>
           </Link>
         </Menu.Item>
+        <Menu.Item key="member">
+          <Link to="/member/list">
+            <Icon type="team" />
+            <span>Member</span>
+          </Link>
+        </Menu.Item>
       </Menu>
     </Layout.Sider>
   );

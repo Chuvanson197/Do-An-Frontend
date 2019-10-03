@@ -4,6 +4,7 @@ import ProjectDetail from './pages/ProjectDetail.page';
 import ProjectMemberHistory from './pages/ProjectMemberHistory.page';
 import LoginPage from './pages/Login.page';
 import RegisterPage from './pages/Register.page';
+import ListMemberPage from './pages/ListMember.page';
 
 export default [
   {
@@ -35,5 +36,10 @@ export default [
     component: RegisterPage,
     exact: false,
     path: '/register'
+  },
+  {
+    component: ListMemberPage,
+    exact: false,
+    path: '/member/list'
   },
 ];
