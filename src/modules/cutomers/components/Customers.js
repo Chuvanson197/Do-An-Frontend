@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import { Row, Col, Button } from 'antd';
 
 import CustomerTable from './CustomerTable';
+import CreateCustomerModal from './createModal/CreateCustomerModal';
 
 const propTypes = {
   customers: PropTypes.arrayOf(
@@ -32,6 +33,8 @@ const defaultProps = {
 
 const Customers = ({ customers, deleteCustomer, addNewCustomer }) => {
   const [selectedKeys, setSelectedKeys] = useState([]);
+  const [isVisibleModal, setIsVisibleModal] = useState(false);
+
   const onRowSelected = useCallback((rowKeys) => {
     setSelectedKeys(rowKeys);
   }, []);
@@ -43,11 +46,16 @@ const Customers = ({ customers, deleteCustomer, addNewCustomer }) => {
   }, [deleteCustomer, selectedKeys]);
 
   const onClickAddNewCustomer = () => {
-    // show modal
+    setIsVisibleModal(true);
   };
+
+  const onClickCloseModal = useCallback(() => {
+    setIsVisibleModal(false);
+  }, []);
 
   const createCustomer = useCallback(
     (body) => {
+      setIsVisibleModal(false);
       addNewCustomer(body);
     },
     [addNewCustomer]
@@ -72,6 +80,13 @@ const Customers = ({ customers, deleteCustomer, addNewCustomer }) => {
           </Row>
         </Col>
       </Row>
+      {isVisibleModal && (
+        <CreateCustomerModal
+          createCustomer={createCustomer}
+          onClickCloseModal={onClickCloseModal}
+          isVisibleModal={isVisibleModal}
+        />
+      )}
     </React.Fragment>
   );
 };
