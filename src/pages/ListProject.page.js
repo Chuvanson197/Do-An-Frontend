@@ -1,14 +1,21 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col, Tabs, Tag, Tooltip, Button } from 'antd';
 
 import { actions as layoutActions } from '../modules/layout/store';
-import { actions as projectActions } from '../modules/listProject/store';
+import { actions as projectActions } from '../modules/project/listProject/store';
 
 import Layout from '../modules/layout/components/Layout';
 import HeaderTitle from '../components/Content/HeaderTitle';
-import ListProject from '../modules/listProject/components/ListProject';
-import CreateProject from '../modules/createProject/components/CreateProject';
+import ListProject from '../modules/project/listProject/components/ListProject';
+import CreateProject from '../modules/project/createProject/components/CreateProject';
+
+const propTypes = {
+  history: PropTypes.shape({}).isRequired
+};
+
+const defaultProps = {};
 
 const dummyData = [
   {
@@ -45,15 +52,21 @@ const dummyData = [
   }
 ];
 
-const ListProjectPage = () => {
+const ListProjectPage = ({ history }) => {
   const dispatch = useDispatch();
-  const { projectList } = useSelector((state) => state.projectList);
+  const { authenticated } = useSelector((state) => state.authentication);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     dispatch(layoutActions.selectItem(['project']));
     dispatch(projectActions.getProjectList());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (!authenticated) {
+      history.push('/login');
+    }
+  }, [authenticated, history]);
 
   return (
     <Layout>
@@ -77,9 +90,7 @@ const ListProjectPage = () => {
           <Col span={12}>
             <Tabs defaultActiveKey="1">
               <Tabs.TabPane tab={<Tag color="#108ee9">Running</Tag>} key="1">
-                <ListProject
-                  listProject={dummyData.filter((item) => item.status === 'running')}
-                />
+                <ListProject listProject={dummyData.filter((item) => item.status === 'running')} />
               </Tabs.TabPane>
               <Tabs.TabPane tab={<Tag color="#87d068">Completed</Tag>} key="3">
                 <ListProject
@@ -87,9 +98,7 @@ const ListProjectPage = () => {
                 />
               </Tabs.TabPane>
               <Tabs.TabPane tab={<Tag color="#f5222D">Stopped</Tag>} key="2">
-                <ListProject
-                  listProject={dummyData.filter((item) => item.status === 'stopped')}
-                />
+                <ListProject listProject={dummyData.filter((item) => item.status === 'stopped')} />
               </Tabs.TabPane>
             </Tabs>
           </Col>
@@ -99,5 +108,9 @@ const ListProjectPage = () => {
     </Layout>
   );
 };
+
+ListProjectPage.propTypes = propTypes;
+
+ListProjectPage.defaultProps = defaultProps;
 
 export default ListProjectPage;

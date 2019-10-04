@@ -1,21 +1,28 @@
 import React, { useEffect, useCallback } from 'react';
+import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { Row } from 'antd';
 import { css } from 'emotion';
 
 import { actions as layoutActions } from '../modules/layout/store';
-import { actions as customerActions } from '../modules/cutomers/store';
+import { actions as customerActions } from '../modules/customer/cutomers/store';
 
 import HeaderTitle from '../components/Content/HeaderTitle';
 import Layout from '../modules/layout/components/Layout';
-import Customers from '../modules/cutomers/components/Customers';
+import Customers from '../modules/customer/cutomers/components/Customers';
 
 const styles = {
   container: css`
     height: 100% !important;
   `
 };
+
+const propTypes = {
+  history: PropTypes.shape({}).isRequired
+};
+
+const defaultProps = {};
 
 const dummyData = [
   {
@@ -56,14 +63,21 @@ const dummyData = [
   }
 ];
 
-const CustomersPage = () => {
+const CustomersPage = ({ history }) => {
   const dispatch = useDispatch();
-  const { customers, isDeleted } = useSelector((state) => state.customers);
+  // const { customers, isDeleted } = useSelector((state) => state.customers);
+  const { authenticated } = useSelector((state) => state.authentication);
 
   useEffect(() => {
     dispatch(layoutActions.selectItem(['customers']));
     dispatch(customerActions.fecthCustomers());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (!authenticated) {
+      history.push('/login');
+    }
+  }, [authenticated, history]);
 
   const deleteCustomer = useCallback(
     (selectedKeys) => {
@@ -97,5 +111,9 @@ const CustomersPage = () => {
     </Layout>
   );
 };
+
+CustomersPage.propTypes = propTypes;
+
+CustomersPage.defaultProps = defaultProps;
 
 export default CustomersPage;
