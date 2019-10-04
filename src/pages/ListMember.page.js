@@ -3,11 +3,11 @@ import { useDispatch } from 'react-redux';
 import { Row, Col } from 'antd';
 
 import { actions as layoutActions } from '../modules/layout/store';
-import { actions as memberActions } from '../modules/listMember/store';
+import { actions as memberActions } from '../modules/member/listMember/store';
 
 import Layout from '../modules/layout/components/Layout';
 import HeaderTitle from '../components/Content/HeaderTitle';
-import ListMember from '../modules/listMember/components/ListMember';
+import ListMember from '../modules/member/listMember/components/ListMember';
 import { FormattedMessage } from 'react-intl';
 
 const dummyData = [

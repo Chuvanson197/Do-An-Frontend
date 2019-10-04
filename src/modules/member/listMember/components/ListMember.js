@@ -54,12 +54,12 @@ const ListMember = ({ members, deleteMember, addNewMember }) => {
   const onClickAddNewMember = () => {
     // show modal
   };
-  const createMember = useCallback(
-    (body) => {
-      addNewMember(body);
-    },
-    [addNewMember]
-  );
+  // const createMember = useCallback(
+  //   (body) => {
+  //     addNewMember(body);
+  //   },
+  //   [addNewMember]
+  // );
   return (
     <React.Fragment>
       <Row style={{ marginBottom: 20 }}>

@@ -1,4 +1,4 @@
-import createResourceHandler from '../../../ultis/createResourceHandler';
+import createResourceHandler from '../../../../ultis/createResourceHandler';
 
 const apiActions = [
   {
