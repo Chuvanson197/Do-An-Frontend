@@ -3,8 +3,8 @@ import ListProject from './pages/ListProject.page';
 import ProjectDetail from './pages/ProjectDetail.page';
 import ProjectMemberHistory from './pages/ProjectMemberHistory.page';
 import LoginPage from './pages/Login.page';
-import Customers from './pages/Customers.page';
 import ListMemberPage from './pages/ListMember.page';
+import Customers from './pages/Customers.page';
 
 export default [
   {
@@ -41,5 +41,5 @@ export default [
     component: ListMemberPage,
     exact: false,
     path: '/member/list'
-  },
+  }
 ];

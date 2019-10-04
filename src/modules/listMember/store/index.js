@@ -9,7 +9,7 @@ const apiActions = [
   }
 ];
 const defaultState = {
-  projectList: []
+  membersList: []
 };
 
 const store = createResourceHandler('memberList', apiActions, [], defaultState);

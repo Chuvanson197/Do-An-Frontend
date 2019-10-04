@@ -32,6 +32,20 @@
   "customers.customerModal.form.projectName.title": "Project name",
   "customers.customerModal.form.projectName.validate": "Project name is required",
 
+  "members.title": "Members",
+  "members.header.title": "Members Management",
+  "members.memberTable.buttonAdd.title": "Add",
+  "members.memberTable.id.title": "ID",
+  "members.memberTable.buttonDelete.title": "Delete",
+  "members.memberTable.name.title": "Member name",
+  "members.memberTable.phoneNumber.title": "Phone number",
+  "members.memberTable.staffCode.title": "Staff code",
+  "members.memberTable.email.title": "Email",
+  "members.memberTable.timeIn.title": "Time in",
+  "members.memberTable.timeOut.title": "Time out",
+  "members.memberTable.status.title": "Status",
+  "members.membersTable.effort.title": "Effort",
+
   "languageSwitcher.vi": "Vietnamese",
   "languageSwitcher.en": "English"
 }

@@ -60,8 +60,8 @@ const Sider = () => {
         </Menu.Item>
         <Menu.Item key="member">
           <Link to="/member/list">
-            <Icon type="team" />
-            <span>Member</span>
+            <Icon type="smile" />
+            <FormattedMessage id="members.title"/>
           </Link>
         </Menu.Item>
       </Menu>
