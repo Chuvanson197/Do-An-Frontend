@@ -18,7 +18,7 @@ const reducerActions = [
 
 const defaultState = {
   authentication: {},
-  authenticated: false
+  authenticated: true
 };
 
 const store = createResourceHandler('register', apiActions, reducerActions, defaultState);
