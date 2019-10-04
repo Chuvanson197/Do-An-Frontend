@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Row, Col, Button, Icon } from 'antd';
 import { css } from 'emotion';
 
-import { history } from '../store';
 import { actions as layoutActions } from '../modules/layout/store';
 import { actions as projectActions } from '../modules/projectDetails/store';
 
@@ -15,7 +14,8 @@ import ProjectDetail from '../modules/projectDetails/components/ProjectDetail';
 import BackButton from '../components/Button/BackButton';
 
 const propTypes = {
-  match: PropTypes.shape({}).isRequired
+  match: PropTypes.shape({}).isRequired,
+  history: PropTypes.shape({}).isRequired
 };
 
 const styles = {
@@ -79,14 +79,22 @@ const dummyData = {
   }
 };
 
-const ProjectDetailPage = ({ match }) => {
+const ProjectDetailPage = ({ match, history }) => {
   const dispatch = useDispatch();
   const { projectDetail, loading } = useSelector((state) => state.projectDetail);
+  const { authenticated } = useSelector((state) => state.authentication);
 
   useEffect(() => {
     dispatch(layoutActions.selectItem(['project']));
     dispatch(projectActions.getProjectDetail());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (!authenticated) {
+      // eslint-disable-next-line react/prop-types
+      history.push('/login');
+    }
+  }, [authenticated, history]);
 
   const updateServiceDetail = (customOption) => {
     const detail = { ...dummyData };
@@ -100,6 +108,7 @@ const ProjectDetailPage = ({ match }) => {
   };
 
   const onBack = () => {
+    // eslint-disable-next-line react/prop-types
     history.push('/project/list');
   };
 
