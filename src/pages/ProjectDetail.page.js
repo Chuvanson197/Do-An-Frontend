@@ -5,12 +5,12 @@ import { Row, Col, Button, Icon } from 'antd';
 import { css } from 'emotion';
 
 import { actions as layoutActions } from '../modules/layout/store';
-import { actions as projectActions } from '../modules/projectDetails/store';
+import { actions as projectActions } from '../modules/project/projectDetails/store';
 
 import Layout from '../modules/layout/components/Layout';
 
 import HeaderTitle from '../components/Content/HeaderTitle';
-import ProjectDetail from '../modules/projectDetails/components/ProjectDetail';
+import ProjectDetail from '../modules/project/projectDetails/components/ProjectDetail';
 import BackButton from '../components/Button/BackButton';
 
 const propTypes = {
@@ -81,7 +81,7 @@ const dummyData = {
 
 const ProjectDetailPage = ({ match, history }) => {
   const dispatch = useDispatch();
-  const { projectDetail, loading } = useSelector((state) => state.projectDetail);
+  const { loading } = useSelector((state) => state.projectDetail);
   const { authenticated } = useSelector((state) => state.authentication);
 
   useEffect(() => {
@@ -91,7 +91,6 @@ const ProjectDetailPage = ({ match, history }) => {
 
   useEffect(() => {
     if (!authenticated) {
-      // eslint-disable-next-line react/prop-types
       history.push('/login');
     }
   }, [authenticated, history]);
@@ -108,12 +107,10 @@ const ProjectDetailPage = ({ match, history }) => {
   };
 
   const onBack = () => {
-    // eslint-disable-next-line react/prop-types
     history.push('/project/list');
   };
 
   const toMemberHistory = () => {
-    // eslint-disable-next-line react/prop-types
     history.push(`/project/memberHistory/${match.params.id}`);
   };
 

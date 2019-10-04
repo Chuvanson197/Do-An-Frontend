@@ -3,7 +3,7 @@ import { Row, Typography, Icon } from 'antd';
 import { FormattedMessage } from 'react-intl';
 import { css } from 'emotion';
 
-import LoginForm from '../modules/login/components/Login';
+import LoginForm from '../modules/auth/login/components/Login';
 import LanguageSwitcher from '../modules/languageSwitcher/components/LanguagaSwitcher';
 
 const styles = {

@@ -4,12 +4,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col, Tabs, Tag, Tooltip, Button } from 'antd';
 
 import { actions as layoutActions } from '../modules/layout/store';
-import { actions as projectActions } from '../modules/listProject/store';
+import { actions as projectActions } from '../modules/project/listProject/store';
 
 import Layout from '../modules/layout/components/Layout';
 import HeaderTitle from '../components/Content/HeaderTitle';
-import ListProject from '../modules/listProject/components/ListProject';
-import CreateProject from '../modules/createProject/components/CreateProject';
+import ListProject from '../modules/project/listProject/components/ListProject';
+import CreateProject from '../modules/project/createProject/components/CreateProject';
 
 const propTypes = {
   history: PropTypes.shape({}).isRequired
@@ -54,7 +54,6 @@ const dummyData = [
 
 const ListProjectPage = ({ history }) => {
   const dispatch = useDispatch();
-  const { projectList } = useSelector((state) => state.projectList);
   const { authenticated } = useSelector((state) => state.authentication);
   const [visible, setVisible] = useState(false);
 
@@ -65,7 +64,6 @@ const ListProjectPage = ({ history }) => {
 
   useEffect(() => {
     if (!authenticated) {
-      // eslint-disable-next-line react/prop-types
       history.push('/login');
     }
   }, [authenticated, history]);

@@ -10,8 +10,8 @@ const LanguageSwitcher = () => {
   const { locale } = useSelector((state) => state.languageSwitcher);
 
   const defaultValue = () => {
-    const { value } = languageOptions.find((item) => item.id === locale);
-    return <FormattedMessage id={value} />;
+    const { id } = languageOptions.find((item) => item.id === locale);
+    return id;
   };
 
   const handleChangeLanguage = (value) => {

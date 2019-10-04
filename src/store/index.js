@@ -3,14 +3,14 @@ import { routerReducer, routerMiddleware } from 'react-router-redux';
 import { createBrowserHistory } from 'history';
 
 import { reducer as layoutReducer } from '../modules/layout/store';
-import { reducer as authenticationReducer } from '../modules/login/store';
-import { reducer as projectDetailReducer } from '../modules/projectDetails/store';
-import { reducer as projectListReducer } from '../modules/listProject/store';
-import { reducer as projectMemberHistoryReducer } from '../modules/projectMemberHistory/store';
+import { reducer as authenticationReducer } from '../modules/auth/login/store';
+import { reducer as projectDetailReducer } from '../modules/project/projectDetails/store';
+import { reducer as projectListReducer } from '../modules/project/listProject/store';
+import { reducer as projectMemberHistoryReducer } from '../modules/project/projectMemberHistory/store';
 // import { reducer as projectCreateReducer } from '../modules/createProject/store';
 // import { reducer as memberAddReducer } from '../modules/memberAdd/store';
 import { reducer as languageSwitcherReducer } from '../modules/languageSwitcher/store';
-import { reducer as customersReducer } from '../modules/cutomers/store';
+import { reducer as customersReducer } from '../modules/customer/cutomers/store';
 
 export const history = createBrowserHistory();
 const routeMiddleware = routerMiddleware(history);

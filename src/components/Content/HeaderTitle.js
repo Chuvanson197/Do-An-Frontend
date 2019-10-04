@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Typography, Divider } from 'antd';
 
 const propTypes = {
-  title: PropTypes.string.isRequired
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.shape()]).isRequired
 };
 
 const defaultProps = {};

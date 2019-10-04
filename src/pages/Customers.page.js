@@ -6,11 +6,11 @@ import { Row } from 'antd';
 import { css } from 'emotion';
 
 import { actions as layoutActions } from '../modules/layout/store';
-import { actions as customerActions } from '../modules/cutomers/store';
+import { actions as customerActions } from '../modules/customer/cutomers/store';
 
 import HeaderTitle from '../components/Content/HeaderTitle';
 import Layout from '../modules/layout/components/Layout';
-import Customers from '../modules/cutomers/components/Customers';
+import Customers from '../modules/customer/cutomers/components/Customers';
 
 const styles = {
   container: css`
@@ -65,7 +65,7 @@ const dummyData = [
 
 const CustomersPage = ({ history }) => {
   const dispatch = useDispatch();
-  const { customers, isDeleted } = useSelector((state) => state.customers);
+  // const { customers, isDeleted } = useSelector((state) => state.customers);
   const { authenticated } = useSelector((state) => state.authentication);
 
   useEffect(() => {
@@ -75,7 +75,6 @@ const CustomersPage = ({ history }) => {
 
   useEffect(() => {
     if (!authenticated) {
-      // eslint-disable-next-line react/prop-types
       history.push('/login');
     }
   }, [authenticated, history]);

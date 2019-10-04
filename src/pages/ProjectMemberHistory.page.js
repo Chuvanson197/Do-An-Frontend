@@ -5,12 +5,12 @@ import { Row, Col } from 'antd';
 import { css } from 'emotion';
 
 import { actions as layoutActions } from '../modules/layout/store';
-import { actions as projectActions } from '../modules/projectMemberHistory/store';
+import { actions as projectActions } from '../modules/project/projectMemberHistory/store';
 
 import Layout from '../modules/layout/components/Layout';
 
 import HeaderTitle from '../components/Content/HeaderTitle';
-import ProjectMemberHistory from '../modules/projectMemberHistory/components/ProjectMemberHistory';
+import ProjectMemberHistory from '../modules/project/projectMemberHistory/components/ProjectMemberHistory';
 import BackButton from '../components/Button/BackButton';
 
 const propTypes = {
@@ -68,7 +68,6 @@ const dummyData = [
 
 const ProjectMemberHistoryPage = ({ match, history }) => {
   const dispatch = useDispatch();
-  const { projectMemberHistory } = useSelector((state) => state.projectMemberHistory);
   const { authenticated } = useSelector((state) => state.authentication);
 
   useEffect(() => {
@@ -78,13 +77,11 @@ const ProjectMemberHistoryPage = ({ match, history }) => {
 
   useEffect(() => {
     if (!authenticated) {
-      // eslint-disable-next-line react/prop-types
       history.push('/login');
     }
   }, [authenticated, history]);
 
   const onBack = () => {
-    // eslint-disable-next-line react/prop-types
     history.push(`/project/detail/${match.params.id}`);
   };
 

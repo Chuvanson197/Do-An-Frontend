@@ -22,7 +22,6 @@ const DashbroadPage = ({ history }) => {
 
   useEffect(() => {
     if (!authenticated) {
-      // eslint-disable-next-line react/prop-types
       history.push('/login');
     }
   }, [authenticated, history]);
