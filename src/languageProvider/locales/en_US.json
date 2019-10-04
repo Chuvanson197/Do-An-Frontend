@@ -22,6 +22,15 @@
   "customers.customerTable.name.title": "Customer Name",
   "customers.customerTable.address.title": "Address",
   "customers.customerTable.projectName.title": "Project Name",
+  "customers.customerModal.header.title": "Create new Customer",
+  "customers.customerModal.createButton.title": "Create",
+  "customers.customerModal.cancelButton.title": "Cancel",
+  "customers.customerModal.form.customerName.title": "Name",
+  "customers.customerModal.form.customerName.validate": "Customer name is required",
+  "customers.customerModal.form.customerAddress.title": "Address",
+  "customers.customerModal.form.customerAddress.validate": "Customer address is required",
+  "customers.customerModal.form.projectName.title": "Project name",
+  "customers.customerModal.form.projectName.validate": "Project name is required",
 
   "languageSwitcher.vi": "Vietnamese",
   "languageSwitcher.en": "English"

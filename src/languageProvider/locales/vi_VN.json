@@ -22,6 +22,15 @@
   "customers.customerTable.name.title": "Tên khách hàng",
   "customers.customerTable.address.title": "Địa chỉ",
   "customers.customerTable.projectName.title": "Tên dự án",
+  "customers.customerModal.header.title": "Tạo mới Khách hàng",
+  "customers.customerModal.createButton.title": "Tạo",
+  "customers.customerModal.cancelButton.title": "Hủy",
+  "customers.customerModal.form.customerName.title": "Tên khách hàng",
+  "customers.customerModal.form.customerName.validate": "Tên khách hàng là bắt buộc",
+  "customers.customerModal.form.customerAddress.title": "Địa chỉ",
+  "customers.customerModal.form.customerAddress.validate": "Địa chỉ khách hàng là bắt buộc",
+  "customers.customerModal.form.projectName.title": "Tên dự án",
+  "customers.customerModal.form.projectName.validate": "Tên dự án là bắt buộc",
 
   "languageSwitcher.vi": "Tiếng Việt",
   "languageSwitcher.en": "Tiếng Anh"
