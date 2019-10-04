@@ -32,6 +32,20 @@
   "customers.customerModal.form.projectName.title": "Tên dự án",
   "customers.customerModal.form.projectName.validate": "Tên dự án là bắt buộc",
 
+  "members.title": "Nhân Viên",
+  "members.header.title": "Quản lí Nhân Viên",
+  "members.memberTable.buttonAdd.title": "Thêm",
+  "members.memberTable.buttonDelete.title": "Xóa",
+  "members.memberTable.id.title": "ID",
+  "members.memberTable.name.title": "Tên nhân viên",
+  "members.memberTable.phoneNumber.title": "Số  điện thoại",
+  "members.memberTable.staffCode.title": "Mã nhân viên",
+  "members.memberTable.email.title": "Email",
+  "members.memberTable.timeIn.title": "Bắt đầu",
+  "members.memberTable.timeOut.title": "Kết thúc",
+  "members.memberTable.status.title": "Trạng thái",
+  "members.membersTable.effort.title": "Làm việc",
+
   "languageSwitcher.vi": "Tiếng Việt",
   "languageSwitcher.en": "Tiếng Anh"
 }
