@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { Row, Col, Tabs, Tag, Tooltip, Button } from 'antd';
+import { Row, Col, Tabs, Tag, Button } from 'antd';
 import { css } from 'emotion';
 
 import { actions as layoutActions } from '../modules/layout/store';
