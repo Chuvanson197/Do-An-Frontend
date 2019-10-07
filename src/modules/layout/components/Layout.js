@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Layout as AntdLayout } from 'antd';
+import { Layout as AntdLayout, BackTop } from 'antd';
 import { css } from 'emotion';
 
 import Header from './Header';
@@ -33,6 +33,7 @@ const Layout = ({ children }) => (
     <AntdLayout>
       <Header />
       <AntdLayout style={{ padding: '88px 24px 24px 24px' }}>
+        <BackTop visibilityHeight={350}/>
         <AntdLayout.Content className={styles.content}>{children}</AntdLayout.Content>
       </AntdLayout>
     </AntdLayout>
