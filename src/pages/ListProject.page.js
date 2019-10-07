@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col, Tabs, Tag, Tooltip, Button } from 'antd';
+import { css } from 'emotion';
 
 import { actions as layoutActions } from '../modules/layout/store';
 import { actions as projectActions } from '../modules/project/listProject/store';
@@ -16,6 +18,14 @@ const propTypes = {
 };
 
 const defaultProps = {};
+
+const styles = {
+  addCustomerButton: css`
+    background: #49a32b !important;
+    color: #fff !important;
+    margin-bottom: 15px;
+  `
+};
 
 const dummyData = [
   {
@@ -71,21 +81,13 @@ const ListProjectPage = ({ history }) => {
   return (
     <Layout>
       <React.Fragment>
-        <Row type="flex" justify="space-between">
-          <Col>
-            <HeaderTitle title="List of projects" />
-          </Col>
-          <Col>
-            <Tooltip title="Create Project">
-              <Button
-                type="primary"
-                shape="circle"
-                icon="plus"
-                onClick={() => setVisible(!visible)}
-              />
-            </Tooltip>
-          </Col>
-        </Row>
+        <HeaderTitle title={<FormattedMessage id="projects.listProject.title" />} />
+        <Button
+          icon="folder-add"
+          className={styles.addCustomerButton}
+          onClick={() => setVisible(!visible)}>
+          <FormattedMessage id="button.add" />
+        </Button>
         <Row gutter={16}>
           <Col span={12}>
             <Tabs defaultActiveKey="1">
