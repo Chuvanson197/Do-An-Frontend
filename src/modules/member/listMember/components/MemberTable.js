@@ -1,6 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Table, Tag, Row} from 'antd';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 
 const propTypes = {
@@ -28,7 +29,7 @@ const defaultProps = {
       id: 'member_001',
       full_name: 'Chu Van Son',
       staff_code: 'impl_S01',
-      phone_number: 123456798,
+      phone_number: +123456798,
       status: ['running'],
       email: 'son.chu@impl.com',
       time_in: 1568271275000,
@@ -38,7 +39,7 @@ const defaultProps = {
   ]
 };
 
-const MembersTable = ({ members, onRowSelected }) => {
+const MemberTable = ({ members, onRowSelected }) => {
   const columns = [
     {
       title: <FormattedMessage id="members.memberTable.staffCode.title" />,
@@ -68,12 +69,18 @@ const MembersTable = ({ members, onRowSelected }) => {
     {
       title: <FormattedMessage id="members.memberTable.timeIn.title" />,
       dataIndex: 'time_in',
-      key: 'time_in'
+      key: 'time_in',
+      render: (date) => {
+        return moment(date).format('DD/MM/YYYY');
+      }
     },
     {
       title: <FormattedMessage id="members.memberTable.timeOut.title" />,
       dataIndex: 'time_out',
-      key: 'time_out'
+      key: 'time_out',
+      render: (date) => {
+        return moment(date).format('DD/MM/YYYY');
+      }
     },
     {
       title: <FormattedMessage id="members.memberTable.status.title" />,
@@ -112,7 +119,7 @@ const MembersTable = ({ members, onRowSelected }) => {
   );
 };
 
-MembersTable.propTypes = propTypes;
-MembersTable.defaultProps = defaultProps;
+MemberTable.propTypes = propTypes;
+MemberTable.defaultProps = defaultProps;
 
-export default MembersTable;
+export default MemberTable;

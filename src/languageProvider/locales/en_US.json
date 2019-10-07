@@ -58,6 +58,18 @@
   "members.memberTable.timeOut.title": "Time out",
   "members.memberTable.status.title": "Status",
   "members.membersTable.effort.title": "Effort",
+  "members.memberModal.header.title": "Create new Member",
+  "members.memberModal.createButton.title": "Create",
+  "members.memberModal.cancelButton.title": "Cancle",
+  "members.memberModal.form.memberStaffcode.title": "Staff code",
+  "members.memberModal.form.memberStaffcode.validate": "Staff code is required",
+  "members.memberModal.form.memberFullname.title": "Full name",
+  "members.memberModal.form.memberFullNname.validate": "Full name is required",
+  "members.memberModal.form.memberPhonenumber.title": "Phone number",
+  "members.memberModal.form.memberPhonenumber.validate": "Phone number is required",
+  "members.memberModal.form.memberEmail.title": "Email",
+  "members.memberModal.form.memberEmail.validate.type": "Email is not a valid email",
+  "members.memberModal.form.memberEmail.validate": "Email is required",
 
   "languageSwitcher.vi": "Vietnamese",
   "languageSwitcher.en": "English"

@@ -2,7 +2,8 @@ import React, { useState, useCallback } from 'react';
 import { Button, Row, Col } from 'antd';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import MembersTable from './MemberTable';
+import MemberTable from './MemberTable';
+// import CreateMemberModal from './createModal/CreateMemberModal';
 
 const propTypes = {
   members: PropTypes.arrayOf(
@@ -40,8 +41,10 @@ const defaultProps = {
   ]
 };
 
-const ListMember = ({ members, deleteMember, addNewMember }) => {
+const ListMembers = ({ members, deleteMember, addNewMember }) => {
   const [selectedKeys, setSelectedKeys] = useState([]);
+  const [isVisibleModal, setIsVisibleModal] = useState(false);
+
   const onRowSelected = useCallback((rowKeys) => {
     setSelectedKeys(rowKeys);
   }, []);
@@ -52,18 +55,13 @@ const ListMember = ({ members, deleteMember, addNewMember }) => {
   }, [deleteMember, selectedKeys]);
 
   const onClickAddNewMember = () => {
-    // show modal
+    setIsVisibleModal(true);
   };
-  // const createMember = useCallback(
-  //   (body) => {
-  //     addNewMember(body);
-  //   },
-  //   [addNewMember]
-  // );
+
   return (
     <React.Fragment>
       <Row style={{ marginBottom: 20 }}>
-        <MembersTable members={members} onRowSelected={onRowSelected} />
+        <MemberTable members={members} onRowSelected={onRowSelected} />
       </Row>
       <Row>
         <Col span={12}>
@@ -79,11 +77,18 @@ const ListMember = ({ members, deleteMember, addNewMember }) => {
           </Row>
         </Col>
       </Row>
+      {/* {isVisibleModal && (
+        <CreateMemberModal
+          createMember={createMember}
+          onClickCloseModal={onClickCloseModal}
+          isVisibleModal={isVisibleModal}
+        />
+      )} */}
     </React.Fragment>
   );
 };
 
-ListMember.propTypes = propTypes;
-ListMember.defaultProps = defaultProps;
+ListMembers.propTypes = propTypes;
+ListMembers.defaultProps = defaultProps;
 
-export default ListMember;
+export default ListMembers;

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col } from 'antd';
 import { css } from 'emotion';
 
@@ -69,7 +69,6 @@ const dummyData = [
 const ProjectMemberHistoryPage = ({ match, history }) => {
   const dispatch = useDispatch();
   const { authenticated } = useSelector((state) => state.authentication);
-
   useEffect(() => {
     dispatch(layoutActions.selectItem(['project']));
     dispatch(projectActions.getProjectMemberHistory());
