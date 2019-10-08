@@ -49,6 +49,7 @@
   "members.header.title": "Quản lí Thành Viên",
   "members.memberTable.buttonAdd.title": "Thêm",
   "members.memberTable.buttonDelete.title": "Xóa",
+  "members.memberTable.buttonEdit.title": "Sửa",
   "members.memberTable.id.title": "ID",
   "members.memberTable.name.title": "Tên thành viên",
   "members.memberTable.phoneNumber.title": "Số  điện thoại",

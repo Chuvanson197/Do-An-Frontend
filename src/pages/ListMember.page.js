@@ -9,7 +9,8 @@ import { actions as memberActions } from '../modules/member/listMember/store';
 
 import Layout from '../modules/layout/components/Layout';
 import HeaderTitle from '../components/Content/HeaderTitle';
-import ListMembers from '../modules/member/listMember/components/ListMember';
+
+import Members from '../modules/member/listMember/components/Members';
 
 const styles = {
   container: css`
@@ -76,7 +77,7 @@ const ListMemberPage = () => {
           </Col>
         </Row>
         <Row gutter={16}>
-          <ListMembers
+          <Members
             members={dummyData}
             deleteMember={deleteMember}
             addNewMember={addNewMember}
