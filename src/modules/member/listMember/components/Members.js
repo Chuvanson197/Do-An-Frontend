@@ -5,7 +5,7 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import { css } from 'emotion';
 
-import CreateMember from '../../../createMember/components/CreateMember';
+import CreateMember from '../../createMember/components/CreateMember';
 
 const propTypes = {
   intl: PropTypes.shape({}).isRequired
@@ -51,12 +51,14 @@ const Members = ({ intl }) => {
   const [selectedItemKeys, setSelectedItemKeys] = useState([]);
   const [visible, setVisible] = useState(false);
 
-
   const handleConfirmDelete = (record) => {
     console.log(record);
-    // message.success(intl.formatMessage({ id: 'customers.deleted.success' }));
+    message.success(intl.formatMessage({ id: 'members.deleted.success' }));
   };
-
+  const handleDeleteSelected = () => {
+    console.log(selectedItemKeys);
+    message.success(intl.formatMessage({ id: 'members.deleted.success' }));
+  };
   const columns = [
     {
       title: <FormattedMessage id="members.memberTable.staffCode.title" />,
@@ -126,7 +128,9 @@ const Members = ({ intl }) => {
       align: 'right',
       render: (record) => (
         <React.Fragment>
-          <Tooltip placement="top" title={<FormattedMessage id="members.memberTable.buttonDelete.title" />}>
+          <Tooltip
+            placement="top"
+            title={<FormattedMessage id="members.memberTable.buttonDelete.title" />}>
             <Popconfirm
               title={<FormattedMessage id="members.confirm.delete" />}
               onConfirm={() => handleConfirmDelete(record)}
@@ -135,18 +139,15 @@ const Members = ({ intl }) => {
               <Button shape="circle" icon="delete" type="danger" style={{ margin: '0px 5px' }} />
             </Popconfirm>
           </Tooltip>
-          <Tooltip placement="top" title={<FormattedMessage id="members.memberTable.buttonEdit.title" />}>
+          <Tooltip
+            placement="top"
+            title={<FormattedMessage id="members.memberTable.buttonEdit.title" />}>
             <Button shape="circle" icon="edit" type="primary" style={{ margin: '0px 5px' }} />
           </Tooltip>
         </React.Fragment>
       )
     }
   ];
-
-  const handleDeleteSelected = () => {
-    console.log(selectedItemKeys);
-    // message.success(intl.formatMessage({ id: 'members.deleted.success' }));
-  };
 
   const handleSelect = {
     onChange: (selectedRowKeys, selectedRows) => {
@@ -171,8 +172,7 @@ const Members = ({ intl }) => {
         <Button
           icon="user-add"
           className={styles.addMemberButton}
-          onClick={() => setVisible(!visible)}
-        >
+          onClick={() => setVisible(!visible)}>
           <FormattedMessage id="members.memberTable.buttonAdd.title" />
         </Button>
       </Row>
@@ -184,7 +184,7 @@ const Members = ({ intl }) => {
         pagination={false}
         rowSelection={handleSelect}
       />
-        {visible && <CreateMember visible={visible} close={() => setVisible(!visible)} />}
+      {visible && <CreateMember visible={visible} close={() => setVisible(!visible)} />}
     </React.Fragment>
   );
 };

@@ -1,18 +1,52 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { formShape } from 'rc-form';
-import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import { Modal, Input, Form } from 'antd';
+import { FormattedMessage } from 'react-intl';
+import {
+  Row,
+  Modal,
+  Button,
+  Input,
+  Form,
+} from 'antd';
 import { css } from 'emotion';
 
-import Footer from './Footer';
-
 const propTypes = {
-  createMember: PropTypes.func.isRequired,
-  onClickCloseModal: PropTypes.func.isRequired,
+  visible: PropTypes.bool.isRequired,
+  close: PropTypes.func.isRequired,
   form: formShape.isRequired,
-  isVisibleModal: PropTypes.bool.isRequired
+
+  listStatus: PropTypes.arrayOf(PropTypes.shape({})),
+  listMember: PropTypes.arrayOf(PropTypes.shape({})),
+  selectedMember: PropTypes.shape({})
 };
+
+const defaultProps = [
+  {
+    key: '1',
+    id: 'member_001',
+    full_name: 'Chu Van Son',
+    staff_code: 'impl_S01',
+    phone_number: '123456798',
+    status: 'working',
+    email: 'son.chu@impl.com',
+    time_in: 1568271275000,
+    time_out: 1599893675000,
+    effort: 1
+  },
+  {
+    key: '2',
+    id: 'member_002',
+    full_name: 'Chu Van Son',
+    staff_code: 'impl_S01',
+    phone_number: '123456798',
+    status: 'out',
+    email: 'son.chu@impl.com',
+    time_in: 1568271275000,
+    time_out: 1599893675000,
+    effort: 1
+  }
+];
 
 const styles = {
   modal: css``
@@ -27,32 +61,37 @@ const formItemLayout = {
   }
 };
 
-const CreateMember = ({ form, createMember, onClickCloseModal, isVisibleModal }) => {
-  const handleSubmit = useCallback(() => {
+const CreateMember = ({ visible, close, form }) => {
+  const handleSubmit = () => {
     form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
-        createMember(values);
       } else {
         console.log(err);
       }
     });
-  }, [form, createMember]);
-
-  const onClickCancel = useCallback(() => {
-    onClickCloseModal();
-  }, [onClickCloseModal]);
+  };
 
   return (
     <Modal
       title={<FormattedMessage id="members.memberModal.header.title" />}
-      width="35vw"
-      visible={isVisibleModal}
+      cancelText="Close"
+      visible={visible}
+      width="40vw"
       className={styles.modal}
-      onCancel={() => onClickCancel()}
+      onCancel={() => close()}
       maskClosable={false}
-      footer={<Footer onSubmit={handleSubmit} onCancel={onClickCancel} />}>
-      <Form onSubmit={handleSubmit} {...formItemLayout}>
+      footer={[
+        <Row type="flex" key="abc" justify="end">
+          <Button icon="plus" type="primary" onClick={() => handleSubmit()}>
+            <FormattedMessage id="members.memberModal.createButton.title" />
+          </Button>
+          <Button icon="close-circle" type="default" key="close" onClick={() => close()}>
+            <FormattedMessage id="members.memberModal.cancelButton.title" />
+          </Button>
+        </Row>
+      ]}>
+      <Form onSubmit={() => handleSubmit()} {...formItemLayout}>
         <Form.Item
           style={{ display: 'flex' }}
           label={<FormattedMessage id="members.memberModal.form.memberStaffcode.title" />}
@@ -79,7 +118,6 @@ const CreateMember = ({ form, createMember, onClickCloseModal, isVisibleModal })
             ]
           })(<Input />)}
         </Form.Item>
-
         <Form.Item
           style={{ display: 'flex' }}
           label={<FormattedMessage id="members.memberModal.form.memberPhonenumber.title" />}
@@ -88,12 +126,13 @@ const CreateMember = ({ form, createMember, onClickCloseModal, isVisibleModal })
             rules: [
               {
                 required: true,
-                message: <FormattedMessage id="members.memberModal.form.memberPhonenumber.validate" />
+                message: (
+                  <FormattedMessage id="members.memberModal.form.memberPhonenumber.validate" />
+                )
               }
             ]
           })(<Input />)}
         </Form.Item>
-
         <Form.Item
           style={{ display: 'flex' }}
           label={<FormattedMessage id="members.memberModal.form.memberEmail.title" />}
@@ -102,7 +141,9 @@ const CreateMember = ({ form, createMember, onClickCloseModal, isVisibleModal })
             rules: [
               {
                 type: 'email',
-                message: <FormattedMessage id="members.memberModal.form.memberEmail.validate.type" />,
+                message: (
+                  <FormattedMessage id="members.memberModal.form.memberEmail.validate.type" />
+                )
               },
               {
                 required: true,
@@ -111,7 +152,6 @@ const CreateMember = ({ form, createMember, onClickCloseModal, isVisibleModal })
             ]
           })(<Input />)}
         </Form.Item>
-
       </Form>
     </Modal>
   );
@@ -119,6 +159,8 @@ const CreateMember = ({ form, createMember, onClickCloseModal, isVisibleModal })
 
 CreateMember.propTypes = propTypes;
 
-const CreateMemberModal = Form.create({ name: 'createMember' })(CreateMember);
+CreateMember.defaultProps = defaultProps;
 
-export default CreateMemberModal;
+const CreateMemberForm = Form.create({ name: 'createMember' })(CreateMember);
+
+export default CreateMemberForm;
