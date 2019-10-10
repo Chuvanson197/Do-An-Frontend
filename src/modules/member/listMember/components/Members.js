@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { css } from 'emotion';
 
 import CreateMember from '../../createMember/components/CreateMember';
+import EditMember from '../../editMember/components/EditMember';
 
 const propTypes = {
   intl: PropTypes.shape({}).isRequired
@@ -49,7 +50,9 @@ const members = [
 
 const Members = ({ intl }) => {
   const [selectedItemKeys, setSelectedItemKeys] = useState([]);
-  const [visible, setVisible] = useState(false);
+  const [OpenCreateModal, SetOpenCreateModal] = useState(false);
+  const [OpenEditModal, SetOpenEditModal] = useState(false);
+  const [dataItem, SetdataItem] = useState({});
 
   const handleConfirmDelete = (record) => {
     console.log(record);
@@ -58,6 +61,11 @@ const Members = ({ intl }) => {
   const handleDeleteSelected = () => {
     console.log(selectedItemKeys);
     message.success(intl.formatMessage({ id: 'members.deleted.success' }));
+  };
+  const handleEditSelected = (data) => {
+    SetOpenEditModal(!OpenEditModal);
+    console.log(data);
+    SetdataItem(data);
   };
   const columns = [
     {
@@ -142,7 +150,15 @@ const Members = ({ intl }) => {
           <Tooltip
             placement="top"
             title={<FormattedMessage id="members.memberTable.buttonEdit.title" />}>
-            <Button shape="circle" icon="edit" type="primary" style={{ margin: '0px 5px' }} />
+            <Button
+              onClick={() => {
+                handleEditSelected(record);
+              }}
+              shape="circle"
+              icon="edit"
+              type="primary"
+              style={{ margin: '0px 5px' }}
+            />
           </Tooltip>
         </React.Fragment>
       )
@@ -152,6 +168,7 @@ const Members = ({ intl }) => {
   const handleSelect = {
     onChange: (selectedRowKeys, selectedRows) => {
       setSelectedItemKeys(selectedRowKeys);
+      console.log('handle Item');
     }
   };
 
@@ -172,11 +189,10 @@ const Members = ({ intl }) => {
         <Button
           icon="user-add"
           className={styles.addMemberButton}
-          onClick={() => setVisible(!visible)}>
+          onClick={() => SetOpenCreateModal(!OpenCreateModal)}>
           <FormattedMessage id="members.memberTable.buttonAdd.title" />
         </Button>
       </Row>
-
       <Table
         columns={columns}
         rowKey={(record, index) => index}
@@ -184,7 +200,19 @@ const Members = ({ intl }) => {
         pagination={false}
         rowSelection={handleSelect}
       />
-      {visible && <CreateMember visible={visible} close={() => setVisible(!visible)} />}
+      {OpenCreateModal && (
+        <CreateMember
+          visible={OpenCreateModal}
+          close={() => SetOpenCreateModal(!OpenCreateModal)}
+        />
+      )}
+      {OpenEditModal && (
+        <EditMember
+          visible={OpenEditModal}
+          close={() => SetOpenEditModal(!OpenEditModal)}
+          data={dataItem}
+        />
+      )}
     </React.Fragment>
   );
 };

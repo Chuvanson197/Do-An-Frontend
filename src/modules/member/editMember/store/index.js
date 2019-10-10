@@ -2,16 +2,16 @@ import createResourceHandler from '../../../../ultis/createResourceHandler';
 
 const apiActions = [
   {
-    actionName: 'createMember',
+    actionName: 'editMember',
     stateName: 'members',
     apiUrl: 'members',
-    method: 'POST'
+    method: 'PUT'
   }
 ];
 const defaultState = {
-  membersList: []
+  members: [],
 };
 
-const store = createResourceHandler('memberList', apiActions, [], defaultState);
+const store = createResourceHandler('member', apiActions, [], defaultState);
 
 export const { actions, reducer } = store;

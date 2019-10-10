@@ -6,41 +6,22 @@ import { Row, Modal, Button, Input, Form } from 'antd';
 import { css } from 'emotion';
 
 const propTypes = {
-  visible: PropTypes.bool.isRequired,
-  close: PropTypes.func.isRequired,
-  form: formShape.isRequired,
-
-  listStatus: PropTypes.arrayOf(PropTypes.shape({})),
-  listMember: PropTypes.arrayOf(PropTypes.shape({})),
-  selectedMember: PropTypes.shape({})
+  // Member: PropTypes.shape({
+  //   full_name: PropTypes.string,
+  //   staff_code: PropTypes.string,
+  //   phone_number: PropTypes.string,
+  //   email: PropTypes.string
+  // })
 };
 
-const defaultProps = [
-  {
-    key: '1',
-    id: 'member_001',
-    full_name: 'Chu Van Son',
-    staff_code: 'impl_S01',
-    phone_number: '123456798',
-    status: 'working',
-    email: 'son.chu@impl.com',
-    time_in: 1568271275000,
-    time_out: 1599893675000,
-    effort: 1
-  },
-  {
-    key: '2',
-    id: 'member_002',
-    full_name: 'Chu Van Son',
-    staff_code: 'impl_S01',
-    phone_number: '123456798',
-    status: 'out',
-    email: 'son.chu@impl.com',
-    time_in: 1568271275000,
-    time_out: 1599893675000,
-    effort: 1
-  }
-];
+const defaultProps = {
+  // Member: {
+  //   full_name: PropTypes.string,
+  //   staff_code: PropTypes.string,
+  //   phone_number: PropTypes.string,
+  //   email: PropTypes.string
+  // }
+};
 
 const styles = {
   modal: css``
@@ -55,7 +36,7 @@ const formItemLayout = {
   }
 };
 
-const CreateMember = ({ visible, close, form }) => {
+const EditMember = ({ visible, close, form, data }) => {
   const handleSubmit = () => {
     form.validateFields((err, values) => {
       if (!err) {
@@ -68,7 +49,7 @@ const CreateMember = ({ visible, close, form }) => {
 
   return (
     <Modal
-      title={<FormattedMessage id="members.memberModal.header.title" />}
+      title={<FormattedMessage id="members.memberModal.headerEditMember.title" />}
       cancelText="Close"
       visible={visible}
       width="40vw"
@@ -77,8 +58,8 @@ const CreateMember = ({ visible, close, form }) => {
       maskClosable={false}
       footer={[
         <Row type="flex" key="abc" justify="end">
-          <Button icon="plus" type="primary" onClick={() => handleSubmit()}>
-            <FormattedMessage id="members.memberModal.createButton.title" />
+          <Button icon="edit" type="primary" onClick={() => handleSubmit()}>
+            <FormattedMessage id="members.memberModal.editButton.title" />
           </Button>
           <Button icon="close-circle" type="default" key="close" onClick={() => close()}>
             <FormattedMessage id="members.memberModal.cancelButton.title" />
@@ -91,6 +72,7 @@ const CreateMember = ({ visible, close, form }) => {
           label={<FormattedMessage id="members.memberModal.form.memberStaffcode.title" />}
           validateStatus={form.getFieldError('staff_code') ? 'error' : 'validating'}>
           {form.getFieldDecorator('staff_code', {
+            initialValue: data.staff_code,
             rules: [
               {
                 required: true,
@@ -104,6 +86,8 @@ const CreateMember = ({ visible, close, form }) => {
           label={<FormattedMessage id="members.memberModal.form.memberFullname.title" />}
           validateStatus={form.getFieldError('full_name') ? 'error' : 'validating'}>
           {form.getFieldDecorator('full_name', {
+            initialValue: data.full_name,
+
             rules: [
               {
                 required: true,
@@ -117,6 +101,8 @@ const CreateMember = ({ visible, close, form }) => {
           label={<FormattedMessage id="members.memberModal.form.memberPhonenumber.title" />}
           validateStatus={form.getFieldError('phone_number') ? 'error' : 'validating'}>
           {form.getFieldDecorator('phone_number', {
+            initialValue: data.phone_number,
+
             rules: [
               {
                 required: true,
@@ -132,6 +118,8 @@ const CreateMember = ({ visible, close, form }) => {
           label={<FormattedMessage id="members.memberModal.form.memberEmail.title" />}
           validateStatus={form.getFieldError('email') ? 'error' : 'validating'}>
           {form.getFieldDecorator('email', {
+            initialValue: data.email,
+
             rules: [
               {
                 type: 'email',
@@ -151,10 +139,10 @@ const CreateMember = ({ visible, close, form }) => {
   );
 };
 
-CreateMember.propTypes = propTypes;
+EditMember.propTypes = propTypes;
 
-CreateMember.defaultProps = defaultProps;
+EditMember.defaultProps = defaultProps;
 
-const CreateMemberForm = Form.create({ name: 'createMember' })(CreateMember);
+const EditMemberForm = Form.create({ name: 'editMember' })(EditMember);
 
-export default CreateMemberForm;
+export default EditMemberForm;
