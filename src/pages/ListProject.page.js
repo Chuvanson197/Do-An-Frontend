@@ -65,11 +65,12 @@ const dummyData = [
 const ListProjectPage = ({ history }) => {
   const dispatch = useDispatch();
   const { authenticated } = useSelector((state) => state.authentication);
+  const { list } = useSelector((state) => state.projectList);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     dispatch(layoutActions.selectItem(['project']));
-    dispatch(projectActions.getProjectList());
+    dispatch(projectActions.getProjects());
   }, [dispatch]);
 
   useEffect(() => {
@@ -92,15 +93,13 @@ const ListProjectPage = ({ history }) => {
           <Col span={12}>
             <Tabs defaultActiveKey="1">
               <Tabs.TabPane tab={<Tag color="#108ee9">Running</Tag>} key="1">
-                <ListProject listProject={dummyData.filter((item) => item.status === 'running')} />
+                <ListProject listProject={list.filter((item) => item.status === 'running')} />
               </Tabs.TabPane>
               <Tabs.TabPane tab={<Tag color="#87d068">Completed</Tag>} key="3">
-                <ListProject
-                  listProject={dummyData.filter((item) => item.status === 'completed')}
-                />
+                <ListProject listProject={list.filter((item) => item.status === 'completed')} />
               </Tabs.TabPane>
               <Tabs.TabPane tab={<Tag color="#f5222D">Stopped</Tag>} key="2">
-                <ListProject listProject={dummyData.filter((item) => item.status === 'stopped')} />
+                <ListProject listProject={list.filter((item) => item.status === 'stopped')} />
               </Tabs.TabPane>
             </Tabs>
           </Col>

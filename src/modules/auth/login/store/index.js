@@ -2,9 +2,9 @@ import createResourceHandler from '../../../../ultis/createResourceHandler';
 
 const apiActions = [
   {
-    actionName: 'register',
+    actionName: 'authentication',
     stateName: 'authentication',
-    apiUrl: '/login',
+    apiUrl: 'auth',
     method: 'POST'
   }
 ];

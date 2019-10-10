@@ -2,14 +2,14 @@ import createResourceHandler from '../../../../ultis/createResourceHandler';
 
 const apiActions = [
   {
-    actionName: 'getProjectList',
-    stateName: 'projectList',
-    apiUrl: 'project_list',
+    actionName: 'getProjects',
+    stateName: 'list',
+    apiUrl: 'projects',
     method: 'GET'
   }
 ];
 const defaultState = {
-  projectList: []
+  list: []
 };
 
 const store = createResourceHandler('projectList', apiActions, [], defaultState);
