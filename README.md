@@ -1,68 +1,81 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Project Management
 
-## Available Scripts
+Web quản lý dự án, thông tin khách hàng, thông tin thành viên nội bộ công ty
 
-In the project directory, you can run:
+## Cài đặt và khởi chạy dự án
 
-### `npm start`
+### Cài đặt môi trường
+- mysql server v8.0.17
+- nodejs v10.16.0
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Cài đặt dự án
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+#### Clone project back-end
 
-### `npm test`
+- Clone với HTTPS:
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
+git clone https://gitlab.impl.vn/inhouse-service/api-project-management.git
+```
 
-### `npm run build`
+- Clone với SSH
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
+git clone git@gitlab.impl.vn:inhouse-service/api-project-management.git
+```
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+#### Clone project front-end
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Clone với HTTPS:
 
-### `npm run eject`
+```
+git clone https://gitlab.impl.vn/inhouse-service/project-management.git
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- Clone với SSH
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```
+git clone git@gitlab.impl.vn:inhouse-service/project-management.git
+```
+#### Chạy project back-end
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- Chạy mysql script 
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- Cài đặt node modules
 
-## Learn More
+```
+npm install
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- Khởi động project
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```
+npm start
+```
 
-### Code Splitting
+nếu sử dụng nodemon
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+```
+npx nodemon
+```
+#### Chạy project front-end
+- Cài đặt node modules
 
-### Analyzing the Bundle Size
+```
+npm install
+```
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+- Khởi động project
 
-### Making a Progressive Web App
+```
+npm start
+```
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+## yêu cầu về quy trình trên github
 
-### Advanced Configuration
+- checkout từ nhánh develop và tạo pull request sau khi hoàn thành công việc
+- đặt tên các nhánh theo chuẩn sau: develop_/[mã số ticket/loại công việc]_[tên nhánh]
+  vd: develop_/01_create_dashboard
+      develop_/fixbug_login_screen
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
 
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify

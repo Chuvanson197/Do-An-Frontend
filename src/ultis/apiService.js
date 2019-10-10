@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const base = 'https://api.com/v1';
+const base = 'http://localhost:8080/api';
 
 const getHeaders = () => ({});
 
@@ -11,7 +11,7 @@ const apiGet = (path, payload) => {
       ...option,
       headers: getHeaders()
     })
-    .then(res => res.data);
+    .then((res) => res.data);
 };
 
 const apiPost = (path, payload) => {
@@ -22,7 +22,7 @@ const apiPost = (path, payload) => {
       ...option,
       headers: getHeaders()
     })
-    .then(res => res.data);
+    .then((res) => res.data);
 };
 
 const apiPut = (path, payload) => {
@@ -33,7 +33,7 @@ const apiPut = (path, payload) => {
       ...option,
       headers: getHeaders()
     })
-    .then(res => res.data);
+    .then((res) => res.data);
 };
 
 const apiDelete = (path, payload) => {
@@ -43,7 +43,7 @@ const apiDelete = (path, payload) => {
       ...option,
       headers: getHeaders()
     })
-    .then(res => res.data);
+    .then((res) => res.data);
 };
 
 const Api = {

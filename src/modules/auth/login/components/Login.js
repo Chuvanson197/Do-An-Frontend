@@ -1,7 +1,10 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { GoogleLogin } from 'react-google-login';
 import { FormattedMessage } from 'react-intl';
 import { css } from 'emotion';
+
+import { actions } from '../store';
 
 const propTypes = {};
 
@@ -23,8 +26,12 @@ const styles = {
 };
 
 const Login = () => {
+  const dispatch = useDispatch();
   const responseGoogle = (response) => {
-    console.log(response);
+    const body = {
+      googleAccessToken: response.tokenObj.access_token
+    };
+    dispatch(actions.authentication({ body }));
   };
 
   return (
@@ -32,7 +39,7 @@ const Login = () => {
       className={styles.googleButton}
       clientId="284407640052-rh5lil9td3r1dluc93sc2vqr3coe7c1t.apps.googleusercontent.com"
       buttonText={<FormattedMessage id="login.form.google.button.title" />}
-      onSuccess={() => responseGoogle}
+      onSuccess={responseGoogle}
       onFailure={() => responseGoogle}
       prompt="consent"
       cookiePolicy="single_host_origin"
