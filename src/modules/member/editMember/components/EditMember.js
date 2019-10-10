@@ -1,11 +1,12 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { formShape } from 'rc-form';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
-import { Row, Modal, Button, Input, Form } from 'antd';
+import { FormattedMessage, injectIntl} from 'react-intl';
+import { Row, Modal, Button, Input, Form, Popconfirm, message} from 'antd';
 import { css } from 'emotion';
 
 const propTypes = {
+  intl: PropTypes.shape({}).isRequired
   // Member: PropTypes.shape({
   //   full_name: PropTypes.string,
   //   staff_code: PropTypes.string,
@@ -36,7 +37,9 @@ const formItemLayout = {
   }
 };
 
-const EditMember = ({ visible, close, form, data }) => {
+const EditMember = ({ intl, visible, close, form, data }) => {
+  const [selectedItemKeys, setSelectedItemKeys] = useState([]);
+
   const handleSubmit = () => {
     form.validateFields((err, values) => {
       if (!err) {
@@ -45,6 +48,7 @@ const EditMember = ({ visible, close, form, data }) => {
         console.log(err);
       }
     });
+    message.success(intl.formatMessage({ id: 'members.memberModal.edited.success' }));
   };
 
   return (
@@ -58,9 +62,16 @@ const EditMember = ({ visible, close, form, data }) => {
       maskClosable={false}
       footer={[
         <Row type="flex" key="abc" justify="end">
-          <Button icon="edit" type="primary" onClick={() => handleSubmit()}>
+          <Popconfirm
+          title={<FormattedMessage id="members.memberModal.confirm.edit" />}
+          onConfirm={() => handleSubmit()}
+          okText={<FormattedMessage id="members.memberModal.button.confirm.yes" />}
+          cancelText={<FormattedMessage id="members.memberModal.button.confirm.no" />}
+          >
+          <Button icon="edit" type="primary">
             <FormattedMessage id="members.memberModal.editButton.title" />
           </Button>
+        </Popconfirm>
           <Button icon="close-circle" type="default" key="close" onClick={() => close()}>
             <FormattedMessage id="members.memberModal.cancelButton.title" />
           </Button>
@@ -145,4 +156,4 @@ EditMember.defaultProps = defaultProps;
 
 const EditMemberForm = Form.create({ name: 'editMember' })(EditMember);
 
-export default EditMemberForm;
+export default injectIntl(EditMemberForm, {});
