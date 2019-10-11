@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { Table, Tag, Tooltip, Row, Popconfirm, Button, message } from 'antd';
-import moment from 'moment';
+import { Table, Tooltip, Row, Popconfirm, Button, message } from 'antd';
 import PropTypes from 'prop-types';
 import { css } from 'emotion';
 
@@ -64,7 +63,6 @@ const Members = ({ intl }) => {
   };
   const handleEditSelected = (data) => {
     SetOpenEditModal(!OpenEditModal);
-    console.log(data);
     SetdataItem(data);
   };
   const columns = [
@@ -72,11 +70,6 @@ const Members = ({ intl }) => {
       title: <FormattedMessage id="members.memberTable.staffCode.title" />,
       dataIndex: 'staff_code',
       key: 'staff_code'
-    },
-    {
-      title: <FormattedMessage id="members.memberTable.id.title" />,
-      dataIndex: 'id',
-      key: 'id'
     },
     {
       title: <FormattedMessage id="members.memberTable.name.title" />,
@@ -92,37 +85,6 @@ const Members = ({ intl }) => {
       title: <FormattedMessage id="members.memberTable.email.title" />,
       dataIndex: 'email',
       key: 'email'
-    },
-    {
-      title: <FormattedMessage id="members.memberTable.timeIn.title" />,
-      dataIndex: 'time_in',
-      key: 'time_in',
-      render: (date) => {
-        return moment(date).format('DD/MM/YYYY');
-      }
-    },
-    {
-      title: <FormattedMessage id="members.memberTable.timeOut.title" />,
-      dataIndex: 'time_out',
-      key: 'time_out',
-      render: (date) => {
-        return moment(date).format('DD/MM/YYYY');
-      }
-    },
-    {
-      title: <FormattedMessage id="members.memberTable.status.title" />,
-      key: 'status',
-      dataIndex: 'status',
-      render: (status) => {
-        switch (status) {
-          case 'working':
-            return <Tag color="#87d068">Working</Tag>;
-          case 'out':
-            return <Tag color="#f5222D">Out</Tag>;
-          default:
-            return null;
-        }
-      }
     },
     {
       title: <FormattedMessage id="members.membersTable.effort.title" />,
