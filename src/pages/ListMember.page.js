@@ -1,14 +1,15 @@
 import React, { useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { Row, Col } from 'antd';
+import { FormattedMessage } from 'react-intl';
 
 import { actions as layoutActions } from '../modules/layout/store';
 import { actions as memberActions } from '../modules/member/listMember/store';
 
 import Layout from '../modules/layout/components/Layout';
 import HeaderTitle from '../components/Content/HeaderTitle';
-import ListMember from '../modules/member/listMember/components/ListMember';
-import { FormattedMessage } from 'react-intl';
+
+import Members from '../modules/member/listMember/components/Members';
 
 const dummyData = [
   {
@@ -16,7 +17,7 @@ const dummyData = [
     id: 'member_001',
     full_name: 'Chu Van Son',
     staff_code: 'impl_S01',
-    phone_number: 123456798,
+    phone_number: '123456798',
     status: 'on-working',
     email: 'son.chu@impl.com',
     time_in: 1568271275000,
@@ -28,7 +29,7 @@ const dummyData = [
     id: 'member_002',
     full_name: 'Chu Van Son',
     staff_code: 'impl_S01',
-    phone_number: 123456798,
+    phone_number: '123456798',
     status: 'stopped',
     email: 'son.chu@impl.com',
     time_in: 1568271275000,
@@ -63,13 +64,17 @@ const ListMemberPage = () => {
   return (
     <Layout>
       <React.Fragment>
-        <Row type="flex" justify="space-between">
+        <Row>
           <Col>
             <HeaderTitle title={<FormattedMessage id="members.header.title" />} />
           </Col>
         </Row>
         <Row gutter={16}>
-          <ListMember members={dummyData} deleteMember={deleteMember} addNewMember={addNewMember} />
+          <Members
+            members={dummyData}
+            deleteMember={deleteMember}
+            addNewMember={addNewMember}
+          />
         </Row>
       </React.Fragment>
     </Layout>
