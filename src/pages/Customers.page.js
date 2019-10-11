@@ -70,7 +70,7 @@ const CustomersPage = ({ history }) => {
 
   useEffect(() => {
     dispatch(layoutActions.selectItem(['customers']));
-    dispatch(customerActions.fecthCustomers());
+    dispatch(customerActions.getCustomers());
   }, [dispatch]);
 
   useEffect(() => {

@@ -80,8 +80,8 @@ const Customer = ({ intl }) => {
             <Popconfirm
               title={<FormattedMessage id="customers.confirm.delete" />}
               onConfirm={() => handleConfirmDelete(record)}
-              okText={<FormattedMessage id="customers.button.confirm.yes" />}
-              cancelText={<FormattedMessage id="customers.button.confirm.no" />}>
+              okText={<FormattedMessage id="button.confirm.yes" />}
+              cancelText={<FormattedMessage id="button.confirm.no" />}>
               <Button shape="circle" icon="delete" type="danger" style={{ margin: '0px 5px' }} />
             </Popconfirm>
           </Tooltip>
