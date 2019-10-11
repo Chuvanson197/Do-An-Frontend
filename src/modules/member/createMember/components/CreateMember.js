@@ -68,7 +68,7 @@ const CreateMember = ({ visible, close, form }) => {
 
   return (
     <Modal
-      title={<FormattedMessage id="members.memberModal.header.title" />}
+      title={<FormattedMessage id="members.memberModal.headerCreateMember.title" />}
       cancelText="Close"
       visible={visible}
       width="40vw"

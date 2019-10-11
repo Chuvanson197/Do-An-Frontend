@@ -1,5 +1,4 @@
-import React, {useState} from 'react';
-import { formShape } from 'rc-form';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, injectIntl} from 'react-intl';
 import { Row, Modal, Button, Input, Form, Popconfirm, message} from 'antd';
@@ -38,8 +37,6 @@ const formItemLayout = {
 };
 
 const EditMember = ({ intl, visible, close, form, data }) => {
-  const [selectedItemKeys, setSelectedItemKeys] = useState([]);
-
   const handleSubmit = () => {
     form.validateFields((err, values) => {
       if (!err) {

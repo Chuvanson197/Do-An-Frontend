@@ -1,7 +1,6 @@
 import React, { useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { Row, Col } from 'antd';
-import { css } from 'emotion';
 import { FormattedMessage } from 'react-intl';
 
 import { actions as layoutActions } from '../modules/layout/store';
@@ -11,12 +10,6 @@ import Layout from '../modules/layout/components/Layout';
 import HeaderTitle from '../components/Content/HeaderTitle';
 
 import Members from '../modules/member/listMember/components/Members';
-
-const styles = {
-  container: css`
-    height: 100% !important;
-  `
-};
 
 const dummyData = [
   {
@@ -71,7 +64,7 @@ const ListMemberPage = () => {
   return (
     <Layout>
       <React.Fragment>
-        <Row className={styles.container}>
+        <Row>
           <Col>
             <HeaderTitle title={<FormattedMessage id="members.header.title" />} />
           </Col>
