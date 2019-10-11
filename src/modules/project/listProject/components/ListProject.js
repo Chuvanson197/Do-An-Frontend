@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { List, Skeleton, Typography, Row, Tag } from 'antd';
 import { history } from '../../../../store';
 import moment from 'moment';
 import { css } from 'emotion';
+
+import { List, Skeleton, Typography, Row, Tag } from 'antd';
+import { FormattedMessage } from 'react-intl';
 
 const propTypes = {
   listProject: PropTypes.arrayOf(PropTypes.shape({})).isRequired
@@ -43,20 +45,23 @@ const ListProject = ({ listProject }) => {
               description={
                 <Row style={{ marginLeft: 5 }}>
                   <Typography.Paragraph style={{ margin: 0 }}>
-                    customer: {item.customer}
+                  <FormattedMessage id="projects.listProject.customer" />:&nbsp;{item.customer.name}
                   </Typography.Paragraph>
                   <Typography.Paragraph style={{ margin: 0 }}>
-                    date:&nbsp;
-                    {moment(item.start_time).format('DD/MM/YYYY')} -&nbsp;
-                    {moment(item.end_time).format('DD/MM/YYYY')}
+                    <FormattedMessage id="projects.listProject.date" />
+                    :&nbsp;
+                    {moment(parseInt(item.start_time, 10)).format('DD/MM/YYYY')} -&nbsp;
+                    {item.end_time
+                      ? moment(parseInt(item.end_time, 10)).format('DD/MM/YYYY')
+                      : null}
                   </Typography.Paragraph>
                 </Row>
               }
             />
             <Row>
-              {item.status === 'running' && <Tag color="#108ee9">Running</Tag>}
-              {item.status === 'stopped' && <Tag color="#f5222D">Stopped</Tag>}
-              {item.status === 'completed' && <Tag color="#87d068">Completed</Tag>}
+              {item.status === 'running' && <Tag color="#108ee9"><FormattedMessage id="projects.listProject.status.running" /></Tag>}
+              {item.status === 'stopped' && <Tag color="#f5222D"><FormattedMessage id="projects.listProject.status.stopped" /></Tag>}
+              {item.status === 'completed' && <Tag color="#87d068"><FormattedMessage id="projects.listProject.status.completed" /></Tag>}
             </Row>
           </Skeleton>
         </List.Item>

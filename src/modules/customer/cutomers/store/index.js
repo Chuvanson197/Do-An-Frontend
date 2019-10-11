@@ -1,9 +1,9 @@
-import createResourceHandler from '../../../../ultis/createResourceHandler';
+import createResourceHandler from '../../../../utils/createResourceHandler';
 
 const apiActions = [
   {
-    actionName: 'fecthCustomers',
-    stateName: 'customers',
+    actionName: 'getCustomers',
+    stateName: 'customersList',
     apiUrl: 'customers',
     method: 'GET'
   },
@@ -15,14 +15,15 @@ const apiActions = [
   },
   {
     actionName: 'addCustomer',
-    stateName: 'customers',
+    stateName: 'result',
     apiUrl: 'customers',
     method: 'POST'
   }
 ];
 const defaultState = {
-  customers: [],
-  isDeleted: false
+  customersList: [],
+  isDeleted: false,
+  result: null
 };
 
 const store = createResourceHandler('customers', apiActions, [], defaultState);

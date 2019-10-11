@@ -1,17 +1,29 @@
-import createResourceHandler from '../../../ultis/createResourceHandler';
+import createResourceHandler from '../../../../utils/createResourceHandler';
 
 const apiActions = [
   {
     actionName: 'creatProject',
-    stateName: 'project',
-    apiUrl: '/project/create',
+    stateName: 'result',
+    apiUrl: 'projects',
     method: 'POST'
   }
 ];
+
+const reducerActions = [
+  {
+    actionName: 'cleanResult',
+    stateName: 'result'
+  },
+  {
+    actionName: 'cleanError',
+    stateName: 'isError'
+  }
+];
+
 const defaultState = {
-  project: {}
+  result: null
 };
 
-const store = createResourceHandler('createProject', apiActions, [], defaultState);
+const store = createResourceHandler('createProject', apiActions, reducerActions, defaultState);
 
 export const { actions, reducer } = store;

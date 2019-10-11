@@ -7,6 +7,7 @@ import { css } from 'emotion';
 
 import { actions as layoutActions } from '../modules/layout/store';
 import { actions as projectActions } from '../modules/project/listProject/store';
+import { actions as createProjectActions } from '../modules/project/createProject/store';
 
 import Layout from '../modules/layout/components/Layout';
 import HeaderTitle from '../components/Content/HeaderTitle';
@@ -27,41 +28,6 @@ const styles = {
   `
 };
 
-const dummyData = [
-  {
-    id: 1,
-    name: 'MUJI-ADMIN',
-    customer: 'MUJI.jp',
-    start_time: 1568626107000,
-    end_time: 1600248507000,
-    status: 'running'
-  },
-  {
-    id: 2,
-    name: 'Project-Management',
-    customer: 'Impl.vn',
-    start_time: 1568626107000,
-    end_time: 1600248507000,
-    status: 'stopped'
-  },
-  {
-    id: 3,
-    name: 'Xaydung.co',
-    customer: 'Tekmate.co',
-    start_time: 1537256897000,
-    end_time: 1563436097000,
-    status: 'completed'
-  },
-  {
-    id: 4,
-    name: 'Epark',
-    customer: 'EPARK.jp',
-    start_time: 1568626107000,
-    end_time: 1600248507000,
-    status: 'running'
-  }
-];
-
 const ListProjectPage = ({ history }) => {
   const dispatch = useDispatch();
   const { authenticated } = useSelector((state) => state.authentication);
@@ -79,6 +45,12 @@ const ListProjectPage = ({ history }) => {
     }
   }, [authenticated, history]);
 
+  const handleControlModal = () => {
+    setVisible(!visible);
+    dispatch(createProjectActions.cleanResult(null));
+    dispatch(createProjectActions.cleanError(false));
+  };
+
   return (
     <Layout>
       <React.Fragment>
@@ -86,25 +58,43 @@ const ListProjectPage = ({ history }) => {
         <Button
           icon="folder-add"
           className={styles.addCustomerButton}
-          onClick={() => setVisible(!visible)}>
+          onClick={() => handleControlModal()}>
           <FormattedMessage id="button.add" />
         </Button>
         <Row gutter={16}>
           <Col span={12}>
             <Tabs defaultActiveKey="1">
-              <Tabs.TabPane tab={<Tag color="#108ee9">Running</Tag>} key="1">
+              <Tabs.TabPane
+                tab={
+                  <Tag color="#108ee9">
+                    <FormattedMessage id="projects.listProject.status.running" />
+                  </Tag>
+                }
+                key="1">
                 <ListProject listProject={list.filter((item) => item.status === 'running')} />
               </Tabs.TabPane>
-              <Tabs.TabPane tab={<Tag color="#87d068">Completed</Tag>} key="3">
+              <Tabs.TabPane
+                tab={
+                  <Tag color="#87d068">
+                    <FormattedMessage id="projects.listProject.status.completed" />
+                  </Tag>
+                }
+                key="3">
                 <ListProject listProject={list.filter((item) => item.status === 'completed')} />
               </Tabs.TabPane>
-              <Tabs.TabPane tab={<Tag color="#f5222D">Stopped</Tag>} key="2">
+              <Tabs.TabPane
+                tab={
+                  <Tag color="#f5222D">
+                    <FormattedMessage id="projects.listProject.status.stopped" />
+                  </Tag>
+                }
+                key="2">
                 <ListProject listProject={list.filter((item) => item.status === 'stopped')} />
               </Tabs.TabPane>
             </Tabs>
           </Col>
         </Row>
-        {visible && <CreateProject visible={visible} close={() => setVisible(!visible)} />}
+        {visible && <CreateProject visible={visible} close={() => handleControlModal()} />}
       </React.Fragment>
     </Layout>
   );
