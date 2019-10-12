@@ -2,9 +2,9 @@ import createResourceHandler from '../../../../utils/createResourceHandler';
 
 const apiActions = [
   {
-    actionName: 'getMemberList',
-    stateName: 'memberList',
-    apiUrl: '/members',
+    actionName: 'getMembers',
+    stateName: 'members',
+    apiUrl: 'members',
     method: 'GET'
   },
   {
@@ -21,7 +21,7 @@ const apiActions = [
   }
 ];
 const defaultState = {
-  membersList: [],
+  members: [],
   isDeleted: false
 };
 

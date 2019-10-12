@@ -27,84 +27,31 @@ const styles = {
   `
 };
 
-const dummyData = {
-  name: 'MUJI-ADMIN',
-  customer_name: 'MUJI.jp',
-  total_member: 5,
-  start_date: 1568626107000,
-  end_date: 1600248507000,
-  members: [
-    {
-      staff_code: 'A123',
-      name: 'Nguyen Van A',
-      position: 'Developer',
-      effort: '1',
-      join_at: 1568626107000
-    },
-    {
-      staff_code: 'A124',
-      name: 'Nguyen Van A',
-      position: 'Developer',
-      effort: '2',
-      join_at: 1568626107000
-    },
-    {
-      staff_code: 'A125',
-      name: 'Nguyen Van A',
-      position: 'Developer',
-      effort: '3',
-      join_at: 1568626107000
-    },
-    {
-      staff_code: 'A126',
-      name: 'Nguyen Van A',
-      position: 'Developer',
-      effort: '4',
-      join_at: 1568626107000
-    },
-    {
-      staff_code: 'A127',
-      name: 'Nguyen Van A',
-      position: 'Developer',
-      effort: '5',
-      join_at: 1568626107000
-    }
-  ],
-  service_detail: {
-    home_page: 'https://homepage.abc.com.vn',
-    details:
-      'abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc',
-    folder_link: 'https://driver.folder.com.vn',
-    admin_page: 'https://admin.abc.com.vn'
-  }
-};
-
 const ProjectDetailPage = ({ match, history }) => {
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.projectDetail);
   const { authenticated } = useSelector((state) => state.authentication);
+  const { project, joinedMembers } = useSelector((state) => state.projectDetail);
 
   useEffect(() => {
     dispatch(layoutActions.selectItem(['project']));
-    dispatch(projectActions.getProjectDetail());
-  }, [dispatch]);
+    dispatch(
+      projectActions.getProjectDetail({
+        param: match.params.id
+      })
+    );
+    dispatch(
+      projectActions.getMembers({
+        param: match.params.id
+      })
+    );
+  }, [dispatch, match.params.id]);
 
   useEffect(() => {
     if (!authenticated) {
       history.push('/login');
     }
   }, [authenticated, history]);
-
-  const updateServiceDetail = (customOption) => {
-    const detail = { ...dummyData };
-    if (detail.custom_options) {
-      detail.custom_options.push(customOption);
-    } else {
-      // eslint-disable-next-line dot-notation
-      detail['custom_options'] = [customOption];
-    }
-    dispatch(projectActions.updateProjectDetail(detail));
-  };
 
   const onBack = () => {
     history.push('/project/list');
@@ -121,11 +68,7 @@ const ProjectDetailPage = ({ match, history }) => {
           <HeaderTitle title="Project detail" />
         </Row>
         <Row>
-          <ProjectDetail
-            projectDetail={dummyData}
-            loading={loading}
-            updateServiceDetail={updateServiceDetail}
-          />
+          <ProjectDetail project={project} joinedMembers={joinedMembers} loading={loading} />
         </Row>
         <Row className={styles.footer}>
           <Col span={12}>

@@ -6,8 +6,9 @@ import { reducer as layoutReducer } from '../modules/layout/store';
 import { reducer as authenticationReducer } from '../modules/auth/login/store';
 import { reducer as projectDetailReducer } from '../modules/project/projectDetails/store';
 import { reducer as projectListReducer } from '../modules/project/listProject/store';
-import { reducer as projectMemberHistoryReducer } from '../modules/project/projectMemberHistory/store';
 import { reducer as createProjectReducer } from '../modules/project/createProject/store';
+import { reducer as projectMemberHistoryReducer } from '../modules/project/projectMemberHistory/store';
+import { reducer as memberListReducer } from '../modules/member/listMember/store';
 // import { reducer as memberAddReducer } from '../modules/memberAdd/store';
 import { reducer as languageSwitcherReducer } from '../modules/languageSwitcher/store';
 import { reducer as customersReducer } from '../modules/customer/cutomers/store';
@@ -23,6 +24,7 @@ export const rootReducer = combineReducers({
   projectList: projectListReducer,
   createProject: createProjectReducer,
   projectMemberHistory: projectMemberHistoryReducer,
+  memberList: memberListReducer,
   // projectCreate: projectCreateReducer,
   // memberAdd: memberAddReducer,
   languageSwitcher: languageSwitcherReducer,

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { formShape } from 'rc-form';
 import PropTypes from 'prop-types';
 import {
@@ -17,37 +18,22 @@ import {
 } from 'antd';
 import { css } from 'emotion';
 
+import { actions as memberActions } from '../../listMember/store';
+import { actions as createMemberActions } from '../store';
+import { roles } from '../../../../utils/roles';
+
 const propTypes = {
   visible: PropTypes.bool.isRequired,
   close: PropTypes.func.isRequired,
   form: formShape.isRequired,
 
-  listStatus: PropTypes.arrayOf(PropTypes.shape({})),
-  listMember: PropTypes.arrayOf(PropTypes.shape({})),
-  selectedMember: PropTypes.shape({})
+  selectedMember: PropTypes.shape({}),
+  joinedMembers: PropTypes.arrayOf(PropTypes.shape({}))
 };
 
 const defaultProps = {
-  listStatus: [
-    { id: 1, name: 'running' },
-    { id: 2, name: 'completed' },
-    { id: 3, name: 'stopped' }
-  ],
-  listMember: [
-    {
-      id: 1,
-      fullname: 'Muji.jp',
-      email: 'muji.jp@gmail.com',
-      phoneNumber: '0123456789'
-    },
-    {
-      id: 2,
-      fullname: 'Tekmate.co',
-      email: 'tekamte@tek.vn',
-      phoneNumber: '0123456'
-    }
-  ],
-  selectedMember: {}
+  selectedMember: {},
+  joinedMembers: []
 };
 
 const styles = {
@@ -63,7 +49,15 @@ const formItemLayout = {
   }
 };
 
-const MemberAdd = ({ visible, close, form, listStatus, listMember, selectedMember }) => {
+const listStatus = [{ id: 1, name: 'working' }, { id: 2, name: 'leave' }, { id: 3, name: 'idle' }];
+
+const MemberAdd = ({ visible, close, form, selectedMember, joinedMembers }) => {
+  const dispatch = useDispatch();
+  const { members } = useSelector((state) => state.memberList);
+  useEffect(() => {
+    dispatch(memberActions.getMembers());
+  }, [dispatch]);
+
   const [memberDetail, setMemberDetail] = useState(selectedMember);
   const handleSubmit = () => {
     form.validateFields((err, values) => {
@@ -76,26 +70,12 @@ const MemberAdd = ({ visible, close, form, listStatus, listMember, selectedMembe
   };
 
   const handleSelect = (value) => {
-    switch (value) {
-      case 1:
-        setMemberDetail({
-          id: 1,
-          fullname: 'Muji.jp',
-          email: 'muji.jp@gmail.com',
-          phoneNumber: '0123456789'
-        });
-        break;
-      case 2:
-        setMemberDetail({
-          id: 2,
-          fullname: 'Tekmate.co',
-          email: 'tekamte@tek.vn',
-          phoneNumber: '0123456'
-        });
-        break;
-      default:
-        break;
-    }
+    members.map((member) => {
+      if (member.staff_code === value) {
+        setMemberDetail(member);
+      }
+      return member;
+    });
   };
 
   return (
@@ -139,10 +119,18 @@ const MemberAdd = ({ visible, close, form, listStatus, listMember, selectedMembe
               allowClear
               autoClearSearchValue
               onSelect={(value) => handleSelect(value)}>
-              {(listMember || []).map((e) => {
+              {(members || []).map((member) => {
                 return (
-                  <Select.Option key={e.id} value={e.id}>
-                    {e.fullname}
+                  <Select.Option
+                    disabled={
+                      !!joinedMembers.filter(
+                        (joinedMember) =>
+                          joinedMember.member_detail.staff_code === member.staff_code
+                      ).length
+                    }
+                    key={member.staff_code}
+                    value={member.staff_code}>
+                    {member.staff_code} - {member.full_name}
                   </Select.Option>
                 );
               })}
@@ -183,23 +171,40 @@ const MemberAdd = ({ visible, close, form, listStatus, listMember, selectedMembe
                 message: 'Role is required !'
               }
             ]
-          })(<Input />)}
+          })(
+            <Select allowClear>
+              {(roles || []).map((e) => {
+                return (
+                  <Select.Option key={e.id} value={e.name}>
+                    {e.name}
+                  </Select.Option>
+                );
+              })}
+            </Select>
+          )}
         </Form.Item>
 
         <Form.Item
           style={{ display: 'flex' }}
-          label="Estimated time"
-          validateStatus={form.getFieldError('estimate') ? 'error' : 'validating'}>
-          {form.getFieldDecorator('estimate', {
+          label="Joined time"
+          validateStatus={form.getFieldError('time_in') ? 'error' : 'validating'}>
+          {form.getFieldDecorator('time_in', {
             rules: [
               {
                 required: true,
                 message: 'Project estimated time is required !'
               }
             ]
-          })(
-            <DatePicker.RangePicker format="DD/MM/YYYY" placeholder={['Start time', 'End time']} />
-          )}
+          })(<DatePicker format="DD/MM/YYYY" placeholder={['Start time', 'End time']} />)}
+        </Form.Item>
+
+        <Form.Item
+          style={{ display: 'flex' }}
+          label="End time"
+          validateStatus={form.getFieldError('time_out') ? 'error' : 'validating'}>
+          {form.getFieldDecorator('time_out', {
+            rules: []
+          })(<DatePicker format="DD/MM/YYYY" placeholder={['Start time', 'End time']} />)}
         </Form.Item>
 
         <Form.Item
@@ -213,7 +218,7 @@ const MemberAdd = ({ visible, close, form, listStatus, listMember, selectedMembe
                 message: 'Effort is required !'
               }
             ]
-          })(<InputNumber min={0} max={1} step={0.1} />)}
+          })(<InputNumber min={0.1} max={1} step={0.1} />)}
         </Form.Item>
 
         <Row>
@@ -222,7 +227,7 @@ const MemberAdd = ({ visible, close, form, listStatus, listMember, selectedMembe
             <Descriptions column={1}>
               <Descriptions.Item label="Email">{memberDetail.email || null}</Descriptions.Item>
               <Descriptions.Item label="Phone Number">
-                {memberDetail.phoneNumber || null}
+                {memberDetail.phone_number || null}
               </Descriptions.Item>
             </Descriptions>
           </Col>

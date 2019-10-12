@@ -3,13 +3,23 @@ import createResourceHandler from '../../../../utils/createResourceHandler';
 const apiActions = [
   {
     actionName: 'getProjectDetail',
-    stateName: 'projectDetail',
-    apiUrl: 'project_detail',
+    stateName: 'project',
+    apiUrl: 'projects',
+    method: 'GET'
+  },
+  {
+    actionName: 'getMembers',
+    stateName: 'joinedMembers',
+    apiUrl: 'projects/membersList',
     method: 'GET'
   }
 ];
 const defaultState = {
-  projectDetail: {}
+  project: null,
+  joinedMembers: {
+    list: [],
+    total: 0
+  }
 };
 
 const store = createResourceHandler('projectDetail', apiActions, [], defaultState);

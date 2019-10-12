@@ -24,7 +24,7 @@ import {
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { actions as createProjectActions } from '../store';
 import { actions as customerActions } from '../../../customer/cutomers/store';
-import { actions as projectActions } from "../../listProject/store";
+import { actions as projectActions } from '../../listProject/store';
 
 const propTypes = {
   visible: PropTypes.bool.isRequired,
@@ -53,18 +53,9 @@ const formItemLayout = {
 };
 
 const listStatus = [
-  {
-    id: 1,
-    name: 'running'
-  },
-  {
-    id: 2,
-    name: 'completed'
-  },
-  {
-    id: 3,
-    name: 'stopped'
-  }
+  { id: 1, name: 'running' },
+  { id: 2, name: 'completed' },
+  { id: 3, name: 'stopped' }
 ];
 
 const CreateProject = ({ visible, close, form, selectedCustomer, intl }) => {
@@ -255,11 +246,7 @@ const CreateProject = ({ visible, close, form, selectedCustomer, intl }) => {
               }
             ]
           })(
-            <Select
-              showSearch
-              allowClear
-              autoClearSearchValue
-              onSelect={(value) => handleSelect(value)}>
+            <Select allowClear autoClearSearchValue onSelect={(value) => handleSelect(value)}>
               {(customersList || []).map((e) => {
                 return (
                   <Select.Option key={e.id} value={e.id}>

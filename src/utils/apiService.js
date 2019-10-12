@@ -7,7 +7,7 @@ const getHeaders = () => ({});
 const apiGet = (path, payload) => {
   const option = payload && payload.option ? payload.option : {};
   return axios
-    .get(`${base}/${path}`, {
+    .get(payload && payload.param ? `${base}/${path}/${payload.param}` : `${base}/${path}`, {
       ...option,
       headers: getHeaders()
     })
@@ -18,7 +18,7 @@ const apiPost = (path, payload) => {
   const body = payload && payload.body ? payload.body : {};
   const option = payload && payload.option ? payload.option : {};
   return axios
-    .post(`${base}/${path}`, body, {
+    .post(payload.param ? `${base}/${path}/${payload.param}` : `${base}/${path}`, body, {
       ...option,
       headers: getHeaders()
     })
@@ -29,7 +29,7 @@ const apiPut = (path, payload) => {
   const body = payload && payload.body ? payload.body : {};
   const option = payload && payload.option ? payload.option : {};
   return axios
-    .put(`${base}/${path}`, body, {
+    .put(payload.param ? `${base}/${path}/${payload.param}` : `${base}/${path}`, body, {
       ...option,
       headers: getHeaders()
     })
@@ -39,7 +39,7 @@ const apiPut = (path, payload) => {
 const apiDelete = (path, payload) => {
   const option = payload && payload.option ? payload.option : {};
   return axios
-    .delete(`${base}/${path}`, {
+    .delete(payload.param ? `${base}/${path}/${payload.param}` : `${base}/${path}`, {
       ...option,
       headers: getHeaders()
     })

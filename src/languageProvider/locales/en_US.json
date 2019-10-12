@@ -10,7 +10,7 @@
   "notification.error": "Error",
   "notification.success": "Success",
   "notification.warning": "Warning",
-  "notification.message.form.erro": "Invalid form data",
+  "notification.message.form.error": "Invalid form data",
 
   "projects.listProject.title": "Projects",
   "projects.listProject.customer": "Customer",

@@ -5,55 +5,47 @@ import { Table, Row, Typography, Button, Col, Tooltip, Descriptions, Divider } f
 
 import MemberDiagram from '../../../member/memberDiagram/MemberDiagram';
 import MemberAdd from '../../../member/memberAdd/components/MemberAdd';
-import ServiceDetail from './ServiceDetail';
 
 const propTypes = {
-  projectDetail: PropTypes.shape({
-    name: PropTypes.name,
-    customer_name: PropTypes.string,
-    total_member: PropTypes.number,
-    start_date: PropTypes.number,
-    end_date: PropTypes.number,
-    members: PropTypes.array,
-    service_detail: PropTypes.shape({})
-  }),
-  loading: PropTypes.bool,
-
-  updateServiceDetail: PropTypes.func.isRequired
+  project: PropTypes.shape({}),
+  joinedMembers: PropTypes.shape({}),
+  loading: PropTypes.bool
 };
 
 const defaultProps = {
-  projectDetail: {
-    name: '',
-    customer_name: '',
-    total_member: 0,
-    start_date: 1568626107000,
-    end_date: 1600248507000,
-    members: [],
-    service_detail: {}
-  },
-  loading: false
+  loading: false,
+  project: {},
+  joinedMembers: {
+    list: [],
+    total: 0
+  }
 };
 
-const ProjectDetail = ({ projectDetail, loading, updateServiceDetail }) => {
+const ProjectDetail = ({ project, joinedMembers, loading }) => {
   const [visible, setVisible] = useState(false);
   const [openAddModal, setOpenAddModal] = useState(false);
 
   const columns = [
     {
       title: 'Staff Code',
-      dataIndex: 'staff_code',
-      key: 'staff_code'
+      dataIndex: 'member_detail',
+      key: 'staff_code',
+      render: (memberDetail) => {
+        return memberDetail.staff_code;
+      }
     },
     {
       title: 'Full name',
-      dataIndex: 'name',
-      key: 'name'
+      dataIndex: 'member_detail',
+      key: 'name',
+      render: (memberDetail) => {
+        return memberDetail.full_name;
+      }
     },
     {
-      title: 'Position',
-      dataIndex: 'position',
-      key: 'position'
+      title: 'Role',
+      dataIndex: 'role',
+      key: 'role'
     },
     {
       title: 'Effort',
@@ -73,33 +65,25 @@ const ProjectDetail = ({ projectDetail, loading, updateServiceDetail }) => {
   return (
     <React.Fragment>
       <Row style={{ marginBottom: 75 }}>
-        <Descriptions
-          title={projectDetail && projectDetail.name ? projectDetail.name : 'empty'}
-          column={1}>
+        <Descriptions title={project && project.name ? project.name : 'empty'} column={1}>
           <Descriptions.Item label="Customer">
-            {projectDetail && projectDetail.customer_name ? projectDetail.customer_name : 'empty'}
+            {project && project.customer ? project.customer.name : 'empty'}
           </Descriptions.Item>
           <Descriptions.Item label="Members">
-            {projectDetail && projectDetail.total_member ? projectDetail.total_member : 0}
+            {joinedMembers && joinedMembers.total ? joinedMembers.total : 0}
           </Descriptions.Item>
           <Descriptions.Item label="Start day">
-            {projectDetail && projectDetail.start_date
-              ? moment(projectDetail.start_date).format('DD/MM/YYYY')
+            {project && project.start_time
+              ? moment(parseInt(project.start_time, 10)).format('DD/MM/YYYY')
               : 'empty'}
           </Descriptions.Item>
           <Descriptions.Item label="End day">
-            {projectDetail && projectDetail.end_date
-              ? moment(projectDetail.end_date).format('DD/MM/YYYY')
+            {project && project.end_time
+              ? moment(parseInt(project.end_time, 10)).format('DD/MM/YYYY')
               : 'empty'}
           </Descriptions.Item>
         </Descriptions>
         <Divider />
-        {projectDetail.service_detail && (
-          <ServiceDetail
-            serviceDetail={projectDetail.service_detail}
-            updateServiceDetail={updateServiceDetail}
-          />
-        )}
         <Row>
           <Row>
             <Col span={5} style={{ display: 'flex' }}>
@@ -129,8 +113,8 @@ const ProjectDetail = ({ projectDetail, loading, updateServiceDetail }) => {
           </Row>
           <Table
             columns={columns}
-            rowKey={(record) => record.staff_code}
-            dataSource={projectDetail ? projectDetail.members : []}
+            rowKey={(record) => record.member_detail.staff_code}
+            dataSource={joinedMembers ? joinedMembers.list : []}
             loading={loading}
             pagination={false}
           />
@@ -138,7 +122,10 @@ const ProjectDetail = ({ projectDetail, loading, updateServiceDetail }) => {
       </Row>
       <MemberDiagram visible={visible} close={() => setVisible(!visible)} />
       {openAddModal && (
-        <MemberAdd visible={openAddModal} close={() => setOpenAddModal(!openAddModal)}></MemberAdd>
+        <MemberAdd
+          joinedMembers={joinedMembers.list}
+          visible={openAddModal}
+          close={() => setOpenAddModal(!openAddModal)}></MemberAdd>
       )}
     </React.Fragment>
   );
