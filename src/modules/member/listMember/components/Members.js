@@ -48,17 +48,12 @@ const members = [
 ];
 
 const Members = ({ intl }) => {
-  const [selectedItemKeys, setSelectedItemKeys] = useState([]);
   const [OpenCreateModal, SetOpenCreateModal] = useState(false);
   const [OpenEditModal, SetOpenEditModal] = useState(false);
   const [dataItem, SetdataItem] = useState({});
 
   const handleConfirmDelete = (record) => {
     console.log(record);
-    message.success(intl.formatMessage({ id: 'members.deleted.success' }));
-  };
-  const handleDeleteSelected = () => {
-    console.log(selectedItemKeys);
     message.success(intl.formatMessage({ id: 'members.deleted.success' }));
   };
   const handleEditSelected = (data) => {
@@ -127,27 +122,9 @@ const Members = ({ intl }) => {
     }
   ];
 
-  const handleSelect = {
-    onChange: (selectedRowKeys, selectedRows) => {
-      setSelectedItemKeys(selectedRowKeys);
-      console.log('handle Item');
-    }
-  };
-
   return (
     <React.Fragment>
       <Row style={{ marginBottom: 15 }}>
-        <Popconfirm
-          title={<FormattedMessage id="members.confirm.deleteSelected" />}
-          onConfirm={() => handleDeleteSelected()}
-          okText={<FormattedMessage id="members.button.confirm.yes" />}
-          cancelText={<FormattedMessage id="members.button.confirm.no" />}
-          disabled={!selectedItemKeys.length}>
-          <Button icon="delete" type="danger" disabled={!selectedItemKeys.length}>
-            <FormattedMessage id="members.memberTable.buttonDelete.title" />
-          </Button>
-        </Popconfirm>
-
         <Button
           icon="user-add"
           className={styles.addMemberButton}
@@ -160,7 +137,6 @@ const Members = ({ intl }) => {
         rowKey={(record, index) => index}
         dataSource={members}
         pagination={false}
-        rowSelection={handleSelect}
       />
       {OpenCreateModal && (
         <CreateMember

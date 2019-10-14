@@ -4,6 +4,9 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import { Table, Row, Button, Tooltip, Popconfirm, message } from 'antd';
 import { css } from 'emotion';
 
+import CreateCustomer from '../../createCustomer/components/CreateCustomer';
+import EditCustomer from '../../editCustomer/components/EditCustomer';
+
 const propTypes = {
   intl: PropTypes.shape({}).isRequired
 };
@@ -36,18 +39,18 @@ const listCustomer = [
 ];
 
 const Customer = ({ intl }) => {
-  const [selectedItemKeys, setSelectedItemKeys] = useState([]);
+  const [OpenCreateModal, setOpenCreateModal] = useState(false);
+  const [OpenEditModal, setOpenEditModal] = useState(false);
+  const [dataItem, setdataItem] = useState({});
 
+  const handleEditSelected = (data) => {
+    setOpenEditModal(!OpenEditModal);
+    setdataItem(data);
+  };
   const handleConfirmDelete = (record) => {
     console.log(record);
     message.success(intl.formatMessage({ id: 'customers.deleted.success' }));
   };
-
-  const handleDeleteSelected = () => {
-    console.log(selectedItemKeys);
-    message.success(intl.formatMessage({ id: 'customers.deleted.success' }));
-  };
-
   const columns = [
     {
       title: <FormattedMessage id="customers.name.title" />,
@@ -86,34 +89,28 @@ const Customer = ({ intl }) => {
             </Popconfirm>
           </Tooltip>
           <Tooltip placement="top" title={<FormattedMessage id="customers.button.edit" />}>
-            <Button shape="circle" icon="edit" type="primary" style={{ margin: '0px 5px' }} />
+            <Button
+              shape="circle"
+              icon="edit"
+              type="primary"
+              style={{ margin: '0px 5px' }}
+              onClick={() => {
+                handleEditSelected(record);
+              }}
+            />
           </Tooltip>
         </React.Fragment>
       )
     }
   ];
 
-  const handleSelect = {
-    onChange: (selectedRowKeys, selectedRows) => {
-      setSelectedItemKeys(selectedRowKeys);
-    }
-  };
-
   return (
     <React.Fragment>
       <Row style={{ marginBottom: 15 }}>
-        <Popconfirm
-          title={<FormattedMessage id="customers.confirm.deleteSelected" />}
-          onConfirm={() => handleDeleteSelected()}
-          okText={<FormattedMessage id="customers.button.confirm.yes" />}
-          cancelText={<FormattedMessage id="customers.button.confirm.no" />}
-          disabled={!selectedItemKeys.length}>
-          <Button icon="delete" type="danger" disabled={!selectedItemKeys.length}>
-            <FormattedMessage id="customers.button.delete" />
-          </Button>
-        </Popconfirm>
-
-        <Button icon="user-add" className={styles.addCustomerButton}>
+        <Button
+          icon="user-add"
+          className={styles.addCustomerButton}
+          onClick={() => setOpenCreateModal(!OpenCreateModal)}>
           <FormattedMessage id="customers.button.add" />
         </Button>
       </Row>
@@ -123,8 +120,20 @@ const Customer = ({ intl }) => {
         rowKey={(record) => record.id}
         dataSource={listCustomer}
         pagination={false}
-        rowSelection={handleSelect}
       />
+      {OpenCreateModal && (
+        <CreateCustomer
+          visible={OpenCreateModal}
+          close={() => setOpenCreateModal(!OpenCreateModal)}
+        />
+      )}
+      {OpenEditModal && (
+        <EditCustomer
+          visible={OpenEditModal}
+          close={() => setOpenEditModal(!OpenEditModal)}
+          data={dataItem}
+        />
+      )}
     </React.Fragment>
   );
 };
