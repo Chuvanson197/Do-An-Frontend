@@ -2,7 +2,7 @@ import createResourceHandler from '../../../../utils/createResourceHandler';
 
 const apiActions = [
   {
-    actionName: 'creatProject',
+    actionName: 'createProject',
     stateName: 'result',
     method: 'POST'
   }
@@ -15,7 +15,7 @@ const reducerActions = [
   },
   {
     actionName: 'cleanError',
-    stateName: 'iscreatProjectError'
+    stateName: 'createProjectError'
   }
 ];
 

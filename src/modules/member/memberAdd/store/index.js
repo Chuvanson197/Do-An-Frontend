@@ -2,15 +2,26 @@ import createResourceHandler from '../../../../utils/createResourceHandler';
 
 const apiActions = [
   {
-    actionName: 'memberAdd',
-    stateName: 'member',
-    method: 'PUT'
+    actionName: 'addMember',
+    stateName: 'result',
+    method: 'POST'
+  }
+];
+
+const reducerActions = [
+  {
+    actionName: 'cleanResult',
+    stateName: 'result'
+  },
+  {
+    actionName: 'cleanError',
+    stateName: 'addMemberError'
   }
 ];
 const defaultState = {
-  member: {}
+  result: null
 };
 
-const store = createResourceHandler('memberAdd', apiActions, [], defaultState);
+const store = createResourceHandler('memberAdd', apiActions, reducerActions, defaultState);
 
 export const { actions, reducer } = store;

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
-import { Row, Col, Tabs, Tag, Button } from 'antd';
+import { Row, Col, Tabs, Tag, Button, Skeleton } from 'antd';
 import { css } from 'emotion';
 
 import { actions as layoutActions } from '../modules/layout/store';
@@ -13,9 +13,11 @@ import Layout from '../modules/layout/components/Layout';
 import HeaderTitle from '../components/Content/HeaderTitle';
 import ListProject from '../modules/project/listProject/components/ListProject';
 import CreateProject from '../modules/project/createProject/components/CreateProject';
+import ErrorNotification from '../components/Notification/Error';
 
 const propTypes = {
-  history: PropTypes.shape({}).isRequired
+  history: PropTypes.shape({}).isRequired,
+  intl: PropTypes.shape({}).isRequired
 };
 
 const defaultProps = {};
@@ -28,25 +30,42 @@ const styles = {
   `
 };
 
-const ListProjectPage = ({ history }) => {
+const ListProjectPage = ({ history, intl }) => {
   const dispatch = useDispatch();
   const { authenticated } = useSelector((state) => state.authentication);
-  const { list } = useSelector((state) => state.projectList);
+  const { list, loading, getProjectsError } = useSelector((state) => state.projectList);
   const [visible, setVisible] = useState(false);
 
+  // get projects list
   useEffect(() => {
     dispatch(layoutActions.selectItem(['project']));
-    dispatch(projectActions.getProjects({ path: 'projects' }));
+    dispatch(
+      projectActions.getProjects({
+        path: 'projects'
+      })
+    );
   }, [dispatch]);
 
+  // check authencation if not redirect to login page
   useEffect(() => {
     if (!authenticated) {
       history.push('/login');
     }
   }, [authenticated, history]);
 
+  // show notification if get projects list failure
+  useEffect(() => {
+    if (getProjectsError) {
+      const title = intl.formatMessage({ id: 'notification.error' });
+      const message = intl.formatMessage({ id: 'projects.listProject.message.error' });
+      ErrorNotification(title, message);
+      dispatch(projectActions.cleanError(false));
+    }
+  }, [dispatch, getProjectsError, intl]);
+
   const handleControlModal = () => {
     setVisible(!visible);
+    // clean modal state after close or open
     dispatch(createProjectActions.cleanResult(null));
     dispatch(createProjectActions.cleanError(false));
   };
@@ -71,7 +90,9 @@ const ListProjectPage = ({ history }) => {
                   </Tag>
                 }
                 key="1">
-                <ListProject listProject={list.filter((item) => item.status === 'running')} />
+                <Skeleton loading={loading} active paragraph={{ rows: 10 }}>
+                  <ListProject listProject={list.filter((item) => item.status === 'running')} />
+                </Skeleton>
               </Tabs.TabPane>
               <Tabs.TabPane
                 tab={
@@ -80,7 +101,9 @@ const ListProjectPage = ({ history }) => {
                   </Tag>
                 }
                 key="3">
-                <ListProject listProject={list.filter((item) => item.status === 'completed')} />
+                <Skeleton loading={loading} active paragraph={{ rows: 10 }}>
+                  <ListProject listProject={list.filter((item) => item.status === 'completed')} />
+                </Skeleton>
               </Tabs.TabPane>
               <Tabs.TabPane
                 tab={
@@ -89,7 +112,9 @@ const ListProjectPage = ({ history }) => {
                   </Tag>
                 }
                 key="2">
-                <ListProject listProject={list.filter((item) => item.status === 'stopped')} />
+                <Skeleton loading={loading} active paragraph={{ rows: 10 }}>
+                  <ListProject listProject={list.filter((item) => item.status === 'stopped')} />
+                </Skeleton>
               </Tabs.TabPane>
             </Tabs>
           </Col>
@@ -104,4 +129,4 @@ ListProjectPage.propTypes = propTypes;
 
 ListProjectPage.defaultProps = defaultProps;
 
-export default ListProjectPage;
+export default injectIntl(ListProjectPage, {});

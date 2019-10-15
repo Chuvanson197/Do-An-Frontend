@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 import { useSelector, useDispatch } from 'react-redux';
 import { Row, Col, Button, Icon } from 'antd';
 import { css } from 'emotion';
@@ -27,85 +28,48 @@ const styles = {
   `
 };
 
-const dummyData = {
-  name: 'MUJI-ADMIN',
-  customer_name: 'MUJI.jp',
-  total_member: 5,
-  start_date: 1568626107000,
-  end_date: 1600248507000,
-  members: [
-    {
-      staff_code: 'A123',
-      name: 'Nguyen Van A',
-      position: 'Developer',
-      effort: '1',
-      join_at: 1568626107000
-    },
-    {
-      staff_code: 'A124',
-      name: 'Nguyen Van A',
-      position: 'Developer',
-      effort: '2',
-      join_at: 1568626107000
-    },
-    {
-      staff_code: 'A125',
-      name: 'Nguyen Van A',
-      position: 'Developer',
-      effort: '3',
-      join_at: 1568626107000
-    },
-    {
-      staff_code: 'A126',
-      name: 'Nguyen Van A',
-      position: 'Developer',
-      effort: '4',
-      join_at: 1568626107000
-    },
-    {
-      staff_code: 'A127',
-      name: 'Nguyen Van A',
-      position: 'Developer',
-      effort: '5',
-      join_at: 1568626107000
-    }
-  ],
-  service_detail: {
-    home_page: 'https://homepage.abc.com.vn',
-    details:
-      'abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc abc',
-    folder_link: 'https://driver.folder.com.vn',
-    admin_page: 'https://admin.abc.com.vn'
-  }
-};
-
 const ProjectDetailPage = ({ match, history }) => {
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.projectDetail);
   const { authenticated } = useSelector((state) => state.authentication);
+  const { project, joinedMembers } = useSelector((state) => state.projectDetail);
 
   useEffect(() => {
     dispatch(layoutActions.selectItem(['project']));
-    dispatch(projectActions.getProjectDetail({ path: 'project_detail' }));
-  }, [dispatch]);
+    // clean state
+    // clean old joined members state
+    dispatch(
+      projectActions.cleanJoinedMember({
+        list: [],
+        total: 0
+      })
+    );
+    // clean old project detail state
+    dispatch(projectActions.cleanProjectDetail(null));
+    // get project detail
+    dispatch(
+      projectActions.getProjectDetail({
+        param: match.params.id,
+        path: 'projects'
+      })
+    );
+    // get joined members
+    dispatch(
+      projectActions.getMembers({
+        param: match.params.id,
+        path: 'projects/membersList'
+      })
+    );
+  }, [dispatch, match.params.id]);
 
+  // check authencation if not redirect to login page
   useEffect(() => {
     if (!authenticated) {
       history.push('/login');
     }
   }, [authenticated, history]);
 
-  const updateServiceDetail = (customOption) => {
-    const detail = { ...dummyData };
-    if (detail.custom_options) {
-      detail.custom_options.push(customOption);
-    } else {
-      // eslint-disable-next-line dot-notation
-      detail['custom_options'] = [customOption];
-    }
-    dispatch(projectActions.updateProjectDetail(detail));
-  };
-
+  // redirect functions
   const onBack = () => {
     history.push('/project/list');
   };
@@ -118,13 +82,14 @@ const ProjectDetailPage = ({ match, history }) => {
     <Layout>
       <Row>
         <Row>
-          <HeaderTitle title="Project detail" />
+          <HeaderTitle title={<FormattedMessage id="projects.detail.title" />} />
         </Row>
         <Row>
           <ProjectDetail
-            projectDetail={dummyData}
+            project={project}
+            joinedMembers={joinedMembers}
             loading={loading}
-            updateServiceDetail={updateServiceDetail}
+            match={match}
           />
         </Row>
         <Row className={styles.footer}>
@@ -135,7 +100,7 @@ const ProjectDetailPage = ({ match, history }) => {
             <Row type="flex" justify="end">
               <Button type="primary" onClick={() => toMemberHistory()}>
                 <Icon type="history" />
-                Member History
+                <FormattedMessage id="projects.detail.memberHistory" />
               </Button>
             </Row>
           </Col>

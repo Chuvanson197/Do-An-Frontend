@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { formShape } from 'rc-form';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import moment from 'moment';
-import { css } from 'emotion';
 
 import {
   Row,
@@ -18,10 +18,11 @@ import {
   Descriptions,
   Icon,
   Popconfirm,
-  notification
+  Spin
 } from 'antd';
 
-import { FormattedMessage, injectIntl } from 'react-intl';
+import ErrorNotification from '../../../../components/Notification/Error';
+import SuccessNotification from '../../../../components/Notification/Success';
 import { actions as createProjectActions } from '../store';
 import { actions as customerActions } from '../../../customer/cutomers/store';
 import { actions as projectActions } from '../../listProject/store';
@@ -39,10 +40,6 @@ const defaultProps = {
   selectedCustomer: {}
 };
 
-const styles = {
-  modal: css``
-};
-
 const formItemLayout = {
   labelCol: {
     span: 5
@@ -53,60 +50,65 @@ const formItemLayout = {
 };
 
 const listStatus = [
-  {
-    id: 1,
-    name: 'running'
-  },
-  {
-    id: 2,
-    name: 'completed'
-  },
-  {
-    id: 3,
-    name: 'stopped'
-  }
+  { id: 1, name: 'running' },
+  { id: 2, name: 'completed' },
+  { id: 3, name: 'stopped' }
 ];
 
 const CreateProject = ({ visible, close, form, selectedCustomer, intl }) => {
-  const dispath = useDispatch();
+  const dispatch = useDispatch();
   const [customerDetail, setCustomerDetail] = useState(selectedCustomer);
-  const { customersList } = useSelector((state) => state.customers);
-  const { isgetCustomersError, result } = useSelector((state) => state.createProject);
+  const { customersList, getCustomersError } = useSelector((state) => state.customers);
+  const customerLoading = useSelector((state) => state.customers.loading);
+  const { createProjectError, result, loading } = useSelector((state) => state.createProject);
 
+  // Get all customers after open modal
   useEffect(() => {
-    dispath(customerActions.getCustomers({ path: 'customers' }));
-  }, [dispath]);
+    dispatch(
+      customerActions.getCustomers({
+        path: 'customers'
+      })
+    );
+  }, [dispatch]);
 
+  // show notification if get customers failure
   useEffect(() => {
-    if (result || isgetCustomersError) {
-      notification.open({
-        message: isgetCustomersError ? (
-          <span style={{ color: '#f5222d', fontWeight: 'bold' }}>
-            {intl.formatMessage({ id: 'notification.error' })}
-          </span>
-        ) : (
-          <span style={{ color: '#4cd964', fontWeight: 'bold' }}>
-            {intl.formatMessage({ id: 'notification.success' })}
-          </span>
-        ),
-        description: isgetCustomersError
-          ? intl.formatMessage({ id: 'projects.createProject.message.error' })
-          : intl.formatMessage({ id: result.message }),
-        duration: 2.5,
-        icon: (
-          <Icon
-            type={isgetCustomersError ? 'frown' : 'smile'}
-            style={{ color: isgetCustomersError ? '#f5222d' : '#4cd964' }}
-          />
-        )
-      });
+    if (getCustomersError) {
+      const title = intl.formatMessage({ id: 'notification.error' });
+      const message = intl.formatMessage({ id: 'customers.customersList.message.error' });
+      ErrorNotification(title, message);
+      // clean error
+      dispatch(customerActions.cleanError(false));
     }
+  }, [dispatch, getCustomersError, intl]);
+
+  // Handle showing notification after add new project
+  useEffect(() => {
+    // show success notification
     if (result) {
+      const title = intl.formatMessage({ id: 'notification.success' });
+      const message = intl.formatMessage({ id: result.message });
+      SuccessNotification(title, message);
+      // close the modal and clean state
       close();
-      dispath(projectActions.getProjects());
+      // re-call get all projects api
+      dispatch(
+        projectActions.getProjects({
+          path: 'projects'
+        })
+      );
     }
-  }, [close, dispath, intl, isgetCustomersError, result]);
+    // show error notification
+    if (createProjectError) {
+      const title = intl.formatMessage({ id: 'notification.error' });
+      const message = intl.formatMessage({ id: 'projects.createProject.message.error' });
+      ErrorNotification(title, message);
+      // clean state
+      dispatch(createProjectActions.cleanError(false));
+    }
+  }, [close, dispatch, intl, createProjectError, result]);
 
+  // Form submit
   const handleSubmit = () => {
     form.validateFields((err, values) => {
       if (!err) {
@@ -117,18 +119,13 @@ const CreateProject = ({ visible, close, form, selectedCustomer, intl }) => {
           start_time: parseInt(moment(values.estimated[0]).format('x'), 10),
           end_time: parseInt(moment(values.estimated[1]).format('x'), 10)
         };
-        dispath(createProjectActions.creatProject({ path: 'projects', body }));
+        // call api when valid data
+        dispatch(createProjectActions.createProject({ body, path: 'projects' }));
       } else {
-        notification.open({
-          message: (
-            <span style={{ color: '#f5222d', fontWeight: 'bold' }}>
-              {intl.formatMessage({ id: 'notification.error' })}
-            </span>
-          ),
-          description: intl.formatMessage({ id: 'notification.message.form.error' }),
-          duration: 2,
-          icon: <Icon type="frown" style={{ color: '#f5222d' }} />
-        });
+        // showing error form input notification
+        const title = intl.formatMessage({ id: 'notification.error' });
+        const message = intl.formatMessage({ id: 'notification.message.form.error' });
+        ErrorNotification(title, message);
       }
     });
   };
@@ -148,17 +145,16 @@ const CreateProject = ({ visible, close, form, selectedCustomer, intl }) => {
       cancelText="Close"
       visible={visible}
       width="50vw"
-      className={styles.modal}
       onCancel={() => close()}
       maskClosable={false}
       footer={[
-        <Row type="flex" key="abc" justify="end">
+        <Row type="flex" key="cp_footer" justify="end">
           <Popconfirm
             title={<FormattedMessage id="projects.createProject.confirm.add" />}
             onConfirm={() => handleSubmit()}
             okText={<FormattedMessage id="button.confirm.yes" />}
             cancelText={<FormattedMessage id="button.confirm.no" />}>
-            <Button icon="plus" type="primary">
+            <Button icon="plus" type="primary" loading={loading}>
               {<FormattedMessage id="button.add" />}
             </Button>
           </Popconfirm>
@@ -256,10 +252,10 @@ const CreateProject = ({ visible, close, form, selectedCustomer, intl }) => {
             ]
           })(
             <Select
-              showSearch
               allowClear
               autoClearSearchValue
-              onSelect={(value) => handleSelect(value)}>
+              onSelect={(value) => handleSelect(value)}
+              notFoundContent={customerLoading && <Spin size="small" />}>
               {(customersList || []).map((e) => {
                 return (
                   <Select.Option key={e.id} value={e.id}>
