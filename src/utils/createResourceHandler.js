@@ -8,7 +8,7 @@ import api from './apiService';
  * // provide api action list you want generate
  * // parm method include ['GET', 'POST', 'PUT', 'DELETE']
  * @param apiActions : arrayOf[
- *   {actionName: string, stateName: string, apiUrl: string, method: string}
+ *   {actionName: string, stateName: string, method: string}
  * ]
  * // provide reducer actions list you want generate
  * @param reducerActions: arrayOf[{actionName: string, stateName: string}]
@@ -23,9 +23,7 @@ const CreateResourceHandler = (
   defaultState = {}
 ) => {
   let initialState = {
-    loading: false,
-    isError: false,
-    errors: {}
+    loading: false
   };
   apiActions.forEach((value) => {
     const lastState = initialState;
@@ -57,8 +55,8 @@ const CreateResourceHandler = (
       [`${value.actionName}Started`]: (state) => ({
         ...state,
         loading: true,
-        isError: false,
-        errors: {}
+        [`is${value.actionName}Error`]: false,
+        [`${value.actionName}Error`]: {}
       }),
       [`${value.actionName}Success`]: (state, { payload }) => ({
         ...state,

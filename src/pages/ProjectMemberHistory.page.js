@@ -71,7 +71,7 @@ const ProjectMemberHistoryPage = ({ match, history }) => {
   const { authenticated } = useSelector((state) => state.authentication);
   useEffect(() => {
     dispatch(layoutActions.selectItem(['project']));
-    dispatch(projectActions.getProjectMemberHistory());
+    dispatch(projectActions.getProjectMemberHistory({ path: 'project/member-history' }));
   }, [dispatch]);
 
   useEffect(() => {

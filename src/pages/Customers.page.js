@@ -70,7 +70,9 @@ const CustomersPage = ({ history }) => {
 
   useEffect(() => {
     dispatch(layoutActions.selectItem(['customers']));
-    dispatch(customerActions.getCustomers());
+    dispatch(customerActions.getCustomers({
+      path: 'customers'
+    }));
   }, [dispatch]);
 
   useEffect(() => {
@@ -82,14 +84,20 @@ const CustomersPage = ({ history }) => {
   const deleteCustomer = useCallback(
     (selectedKeys) => {
       const body = {};
-      dispatch(customerActions.deleteCustomers(body));
+      dispatch(customerActions.deleteCustomers({
+        path: 'customers',
+        body
+      }));
     },
     [dispatch]
   );
 
   const addNewCustomer = useCallback(
     (body) => {
-      dispatch(customerActions.addCustomer(body));
+      dispatch(customerActions.addCustomer({
+        path: 'customers',
+        body
+      }));
     },
     [dispatch]
   );
