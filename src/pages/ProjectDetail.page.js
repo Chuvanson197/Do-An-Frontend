@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import { useSelector, useDispatch } from 'react-redux';
-import { Row, Col, Button, Icon } from 'antd';
+import { Row, Col, Button, Icon, Popconfirm } from 'antd';
 import { css } from 'emotion';
 
 import { actions as layoutActions } from '../modules/layout/store';
@@ -13,10 +13,13 @@ import Layout from '../modules/layout/components/Layout';
 import HeaderTitle from '../components/Content/HeaderTitle';
 import ProjectDetail from '../modules/project/projectDetails/components/ProjectDetail';
 import BackButton from '../components/Button/BackButton';
+import ErrorNotification from '../components/Notification/Error';
+import SuccessNotification from '../components/Notification/Success';
 
 const propTypes = {
   match: PropTypes.shape({}).isRequired,
-  history: PropTypes.shape({}).isRequired
+  history: PropTypes.shape({}).isRequired,
+  intl: PropTypes.shape({}).isRequired
 };
 
 const styles = {
@@ -28,11 +31,12 @@ const styles = {
   `
 };
 
-const ProjectDetailPage = ({ match, history }) => {
+const ProjectDetailPage = ({ match, history, intl }) => {
   const dispatch = useDispatch();
-  const { loading } = useSelector((state) => state.projectDetail);
   const { authenticated } = useSelector((state) => state.authentication);
-  const { project, joinedMembers } = useSelector((state) => state.projectDetail);
+  const { project, joinedMembers, removeProjectResult, removeProjectError, loading } = useSelector(
+    (state) => state.projectDetail
+  );
 
   useEffect(() => {
     dispatch(layoutActions.selectItem(['project']));
@@ -69,6 +73,24 @@ const ProjectDetailPage = ({ match, history }) => {
     }
   }, [authenticated, history]);
 
+  // show notification after remove project
+
+  useEffect(() => {
+    if (removeProjectResult) {
+      const title = intl.formatMessage({ id: 'notification.success' });
+      const message = intl.formatMessage({ id: removeProjectResult.message });
+      SuccessNotification(title, message);
+
+      dispatch(projectActions.cleanRemoveProjectResult(null));
+      history.push('/project/list');
+    } else if (removeProjectError) {
+      const title = intl.formatMessage({ id: 'notification.error' });
+      const message = intl.formatMessage({ id: 'projects.removeProject.message.error' });
+      ErrorNotification(title, message);
+      dispatch(projectActions.cleanRemoveProjectError(false));
+    }
+  }, [dispatch, history, intl, removeProjectError, removeProjectResult]);
+
   // redirect functions
   const onBack = () => {
     history.push('/project/list');
@@ -98,6 +120,26 @@ const ProjectDetailPage = ({ match, history }) => {
           </Col>
           <Col span={12}>
             <Row type="flex" justify="end">
+              <Popconfirm
+                title={<FormattedMessage id="projectDetail.removeProject.confirm.remove" />}
+                onConfirm={
+                  () =>
+                    dispatch(
+                      projectActions.removeProject({
+                        path: 'projects/remove',
+                        param: match.params.id
+                      })
+                    )
+                  // eslint-disable-next-line react/jsx-curly-newline
+                }
+                okText={<FormattedMessage id="button.confirm.yes" />}
+                cancelText={<FormattedMessage id="button.confirm.no" />}>
+                <Button style={{ marginRight: 15 }} type="danger" disabled={loading}>
+                  <Icon type={loading ? 'loading' : 'delete'} />
+                  <FormattedMessage id="projectDetail.removeProject" />
+                </Button>
+              </Popconfirm>
+
               <Button type="primary" onClick={() => toMemberHistory()}>
                 <Icon type="history" />
                 <FormattedMessage id="projects.detail.memberHistory" />
@@ -112,4 +154,4 @@ const ProjectDetailPage = ({ match, history }) => {
 
 ProjectDetailPage.propTypes = propTypes;
 
-export default ProjectDetailPage;
+export default injectIntl(ProjectDetailPage, {});

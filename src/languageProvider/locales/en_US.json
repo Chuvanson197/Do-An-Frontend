@@ -109,7 +109,10 @@
   "projectDetail.removeMember.confirm.delete": "Remove this member from project?",
   "projectDetail.getDetail.message.error": "Get project detail failure",
   "projectDetail.getMembers.message.error": "Get project members failure",
-  
+  "projectDetail.removeProject": "Remove project",
+  "projectDetail.removeProject.confirm.remove": "Remove this project?",
+  "projects.removeProject.message.success": "Remove this project information successful",
+  "projects.removeProject.message.error": "Remove this project information failure",
 
   "dashboard.title": "Dashboard",
 

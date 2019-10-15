@@ -192,7 +192,7 @@ const ProjectDetail = ({ project, joinedMembers, loading, match, intl }) => {
   return (
     <React.Fragment>
       <Row style={{ marginBottom: 75 }}>
-        <Skeleton active loading={loading}>
+        <Skeleton active loading={loading} paragraph={{ rows: 4 }}>
           <Descriptions title={project && project.name ? project.name : ''} column={1}>
             <Descriptions.Item label={<FormattedMessage id="projects.detail.customer" />}>
               {project && project.customer ? project.customer.name : ''}
