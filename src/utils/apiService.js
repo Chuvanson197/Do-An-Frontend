@@ -4,45 +4,61 @@ const base = 'http://localhost:8080/api';
 
 const getHeaders = () => ({});
 
-const apiGet = (path, payload) => {
+const apiGet = (payload) => {
   const option = payload && payload.option ? payload.option : {};
   return axios
-    .get(payload && payload.param ? `${base}/${path}/${payload.param}` : `${base}/${path}`, {
-      ...option,
-      headers: getHeaders()
-    })
+    .get(
+      payload && payload.param
+        ? `${base}/${payload.path}/${payload.param}`
+        : `${base}/${payload.path}`,
+      {
+        ...option,
+        headers: getHeaders()
+      }
+    )
     .then((res) => res.data);
 };
 
-const apiPost = (path, payload) => {
+const apiPost = (payload) => {
   const body = payload && payload.body ? payload.body : {};
   const option = payload && payload.option ? payload.option : {};
   return axios
-    .post(payload.param ? `${base}/${path}/${payload.param}` : `${base}/${path}`, body, {
-      ...option,
-      headers: getHeaders()
-    })
+    .post(
+      payload.param ? `${base}/${payload.path}/${payload.param}` : `${base}/${payload.path}`,
+      body,
+      {
+        ...option,
+        headers: getHeaders()
+      }
+    )
     .then((res) => res.data);
 };
 
-const apiPut = (path, payload) => {
+const apiPut = (payload) => {
   const body = payload && payload.body ? payload.body : {};
   const option = payload && payload.option ? payload.option : {};
   return axios
-    .put(payload.param ? `${base}/${path}/${payload.param}` : `${base}/${path}`, body, {
-      ...option,
-      headers: getHeaders()
-    })
+    .put(
+      payload.param ? `${base}/${payload.path}/${payload.param}` : `${base}/${payload.path}`,
+      body,
+      {
+        ...option,
+        headers: getHeaders()
+      }
+    )
     .then((res) => res.data);
 };
 
-const apiDelete = (path, payload) => {
+const apiDelete = (payload) => {
   const option = payload && payload.option ? payload.option : {};
   return axios
-    .delete(payload.param ? `${base}/${path}/${payload.param}` : `${base}/${path}`, {
-      ...option,
-      headers: getHeaders()
-    })
+    .delete(
+      payload.param ? `${base}/${payload.path}/${payload.param}` : `${base}/${payload.path}`,
+      {
+        ...option,
+        headers: getHeaders()
+      }
+    )
     .then((res) => res.data);
 };
 

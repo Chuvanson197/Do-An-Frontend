@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 import { Button, Icon } from 'antd';
 
 const propTypes = {
@@ -9,7 +10,7 @@ const propTypes = {
 const BackButton = ({ onBack }) => (
   <Button type="primary" onClick={onBack}>
     <Icon type="left" />
-    Backward
+    <FormattedMessage id="button.back" />
   </Button>
 );
 

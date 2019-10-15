@@ -4,24 +4,57 @@ const apiActions = [
   {
     actionName: 'getProjectDetail',
     stateName: 'project',
-    apiUrl: 'projects',
     method: 'GET'
   },
   {
     actionName: 'getMembers',
     stateName: 'joinedMembers',
-    apiUrl: 'projects/membersList',
     method: 'GET'
+  },
+  {
+    actionName: 'removeMember',
+    stateName: 'removeMemberResult',
+    method: 'POST'
   }
 ];
+
+const reducerActions = [
+  {
+    actionName: 'cleanRemoveMemberResult',
+    stateName: 'removeMemberResult'
+  },
+  {
+    actionName: 'cleanError',
+    stateName: 'removeMemberError'
+  },
+  {
+    actionName: 'cleanProjectDetailError',
+    stateName: 'getProjectDetailError'
+  },
+  {
+    actionName: 'cleanGetMembersError',
+    stateName: 'getMembersError'
+  },
+  {
+    actionName: 'cleanJoinedMember',
+    stateName: 'joinedMembers'
+  },
+  {
+    actionName: 'cleanProjectDetail',
+    stateName: 'project'
+  }
+];
+
 const defaultState = {
   project: null,
+  isError: false,
   joinedMembers: {
     list: [],
     total: 0
-  }
+  },
+  removeMemberResult: null
 };
 
-const store = createResourceHandler('projectDetail', apiActions, [], defaultState);
+const store = createResourceHandler('projectDetail', apiActions, reducerActions, defaultState);
 
 export const { actions, reducer } = store;

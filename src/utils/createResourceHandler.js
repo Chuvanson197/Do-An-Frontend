@@ -69,7 +69,7 @@ const CreateResourceHandler = (
         ...state,
         loading: false,
         isError: true,
-        errors: payload.result
+        [`${value.actionName}Error`]: true
       })
     };
   });
@@ -101,7 +101,7 @@ const CreateResourceHandler = (
           successAction: slice.actions[`${value.actionName}Success`],
           failAction: slice.actions[`${value.actionName}Failed`]
         },
-        process: ({ payload }) => api[value.method](value.apiUrl, payload)
+        process: ({ payload }) => api[value.method](payload)
       })
     };
   });

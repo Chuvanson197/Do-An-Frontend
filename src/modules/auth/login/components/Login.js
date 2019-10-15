@@ -31,7 +31,7 @@ const Login = () => {
     const body = {
       googleAccessToken: response.tokenObj.access_token
     };
-    dispatch(actions.authentication({ body }));
+    dispatch(actions.authentication({ body, path: 'auth' }));
   };
 
   return (

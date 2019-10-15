@@ -4,27 +4,32 @@ const apiActions = [
   {
     actionName: 'getMembers',
     stateName: 'members',
-    apiUrl: 'members',
     method: 'GET'
   },
   {
     actionName: 'deleteMembers',
     stateName: 'isDeleted',
-    apiUrl: 'members',
     method: 'DELETE'
   },
   {
     actionName: 'addMember',
     stateName: 'members',
-    apiUrl: 'members',
     method: 'POST'
   }
 ];
+
+const reducerActions = [
+  {
+    actionName: 'cleanError',
+    stateName: 'getMembersError'
+  }
+];
+
 const defaultState = {
   members: [],
   isDeleted: false
 };
 
-const store = createResourceHandler('memberList', apiActions, [], defaultState);
+const store = createResourceHandler('memberList', apiActions, reducerActions, defaultState);
 
 export const { actions, reducer } = store;

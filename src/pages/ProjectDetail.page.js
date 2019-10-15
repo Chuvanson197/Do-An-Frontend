@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 import { useSelector, useDispatch } from 'react-redux';
 import { Row, Col, Button, Icon } from 'antd';
 import { css } from 'emotion';
@@ -35,24 +36,40 @@ const ProjectDetailPage = ({ match, history }) => {
 
   useEffect(() => {
     dispatch(layoutActions.selectItem(['project']));
+    // clean state
+    // clean old joined members state
     dispatch(
-      projectActions.getProjectDetail({
-        param: match.params.id
+      projectActions.cleanJoinedMember({
+        list: [],
+        total: 0
       })
     );
+    // clean old project detail state
+    dispatch(projectActions.cleanProjectDetail(null));
+    // get project detail
+    dispatch(
+      projectActions.getProjectDetail({
+        param: match.params.id,
+        path: 'projects'
+      })
+    );
+    // get joined members
     dispatch(
       projectActions.getMembers({
-        param: match.params.id
+        param: match.params.id,
+        path: 'projects/membersList'
       })
     );
   }, [dispatch, match.params.id]);
 
+  // check authencation if not redirect to login page
   useEffect(() => {
     if (!authenticated) {
       history.push('/login');
     }
   }, [authenticated, history]);
 
+  // redirect functions
   const onBack = () => {
     history.push('/project/list');
   };
@@ -65,10 +82,15 @@ const ProjectDetailPage = ({ match, history }) => {
     <Layout>
       <Row>
         <Row>
-          <HeaderTitle title="Project detail" />
+          <HeaderTitle title={<FormattedMessage id="projects.detail.title" />} />
         </Row>
         <Row>
-          <ProjectDetail project={project} joinedMembers={joinedMembers} loading={loading} />
+          <ProjectDetail
+            project={project}
+            joinedMembers={joinedMembers}
+            loading={loading}
+            match={match}
+          />
         </Row>
         <Row className={styles.footer}>
           <Col span={12}>
@@ -78,7 +100,7 @@ const ProjectDetailPage = ({ match, history }) => {
             <Row type="flex" justify="end">
               <Button type="primary" onClick={() => toMemberHistory()}>
                 <Icon type="history" />
-                Member History
+                <FormattedMessage id="projects.detail.memberHistory" />
               </Button>
             </Row>
           </Col>
