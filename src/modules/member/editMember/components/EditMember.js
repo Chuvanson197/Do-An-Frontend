@@ -1,8 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, injectIntl} from 'react-intl';
-import { Row, Modal, Button, Input, Form, Popconfirm, message} from 'antd';
+import { Row, Modal, Button, Input, Form, Popconfirm, notification, Icon} from 'antd';
+import { useDispatch } from 'react-redux';
 import { css } from 'emotion';
+
+import { actions as editMemberActions } from '../store';
 
 const propTypes = {
   intl: PropTypes.shape({}).isRequired
@@ -37,15 +40,31 @@ const formItemLayout = {
 };
 
 const EditMember = ({ intl, visible, close, form, data }) => {
+  const dispath = useDispatch();
+
   const handleSubmit = () => {
     form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        const body = {
+          staff_code: values.staff_code,
+          full_name: values.full_name,
+          phone_number: values.phone_number,
+          email: values.email
+        };
+        dispath(editMemberActions.editMember({ body }));
       } else {
-        console.log(err);
+        notification.open({
+          message: (
+            <span style={{ color: '#f5222d', fontWeight: 'bold' }}>
+              {intl.formatMessage({ id: 'notification.error' })}
+            </span>
+          ),
+          description: intl.formatMessage({ id: 'notification.message.form.error' }),
+          duration: 2,
+          icon: <Icon type="frown" style={{ color: '#f5222d' }} />
+        });
       }
     });
-    message.success(intl.formatMessage({ id: 'members.memberModal.edited.success' }));
   };
 
   return (

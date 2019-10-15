@@ -1,9 +1,13 @@
 import React from 'react';
 import { formShape } from 'rc-form';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
-import { Row, Modal, Button, Input, Form } from 'antd';
+import { FormattedMessage, injectIntl } from 'react-intl';
+import { Row, Modal, Button, Input, Form, notification, Icon, Popconfirm } from 'antd';
+import { useDispatch } from 'react-redux';
 import { css } from 'emotion';
+
+import { actions as createMemberActions } from '../store';
+
 
 const propTypes = {
   visible: PropTypes.bool.isRequired,
@@ -55,16 +59,33 @@ const formItemLayout = {
   }
 };
 
-const CreateMember = ({ visible, close, form }) => {
+const CreateMember = ({ visible, close, form, intl }) => {
+  const dispath = useDispatch();
   const handleSubmit = () => {
     form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        const body = {
+          staff_code: values.staff_code,
+          full_name: values.full_name,
+          phone_number: values.phone_number,
+          email: values.email
+        };
+        dispath(createMemberActions.createMember({ body }));
       } else {
-        console.log(err);
+        notification.open({
+          message: (
+            <span style={{ color: '#f5222d', fontWeight: 'bold' }}>
+              {intl.formatMessage({ id: 'notification.error' })}
+            </span>
+          ),
+          description: intl.formatMessage({ id: 'notification.message.form.error' }),
+          duration: 2,
+          icon: <Icon type="frown" style={{ color: '#f5222d' }} />
+        });
       }
     });
   };
+
 
   return (
     <Modal
@@ -77,9 +98,16 @@ const CreateMember = ({ visible, close, form }) => {
       maskClosable={false}
       footer={[
         <Row type="flex" key="abc" justify="end">
-          <Button icon="plus" type="primary" onClick={() => handleSubmit()}>
+          <Popconfirm
+          title={<FormattedMessage id="members.memberModal.confirm.create" />}
+          onConfirm={() => handleSubmit()}
+          okText={<FormattedMessage id="members.memberModal.button.confirm.yes" />}
+          cancelText={<FormattedMessage id="members.memberModal.button.confirm.no" />}
+          >
+          <Button icon="plus" type="primary">
             <FormattedMessage id="members.memberModal.createButton.title" />
           </Button>
+        </Popconfirm>
           <Button icon="close-circle" type="default" key="close" onClick={() => close()}>
             <FormattedMessage id="members.memberModal.cancelButton.title" />
           </Button>
@@ -157,4 +185,4 @@ CreateMember.defaultProps = defaultProps;
 
 const CreateMemberForm = Form.create({ name: 'createMember' })(CreateMember);
 
-export default CreateMemberForm;
+export default injectIntl(CreateMemberForm, {});
