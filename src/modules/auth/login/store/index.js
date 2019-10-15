@@ -4,7 +4,6 @@ const apiActions = [
   {
     actionName: 'authentication',
     stateName: 'authentication',
-    apiUrl: 'auth',
     method: 'POST'
   }
 ];

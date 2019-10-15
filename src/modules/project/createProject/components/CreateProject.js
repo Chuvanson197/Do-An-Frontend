@@ -24,7 +24,7 @@ import {
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { actions as createProjectActions } from '../store';
 import { actions as customerActions } from '../../../customer/cutomers/store';
-import { actions as projectActions } from "../../listProject/store";
+import { actions as projectActions } from '../../listProject/store';
 
 const propTypes = {
   visible: PropTypes.bool.isRequired,
@@ -71,16 +71,16 @@ const CreateProject = ({ visible, close, form, selectedCustomer, intl }) => {
   const dispath = useDispatch();
   const [customerDetail, setCustomerDetail] = useState(selectedCustomer);
   const { customersList } = useSelector((state) => state.customers);
-  const { isError, result } = useSelector((state) => state.createProject);
+  const { isgetCustomersError, result } = useSelector((state) => state.createProject);
 
   useEffect(() => {
-    dispath(customerActions.getCustomers());
+    dispath(customerActions.getCustomers({ path: 'customers' }));
   }, [dispath]);
 
   useEffect(() => {
-    if (result || isError) {
+    if (result || isgetCustomersError) {
       notification.open({
-        message: isError ? (
+        message: isgetCustomersError ? (
           <span style={{ color: '#f5222d', fontWeight: 'bold' }}>
             {intl.formatMessage({ id: 'notification.error' })}
           </span>
@@ -89,14 +89,14 @@ const CreateProject = ({ visible, close, form, selectedCustomer, intl }) => {
             {intl.formatMessage({ id: 'notification.success' })}
           </span>
         ),
-        description: isError
+        description: isgetCustomersError
           ? intl.formatMessage({ id: 'projects.createProject.message.error' })
           : intl.formatMessage({ id: result.message }),
         duration: 2.5,
         icon: (
           <Icon
-            type={isError ? 'frown' : 'smile'}
-            style={{ color: isError ? '#f5222d' : '#4cd964' }}
+            type={isgetCustomersError ? 'frown' : 'smile'}
+            style={{ color: isgetCustomersError ? '#f5222d' : '#4cd964' }}
           />
         )
       });
@@ -105,7 +105,7 @@ const CreateProject = ({ visible, close, form, selectedCustomer, intl }) => {
       close();
       dispath(projectActions.getProjects());
     }
-  }, [close, dispath, intl, isError, result]);
+  }, [close, dispath, intl, isgetCustomersError, result]);
 
   const handleSubmit = () => {
     form.validateFields((err, values) => {
@@ -117,7 +117,7 @@ const CreateProject = ({ visible, close, form, selectedCustomer, intl }) => {
           start_time: parseInt(moment(values.estimated[0]).format('x'), 10),
           end_time: parseInt(moment(values.estimated[1]).format('x'), 10)
         };
-        dispath(createProjectActions.creatProject({ body }));
+        dispath(createProjectActions.creatProject({ path: 'projects', body }));
       } else {
         notification.open({
           message: (

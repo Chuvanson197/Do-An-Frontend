@@ -34,7 +34,8 @@ const dummyData = [
     email: 'son.chu@impl.com',
     time_in: 1568271275000,
     time_out: 1599893675000,
-    effort: 1
+    effort: 1,
+    abc: 1
   }
 ];
 
@@ -43,20 +44,20 @@ const ListMemberPage = () => {
 
   useEffect(() => {
     dispatch(layoutActions.selectItem(['member']));
-    dispatch(memberActions.getMemberList());
+    dispatch(memberActions.getMemberList({ path: 'members' }));
   }, [dispatch]);
 
   const deleteMember = useCallback(
     (selectedKeys) => {
       const body = {};
-      dispatch(memberActions.deleteMembers(body));
+      dispatch(memberActions.deleteMembers({ path: 'members', body }));
     },
     [dispatch]
   );
 
   const addNewMember = useCallback(
     (body) => {
-      dispatch(memberActions.addMember(body));
+      dispatch(memberActions.addMember({ path: 'members', body }));
     },
     [dispatch]
   );
@@ -70,11 +71,7 @@ const ListMemberPage = () => {
           </Col>
         </Row>
         <Row gutter={16}>
-          <Members
-            members={dummyData}
-            deleteMember={deleteMember}
-            addNewMember={addNewMember}
-          />
+          <Members members={dummyData} deleteMember={deleteMember} addNewMember={addNewMember} />
         </Row>
       </React.Fragment>
     </Layout>

@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col, Tabs, Tag, Button } from 'antd';
 import { css } from 'emotion';
 
-
 import { actions as layoutActions } from '../modules/layout/store';
 import { actions as projectActions } from '../modules/project/listProject/store';
 import { actions as createProjectActions } from '../modules/project/createProject/store';
@@ -37,7 +36,7 @@ const ListProjectPage = ({ history }) => {
 
   useEffect(() => {
     dispatch(layoutActions.selectItem(['project']));
-    dispatch(projectActions.getProjects());
+    dispatch(projectActions.getProjects({ path: 'projects' }));
   }, [dispatch]);
 
   useEffect(() => {

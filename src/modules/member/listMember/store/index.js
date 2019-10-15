@@ -4,19 +4,16 @@ const apiActions = [
   {
     actionName: 'getMemberList',
     stateName: 'memberList',
-    apiUrl: '/members',
     method: 'GET'
   },
   {
     actionName: 'deleteMembers',
     stateName: 'isDeleted',
-    apiUrl: 'members',
     method: 'DELETE'
   },
   {
     actionName: 'addMember',
     stateName: 'members',
-    apiUrl: 'members',
     method: 'POST'
   }
 ];
