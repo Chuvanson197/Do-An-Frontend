@@ -4,7 +4,6 @@ const apiActions = [
   {
     actionName: 'getProjectMemberHistory',
     stateName: 'projectMemberHistory',
-    apiUrl: 'project/member-history',
     method: 'GET'
   }
 ];

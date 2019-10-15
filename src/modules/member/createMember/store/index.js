@@ -1,10 +1,9 @@
-import createResourceHandler from '../../../../ultis/createResourceHandler';
+import createResourceHandler from '../../../../utils/createResourceHandler';
 
 const apiActions = [
   {
     actionName: 'createMember',
     stateName: 'members',
-    apiUrl: 'members',
     method: 'POST'
   }
 ];

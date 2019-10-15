@@ -4,7 +4,6 @@ const apiActions = [
   {
     actionName: 'getProjectDetail',
     stateName: 'projectDetail',
-    apiUrl: 'project_detail',
     method: 'GET'
   }
 ];

@@ -4,7 +4,6 @@ const apiActions = [
   {
     actionName: 'creatProject',
     stateName: 'result',
-    apiUrl: 'projects',
     method: 'POST'
   }
 ];
@@ -16,7 +15,7 @@ const reducerActions = [
   },
   {
     actionName: 'cleanError',
-    stateName: 'isError'
+    stateName: 'iscreatProjectError'
   }
 ];
 

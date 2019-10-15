@@ -86,7 +86,7 @@ const ProjectDetailPage = ({ match, history }) => {
 
   useEffect(() => {
     dispatch(layoutActions.selectItem(['project']));
-    dispatch(projectActions.getProjectDetail());
+    dispatch(projectActions.getProjectDetail({ path: 'project_detail' }));
   }, [dispatch]);
 
   useEffect(() => {
