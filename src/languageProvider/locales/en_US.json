@@ -7,6 +7,7 @@
   "button.confirm.yes": "Yes",
   "button.confirm.no": "No",
   "button.back": "Backward",
+  "button.update": "Update information",
 
   "button.tooltip.addMember": "Add member",
   "button.tooltip.removeMember": "Remove member",
@@ -17,6 +18,7 @@
   "notification.success": "Success",
   "notification.warning": "Warning",
   "notification.message.form.error": "Invalid form data",
+  "notification.message.form.noChanging": "No data changed, please update data first",
 
   "projects.listProject.title": "Projects",
   "projects.listProject.customer": "Customer",
@@ -97,6 +99,9 @@
   "projects.addMemberIntoProject.message.success": "Add member into project successful",
   "projects.removeMemberFromProject.message.success": "Remove member from project successful",
   "projects.removeMemberFromProject.message.error": "Remove member from project failure",
+
+  "projects.updateProject.title": "Update project information",
+  "projects.updateProject.message.error": "Update project failure",
 
   "projectDetail.serviceDetail.title": "Service Details",
   "projectDetail.serviceDetail.homePage.title": "Home page:",

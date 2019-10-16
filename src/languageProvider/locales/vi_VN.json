@@ -7,6 +7,7 @@
   "button.confirm.yes": "Có",
   "button.confirm.no": "Không",
   "button.back": "Quay lại trang trước",
+  "button.update": "Cập nhật thông tin",
 
   "button.tooltip.addMember": "Thêm thành viên",
   "button.tooltip.removeMember": "Thành viên rời khỏi dự án",
@@ -17,6 +18,7 @@
   "notification.success": "Thành công",
   "notification.warning": "Cảnh báo",
   "notification.message.form.error": "Dữ liệu nhập vào không hợp lệ",
+  "notification.message.form.noChanging": "Không có dữ liệu nào được thay đổi, hãy cập nhật thông tin nếu có",
 
   "projects.listProject.title": "Danh sách dự án",
   "projects.listProject.customer": "Khách hàng",
@@ -97,6 +99,9 @@
   "projects.addMemberIntoProject.message.success": "Thêm mới thành viên vào dự án thành công",
   "projects.removeMemberFromProject.message.success": "Thành viên đã rời khỏi dự án",
   "projects.removeMember.message.error": "Không thể loại bỏ thành viên ra khỏi dự án",
+
+  "projects.updateProject.title": "Cập nhật thông tin dự án",
+  "projects.updateProject.message.error": "Cập nhật thông tin dự án thất bại",
 
   "projectDetail.serviceDetail.title": "Thông tin dịch vụ",
   "projectDetail.serviceDetail.homePage.title": "Trang chủ:",
