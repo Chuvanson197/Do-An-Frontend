@@ -20,9 +20,11 @@ import MemberDiagram from '../../../member/memberDiagram/MemberDiagram';
 import MemberAdd from '../../../member/memberAdd/components/MemberAdd';
 import ErrorNotification from '../../../../components/Notification/Error';
 import SuccessNotification from '../../../../components/Notification/Success';
+import UpdateProjectDrawer from '../../updateProject/components/UpdateProjectDrawer';
 
 import { actions as memberAddActions } from '../../../member/memberAdd/store';
 import { actions as projectActions } from '../store';
+import { actions as updateProjectActions } from '../../updateProject/store';
 
 const propTypes = {
   match: PropTypes.shape({}).isRequired,
@@ -35,7 +37,7 @@ const propTypes = {
 
 const defaultProps = {
   loading: false,
-  project: {},
+  project: null,
   joinedMembers: {
     list: [],
     total: 0
@@ -45,6 +47,7 @@ const defaultProps = {
 const ProjectDetail = ({ project, joinedMembers, loading, match, intl }) => {
   const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
+  const [drawerVisible, setDrawerVisible] = useState(false);
   const [openAddModal, setOpenAddModal] = useState(false);
   const {
     removeMemberError,
@@ -183,10 +186,18 @@ const ProjectDetail = ({ project, joinedMembers, loading, match, intl }) => {
     }
   ];
 
+  // Handle control open/close add member modal
   const handleControlModal = () => {
     setOpenAddModal(!openAddModal);
     dispatch(memberAddActions.cleanResult(null));
     dispatch(memberAddActions.cleanError(false));
+  };
+
+  // Handle control open/close update project drawer
+  const handleControlDrawer = () => {
+    setDrawerVisible(!drawerVisible);
+    dispatch(updateProjectActions.cleanResult(null));
+    dispatch(updateProjectActions.cleanError(false));
   };
 
   return (
@@ -198,7 +209,7 @@ const ProjectDetail = ({ project, joinedMembers, loading, match, intl }) => {
               {project && project.customer ? project.customer.name : ''}
             </Descriptions.Item>
             <Descriptions.Item label={<FormattedMessage id="projects.detail.totalMember" />}>
-              {joinedMembers && joinedMembers.total ? joinedMembers.total : ''}
+              {joinedMembers && joinedMembers.total ? joinedMembers.total : 0}
             </Descriptions.Item>
             <Descriptions.Item label={<FormattedMessage id="projects.detail.start_time" />}>
               {project && project.start_time
@@ -212,6 +223,16 @@ const ProjectDetail = ({ project, joinedMembers, loading, match, intl }) => {
             </Descriptions.Item>
           </Descriptions>
         </Skeleton>
+
+        <Row>
+          <Button
+            icon="edit"
+            type="primary"
+            disabled={!project}
+            onClick={() => handleControlDrawer()}>
+            <FormattedMessage id="button.update" />
+          </Button>
+        </Row>
 
         <Divider />
         <Row>
@@ -228,7 +249,7 @@ const ProjectDetail = ({ project, joinedMembers, loading, match, intl }) => {
                   type="primary"
                   shape="circle"
                   icon="usergroup-add"
-                  onClick={() => handleControlModal(!openAddModal)}
+                  onClick={() => handleControlModal()}
                 />
               </Tooltip>
             </Col>
@@ -255,13 +276,20 @@ const ProjectDetail = ({ project, joinedMembers, loading, match, intl }) => {
             pagination={false}
           />
         </Row>
+        {drawerVisible && (
+          <UpdateProjectDrawer
+            drawerVisible={drawerVisible}
+            onClose={() => handleControlDrawer()}
+            project={project}
+          />
+        )}
       </Row>
       <MemberDiagram visible={visible} close={() => setVisible(!visible)} />
       {openAddModal && (
         <MemberAdd
           joinedMembers={joinedMembers.list}
           visible={openAddModal}
-          close={() => handleControlModal(!openAddModal)}
+          close={() => handleControlModal()}
           match={match}
         />
       )}
