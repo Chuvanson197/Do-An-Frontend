@@ -109,6 +109,10 @@
   "projectDetail.removeMember.confirm.delete": "Thành viên này sẽ rời khỏi dự án?",
   "projectDetail.getDetail.message.error": "Lấy chi tiết dự án thất bại",
   "projectDetail.getMembers.message.error": "Lấy danh sách thành viên trong dự án thất bại",
+  "projectDetail.removeProject": "Hủy bỏ dự án",
+  "projectDetail.removeProject.confirm.remove": "Hủy bỏ dự án này?",
+  "projects.removeProject.message.success": "Hủy bỏ dự án thành công",
+  "projects.removeProject.message.error": "Hủy bỏ dự án thất bại",
 
   "dashboard.title": "Thống Kê",
 

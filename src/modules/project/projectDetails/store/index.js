@@ -15,6 +15,11 @@ const apiActions = [
     actionName: 'removeMember',
     stateName: 'removeMemberResult',
     method: 'POST'
+  },
+  {
+    actionName: 'removeProject',
+    stateName: 'removeProjectResult',
+    method: 'POST'
   }
 ];
 
@@ -42,6 +47,14 @@ const reducerActions = [
   {
     actionName: 'cleanProjectDetail',
     stateName: 'project'
+  },
+  {
+    actionName: 'cleanRemoveProjectResult',
+    stateName: 'removeProjectResult'
+  },
+  {
+    actionName: 'cleanRemoveProjectError',
+    stateName: 'removeProjectError'
   }
 ];
 
@@ -52,7 +65,8 @@ const defaultState = {
     list: [],
     total: 0
   },
-  removeMemberResult: null
+  removeMemberResult: null,
+  removeProjectResult: null
 };
 
 const store = createResourceHandler('projectDetail', apiActions, reducerActions, defaultState);
