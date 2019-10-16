@@ -57,11 +57,20 @@ const listStatus = [
   { id: 3, name: 'stopped' }
 ];
 
+const formItemLayout = {
+  labelCol: {
+    span: 8
+  },
+  wrapperCol: {
+    span: 16
+  }
+};
+
 const UpdateProjectDrawer = ({ intl, onClose, drawerVisible, form, project }) => {
   const dispatch = useDispatch();
   const [customerDetail, setCustomerDetail] = useState(project.customer);
   const { customersList, getCustomersError } = useSelector((state) => state.customers);
-  const { result, updateProjectError } = useSelector((state) => state.updateProject);
+  const { result, updateProjectError, loading } = useSelector((state) => state.updateProject);
   const customerLoading = useSelector((state) => state.customers.loading);
 
   // Get all customers after open modal
@@ -135,9 +144,7 @@ const UpdateProjectDrawer = ({ intl, onClose, drawerVisible, form, project }) =>
           const message = intl.formatMessage({ id: 'notification.message.form.noChanging' });
           return ErrorNotification(title, message);
         }
-        dispatch(
-          updateProjectActions.updateProject({ body, path: 'projects', param: project.id })
-        );
+        dispatch(updateProjectActions.updateProject({ body, path: 'projects', param: project.id }));
       } else {
         // showing error form input notification
         const title = intl.formatMessage({ id: 'notification.error' });
@@ -165,7 +172,7 @@ const UpdateProjectDrawer = ({ intl, onClose, drawerVisible, form, project }) =>
       visible={drawerVisible}
       maskClosable={false}
       width={550}>
-      <Form onSubmit={() => handleSubmit()}>
+      <Form onSubmit={() => handleSubmit()} {...formItemLayout}>
         <Row style={{ marginBottom: 10 }}>
           <Icon type="project" style={{ marginRight: 10 }} />
           <Typography.Text style={{ fontWeight: 'bold' }}>
@@ -278,8 +285,8 @@ const UpdateProjectDrawer = ({ intl, onClose, drawerVisible, form, project }) =>
         </Form.Item>
 
         <Row>
-          <Col span={5}></Col>
-          <Col span={19}>
+          <Col span={8}></Col>
+          <Col span={16}>
             <Descriptions column={1}>
               <Descriptions.Item
                 label={<FormattedMessage id="projects.createProject.customerEmail" />}>
@@ -299,11 +306,11 @@ const UpdateProjectDrawer = ({ intl, onClose, drawerVisible, form, project }) =>
       </Form>
       <Row className={styles.drawerFooter}>
         <Popconfirm
-          title={<FormattedMessage id="projects.createProject.confirm.add" />}
+          title={<FormattedMessage id="projects.updateProject.confirm.add" />}
           onConfirm={() => handleSubmit()}
           okText={<FormattedMessage id="button.confirm.yes" />}
           cancelText={<FormattedMessage id="button.confirm.no" />}>
-          <Button icon="edit" type="primary">
+          <Button icon="edit" type="primary" loading={loading}>
             {<FormattedMessage id="button.update" />}
           </Button>
         </Popconfirm>

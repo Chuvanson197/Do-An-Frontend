@@ -102,6 +102,16 @@
 
   "projects.updateProject.title": "Cập nhật thông tin dự án",
   "projects.updateProject.message.error": "Cập nhật thông tin dự án thất bại",
+  "projects.updateProject.confirm.add": "Cập nhật thông tin dự án này?",
+
+  "projects.updateMember.title": "Cập nhật thông tin thành viên",
+  "projects.updateMember.confirm.add": "Cập nhật thông tin cho thành viên này?",
+  "projects.updateMember.staff_code": "Mã nhân viên",
+  "projects.updateMember.full_name": "Họ & tên",
+  "projects.updateMember.email": "Thư điện tử",
+  "projects.updateMember.phone_number": "Số điện thoại",
+  "projects.updateMemberIntoProject.message.success": "Cập nhật thông tin thành viên thành công",
+  "projects.updateMemberInProject.message.error": "Cập nhật thông tin thành viên thất bại",
 
   "projectDetail.serviceDetail.title": "Thông tin dịch vụ",
   "projectDetail.serviceDetail.homePage.title": "Trang chủ:",
