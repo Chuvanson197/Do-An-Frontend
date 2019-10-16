@@ -102,7 +102,14 @@
 
   "projects.updateProject.title": "Update project information",
   "projects.updateProject.message.error": "Update project failure",
-
+  "projects.updateProject.confirm.add": "Update this project information?",
+  
+  "projects.updateMember.title": "Update member information",
+  "projects.updateMember.staff_code": "Staff code",
+  "projects.updateMember.full_name": "Full name",
+  "projects.updateMember.email": "Email",
+  "projects.updateMember.phone_number": "Phone number",
+  
   "projectDetail.serviceDetail.title": "Service Details",
   "projectDetail.serviceDetail.homePage.title": "Home page:",
   "projectDetail.serviceDetail.detail.title": "Details:",

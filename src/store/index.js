@@ -8,6 +8,7 @@ import { reducer as projectDetailReducer } from '../modules/project/projectDetai
 import { reducer as projectListReducer } from '../modules/project/listProject/store';
 import { reducer as createProjectReducer } from '../modules/project/createProject/store';
 import { reducer as updateProjectReducer } from '../modules/project/updateProject/store';
+import { reducer as updateMemberInProjectReducer } from '../modules/project/updateMemberInProject/store';
 import { reducer as projectMemberHistoryReducer } from '../modules/project/projectMemberHistory/store';
 import { reducer as memberListReducer } from '../modules/member/listMember/store';
 import { reducer as memberAddReducer } from '../modules/member/memberAdd/store';
@@ -25,6 +26,7 @@ export const rootReducer = combineReducers({
   projectList: projectListReducer,
   createProject: createProjectReducer,
   updateProject: updateProjectReducer,
+  updateMemberInProject: updateMemberInProjectReducer,
   projectMemberHistory: projectMemberHistoryReducer,
   memberList: memberListReducer,
   memberAdd: memberAddReducer,

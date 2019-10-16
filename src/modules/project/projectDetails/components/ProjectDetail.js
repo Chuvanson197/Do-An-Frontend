@@ -21,10 +21,12 @@ import MemberAdd from '../../../member/memberAdd/components/MemberAdd';
 import ErrorNotification from '../../../../components/Notification/Error';
 import SuccessNotification from '../../../../components/Notification/Success';
 import UpdateProjectDrawer from '../../updateProject/components/UpdateProjectDrawer';
+import UpdateMemberInProjectDrawer from '../../updateMemberInProject/components/UpdateMemberInProjectDrawer';
 
 import { actions as memberAddActions } from '../../../member/memberAdd/store';
 import { actions as projectActions } from '../store';
 import { actions as updateProjectActions } from '../../updateProject/store';
+import { actions as updateMemberActions } from '../../updateMemberInProject/store';
 
 const propTypes = {
   match: PropTypes.shape({}).isRequired,
@@ -48,7 +50,9 @@ const ProjectDetail = ({ project, joinedMembers, loading, match, intl }) => {
   const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
   const [drawerVisible, setDrawerVisible] = useState(false);
+  const [memberDrawerVisible, setMemberDrawerVisible] = useState(false);
   const [openAddModal, setOpenAddModal] = useState(false);
+  const [selectedMember, selectMember] = useState(null);
   const {
     removeMemberError,
     getProjectDetailError,
@@ -179,7 +183,14 @@ const ProjectDetail = ({ project, joinedMembers, loading, match, intl }) => {
             </Popconfirm>
           </Tooltip>
           <Tooltip placement="top" title={<FormattedMessage id="button.tooltip.editMember" />}>
-            <Button shape="circle" icon="edit" type="primary" style={{ margin: '0px 5px' }} />
+            <Button
+              shape="circle"
+              icon="edit"
+              type="primary"
+              style={{ margin: '0px 5px' }}
+              // eslint-disable-next-line no-use-before-define
+              onClick={() => handleControlMemberDrawer(record)}
+            />
           </Tooltip>
         </React.Fragment>
       )
@@ -198,6 +209,18 @@ const ProjectDetail = ({ project, joinedMembers, loading, match, intl }) => {
     setDrawerVisible(!drawerVisible);
     dispatch(updateProjectActions.cleanResult(null));
     dispatch(updateProjectActions.cleanError(false));
+  };
+
+  // Handle control open/close update member in project drawer
+  const handleControlMemberDrawer = (member) => {
+    if (member) {
+      selectMember(member);
+    } else {
+      selectMember(null);
+    }
+    setMemberDrawerVisible(!memberDrawerVisible);
+    dispatch(updateMemberActions.cleanResult(null));
+    dispatch(updateMemberActions.cleanError(false));
   };
 
   return (
@@ -276,6 +299,14 @@ const ProjectDetail = ({ project, joinedMembers, loading, match, intl }) => {
             pagination={false}
           />
         </Row>
+        {memberDrawerVisible && (
+          <UpdateMemberInProjectDrawer
+            drawerVisible={memberDrawerVisible}
+            onClose={() => handleControlMemberDrawer()}
+            member={selectedMember}
+            match={match}
+          />
+        )}
         {drawerVisible && (
           <UpdateProjectDrawer
             drawerVisible={drawerVisible}
