@@ -60,6 +60,7 @@
   "projects.detail.member.role": "Vị trí",
   "projects.detail.member.effort": "Khối lượng",
   "projects.detail.member.time_in": "Thời gian tham gia",
+  "projects.detail.member.time_out":"Thời gian rời dự án",
   "projects.detail.memberHistory": "Lịch sử thành viên từng tham gia",
 
   "projects.addMember.title": "Thêm thành viên tham gia vào dự án",
@@ -128,6 +129,9 @@
   "projectDetail.removeProject.confirm.remove": "Hủy bỏ dự án này?",
   "projects.removeProject.message.success": "Hủy bỏ dự án thành công",
   "projects.removeProject.message.error": "Hủy bỏ dự án thất bại",
+
+  "projects.memberHistory.title": "Lịch sử thành viên trong dự án",
+  "projects.memberHistory.message.error": "Lấy danh sách thành viên thất bại ",
 
   "dashboard.title": "Thống Kê",
 
