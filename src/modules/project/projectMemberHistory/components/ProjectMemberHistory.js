@@ -1,19 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Row, Col, DatePicker, Button, Icon } from 'antd';
-import { css } from 'emotion';
-import TableMemberHistory from './TableMemberHistory';
 import moment from 'moment';
+import { css } from 'emotion';
+import { injectIntl } from 'react-intl';
+import { Row, DatePicker } from 'antd';
 
-import MemberDiagram from '../../../member/memberDiagram/MemberDiagram';
+import { actions as projectMemberHistoryActions } from '../store';
+import TableMemberHistory from './TableMemberHistory';
+import ErrorNotification from '../../../../components/Notification/Error';
 
 const propTypes = {
-  projectMemberHistory: PropTypes.arrayOf(PropTypes.shape({}))
+  match: PropTypes.shape({}).isRequired,
+  intl: PropTypes.shape({}).isRequired
 };
 
-const defaultProps = {
-  projectMemberHistory: []
-};
+const defaultProps = {};
 
 const styles = {
   datePicker: css`
@@ -21,49 +23,85 @@ const styles = {
   `
 };
 
-const ProjectMemberHistory = ({ projectMemberHistory }) => {
-  const [visible, setVisible] = useState(false);
-  const onChange = (dates, dateStrings) => {};
+const ProjectMemberHistory = ({ match, intl }) => {
+  const dispatch = useDispatch();
+  const [dateRange, setDateRange] = useState([moment().startOf('year'), moment().endOf('year')]);
+  const { getMemberHistoryError } = useSelector((state) => state.projectMemberHistory);
 
-  const onOk = (selectedTime) => {
-    console.log(selectedTime);
+  // First call members list api
+  useEffect(() => {
+    console.log('call 1 time only');
+
+    const body = {
+      time_in: parseInt(
+        moment()
+          .startOf('year')
+          .format('x'),
+        10
+      ),
+      time_out: parseInt(
+        moment()
+          .endOf('year')
+          .format('x'),
+        10
+      )
+    };
+
+    dispatch(
+      projectMemberHistoryActions.getMemberHistory({
+        body,
+        path: 'projects/membersList',
+        param: match.params.id
+      })
+    );
+  }, [dispatch, match.params.id]);
+
+  // Handle if api call failure
+  useEffect(() => {
+    if (getMemberHistoryError) {
+      const title = intl.formatMessage({ id: 'notification.error' });
+      const message = intl.formatMessage({ id: 'projects.memberHistory.message.error' });
+      ErrorNotification(title, message);
+      dispatch(projectMemberHistoryActions.cleanError(false));
+    }
+  }, [dispatch, getMemberHistoryError, intl]);
+
+  const handleChange = (value) => {
+    setDateRange(value);
+    const body = {
+      time_in: parseInt(moment(value[0]).format('x'), 10),
+      time_out: parseInt(moment(value[1]).format('x'), 10)
+    };
+    dispatch(
+      projectMemberHistoryActions.getMemberHistory({
+        body,
+        path: 'projects/membersList',
+        param: match.params.id
+      })
+    );
   };
-
-  const { RangePicker } = DatePicker;
 
   return (
     <React.Fragment>
       <Row style={{ marginBottom: 75 }}>
         <Row className={styles.datePicker}>
-          <Col span={12}>
-            <Button type="primary" onClick={() => setVisible(!visible)}>
-              <Icon type="line-chart" />
-              Show diagram
-            </Button>
-          </Col>
-          <Col span={12}>
-            <Row type="flex" justify="end">
-              <RangePicker
-                defaultValue={[moment().startOf('month'), moment().endOf('month')]}
-                format="DD-MM-YYYY"
-                mode={['month', 'month']}
-                placeholder={['Start Time', 'End Time']}
-                onChange={onChange}
-                onOk={onOk}
-              />
-            </Row>
-          </Col>
+          <DatePicker.RangePicker
+            value={dateRange}
+            format="DD/MM/YYYY"
+            onChange={handleChange}
+            allowClear={false}
+          />
         </Row>
         <Row>
-          <TableMemberHistory projectMemberHistory={projectMemberHistory} />
+          <TableMemberHistory />
         </Row>
       </Row>
-      <MemberDiagram visible={visible} close={() => setVisible(!visible)} />
     </React.Fragment>
   );
 };
 
 ProjectMemberHistory.propTypes = propTypes;
+
 ProjectMemberHistory.defaultProps = defaultProps;
 
-export default ProjectMemberHistory;
+export default injectIntl(ProjectMemberHistory, {});

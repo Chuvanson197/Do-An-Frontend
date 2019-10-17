@@ -60,6 +60,7 @@
   "projects.detail.member.role": "Role",
   "projects.detail.member.effort": "Effort",
   "projects.detail.member.time_in": "Joined date",
+  "Projects.detail.member.time_out": "Leave date",
   "projects.detail.memberHistory": "Member history",
 
   "projects.addMember.title": "Add member into project",
@@ -125,6 +126,9 @@
   "projectDetail.removeProject.confirm.remove": "Remove this project?",
   "projects.removeProject.message.success": "Remove this project information successful",
   "projects.removeProject.message.error": "Remove this project information failure",
+
+  "projects.memberHistory.title": "Project's member history",
+  "projects.memberHistory.message.error": "Get member list failure",
 
   "dashboard.title": "Dashboard",
 

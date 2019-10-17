@@ -2,15 +2,27 @@ import createResourceHandler from '../../../../utils/createResourceHandler';
 
 const apiActions = [
   {
-    actionName: 'getProjectMemberHistory',
-    stateName: 'projectMemberHistory',
-    method: 'GET'
+    actionName: 'getMemberHistory',
+    stateName: 'members',
+    method: 'POST'
+  }
+];
+
+const reducerActions = [
+  {
+    actionName: 'cleanError',
+    stateName: 'getMemberHistoryError'
   }
 ];
 const defaultState = {
-  projectMemberHistory: []
+  members: []
 };
 
-const store = createResourceHandler('projectMemberHistory', apiActions, [], defaultState);
+const store = createResourceHandler(
+  'projectMemberHistory',
+  apiActions,
+  reducerActions,
+  defaultState
+);
 
 export const { actions, reducer } = store;
