@@ -8,7 +8,8 @@ import CreateMember from '../../createMember/components/CreateMember';
 import EditMember from '../../editMember/components/EditMember';
 
 const propTypes = {
-  intl: PropTypes.shape({}).isRequired
+  intl: PropTypes.shape({}).isRequired,
+  members: PropTypes.arrayOf(PropTypes.shape({})).isRequired
 };
 
 const defaultProps = {};
@@ -20,34 +21,34 @@ const styles = {
   `
 };
 
-const members = [
-  {
-    key: '1',
-    id: 'member_001',
-    full_name: 'Chu Van Son',
-    staff_code: 'impl_S01',
-    phone_number: '123456798',
-    status: 'working',
-    email: 'son.chu@impl.com',
-    time_in: 1568271275000,
-    time_out: 1599893675000,
-    effort: 1
-  },
-  {
-    key: '2',
-    id: 'member_002',
-    full_name: 'Chu Van Son',
-    staff_code: 'impl_S01',
-    phone_number: '123456798',
-    status: 'out',
-    email: 'son.chu@impl.com',
-    time_in: 1568271275000,
-    time_out: 1599893675000,
-    effort: 1
-  }
-];
+// const members = [
+//   {
+//     key: '1',
+//     id: 'member_001',
+//     full_name: 'Chu Van Son',
+//     staff_code: 'impl_S01',
+//     phone_number: '123456798',
+//     status: 'working',
+//     email: 'son.chu@impl.com',
+//     time_in: 1568271275000,
+//     time_out: 1599893675000,
+//     effort: 1
+//   },
+//   {
+//     key: '2',
+//     id: 'member_002',
+//     full_name: 'Chu Van Son',
+//     staff_code: 'impl_S01',
+//     phone_number: '123456798',
+//     status: 'out',
+//     email: 'son.chu@impl.com',
+//     time_in: 1568271275000,
+//     time_out: 1599893675000,
+//     effort: 1
+//   }
+// ];
 
-const Members = ({ intl }) => {
+const Members = ({ intl, members, createMember }) => {
   const [OpenCreateModal, SetOpenCreateModal] = useState(false);
   const [OpenEditModal, SetOpenEditModal] = useState(false);
   const [dataItem, SetdataItem] = useState({});
@@ -140,6 +141,7 @@ const Members = ({ intl }) => {
       />
       {OpenCreateModal && (
         <CreateMember
+          createMember={createMember}
           visible={OpenCreateModal}
           close={() => SetOpenCreateModal(!OpenCreateModal)}
         />

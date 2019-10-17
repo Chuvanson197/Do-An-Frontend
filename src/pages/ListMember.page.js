@@ -1,15 +1,24 @@
 import React, { useEffect, useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col } from 'antd';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 
 import { actions as layoutActions } from '../modules/layout/store';
-import { actions as memberActions } from '../modules/member/listMember/store';
+import { actions as createMemberActions } from '../modules/member/listMember/store';
 
 import Layout from '../modules/layout/components/Layout';
 import HeaderTitle from '../components/Content/HeaderTitle';
+import ErrorNotification from '../components/Notification/Error';
 
 import Members from '../modules/member/listMember/components/Members';
+
+const propTypes = {
+  history: PropTypes.shape({}).isRequired,
+  intl: PropTypes.shape({}).isRequired
+};
+
+const defaultProps = {};
 
 const dummyData = [
   {
@@ -39,25 +48,42 @@ const dummyData = [
   }
 ];
 
-const ListMemberPage = () => {
+const ListMemberPage = ({ history, intl }) => {
   const dispatch = useDispatch();
+  const { authenticated } = useSelector((state) => state.authentication);
+  const { members, getMembersError } = useSelector((state) => state.memberList);
 
   useEffect(() => {
     dispatch(layoutActions.selectItem(['member']));
-    dispatch(memberActions.getMemberList({ path: 'members' }));
+    dispatch(createMemberActions.getMemberList({ path: 'members' }));
   }, [dispatch]);
+
+  useEffect(() => {
+    if (!authenticated) {
+      history.push('/login');
+    }
+  }, [authenticated, history]);
+
+  useEffect(() => {
+    if (getMembersError) {
+      const title = intl.formatMessage({ id: 'notification.error' });
+      const message = intl.formatMessage({ id: 'projects.listProject.message.error' });
+      ErrorNotification(title, message);
+      dispatch(createMemberActions.cleanError(false));
+    }
+  }, [dispatch, getMembersError, intl]);
 
   const deleteMember = useCallback(
     (selectedKeys) => {
       const body = {};
-      dispatch(memberActions.deleteMembers({ path: 'members', body }));
+      dispatch(createMemberActions.deleteMembers({ path: 'members', body }));
     },
     [dispatch]
   );
 
-  const addNewMember = useCallback(
+  const createNewMember = useCallback(
     (body) => {
-      dispatch(memberActions.addMember({ path: 'members', body }));
+      dispatch(createMemberActions.createMember({ path: 'members', body }));
     },
     [dispatch]
   );
@@ -71,11 +97,19 @@ const ListMemberPage = () => {
           </Col>
         </Row>
         <Row gutter={16}>
-          <Members members={dummyData} deleteMember={deleteMember} addNewMember={addNewMember} />
+          <Members
+           members={members}
+           deleteMember={deleteMember}
+           createNewMember={createNewMember}
+          />
         </Row>
       </React.Fragment>
     </Layout>
   );
 };
 
-export default ListMemberPage;
+ListMemberPage.propTypes = propTypes;
+
+ListMemberPage.defaultProps = defaultProps;
+
+export default injectIntl(ListMemberPage, {});

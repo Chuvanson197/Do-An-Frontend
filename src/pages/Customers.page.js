@@ -67,6 +67,7 @@ const CustomersPage = ({ history }) => {
   const dispatch = useDispatch();
   // const { customers, isDeleted } = useSelector((state) => state.customers);
   const { authenticated } = useSelector((state) => state.authentication);
+  const { customersList, getCustomerError } = useSelector((state) => state.customers);
 
   useEffect(() => {
     dispatch(layoutActions.selectItem(['customers']));
@@ -110,7 +111,7 @@ const CustomersPage = ({ history }) => {
         </Row>
         <Row>
           <Customers
-            customers={dummyData}
+            customers={customersList}
             deleteCustomer={deleteCustomer}
             addNewCustomer={addNewCustomer}
           />

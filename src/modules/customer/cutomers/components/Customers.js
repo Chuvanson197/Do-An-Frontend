@@ -38,7 +38,7 @@ const listCustomer = [
   }
 ];
 
-const Customer = ({ intl }) => {
+const Customer = ({ intl, customers }) => {
   const [OpenCreateModal, setOpenCreateModal] = useState(false);
   const [OpenEditModal, setOpenEditModal] = useState(false);
   const [dataItem, setdataItem] = useState({});
@@ -118,7 +118,7 @@ const Customer = ({ intl }) => {
       <Table
         columns={columns}
         rowKey={(record) => record.id}
-        dataSource={listCustomer}
+        dataSource={customers}
         pagination={false}
       />
       {OpenCreateModal && (

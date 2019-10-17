@@ -59,7 +59,7 @@ const formItemLayout = {
   }
 };
 
-const CreateMember = ({ visible, close, form, intl }) => {
+const CreateMember = ({ visible, close, form, intl, createMember }) => {
   const dispath = useDispatch();
   const handleSubmit = () => {
     form.validateFields((err, values) => {
@@ -100,7 +100,9 @@ const CreateMember = ({ visible, close, form, intl }) => {
         <Row type="flex" key="abc" justify="end">
           <Popconfirm
           title={<FormattedMessage id="members.memberModal.confirm.create" />}
-          onConfirm={() => handleSubmit()}
+          onConfirm={
+            () => handleSubmit()
+          }
           okText={<FormattedMessage id="members.memberModal.button.confirm.yes" />}
           cancelText={<FormattedMessage id="members.memberModal.button.confirm.no" />}
           >
@@ -113,7 +115,9 @@ const CreateMember = ({ visible, close, form, intl }) => {
           </Button>
         </Row>
       ]}>
-      <Form onSubmit={() => handleSubmit()} {...formItemLayout}>
+      <Form onSubmit={
+        () => handleSubmit()
+        } {...formItemLayout}>
         <Form.Item
           style={{ display: 'flex' }}
           label={<FormattedMessage id="members.memberModal.form.memberStaffcode.title" />}
