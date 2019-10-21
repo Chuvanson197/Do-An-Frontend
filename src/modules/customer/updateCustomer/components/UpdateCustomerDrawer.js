@@ -84,14 +84,14 @@ const UpdateCustomer = ({ intl, drawerVisible, onClose, form, customer }) => {
     form.validateFields((err, values) => {
       if (!err) {
         const body = {
-          staff_code: values.staff_code,
+          name: values.name,
           address: values.address,
           phone_number: values.phone_number,
           email: values.email
         };
 
         const oldBody = {
-          staff_code: customer.staff_code,
+          name: customer.name,
           address: customer.address,
           phone_number: customer.phone_number,
           email: customer.email
