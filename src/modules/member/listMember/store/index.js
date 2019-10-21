@@ -25,7 +25,7 @@ const reducerActions = [
 ];
 
 const defaultState = {
-  members: null,
+  members: [],
   responDel: null,
   isDeleted: false
 };
