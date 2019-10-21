@@ -15,9 +15,7 @@ import { reducer as memberAddReducer } from '../modules/member/memberAdd/store';
 import { reducer as createMemberReducer } from '../modules/member/createMember/store';
 import { reducer as editMemberReducer } from '../modules/member/editMember/store';
 import { reducer as languageSwitcherReducer } from '../modules/languageSwitcher/store';
-import { reducer as customersReducer } from '../modules/customer/cutomers/store';
-import { reducer as createCustomersReducer } from '../modules/customer/createCustomer/store';
-import { reducer as editCustomersReducer } from '../modules/customer/editCustomer/store';
+import { reducer as customersReducer } from '../modules/customer/store';
 
 export const history = createBrowserHistory();
 const routeMiddleware = routerMiddleware(history);
@@ -37,9 +35,7 @@ export const rootReducer = combineReducers({
   createMember: createMemberReducer,
   editMember: editMemberReducer,
   languageSwitcher: languageSwitcherReducer,
-  customers: customersReducer,
-  createCustomer: createCustomersReducer,
-  editCustomer: editCustomersReducer,
+  customers: customersReducer
 });
 
 const store = configureStore({

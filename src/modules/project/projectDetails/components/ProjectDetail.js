@@ -13,7 +13,8 @@ import {
   Descriptions,
   Divider,
   Popconfirm,
-  Skeleton
+  Skeleton,
+  Tag
 } from 'antd';
 
 import MemberDiagram from '../../../member/memberDiagram/MemberDiagram';
@@ -140,7 +141,28 @@ const ProjectDetail = ({ project, joinedMembers, loading, match, intl }) => {
       dataIndex: 'member_status',
       key: 'member_status',
       render: (status) => {
-        return <FormattedMessage id={`projects.addMember.status.${status}`} />;
+        switch (status) {
+          case 'working':
+            return (
+              <Tag color="#87d068">
+                <FormattedMessage id="projects.addMember.status.working" />
+              </Tag>
+            );
+          case 'leave':
+            return (
+              <Tag color="#f5222D">
+                <FormattedMessage id="projects.addMember.status.leave" />
+              </Tag>
+            );
+          case 'idle':
+            return (
+              <Tag color="#ffe58f">
+                <FormattedMessage id="projects.addMember.status.idle" />
+              </Tag>
+            );
+          default:
+            return null;
+        }
       }
     },
     {

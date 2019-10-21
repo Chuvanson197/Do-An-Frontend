@@ -24,7 +24,7 @@ import {
 
 import ErrorNotification from '../../../../components/Notification/Error';
 import SuccessNotification from '../../../../components/Notification/Success';
-import { actions as customerActions } from '../../../customer/cutomers/store';
+import { actions as customerActions } from '../../../customer/store';
 import { actions as updateProjectActions } from '../store';
 import { actions as projectDetailActions } from '../../projectDetails/store';
 
@@ -48,6 +48,9 @@ const styles = {
     right: 24px;
     left: 24px;
     padding: 24px 0px;
+  `,
+  deletedCustomerMsg: css`
+    color: red !important;
   `
 };
 
@@ -69,9 +72,11 @@ const formItemLayout = {
 const UpdateProjectDrawer = ({ intl, onClose, drawerVisible, form, project }) => {
   const dispatch = useDispatch();
   const [customerDetail, setCustomerDetail] = useState(project.customer);
-  const { customersList, getCustomersError } = useSelector((state) => state.customers);
+  const { getCustomersError, getCustomersErrors } = useSelector((state) => state.customers);
+  const customersList = useSelector((state) => state.customers.list);
   const { result, updateProjectError, loading } = useSelector((state) => state.updateProject);
   const customerLoading = useSelector((state) => state.customers.loading);
+  const [validCustomer, setValidCustomer] = useState(customersList.indexOf(project.customer) > -1);
 
   // Get all customers after open modal
   useEffect(() => {
@@ -86,12 +91,16 @@ const UpdateProjectDrawer = ({ intl, onClose, drawerVisible, form, project }) =>
   useEffect(() => {
     if (getCustomersError) {
       const title = intl.formatMessage({ id: 'notification.error' });
-      const message = intl.formatMessage({ id: 'customers.customersList.message.error' });
+      const message = intl.formatMessage({
+        id: getCustomersErrors.message
+          ? getCustomersErrors.message
+          : 'customers.customersList.message.error'
+      });
       ErrorNotification(title, message);
       // clean error
       dispatch(customerActions.cleanError(false));
     }
-  }, [dispatch, getCustomersError, intl]);
+  }, [dispatch, getCustomersError, getCustomersErrors, intl]);
 
   // Handle showing notification after update project
   useEffect(() => {
@@ -144,6 +153,12 @@ const UpdateProjectDrawer = ({ intl, onClose, drawerVisible, form, project }) =>
           const message = intl.formatMessage({ id: 'notification.message.form.noChanging' });
           return ErrorNotification(title, message);
         }
+
+        if (!validCustomer) {
+          const title = intl.formatMessage({ id: 'notification.error' });
+          const message = intl.formatMessage({ id: 'notification.message.form.deletedCustomer' });
+          return ErrorNotification(title, message);
+        }
         dispatch(updateProjectActions.updateProject({ body, path: 'projects', param: project.id }));
       } else {
         // showing error form input notification
@@ -160,6 +175,7 @@ const UpdateProjectDrawer = ({ intl, onClose, drawerVisible, form, project }) =>
       if (customer.id === value) {
         setCustomerDetail(customer);
       }
+      setValidCustomer(true);
       return customer;
     });
   };
@@ -266,7 +282,7 @@ const UpdateProjectDrawer = ({ intl, onClose, drawerVisible, form, project }) =>
                 message: intl.formatMessage({ id: 'projects.createProject.error.customer' })
               }
             ],
-            initialValue: project.customer.id
+            initialValue: validCustomer ? project.customer.id : project.customer.name
           })(
             <Select
               allowClear
@@ -301,6 +317,11 @@ const UpdateProjectDrawer = ({ intl, onClose, drawerVisible, form, project }) =>
                 {customerDetail.address || null}
               </Descriptions.Item>
             </Descriptions>
+            {!validCustomer && (
+              <Typography.Text className={styles.deletedCustomerMsg}>
+                <FormattedMessage id="projects.updateProject.deletedCustomer" />
+              </Typography.Text>
+            )}
           </Col>
         </Row>
       </Form>

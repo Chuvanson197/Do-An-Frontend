@@ -33,7 +33,7 @@ const Layout = ({ children }) => (
     <AntdLayout>
       <Header />
       <AntdLayout style={{ padding: '88px 24px 24px 24px' }}>
-        <BackTop visibilityHeight={25}/>
+        <BackTop style={{right: '15px'}} visibilityHeight={250}/>
         <AntdLayout.Content className={styles.content}>{children}</AntdLayout.Content>
       </AntdLayout>
     </AntdLayout>
