@@ -55,8 +55,8 @@ const CreateResourceHandler = (
       [`${value.actionName}Started`]: (state) => ({
         ...state,
         loading: true,
-        [`is${value.actionName}Error`]: false,
-        [`${value.actionName}Error`]: false
+        [`${value.actionName}Error`]: false,
+        [`${value.actionName}Errors`]: null
       }),
       [`${value.actionName}Success`]: (state, { payload }) => ({
         ...state,
@@ -66,7 +66,7 @@ const CreateResourceHandler = (
       [`${value.actionName}Failed`]: (state, { payload }) => ({
         ...state,
         loading: false,
-        isError: true,
+        [`${value.actionName}Errors`]: payload,
         [`${value.actionName}Error`]: true
       })
     };
