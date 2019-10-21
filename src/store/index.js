@@ -13,7 +13,7 @@ import { reducer as projectMemberHistoryReducer } from '../modules/project/proje
 import { reducer as memberListReducer } from '../modules/member/listMember/store';
 import { reducer as memberAddReducer } from '../modules/member/memberAdd/store';
 import { reducer as languageSwitcherReducer } from '../modules/languageSwitcher/store';
-import { reducer as customersReducer } from '../modules/customer/cutomers/store';
+import { reducer as customersReducer } from '../modules/customer/store';
 
 export const history = createBrowserHistory();
 const routeMiddleware = routerMiddleware(history);
