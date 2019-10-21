@@ -21,23 +21,6 @@ const styles = {
   `
 };
 
-const listCustomer = [
-  {
-    id: 1,
-    name: 'MUJI Japan',
-    email: 'muji.japan@muji.jp',
-    phone_number: '333-455-666',
-    address: 'Tokyo, Japan'
-  },
-  {
-    id: 2,
-    name: 'Tekmate',
-    email: 'Tekmate@tek.vn',
-    phone_number: '0975352786',
-    address: 'Hanoi, Viet Nam'
-  }
-];
-
 const Customer = ({ intl, customers }) => {
   const [OpenCreateModal, setOpenCreateModal] = useState(false);
   const [OpenEditModal, setOpenEditModal] = useState(false);

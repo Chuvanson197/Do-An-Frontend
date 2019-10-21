@@ -24,50 +24,11 @@ const propTypes = {
 
 const defaultProps = {};
 
-const dummyData = [
-  {
-    id: '1',
-    name: 'Muji',
-    address: '260 Tokyo',
-    project_name: 'MUJI Admin'
-  },
-  {
-    id: '2',
-    name: 'Muji',
-    address: '260 Tokyo',
-    project_name: 'MUJI Admin'
-  },
-  {
-    id: '3',
-    name: 'Muji',
-    address: '260 Tokyo',
-    project_name: 'MUJI Admin'
-  },
-  {
-    id: '4',
-    name: 'Muji',
-    address: '260 Tokyo',
-    project_name: 'MUJI Admin'
-  },
-  {
-    id: '5',
-    name: 'Muji',
-    address: '260 Tokyo',
-    project_name: 'MUJI Admin'
-  },
-  {
-    id: '6',
-    name: 'Muji',
-    address: '260 Tokyo',
-    project_name: 'MUJI Admin'
-  }
-];
-
 const CustomersPage = ({ history }) => {
   const dispatch = useDispatch();
   // const { customers, isDeleted } = useSelector((state) => state.customers);
   const { authenticated } = useSelector((state) => state.authentication);
-  const { customersList, getCustomerError } = useSelector((state) => state.customers);
+  const { customersList } = useSelector((state) => state.customers);
 
   useEffect(() => {
     dispatch(layoutActions.selectItem(['customers']));

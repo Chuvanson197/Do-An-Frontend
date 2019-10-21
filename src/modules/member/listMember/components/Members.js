@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { Table, Tooltip, Row, Popconfirm, Button, message } from 'antd';
+import { useDispatch } from 'react-redux';
+import { Table, Tooltip, Row, Popconfirm, Button } from 'antd';
 import PropTypes from 'prop-types';
 import { css } from 'emotion';
 
 import CreateMember from '../../createMember/components/CreateMember';
 import EditMember from '../../editMember/components/EditMember';
+import { actions as delMemberActions } from '../store';
 
 const propTypes = {
   intl: PropTypes.shape({}).isRequired,
@@ -21,46 +23,24 @@ const styles = {
   `
 };
 
-// const members = [
-//   {
-//     key: '1',
-//     id: 'member_001',
-//     full_name: 'Chu Van Son',
-//     staff_code: 'impl_S01',
-//     phone_number: '123456798',
-//     status: 'working',
-//     email: 'son.chu@impl.com',
-//     time_in: 1568271275000,
-//     time_out: 1599893675000,
-//     effort: 1
-//   },
-//   {
-//     key: '2',
-//     id: 'member_002',
-//     full_name: 'Chu Van Son',
-//     staff_code: 'impl_S01',
-//     phone_number: '123456798',
-//     status: 'out',
-//     email: 'son.chu@impl.com',
-//     time_in: 1568271275000,
-//     time_out: 1599893675000,
-//     effort: 1
-//   }
-// ];
-
 const Members = ({ intl, members, createMember }) => {
-  const [OpenCreateModal, SetOpenCreateModal] = useState(false);
-  const [OpenEditModal, SetOpenEditModal] = useState(false);
-  const [dataItem, SetdataItem] = useState({});
+  const dispatch = useDispatch();
+  const [openCreateModal, setOpenCreateModal] = useState(false);
+  const [openEditModal, setOpenEditModal] = useState(false);
+  const [dataItem, setDataItem] = useState({});
 
   const handleConfirmDelete = (record) => {
-    console.log(record);
-    message.success(intl.formatMessage({ id: 'members.deleted.success' }));
+    dispatch(delMemberActions.delMember({ path: 'members/remove', param: record.staff_code }));
+    // message.success(intl.formatMessage({ id: 'members.deleted.success' }));
   };
   const handleEditSelected = (data) => {
-    SetOpenEditModal(!OpenEditModal);
-    SetdataItem(data);
+    setOpenEditModal(!openEditModal);
+    setDataItem(data);
   };
+  const handleCreateModal = () => {
+    setOpenCreateModal(!openCreateModal);
+  };
+
   const columns = [
     {
       title: <FormattedMessage id="members.memberTable.staffCode.title" />,
@@ -129,7 +109,7 @@ const Members = ({ intl, members, createMember }) => {
         <Button
           icon="user-add"
           className={styles.addMemberButton}
-          onClick={() => SetOpenCreateModal(!OpenCreateModal)}>
+          onClick={() => handleCreateModal()}>
           <FormattedMessage id="members.memberTable.buttonAdd.title" />
         </Button>
       </Row>
@@ -139,17 +119,17 @@ const Members = ({ intl, members, createMember }) => {
         dataSource={members}
         pagination={false}
       />
-      {OpenCreateModal && (
+      {openCreateModal && (
         <CreateMember
           createMember={createMember}
-          visible={OpenCreateModal}
-          close={() => SetOpenCreateModal(!OpenCreateModal)}
+          visible={openCreateModal}
+          close={() => handleCreateModal()}
         />
       )}
-      {OpenEditModal && (
+      {openEditModal && (
         <EditMember
-          visible={OpenEditModal}
-          close={() => SetOpenEditModal(!OpenEditModal)}
+          visible={openEditModal}
+          close={() => handleEditSelected()}
           data={dataItem}
         />
       )}

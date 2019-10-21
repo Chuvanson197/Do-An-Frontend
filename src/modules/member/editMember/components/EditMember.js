@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage, injectIntl} from 'react-intl';
-import { Row, Modal, Button, Input, Form, Popconfirm, notification, Icon} from 'antd';
+import { FormattedMessage, injectIntl } from 'react-intl';
+import { Row, Modal, Button, Input, Form, Popconfirm } from 'antd';
 import { useDispatch } from 'react-redux';
 import { css } from 'emotion';
 
+// import { actions as MemberActions } from '../../store';
 import { actions as editMemberActions } from '../store';
+import { actions as MemberActions } from '../../listMember/store';
+import ErrorNotification from '../../../../components/Notification/Error';
+// import SuccessNotification from '../../../../components/Notification/Success';
 
 const propTypes = {
   intl: PropTypes.shape({}).isRequired
@@ -40,7 +44,14 @@ const formItemLayout = {
 };
 
 const EditMember = ({ intl, visible, close, form, data }) => {
-  const dispath = useDispatch();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(
+      MemberActions.getMemberList({
+        path: 'members'
+      })
+    );
+  }, [dispatch]);
 
   const handleSubmit = () => {
     form.validateFields((err, values) => {
@@ -51,19 +62,24 @@ const EditMember = ({ intl, visible, close, form, data }) => {
           phone_number: values.phone_number,
           email: values.email
         };
-        dispath(editMemberActions.editMember({ body }));
+        const oldBody = {
+          staff_code: data.staff_code,
+          full_name: data.full_name,
+          phone_number: data.phone_number,
+          email: data.email
+        };
+        if (JSON.stringify(body) === JSON.stringify(oldBody)) {
+          const title = intl.formatMessage({ id: 'notification.error' });
+          const message = intl.formatMessage({ id: 'notification.message.form.noChanging' });
+          return ErrorNotification(title, message);
+        }
+        dispatch(editMemberActions.editMember({ body, path: 'members', param: data.staff_code }));
       } else {
-        notification.open({
-          message: (
-            <span style={{ color: '#f5222d', fontWeight: 'bold' }}>
-              {intl.formatMessage({ id: 'notification.error' })}
-            </span>
-          ),
-          description: intl.formatMessage({ id: 'notification.message.form.error' }),
-          duration: 2,
-          icon: <Icon type="frown" style={{ color: '#f5222d' }} />
-        });
+        const title = intl.formatMessage({ id: 'notification.error' });
+        const message = intl.formatMessage({ id: 'notification.message.form.error' });
+        ErrorNotification(title, message);
       }
+      return null;
     });
   };
 
@@ -79,15 +95,17 @@ const EditMember = ({ intl, visible, close, form, data }) => {
       footer={[
         <Row type="flex" key="abc" justify="end">
           <Popconfirm
-          title={<FormattedMessage id="members.memberModal.confirm.edit" />}
-          onConfirm={() => handleSubmit()}
-          okText={<FormattedMessage id="members.memberModal.button.confirm.yes" />}
-          cancelText={<FormattedMessage id="members.memberModal.button.confirm.no" />}
-          >
-          <Button icon="edit" type="primary">
-            <FormattedMessage id="members.memberModal.editButton.title" />
-          </Button>
-        </Popconfirm>
+            title={<FormattedMessage id="members.memberModal.confirm.edit" />}
+            onConfirm={() => {
+              handleSubmit();
+              close();
+            }}
+            okText={<FormattedMessage id="members.memberModal.button.confirm.yes" />}
+            cancelText={<FormattedMessage id="members.memberModal.button.confirm.no" />}>
+            <Button icon="edit" type="primary">
+              <FormattedMessage id="members.memberModal.editButton.title" />
+            </Button>
+          </Popconfirm>
           <Button icon="close-circle" type="default" key="close" onClick={() => close()}>
             <FormattedMessage id="members.memberModal.cancelButton.title" />
           </Button>

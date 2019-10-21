@@ -12,6 +12,8 @@ import { reducer as updateMemberInProjectReducer } from '../modules/project/upda
 import { reducer as projectMemberHistoryReducer } from '../modules/project/projectMemberHistory/store';
 import { reducer as memberListReducer } from '../modules/member/listMember/store';
 import { reducer as memberAddReducer } from '../modules/member/memberAdd/store';
+import { reducer as createMemberReducer } from '../modules/member/createMember/store';
+import { reducer as editMemberReducer } from '../modules/member/editMember/store';
 import { reducer as languageSwitcherReducer } from '../modules/languageSwitcher/store';
 import { reducer as customersReducer } from '../modules/customer/cutomers/store';
 
@@ -30,6 +32,8 @@ export const rootReducer = combineReducers({
   projectMemberHistory: projectMemberHistoryReducer,
   memberList: memberListReducer,
   memberAdd: memberAddReducer,
+  createMember: createMemberReducer,
+  editMember: editMemberReducer,
   languageSwitcher: languageSwitcherReducer,
   customers: customersReducer
 });

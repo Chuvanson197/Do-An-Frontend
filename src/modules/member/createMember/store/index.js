@@ -1,25 +1,9 @@
-// import createResourceHandler from '../../../../utils/createResourceHandler';
-
-// const apiActions = [
-//   {
-//     actionName: 'addMember',
-//     stateName: 'members',
-//     method: 'POST'
-//   }
-// ];
-// const defaultState = {
-//   membersList: []
-// };
-
-// const store = createResourceHandler('members', apiActions, [], defaultState);
-
-// export const { actions, reducer } = store;
 import createResourceHandler from '../../../../utils/createResourceHandler';
 
 const apiActions = [
   {
     actionName: 'createMember',
-    stateName: 'result',
+    stateName: 'responCreate',
     method: 'POST'
   }
 ];
@@ -27,7 +11,7 @@ const apiActions = [
 const reducerActions = [
   {
     actionName: 'cleanResult',
-    stateName: 'result'
+    stateName: 'responCreate'
   },
   {
     actionName: 'cleanError',
@@ -36,7 +20,7 @@ const reducerActions = [
 ];
 
 const defaultState = {
-  result: null
+  responCreate: null,
 };
 
 const store = createResourceHandler('createMember', apiActions, reducerActions, defaultState);
