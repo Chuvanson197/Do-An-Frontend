@@ -68,6 +68,15 @@ const CreateResourceHandler = (
         loading: false,
         [`${value.actionName}Errors`]: payload,
         [`${value.actionName}Error`]: true
+      }),
+      [`${value.actionName}CleanError`]: (state) => ({
+        ...state,
+        [`${value.actionName}Errors`]: null,
+        [`${value.actionName}Error`]: false
+      }),
+      [`${value.actionName}CleanData`]: (state) => ({
+        ...state,
+        [value.stateName]: null
       })
     };
   });

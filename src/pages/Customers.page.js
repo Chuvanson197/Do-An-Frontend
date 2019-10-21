@@ -1,16 +1,17 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import { Row } from 'antd';
 import { css } from 'emotion';
 
 import { actions as layoutActions } from '../modules/layout/store';
-import { actions as customerActions } from '../modules/customer/cutomers/store';
+import { actions as customerActions } from '../modules/customer/store';
 
 import HeaderTitle from '../components/Content/HeaderTitle';
 import Layout from '../modules/layout/components/Layout';
-import Customers from '../modules/customer/cutomers/components/Customers';
+import Customers from '../modules/customer/cutomers/components/CustomersTable';
+import ErrorNotification from '../components/Notification/Error';
 
 const styles = {
   container: css`
@@ -24,83 +25,41 @@ const propTypes = {
 
 const defaultProps = {};
 
-const dummyData = [
-  {
-    id: '1',
-    name: 'Muji',
-    address: '260 Tokyo',
-    project_name: 'MUJI Admin'
-  },
-  {
-    id: '2',
-    name: 'Muji',
-    address: '260 Tokyo',
-    project_name: 'MUJI Admin'
-  },
-  {
-    id: '3',
-    name: 'Muji',
-    address: '260 Tokyo',
-    project_name: 'MUJI Admin'
-  },
-  {
-    id: '4',
-    name: 'Muji',
-    address: '260 Tokyo',
-    project_name: 'MUJI Admin'
-  },
-  {
-    id: '5',
-    name: 'Muji',
-    address: '260 Tokyo',
-    project_name: 'MUJI Admin'
-  },
-  {
-    id: '6',
-    name: 'Muji',
-    address: '260 Tokyo',
-    project_name: 'MUJI Admin'
-  }
-];
-
-const CustomersPage = ({ history }) => {
+const CustomersPage = ({ history, intl }) => {
   const dispatch = useDispatch();
-  // const { customers, isDeleted } = useSelector((state) => state.customers);
   const { authenticated } = useSelector((state) => state.authentication);
+  const { list, getCustomersError, getCustomersErrors } = useSelector((state) => state.customers);
 
-  useEffect(() => {
-    dispatch(layoutActions.selectItem(['customers']));
-    dispatch(customerActions.getCustomers({
-      path: 'customers'
-    }));
-  }, [dispatch]);
-
+  // check authencation
   useEffect(() => {
     if (!authenticated) {
       history.push('/login');
     }
   }, [authenticated, history]);
 
-  const deleteCustomer = useCallback(
-    (selectedKeys) => {
-      const body = {};
-      dispatch(customerActions.deleteCustomers({
-        path: 'customers',
-        body
-      }));
-    },
-    [dispatch]
-  );
+  // get customers list api
+  useEffect(() => {
+    dispatch(layoutActions.selectItem(['customers']));
+    dispatch(
+      customerActions.getCustomers({
+        path: 'customers'
+      })
+    );
+  }, [dispatch]);
 
-  const addNewCustomer = useCallback(
-    (body) => {
-      dispatch(customerActions.addCustomer({
-        path: 'customers',
-        body
-      }));
-    },
-    [dispatch]
-  );
+  // show notification if get customers list failure
+  useEffect(() => {
+    if (getCustomersError) {
+      const title = intl.formatMessage({ id: 'notification.error' });
+      const message = intl.formatMessage({
+        id: getCustomersErrors.message
+          ? getCustomersErrors.message
+          : 'customers.getCustomers.message.error'
+      });
+      ErrorNotification(title, message);
+      dispatch(customerActions.getCustomersCleanError());
+    }
+  }, [dispatch, getCustomersError, getCustomersErrors, intl]);
 
   return (
     <Layout>
@@ -109,11 +68,7 @@ const CustomersPage = ({ history }) => {
           <HeaderTitle title={<FormattedMessage id="customers.header.title" />} />
         </Row>
         <Row>
-          <Customers
-            customers={dummyData}
-            deleteCustomer={deleteCustomer}
-            addNewCustomer={addNewCustomer}
-          />
+          <Customers customers={list} />
         </Row>
       </Row>
     </Layout>
@@ -124,4 +79,4 @@ CustomersPage.propTypes = propTypes;
 
 CustomersPage.defaultProps = defaultProps;
 
-export default CustomersPage;
+export default injectIntl(CustomersPage, {});

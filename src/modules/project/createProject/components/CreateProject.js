@@ -24,7 +24,7 @@ import {
 import ErrorNotification from '../../../../components/Notification/Error';
 import SuccessNotification from '../../../../components/Notification/Success';
 import { actions as createProjectActions } from '../store';
-import { actions as customerActions } from '../../../customer/cutomers/store';
+import { actions as customerActions } from '../../../customer/store';
 import { actions as projectActions } from '../../listProject/store';
 
 const propTypes = {
@@ -58,7 +58,8 @@ const listStatus = [
 const CreateProject = ({ visible, close, form, selectedCustomer, intl }) => {
   const dispatch = useDispatch();
   const [customerDetail, setCustomerDetail] = useState(selectedCustomer);
-  const { customersList, getCustomersError } = useSelector((state) => state.customers);
+  const { getCustomersError, getCustomersErrors } = useSelector((state) => state.customers);
+  const customersList = useSelector((state) => state.customers.list);
   const customerLoading = useSelector((state) => state.customers.loading);
   const { createProjectError, result, loading } = useSelector((state) => state.createProject);
 
@@ -75,12 +76,16 @@ const CreateProject = ({ visible, close, form, selectedCustomer, intl }) => {
   useEffect(() => {
     if (getCustomersError) {
       const title = intl.formatMessage({ id: 'notification.error' });
-      const message = intl.formatMessage({ id: 'customers.customersList.message.error' });
+      const message = intl.formatMessage({
+        id: getCustomersErrors.message
+          ? getCustomersErrors.message
+          : 'customers.getCustomers.message.error'
+      });
       ErrorNotification(title, message);
       // clean error
-      dispatch(customerActions.cleanError(false));
+      dispatch(customerActions.getCustomersCleanError());
     }
-  }, [dispatch, getCustomersError, intl]);
+  }, [dispatch, getCustomersError, getCustomersErrors, intl]);
 
   // Handle showing notification after add new project
   useEffect(() => {

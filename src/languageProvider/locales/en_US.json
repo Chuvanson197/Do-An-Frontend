@@ -19,6 +19,8 @@
   "notification.warning": "Warning",
   "notification.message.form.error": "Invalid form data",
   "notification.message.form.noChanging": "No data changed, please update data first",
+  "notification.message.form.deletedCustomer": "This customer information has been deleted, please select another customer",
+  "Network Error": "Network error, please check your internet connection",
 
   "projects.listProject.title": "Projects",
   "projects.listProject.customer": "Customer",
@@ -103,7 +105,9 @@
 
   "projects.updateProject.title": "Update project information",
   "projects.updateProject.message.error": "Update project failure",
+  "projects.updateProject.message.success": "Update project successful",
   "projects.updateProject.confirm.add": "Update this project information?",
+  "projects.updateProject.deletedCustomer": "*This customer information has been deleted",
   
   "projects.updateMember.title": "Update member information",
   "projects.updateMember.staff_code": "Staff code",
@@ -155,9 +159,8 @@
   "customers.customerTable.address.title": "Address",
   "customers.customerTable.projectName.title": "Project Name",
   "customers.customerModal.headerEditCustomer.title":"Customer Edit",
-  "customers.customerModal.headerCreateCustomer.title": "Create new Customer",
+  "customers.customerModal.headerCreateCustomer.title": "Create new customer",
   "customers.customerModal.confirm.edit":"Edit this Customer ?",
-  "customers.customerModal.confirm.create":"Create this Customer ?",
   "customers.customerModal.button.confirm.yes":"Yes",
   "customers.customerModal.button.confirm.no":"No",
   "customers.customerModal.editButton.title":"Edit",
@@ -175,6 +178,19 @@
   "customers.customerModal.form.customerEmail.validate": "Email is required",
   "customers.customerModal.form.customerPhonenumber.title": "Phone number",
   "customers.customerModal.form.customerPhonenumber.validate": "Phone number is required",
+
+  "customers.getCustomers.message.error": "Get customers list failure",
+
+  "customers.createCustomers.customerInformation": "Customer information",
+  "customers.createCustomers.confirm.create":"Create this customer?",
+  "customers.createCustomer.message.success": "Create new customer successful",
+  "customers.createCustomer.message.error": "Create new customer failure",
+
+  "customers.updateCustomer.message.success": "Update customer information successful",
+  "customers.updateCustomer.message.error": "Update customer information failure",
+
+  "customers.removeCustomer.message.error": "Remove customer information failure",
+  "customers.removeCustomer.message.success": "Remove customer information successful",
 
   "members.title": "Members",
   "members.header.title": "Members",
