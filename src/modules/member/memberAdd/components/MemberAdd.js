@@ -72,7 +72,7 @@ const MemberAdd = ({ visible, close, form, selectedMember, joinedMembers, intl, 
   // Get all members after open modal
   useEffect(() => {
     dispatch(
-      memberActions.getMembers({
+      memberActions.getMemberList({
         path: 'members'
       })
     );

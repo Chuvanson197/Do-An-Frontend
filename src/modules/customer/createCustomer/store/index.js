@@ -2,18 +2,25 @@ import createResourceHandler from '../../../../utils/createResourceHandler';
 
 const apiActions = [
   {
-    actionName: 'addCustomer',
-    stateName: 'result',
-    apiUrl: 'customers',
+    actionName: 'createCustomer',
+    stateName: 'responCreateCustomer',
     method: 'POST'
   }
 ];
+const reducerActions = [
+  {
+    actionName: 'cleanResult',
+    stateName: 'responCreateCustomer'
+  },
+  {
+    actionName: 'cleanError',
+    stateName: 'createCustomerError'
+  }
+];
 const defaultState = {
-  customersList: [],
-  isDeleted: false,
-  result: null
+  responCreateCustomer: null
 };
 
-const store = createResourceHandler('customers', apiActions, [], defaultState);
+const store = createResourceHandler('createCustomer', apiActions, reducerActions, defaultState);
 
 export const { actions, reducer } = store;

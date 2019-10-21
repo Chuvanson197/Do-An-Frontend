@@ -6,7 +6,7 @@ import { Row, Modal, Button, Input, Form, notification, Icon, Popconfirm } from 
 import { useDispatch } from 'react-redux';
 import { css } from 'emotion';
 
-import { actions as AddCustomerActions } from '../store';
+import { actions as createCustomerActions } from '../store';
 
 const propTypes = {
   visible: PropTypes.bool.isRequired,
@@ -44,7 +44,7 @@ const CreateCustomer = ({ visible, close, form, intl }) => {
           phone_number: values.phone_number,
           email: values.email
         };
-        dispath(AddCustomerActions.createCustomer({ body }));
+        dispath(createCustomerActions.createCustomer({ body, path: 'customers' }));
       } else {
         notification.open({
           message: (
@@ -65,7 +65,7 @@ const CreateCustomer = ({ visible, close, form, intl }) => {
       title={<FormattedMessage id="customers.customerModal.headerCreateCustomer.title" />}
       cancelText="Close"
       visible={visible}
-      width="40vw"
+      width={550}
       className={styles.modal}
       onCancel={() => close()}
       maskClosable={false}
@@ -73,7 +73,10 @@ const CreateCustomer = ({ visible, close, form, intl }) => {
         <Row type="flex" key="abc" justify="end">
           <Popconfirm
             title={<FormattedMessage id="customers.customerModal.confirm.create" />}
-            onConfirm={() => handleSubmit()}
+            onConfirm={() => {
+              handleSubmit();
+              close();
+            }}
             okText={<FormattedMessage id="customers.customerModal.button.confirm.yes" />}
             cancelText={<FormattedMessage id="customers.customerModal.button.confirm.no" />}>
             <Button icon="plus" type="primary">

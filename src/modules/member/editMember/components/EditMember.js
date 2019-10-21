@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { Row, Modal, Button, Input, Form, Popconfirm } from 'antd';
+import { Row, Button, Input, Form, Popconfirm, Drawer } from 'antd';
 import { useDispatch } from 'react-redux';
 import { css } from 'emotion';
 
@@ -31,7 +31,14 @@ const defaultProps = {
 };
 
 const styles = {
-  modal: css``
+  modal: css``,
+  drawerFooter: css`
+    position: absolute;
+    bottom: 0;
+    right: 24px;
+    left: 24px;
+    padding: 24px 0px;
+  `
 };
 
 const formItemLayout = {
@@ -84,33 +91,13 @@ const EditMember = ({ intl, visible, close, form, data }) => {
   };
 
   return (
-    <Modal
+    <Drawer
       title={<FormattedMessage id="members.memberModal.headerEditMember.title" />}
-      cancelText="Close"
       visible={visible}
-      width="40vw"
+      width={550}
       className={styles.modal}
-      onCancel={() => close()}
-      maskClosable={false}
-      footer={[
-        <Row type="flex" key="abc" justify="end">
-          <Popconfirm
-            title={<FormattedMessage id="members.memberModal.confirm.edit" />}
-            onConfirm={() => {
-              handleSubmit();
-              close();
-            }}
-            okText={<FormattedMessage id="members.memberModal.button.confirm.yes" />}
-            cancelText={<FormattedMessage id="members.memberModal.button.confirm.no" />}>
-            <Button icon="edit" type="primary">
-              <FormattedMessage id="members.memberModal.editButton.title" />
-            </Button>
-          </Popconfirm>
-          <Button icon="close-circle" type="default" key="close" onClick={() => close()}>
-            <FormattedMessage id="members.memberModal.cancelButton.title" />
-          </Button>
-        </Row>
-      ]}>
+      onClose={close}
+      maskClosable={false}>
       <Form onSubmit={() => handleSubmit()} {...formItemLayout}>
         <Form.Item
           style={{ display: 'flex' }}
@@ -180,7 +167,25 @@ const EditMember = ({ intl, visible, close, form, data }) => {
           })(<Input />)}
         </Form.Item>
       </Form>
-    </Modal>
+      <Row type="flex" justify="end" className={styles.drawerFooter}>
+        <Popconfirm
+          title={<FormattedMessage id="members.memberModal.confirm.edit" />}
+          onConfirm={() => {
+            handleSubmit();
+            close();
+          }}
+          okText={<FormattedMessage id="members.memberModal.button.confirm.yes" />}
+          cancelText={<FormattedMessage id="members.memberModal.button.confirm.no" />}
+          >
+          <Button icon="edit" type="primary">
+            <FormattedMessage id="members.memberModal.editButton.title" />
+          </Button>
+        </Popconfirm>
+        <Button icon="close-circle" type="default" key="close" onClick={() => close()}>
+          <FormattedMessage id="members.memberModal.cancelButton.title" />
+        </Button>
+      </Row>
+    </Drawer>
   );
 };
 

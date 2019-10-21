@@ -7,7 +7,7 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import { actions as layoutActions } from '../modules/layout/store';
 import { actions as createMemberActions } from '../modules/member/createMember/store';
 import { actions as editMemberActions } from '../modules/member/editMember/store';
-import { actions as MemberActions } from '../modules/member/listMember/store';
+import { actions as memberActions } from '../modules/member/listMember/store';
 
 import Layout from '../modules/layout/components/Layout';
 import HeaderTitle from '../components/Content/HeaderTitle';
@@ -34,7 +34,7 @@ const ListMemberPage = ({ history, intl }) => {
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(MemberActions.getMemberList({ path: 'members' }));
+    dispatch(memberActions.getMemberList({ path: 'members' }));
   }, [dispatch, responEdit, responDel, responCreate]);
 
   useEffect(() => {
@@ -48,14 +48,14 @@ const ListMemberPage = ({ history, intl }) => {
       const title = intl.formatMessage({ id: 'notification.error' });
       const message = intl.formatMessage({ id: 'projects.listProject.message.error' });
       ErrorNotification(title, message);
-      dispatch(MemberActions.cleanError(false));
+      dispatch(memberActions.cleanError(false));
     }
   }, [dispatch, getMembersError, intl]);
 
   const deleteMember = useCallback(
     (selectedKeys) => {
       const body = {};
-      dispatch(MemberActions.deleteMembers({ path: 'members', body }));
+      dispatch(memberActions.deleteMembers({ path: 'members', body }));
     },
     [dispatch]
   );

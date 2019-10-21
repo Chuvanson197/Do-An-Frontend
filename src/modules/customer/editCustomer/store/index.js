@@ -3,15 +3,14 @@ import createResourceHandler from '../../../../utils/createResourceHandler';
 const apiActions = [
   {
     actionName: 'editCustomer',
-    stateName: 'customers',
-    apiUrl: 'customers',
+    stateName: 'responCustomer',
     method: 'PUT'
   }
 ];
 const defaultState = {
-  customers: [],
+  responCustomer: null,
 };
 
-const store = createResourceHandler('customerList', apiActions, [], defaultState);
+const store = createResourceHandler('editCustomer', apiActions, [], defaultState);
 
 export const { actions, reducer } = store;

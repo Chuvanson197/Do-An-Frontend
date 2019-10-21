@@ -12,8 +12,8 @@ const apiActions = [
     method: 'DELETE'
   },
   {
-    actionName: 'addCustomer',
-    stateName: 'result',
+    actionName: 'createCustomer',
+    stateName: 'responCustomer',
     method: 'POST'
   }
 ];
@@ -28,7 +28,7 @@ const reducerActions = [
 const defaultState = {
   customersList: [],
   isDeleted: false,
-  result: null
+  responCustomer: null
 };
 
 const store = createResourceHandler('customers', apiActions, reducerActions, defaultState);

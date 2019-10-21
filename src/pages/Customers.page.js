@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import { Row } from 'antd';
 import { css } from 'emotion';
 
@@ -24,11 +24,19 @@ const propTypes = {
 
 const defaultProps = {};
 
-const CustomersPage = ({ history }) => {
+const CustomersPage = ({ history, intl }) => {
   const dispatch = useDispatch();
-  // const { customers, isDeleted } = useSelector((state) => state.customers);
   const { authenticated } = useSelector((state) => state.authentication);
   const { customersList } = useSelector((state) => state.customers);
+  const { responCreateCustomer } = useSelector((state) => state.createCustomer);
+  console.log(`createCustomer ${responCreateCustomer}`);
+  const { responEdit } = useSelector((state) => state.editCustomer);
+
+  useEffect(() => {
+    dispatch(customerActions.getCustomers({
+      path: 'customers'
+    }));
+  }, [dispatch, responCreateCustomer, responEdit]);
 
   useEffect(() => {
     dispatch(layoutActions.selectItem(['customers']));
@@ -86,4 +94,4 @@ CustomersPage.propTypes = propTypes;
 
 CustomersPage.defaultProps = defaultProps;
 
-export default CustomersPage;
+export default injectIntl(CustomersPage, {});
