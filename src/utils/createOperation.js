@@ -8,11 +8,12 @@ export default ({ actions = {}, process = () => {} }) => (payload) => async (
     startAction && dispatch(startAction(payload));
     try {
       const result = await process({ payload, dispatch, getState });
+
       successAction && dispatch(successAction({ result, params: payload }));
 
       return result;
     } catch (error) {
-      failAction && dispatch(failAction(error));
+      failAction && dispatch(failAction(error.response.data));
       return error;
     }
   };
