@@ -10,12 +10,9 @@ import { reducer as createProjectReducer } from '../modules/project/createProjec
 import { reducer as updateProjectReducer } from '../modules/project/updateProject/store';
 import { reducer as updateMemberInProjectReducer } from '../modules/project/updateMemberInProject/store';
 import { reducer as projectMemberHistoryReducer } from '../modules/project/projectMemberHistory/store';
-import { reducer as memberListReducer } from '../modules/member/listMember/store';
-import { reducer as memberAddReducer } from '../modules/member/memberAdd/store';
-import { reducer as createMemberReducer } from '../modules/member/createMember/store';
-import { reducer as editMemberReducer } from '../modules/member/editMember/store';
 import { reducer as languageSwitcherReducer } from '../modules/languageSwitcher/store';
 import { reducer as customersReducer } from '../modules/customer/store';
+import { reducer as membersReducer } from '../modules/member/store';
 
 export const history = createBrowserHistory();
 const routeMiddleware = routerMiddleware(history);
@@ -30,12 +27,9 @@ export const rootReducer = combineReducers({
   updateProject: updateProjectReducer,
   updateMemberInProject: updateMemberInProjectReducer,
   projectMemberHistory: projectMemberHistoryReducer,
-  memberList: memberListReducer,
-  memberAdd: memberAddReducer,
-  createMember: createMemberReducer,
-  editMember: editMemberReducer,
   languageSwitcher: languageSwitcherReducer,
-  customers: customersReducer
+  customers: customersReducer,
+  members: membersReducer
 });
 
 const store = configureStore({

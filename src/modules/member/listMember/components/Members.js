@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { useDispatch } from 'react-redux';
 import { Table, Tooltip, Row, Popconfirm, Button } from 'antd';
 import PropTypes from 'prop-types';
 import { css } from 'emotion';
 
 import CreateMember from '../../createMember/components/CreateMember';
 import EditMember from '../../editMember/components/EditMember';
-import { actions as delMemberActions } from '../store';
+import SuccessNotification from '../../../../components/Notification/Success';
+import ErrorNotification from '../../../../components/Notification/Error';
+import { actions as memberActions } from '../../store';
+
 
 const propTypes = {
   intl: PropTypes.shape({}).isRequired,
@@ -26,19 +29,25 @@ const styles = {
 const Members = ({ intl, members, createMember }) => {
   const dispatch = useDispatch();
   const [openCreateModal, setOpenCreateModal] = useState(false);
-  const [openEditModal, setOpenEditModal] = useState(false);
+  const [drawerVisible, setDrawerVisible] = useState(false);
   const [dataItem, setDataItem] = useState({});
+  const { removeMemberResult, removeMemberError, removeMemberErrors } = useSelector(
+    (state) => state.members
+  );
 
   const handleConfirmDelete = (record) => {
-    dispatch(delMemberActions.delMember({ path: 'members/remove', param: record.staff_code }));
-    // message.success(intl.formatMessage({ id: 'members.deleted.success' }));
+    dispatch(memberActions.removeMember({ path: 'members/remove', param: record.staff_code }));
   };
   const handleEditSelected = (data) => {
-    setOpenEditModal(!openEditModal);
-    setDataItem(data);
+    data && setDataItem(data);
+    setDrawerVisible(!drawerVisible);
+    dispatch(memberActions.updateMemberCleanError());
+    dispatch(memberActions.updateMemberCleanData());
   };
   const handleCreateModal = () => {
     setOpenCreateModal(!openCreateModal);
+    dispatch(memberActions.createMemberCleanError());
+    dispatch(memberActions.createMemberCleanData());
   };
 
   const columns = [
@@ -103,6 +112,35 @@ const Members = ({ intl, members, createMember }) => {
     }
   ];
 
+  useEffect(() => {
+    // show success notification
+    if (removeMemberResult) {
+      const title = intl.formatMessage({ id: 'notification.success' });
+      const message = intl.formatMessage({ id: removeMemberResult.message });
+      SuccessNotification(title, message);
+      // clean data
+      // dispatch(memberActions.removeMemberCleanData(false));
+      // re-call get Members list
+      dispatch(
+        memberActions.getMembers({
+          path: 'members'
+        })
+      );
+    }
+    // show error notification
+    if (removeMemberError) {
+      const title = intl.formatMessage({ id: 'notification.error' });
+      const message = intl.formatMessage({
+        id: removeMemberErrors.message
+          ? removeMemberErrors.message
+          : 'members.removeMember.message.error'
+      });
+      ErrorNotification(title, message);
+      // clean error
+      // dispatch(memberActions.removeMemberCleanError(false));
+    }
+  }, [dispatch, intl, removeMemberError, removeMemberErrors, removeMemberResult]);
+
   return (
     <React.Fragment>
       <Row style={{ marginBottom: 15 }}>
@@ -126,12 +164,8 @@ const Members = ({ intl, members, createMember }) => {
           close={() => handleCreateModal()}
         />
       )}
-      {openEditModal && (
-        <EditMember
-          visible={openEditModal}
-          close={() => handleEditSelected()}
-          data={dataItem}
-        />
+      {drawerVisible && (
+        <EditMember visible={drawerVisible} close={() => handleEditSelected()} data={dataItem} />
       )}
     </React.Fragment>
   );

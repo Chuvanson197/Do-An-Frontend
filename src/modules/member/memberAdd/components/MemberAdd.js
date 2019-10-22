@@ -24,7 +24,7 @@ import {
 
 import ErrorNotification from '../../../../components/Notification/Error';
 import SuccessNotification from '../../../../components/Notification/Success';
-import { actions as memberActions } from '../../listMember/store';
+import { actions as memberActions } from '../../store';
 import { actions as memberAddActions } from '../store';
 import { actions as projectActions } from '../../../project/projectDetails/store';
 import { roles } from '../../../../utils/roles';
@@ -72,7 +72,7 @@ const MemberAdd = ({ visible, close, form, selectedMember, joinedMembers, intl, 
   // Get all members after open modal
   useEffect(() => {
     dispatch(
-      memberActions.getMemberList({
+      memberActions.getMembers({
         path: 'members'
       })
     );
