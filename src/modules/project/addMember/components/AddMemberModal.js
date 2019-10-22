@@ -63,8 +63,8 @@ const listStatus = [{ id: 1, name: 'working' }, { id: 2, name: 'leave' }, { id: 
 
 const AddMemberModal = ({ visible, close, form, selectedMember, joinedMembers, intl, match }) => {
   const dispatch = useDispatch();
-  const { members, getMembersError } = useSelector((state) => state.memberList);
-  const memberLoading = useSelector((state) => state.memberList.loading);
+  const { list, getMembersError } = useSelector((state) => state.members);
+  const memberLoading = useSelector((state) => state.members.loading);
   const { addMemberError, addMemberErrors, addMemberResult, loading } = useSelector(
     (state) => state.projects
   );
@@ -149,7 +149,7 @@ const AddMemberModal = ({ visible, close, form, selectedMember, joinedMembers, i
   };
 
   const handleSelect = (value) => {
-    members.map((member) => {
+    list.map((member) => {
       if (member.staff_code === value) {
         setMemberDetail(member);
       }
@@ -208,7 +208,7 @@ const AddMemberModal = ({ visible, close, form, selectedMember, joinedMembers, i
               autoClearSearchValue
               notFoundContent={memberLoading && <Spin size="small" />}
               onSelect={(value) => handleSelect(value)}>
-              {(members || []).map((member) => {
+              {(list || []).map((member) => {
                 return (
                   <Select.Option
                     disabled={
