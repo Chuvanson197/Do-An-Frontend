@@ -22,13 +22,14 @@
   "notification.message.form.deletedCustomer": "Thông tin khách hàng đã bị xóa, vui lòng chọn lại khách hàng",
   "Network Error": "Lỗi đường truyền, vui lòng kiểm tra lại kết nối internet của bạn",
 
-  "projects.listProject.title": "Danh sách dự án",
-  "projects.listProject.customer": "Khách hàng",
-  "projects.listProject.date": "Thời gian",
-  "projects.listProject.status.running": "Đang thực hiện",
-  "projects.listProject.status.completed": "Đã hoàn thành",
-  "projects.listProject.status.stopped": "Đã dừng lại",
-  "projects.listProject.message.error": "Lấy danh sách dự án thất bại",
+  "projects.status.running": "Đang thực hiện",
+  "projects.status.completed": "Đã hoàn thành",
+  "projects.status.stopped": "Đã dừng lại",
+
+  "projects.getProjects.title": "Danh sách dự án",
+  "projects.getProjects.customer": "Khách hàng",
+  "projects.getProjects.date": "Thời gian",
+  "projects.getProjects.message.error": "Lấy danh sách dự án thất bại",
 
   "projects.createProject.title": "Thêm mới thông tin dự án",
   "projects.createProject.projectInformation": "Thông tin dự án",

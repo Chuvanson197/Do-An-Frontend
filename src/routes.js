@@ -1,10 +1,10 @@
 import Dashboard from './pages/Dashbroad.page';
-import ListProject from './pages/ListProject.page';
+import ProjectPage from './pages/Projects.page';
 import ProjectDetail from './pages/ProjectDetail.page';
 import ProjectMemberHistory from './pages/ProjectMemberHistory.page';
 import LoginPage from './pages/Login.page';
 import ListMemberPage from './pages/ListMember.page';
-import Customers from './pages/Customers.page';
+import Customerpage from './pages/Customers.page';
 
 export default [
   {
@@ -13,7 +13,7 @@ export default [
     path: '/'
   },
   {
-    component: ListProject,
+    component: ProjectPage,
     exact: false,
     path: '/project/list'
   },
@@ -33,7 +33,7 @@ export default [
     path: '/login'
   },
   {
-    component: Customers,
+    component: Customerpage,
     exact: false,
     path: '/customers'
   },

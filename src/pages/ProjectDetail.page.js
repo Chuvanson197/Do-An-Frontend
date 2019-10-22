@@ -6,7 +6,7 @@ import { Row, Col, Button, Icon, Popconfirm } from 'antd';
 import { css } from 'emotion';
 
 import { actions as layoutActions } from '../modules/layout/store';
-import { actions as projectActions } from '../modules/project/projectDetails/store';
+import { actions as projectActions } from '../modules/project/store';
 
 import Layout from '../modules/layout/components/Layout';
 
@@ -34,32 +34,32 @@ const styles = {
 const ProjectDetailPage = ({ match, history, intl }) => {
   const dispatch = useDispatch();
   const { authenticated } = useSelector((state) => state.authentication);
-  const { project, joinedMembers, removeProjectResult, removeProjectError, loading } = useSelector(
-    (state) => state.projectDetail
-  );
+  const {
+    project,
+    joinedMembers,
+    removeProjectResult,
+    removeProjectError,
+    removeProjectErrors,
+    loading
+  } = useSelector((state) => state.projects);
 
   useEffect(() => {
     dispatch(layoutActions.selectItem(['project']));
     // clean state
     // clean old joined members state
-    dispatch(
-      projectActions.cleanJoinedMember({
-        list: [],
-        total: 0
-      })
-    );
+    dispatch(projectActions.getJoinedMembersCleanData());
     // clean old project detail state
-    dispatch(projectActions.cleanProjectDetail(null));
+    dispatch(projectActions.getProjectCleanData());
     // get project detail
     dispatch(
-      projectActions.getProjectDetail({
+      projectActions.getProject({
         param: match.params.id,
         path: 'projects'
       })
     );
     // get joined members
     dispatch(
-      projectActions.getMembers({
+      projectActions.getJoinedMembers({
         param: match.params.id,
         path: 'projects/membersList'
       })
@@ -74,22 +74,25 @@ const ProjectDetailPage = ({ match, history, intl }) => {
   }, [authenticated, history]);
 
   // show notification after remove project
-
   useEffect(() => {
     if (removeProjectResult) {
       const title = intl.formatMessage({ id: 'notification.success' });
       const message = intl.formatMessage({ id: removeProjectResult.message });
       SuccessNotification(title, message);
 
-      dispatch(projectActions.cleanRemoveProjectResult(null));
+      dispatch(projectActions.removeProjectCleanData());
       history.push('/project/list');
     } else if (removeProjectError) {
       const title = intl.formatMessage({ id: 'notification.error' });
-      const message = intl.formatMessage({ id: 'projects.removeProject.message.error' });
+      const message = intl.formatMessage({
+        id: removeProjectErrors.message
+          ? removeProjectErrors.message
+          : 'projects.removeProject.message.error'
+      });
       ErrorNotification(title, message);
-      dispatch(projectActions.cleanRemoveProjectError(false));
+      dispatch(projectActions.removeProjectCleanError());
     }
-  }, [dispatch, history, intl, removeProjectError, removeProjectResult]);
+  }, [dispatch, history, intl, removeProjectError, removeProjectErrors, removeProjectResult]);
 
   // redirect functions
   const onBack = () => {

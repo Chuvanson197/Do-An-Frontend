@@ -6,12 +6,11 @@ import { Row, Col, Tabs, Tag, Button, Skeleton } from 'antd';
 import { css } from 'emotion';
 
 import { actions as layoutActions } from '../modules/layout/store';
-import { actions as projectActions } from '../modules/project/listProject/store';
-import { actions as createProjectActions } from '../modules/project/createProject/store';
+import { actions as projectActions } from '../modules/project/store';
 
 import Layout from '../modules/layout/components/Layout';
 import HeaderTitle from '../components/Content/HeaderTitle';
-import ListProject from '../modules/project/listProject/components/ListProject';
+import ProjectsList from '../modules/project/projects/components/ProjectsList';
 import CreateProject from '../modules/project/createProject/components/CreateProject';
 import ErrorNotification from '../components/Notification/Error';
 
@@ -30,11 +29,20 @@ const styles = {
   `
 };
 
-const ListProjectPage = ({ history, intl }) => {
+const ProjectsPage = ({ history, intl }) => {
   const dispatch = useDispatch();
   const { authenticated } = useSelector((state) => state.authentication);
-  const { list, loading, getProjectsError } = useSelector((state) => state.projectList);
+  const { list, loading, getProjectsError, getProjectsErrors } = useSelector(
+    (state) => state.projects
+  );
   const [visible, setVisible] = useState(false);
+
+  // check authencation if not redirect to login page
+  useEffect(() => {
+    if (!authenticated) {
+      history.push('/login');
+    }
+  }, [authenticated, history]);
 
   // get projects list
   useEffect(() => {
@@ -46,34 +54,31 @@ const ListProjectPage = ({ history, intl }) => {
     );
   }, [dispatch]);
 
-  // check authencation if not redirect to login page
-  useEffect(() => {
-    if (!authenticated) {
-      history.push('/login');
-    }
-  }, [authenticated, history]);
-
   // show notification if get projects list failure
   useEffect(() => {
     if (getProjectsError) {
       const title = intl.formatMessage({ id: 'notification.error' });
-      const message = intl.formatMessage({ id: 'projects.listProject.message.error' });
+      const message = intl.formatMessage({
+        id: getProjectsErrors.message
+          ? getProjectsErrors.message
+          : 'projects.getProjects.message.error'
+      });
       ErrorNotification(title, message);
-      dispatch(projectActions.cleanError(false));
+      dispatch(projectActions.getProjectsCleanError());
     }
-  }, [dispatch, getProjectsError, intl]);
+  }, [dispatch, getProjectsError, getProjectsErrors, intl]);
 
   const handleControlModal = () => {
     setVisible(!visible);
     // clean modal state after close or open
-    dispatch(createProjectActions.cleanResult(null));
-    dispatch(createProjectActions.cleanError(false));
+    dispatch(projectActions.createProjectCleanData());
+    dispatch(projectActions.createProjectCleanError());
   };
 
   return (
     <Layout>
       <React.Fragment>
-        <HeaderTitle title={<FormattedMessage id="projects.listProject.title" />} />
+        <HeaderTitle title={<FormattedMessage id="projects.getProjects.title" />} />
         <Button
           icon="folder-add"
           className={styles.addCustomerButton}
@@ -86,34 +91,34 @@ const ListProjectPage = ({ history, intl }) => {
               <Tabs.TabPane
                 tab={
                   <Tag color="#108ee9">
-                    <FormattedMessage id="projects.listProject.status.running" />
+                    <FormattedMessage id="projects.status.running" />
                   </Tag>
                 }
                 key="1">
                 <Skeleton loading={loading} active paragraph={{ rows: 10 }}>
-                  <ListProject listProject={list.filter((item) => item.status === 'running')} />
+                  <ProjectsList list={list.filter((item) => item.status === 'running')} />
                 </Skeleton>
               </Tabs.TabPane>
               <Tabs.TabPane
                 tab={
                   <Tag color="#87d068">
-                    <FormattedMessage id="projects.listProject.status.completed" />
+                    <FormattedMessage id="projects.status.completed" />
                   </Tag>
                 }
                 key="3">
                 <Skeleton loading={loading} active paragraph={{ rows: 10 }}>
-                  <ListProject listProject={list.filter((item) => item.status === 'completed')} />
+                  <ProjectsList list={list.filter((item) => item.status === 'completed')} />
                 </Skeleton>
               </Tabs.TabPane>
               <Tabs.TabPane
                 tab={
                   <Tag color="#f5222D">
-                    <FormattedMessage id="projects.listProject.status.stopped" />
+                    <FormattedMessage id="projects.status.stopped" />
                   </Tag>
                 }
                 key="2">
                 <Skeleton loading={loading} active paragraph={{ rows: 10 }}>
-                  <ListProject listProject={list.filter((item) => item.status === 'stopped')} />
+                  <ProjectsList list={list.filter((item) => item.status === 'stopped')} />
                 </Skeleton>
               </Tabs.TabPane>
             </Tabs>
@@ -125,8 +130,8 @@ const ListProjectPage = ({ history, intl }) => {
   );
 };
 
-ListProjectPage.propTypes = propTypes;
+ProjectsPage.propTypes = propTypes;
 
-ListProjectPage.defaultProps = defaultProps;
+ProjectsPage.defaultProps = defaultProps;
 
-export default injectIntl(ListProjectPage, {});
+export default injectIntl(ProjectsPage, {});

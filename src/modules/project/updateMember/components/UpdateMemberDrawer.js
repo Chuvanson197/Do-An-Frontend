@@ -24,8 +24,7 @@ import {
 import ErrorNotification from '../../../../components/Notification/Error';
 import SuccessNotification from '../../../../components/Notification/Success';
 import { roles } from '../../../../utils/roles';
-import { actions as updateMemberActions } from '../store';
-import { actions as projectActions } from '../../projectDetails/store';
+import { actions as projectActions } from '../../store';
 
 const propTypes = {
   intl: PropTypes.shape({}).isRequired,
@@ -58,44 +57,56 @@ const formItemLayout = {
   }
 };
 
-const UpdateProjectDrawer = ({ intl, onClose, drawerVisible, form, member, match }) => {
+const UpdateMemberDrawer = ({ intl, onClose, drawerVisible, form, member, match }) => {
   const dispatch = useDispatch();
-  const { result, updateMemberInProjectError, loading } = useSelector(
-    (state) => state.updateMemberInProject
+  const { updateMemberResult, updateMemberError, updateMemberErrors, loading } = useSelector(
+    (state) => state.projects
   );
   // Handle showing notification after update project
   useEffect(() => {
     // show success notification
-    if (result) {
+    if (updateMemberResult) {
       const title = intl.formatMessage({ id: 'notification.success' });
-      const message = intl.formatMessage({ id: result.message });
+      const message = intl.formatMessage({ id: updateMemberResult.message });
       SuccessNotification(title, message);
       // close the modal and clean state
       onClose();
       // re-call get project detail api
       dispatch(
-        projectActions.getProjectDetail({
+        projectActions.getProject({
           param: match.params.id,
           path: 'projects'
         })
       );
       // re-call get members list api
       dispatch(
-        projectActions.getMembers({
+        projectActions.getJoinedMembers({
           param: match.params.id,
           path: 'projects/membersList'
         })
       );
     }
     // show error notification
-    if (updateMemberInProjectError) {
+    if (updateMemberError) {
       const title = intl.formatMessage({ id: 'notification.error' });
-      const message = intl.formatMessage({ id: 'projects.updateMemberInProject.message.error' });
+      const message = intl.formatMessage({
+        id: updateMemberErrors.message
+          ? updateMemberErrors.message
+          : 'projects.updateMemberInProject.message.error'
+      });
       ErrorNotification(title, message);
       // clean state
-      dispatch(updateMemberActions.cleanError(false));
+      dispatch(projectActions.updateMemberCleanError(false));
     }
-  }, [onClose, dispatch, intl, updateMemberInProjectError, result, match.params.id]);
+  }, [
+    onClose,
+    dispatch,
+    intl,
+    updateMemberError,
+    updateMemberErrors,
+    updateMemberResult,
+    match.params.id
+  ]);
 
   const handleSubmit = () => {
     form.validateFields((err, values) => {
@@ -121,7 +132,7 @@ const UpdateProjectDrawer = ({ intl, onClose, drawerVisible, form, member, match
           return ErrorNotification(title, message);
         }
         dispatch(
-          updateMemberActions.updateMemberInProject({
+          projectActions.updateMember({
             body,
             path: 'projects/membersList',
             param: member.id
@@ -307,10 +318,10 @@ const UpdateProjectDrawer = ({ intl, onClose, drawerVisible, form, member, match
   );
 };
 
-UpdateProjectDrawer.propTypes = propTypes;
+UpdateMemberDrawer.propTypes = propTypes;
 
-UpdateProjectDrawer.defaultProps = defaultProps;
+UpdateMemberDrawer.defaultProps = defaultProps;
 
-const UpdateProjectForm = Form.create({ name: 'updateProject' })(UpdateProjectDrawer);
+const UpdateMemberForm = Form.create({ name: 'updateProject' })(UpdateMemberDrawer);
 
-export default injectIntl(UpdateProjectForm, {});
+export default injectIntl(UpdateMemberForm, {});
