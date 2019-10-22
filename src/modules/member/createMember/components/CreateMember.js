@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { formShape } from 'rc-form';
 import PropTypes from 'prop-types';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { Row, Modal, Button, Input, Form, notification, Icon, Popconfirm } from 'antd';
-import { useDispatch } from 'react-redux';
+import { Row, Modal, Button, Input, Form, notification, Icon, Popconfirm, Typography } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
 import { css } from 'emotion';
 
-import { actions as createMemberActions } from '../store';
-
+import { actions as memberActions } from '../../store';
+import ErrorNotification from '../../../../components/Notification/Error';
+import SuccessNotification from '../../../../components/Notification/Success';
+import modalConfig from '../../../../utils/modal.config';
 
 const propTypes = {
   visible: PropTypes.bool.isRequired,
@@ -19,32 +21,7 @@ const propTypes = {
   selectedMember: PropTypes.shape({})
 };
 
-const defaultProps = [
-  {
-    key: '1',
-    id: 'member_001',
-    full_name: 'Chu Van Son',
-    staff_code: 'impl_S01',
-    phone_number: '123456798',
-    status: 'working',
-    email: 'son.chu@impl.com',
-    time_in: 1568271275000,
-    time_out: 1599893675000,
-    effort: 1
-  },
-  {
-    key: '2',
-    id: 'member_002',
-    full_name: 'Chu Van Son',
-    staff_code: 'impl_S01',
-    phone_number: '123456798',
-    status: 'out',
-    email: 'son.chu@impl.com',
-    time_in: 1568271275000,
-    time_out: 1599893675000,
-    effort: 1
-  }
-];
+const defaultProps = [];
 
 const styles = {
   modal: css``
@@ -60,7 +37,40 @@ const formItemLayout = {
 };
 
 const CreateMember = ({ visible, close, form, intl }) => {
-  const dispath = useDispatch();
+  const dispatch = useDispatch();
+  const { createMemberResult, createMemberError, createMemberErrors } = useSelector(
+    (state) => state.members
+  );
+
+  useEffect(() => {
+    // show success notification
+    if (createMemberResult) {
+      const title = intl.formatMessage({ id: 'notification.success' });
+      const message = intl.formatMessage({ id: createMemberResult.message });
+      SuccessNotification(title, message);
+      // close the modal and clean data
+      close();
+      // re-call get all customers api
+      dispatch(
+        memberActions.getMembers({
+          path: 'members'
+        })
+      );
+    }
+    // show error notification
+    if (createMemberError) {
+      const title = intl.formatMessage({ id: 'notification.error' });
+      const message = intl.formatMessage({
+        id: createMemberErrors.message
+          ? createMemberErrors.message
+          : 'projects.createProject.message.error'
+      });
+      ErrorNotification(title, message);
+      // clean error
+      dispatch(memberActions.createMemberCleanError(false));
+    }
+  }, [close, createMemberError, createMemberErrors, createMemberResult, dispatch, intl]);
+
   const handleSubmit = () => {
     form.validateFields((err, values) => {
       if (!err) {
@@ -70,7 +80,7 @@ const CreateMember = ({ visible, close, form, intl }) => {
           phone_number: values.phone_number,
           email: values.email
         };
-        dispath(createMemberActions.createMember({ body }));
+        dispatch(memberActions.createMember({ body, path: 'members' }));
       } else {
         notification.open({
           message: (
@@ -86,7 +96,6 @@ const CreateMember = ({ visible, close, form, intl }) => {
     });
   };
 
-
   return (
     <Modal
       title={<FormattedMessage id="members.memberModal.headerCreateMember.title" />}
@@ -99,21 +108,27 @@ const CreateMember = ({ visible, close, form, intl }) => {
       footer={[
         <Row type="flex" key="abc" justify="end">
           <Popconfirm
-          title={<FormattedMessage id="members.memberModal.confirm.create" />}
-          onConfirm={() => handleSubmit()}
-          okText={<FormattedMessage id="members.memberModal.button.confirm.yes" />}
-          cancelText={<FormattedMessage id="members.memberModal.button.confirm.no" />}
-          >
-          <Button icon="plus" type="primary">
-            <FormattedMessage id="members.memberModal.createButton.title" />
-          </Button>
-        </Popconfirm>
+            title={<FormattedMessage id="members.memberModal.confirm.create" />}
+            onConfirm={() => handleSubmit()}
+            okText={<FormattedMessage id="members.memberModal.button.confirm.yes" />}
+            cancelText={<FormattedMessage id="members.memberModal.button.confirm.no" />}>
+            <Button icon="plus" type="primary">
+              <FormattedMessage id="members.memberModal.createButton.title" />
+            </Button>
+          </Popconfirm>
           <Button icon="close-circle" type="default" key="close" onClick={() => close()}>
             <FormattedMessage id="members.memberModal.cancelButton.title" />
           </Button>
         </Row>
-      ]}>
+      ]}
+      {...modalConfig}>
       <Form onSubmit={() => handleSubmit()} {...formItemLayout}>
+      <Row style={{ marginBottom: 10 }}>
+          <Icon type="user" style={{ marginRight: 10 }} />
+          <Typography.Text style={{ fontWeight: 'bold' }}>
+            {<FormattedMessage id="members.createMembers.memberInformation" />}
+          </Typography.Text>
+        </Row>
         <Form.Item
           style={{ display: 'flex' }}
           label={<FormattedMessage id="members.memberModal.form.memberStaffcode.title" />}

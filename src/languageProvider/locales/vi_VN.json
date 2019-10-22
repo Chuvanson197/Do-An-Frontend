@@ -223,12 +223,20 @@
   "members.memberModal.form.memberEmail.validate.type": "Địa chỉ email không hợp lệ",
   "members.memberModal.form.memberEmail.validate": "Địa chỉ email là bắt buộc",
   "members.memberModal.confirm.edit": "Sửa thông tin thành viên này?",
-  "members.memberModal.confirm.create": "Thêm thông tin thành viên này",
+  "members.memberModal.confirm.create": "Thêm mới thông tin thành viên này?",
   "members.memberModal.button.confirm.yes": "Có",
   "members.memberModal.button.confirm.no": "Không",
-  "members.memberModal.edited.success": "Sửa thông tin thành viên thành công",
-  "members.memberModal.edited.failed": "Sửa thông tin thành viên thất bại",
   "members.membersList.message.error": "Lấy danh sách thành viên thất bại",
+
+  "members.createMembers.memberInformation": "Thông tin thành viên",
+  "members.addMember.message.success": "Thêm mới thông tin thành viên thành công",
+  "members.addMember.message.error": "Thêm mới thông tin thành viên thất bại",
+
+  "members.updateMember.message.success": "Cập nhật thông tin thành viên thành công",
+  "members.updateMember.message.error": "Cập nhật thông tin thành viên thất bại",
+
+  "members.removeMember.message.error": "Xóa thông tin thành viên thất bại",
+  "members.removeMember.message.success": "Xóa thông tin thành viên thành công",
 
   "languageSwitcher.vi": "Tiếng Việt",
   "languageSwitcher.en": "Tiếng Anh"

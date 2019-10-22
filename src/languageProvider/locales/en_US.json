@@ -216,7 +216,7 @@
   "members.memberTable.timeOut.title": "Time out",
   "members.memberTable.status.title": "Status",
   "members.membersTable.effort.title": "Effort",
-  "members.memberModal.header.title": "Create new Member",
+  "members.memberModal.headerCreateMember.title": "Create new Member",
   "members.memberModal.headerEditMember.title": "Member Edit",
   "members.memberModal.createButton.title": "Create",
   "members.memberModal.cancelButton.title": "Cancle",
@@ -236,7 +236,17 @@
   "members.memberModal.button.confirm.no": "No",
   "members.memberModal.edited.success": "Edited member information success",
   "members.memberModal.edited.failed": "Edited member information failed",
-  "members.membersList.message.error": "Get members list failure",
+
+  "members.createMembers.memberInformation": "Member information",
+  "members.createMembers.confirm.create":"Create this member?",
+  "members.addMember.message.success": "Create new member successful",
+  "members.addMember.message.error": "Create new member failure",
+
+  "members.updateMember.message.success": "Update member information successful",
+  "members.updateMember.message.error": "Update member information failure",
+
+  "members.removeMember.message.error": "Remove member information failure",
+  "members.removeMember.message.success": "Remove member information successful",
 
   "languageSwitcher.vi": "Vietnamese",
   "languageSwitcher.en": "English"

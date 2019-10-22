@@ -24,7 +24,7 @@ import {
 
 import ErrorNotification from '../../../../components/Notification/Error';
 import SuccessNotification from '../../../../components/Notification/Success';
-import { actions as memberActions } from '../../../member/listMember/store';
+import { actions as memberActions } from '../../../member/store';
 import { actions as projectActions } from '../../store';
 import { roles } from '../../../../utils/roles';
 

@@ -98,7 +98,7 @@ const CreateCustomerModal = ({ visible, close, form, intl }) => {
     <Modal
       title={<FormattedMessage id="customers.customerModal.headerCreateCustomer.title" />}
       visible={visible}
-      width="40vw"
+      width={550}
       className={styles.modal}
       onCancel={() => close()}
       footer={[

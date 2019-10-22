@@ -1,33 +1,35 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage, injectIntl} from 'react-intl';
-import { Row, Modal, Button, Input, Form, Popconfirm, notification, Icon} from 'antd';
-import { useDispatch } from 'react-redux';
+import { FormattedMessage, injectIntl } from 'react-intl';
+import { Row, Button, Input, Form, Popconfirm, Drawer, Typography, Icon } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
 import { css } from 'emotion';
+import { formShape } from 'rc-form';
 
-import { actions as editMemberActions } from '../store';
+import { actions as memberActions } from '../../store';
+import ErrorNotification from '../../../../components/Notification/Error';
+import SuccessNotification from '../../../../components/Notification/Success';
 
 const propTypes = {
-  intl: PropTypes.shape({}).isRequired
-  // Member: PropTypes.shape({
-  //   full_name: PropTypes.string,
-  //   staff_code: PropTypes.string,
-  //   phone_number: PropTypes.string,
-  //   email: PropTypes.string
-  // })
+  intl: PropTypes.shape({}).isRequired,
+  close: PropTypes.func.isRequired,
+  form: formShape.isRequired,
+  data: PropTypes.shape({})
 };
 
 const defaultProps = {
-  // Member: {
-  //   full_name: PropTypes.string,
-  //   staff_code: PropTypes.string,
-  //   phone_number: PropTypes.string,
-  //   email: PropTypes.string
-  // }
+  data: {}
 };
 
 const styles = {
-  modal: css``
+  modal: css``,
+  drawerFooter: css`
+    position: absolute;
+    bottom: 0;
+    right: 24px;
+    left: 24px;
+    padding: 24px 0px;
+  `
 };
 
 const formItemLayout = {
@@ -40,7 +42,38 @@ const formItemLayout = {
 };
 
 const EditMember = ({ intl, visible, close, form, data }) => {
-  const dispath = useDispatch();
+  const dispatch = useDispatch();
+  const { updateMemberResult, updateMemberError, updateMemberErrors } = useSelector(
+    (state) => state.members
+  );
+  useEffect(() => {
+    // show success notification
+    if (updateMemberResult) {
+      const title = intl.formatMessage({ id: 'notification.success' });
+      const message = intl.formatMessage({ id: updateMemberResult.message });
+      SuccessNotification(title, message);
+      // close the modal and clean data
+      close();
+      // re-call get members list
+      dispatch(
+        memberActions.getMembers({
+          path: 'members'
+        })
+      );
+    }
+    // show error notification
+    if (updateMemberError) {
+      const title = intl.formatMessage({ id: 'notification.error' });
+      const message = intl.formatMessage({
+        id: updateMemberErrors.message
+          ? updateMemberErrors.message
+          : 'projects.updateProject.message.error'
+      });
+      ErrorNotification(title, message);
+      // clean error
+      dispatch(memberActions.updateMemberCleanError(false));
+    }
+  }, [close, dispatch, intl, updateMemberError, updateMemberResult, updateMemberErrors]);
 
   const handleSubmit = () => {
     form.validateFields((err, values) => {
@@ -51,49 +84,42 @@ const EditMember = ({ intl, visible, close, form, data }) => {
           phone_number: values.phone_number,
           email: values.email
         };
-        dispath(editMemberActions.editMember({ body }));
+        const oldBody = {
+          staff_code: data.staff_code,
+          full_name: data.full_name,
+          phone_number: data.phone_number,
+          email: data.email
+        };
+        if (JSON.stringify(body) === JSON.stringify(oldBody)) {
+          const title = intl.formatMessage({ id: 'notification.error' });
+          const message = intl.formatMessage({ id: 'notification.message.form.noChanging' });
+          return ErrorNotification(title, message);
+        }
+        dispatch(memberActions.updateMember({ body, path: 'members', param: data.staff_code }));
       } else {
-        notification.open({
-          message: (
-            <span style={{ color: '#f5222d', fontWeight: 'bold' }}>
-              {intl.formatMessage({ id: 'notification.error' })}
-            </span>
-          ),
-          description: intl.formatMessage({ id: 'notification.message.form.error' }),
-          duration: 2,
-          icon: <Icon type="frown" style={{ color: '#f5222d' }} />
-        });
+        const title = intl.formatMessage({ id: 'notification.error' });
+        const message = intl.formatMessage({ id: 'notification.message.form.error' });
+        ErrorNotification(title, message);
       }
+      return null;
     });
   };
 
   return (
-    <Modal
+    <Drawer
       title={<FormattedMessage id="members.memberModal.headerEditMember.title" />}
-      cancelText="Close"
       visible={visible}
-      width="40vw"
+      width={550}
       className={styles.modal}
-      onCancel={() => close()}
-      maskClosable={false}
-      footer={[
-        <Row type="flex" key="abc" justify="end">
-          <Popconfirm
-          title={<FormattedMessage id="members.memberModal.confirm.edit" />}
-          onConfirm={() => handleSubmit()}
-          okText={<FormattedMessage id="members.memberModal.button.confirm.yes" />}
-          cancelText={<FormattedMessage id="members.memberModal.button.confirm.no" />}
-          >
-          <Button icon="edit" type="primary">
-            <FormattedMessage id="members.memberModal.editButton.title" />
-          </Button>
-        </Popconfirm>
-          <Button icon="close-circle" type="default" key="close" onClick={() => close()}>
-            <FormattedMessage id="members.memberModal.cancelButton.title" />
-          </Button>
-        </Row>
-      ]}>
+      onClose={close}
+      maskClosable={false}>
       <Form onSubmit={() => handleSubmit()} {...formItemLayout}>
+      <Row style={{ marginBottom: 10 }}>
+          <Icon type="user" style={{ marginRight: 10 }} />
+          <Typography.Text style={{ fontWeight: 'bold' }}>
+            {<FormattedMessage id="members.createMembers.memberInformation" />}
+          </Typography.Text>
+        </Row>
         <Form.Item
           style={{ display: 'flex' }}
           label={<FormattedMessage id="members.memberModal.form.memberStaffcode.title" />}
@@ -162,7 +188,21 @@ const EditMember = ({ intl, visible, close, form, data }) => {
           })(<Input />)}
         </Form.Item>
       </Form>
-    </Modal>
+      <Row type="flex" justify="end" className={styles.drawerFooter}>
+        <Popconfirm
+          title={<FormattedMessage id="members.memberModal.confirm.edit" />}
+          onConfirm={() => handleSubmit()}
+          okText={<FormattedMessage id="members.memberModal.button.confirm.yes" />}
+          cancelText={<FormattedMessage id="members.memberModal.button.confirm.no" />}>
+          <Button icon="edit" type="primary">
+            <FormattedMessage id="members.memberModal.editButton.title" />
+          </Button>
+        </Popconfirm>
+        <Button icon="close-circle" type="default" key="close" onClick={() => close()}>
+          <FormattedMessage id="members.memberModal.cancelButton.title" />
+        </Button>
+      </Row>
+    </Drawer>
   );
 };
 

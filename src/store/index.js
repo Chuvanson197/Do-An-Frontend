@@ -7,7 +7,7 @@ import { reducer as languageSwitcherReducer } from '../modules/languageSwitcher/
 import { reducer as authenticationReducer } from '../modules/auth/login/store';
 import { reducer as projectsReducer } from '../modules/project/store';
 import { reducer as customersReducer } from '../modules/customer/store';
-import { reducer as memberListReducer } from '../modules/member/listMember/store';
+import { reducer as membersReducer } from '../modules/member/store';
 
 export const history = createBrowserHistory();
 const routeMiddleware = routerMiddleware(history);
@@ -19,7 +19,7 @@ export const rootReducer = combineReducers({
   authentication: authenticationReducer,
   projects: projectsReducer,
   customers: customersReducer,
-  memberList: memberListReducer,
+  members: membersReducer
 });
 
 const store = configureStore({
