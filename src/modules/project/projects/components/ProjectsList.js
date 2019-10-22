@@ -8,7 +8,7 @@ import { List, Skeleton, Typography, Row, Tag } from 'antd';
 import { FormattedMessage } from 'react-intl';
 
 const propTypes = {
-  listProject: PropTypes.arrayOf(PropTypes.shape({})).isRequired
+  list: PropTypes.arrayOf(PropTypes.shape({})).isRequired
 };
 
 const styles = {
@@ -24,7 +24,7 @@ const styles = {
   `
 };
 
-const ListProject = ({ listProject }) => {
+const ProjectsList = ({ list }) => {
   const onSelectProject = (item) => {
     history.push(`/project/detail/${item.id}`);
   };
@@ -32,7 +32,7 @@ const ListProject = ({ listProject }) => {
   return (
     <List
       itemLayout="horizontal"
-      dataSource={listProject}
+      dataSource={list}
       renderItem={(item) => (
         <List.Item onClick={() => onSelectProject(item)} className={styles.listItem}>
           <Skeleton loading={false} active>
@@ -45,10 +45,10 @@ const ListProject = ({ listProject }) => {
               description={
                 <Row style={{ marginLeft: 5 }}>
                   <Typography.Paragraph style={{ margin: 0 }}>
-                  <FormattedMessage id="projects.listProject.customer" />:&nbsp;{item.customer.name}
+                  <FormattedMessage id="projects.getProjects.customer" />:&nbsp;{item.customer.name}
                   </Typography.Paragraph>
                   <Typography.Paragraph style={{ margin: 0 }}>
-                    <FormattedMessage id="projects.listProject.date" />
+                    <FormattedMessage id="projects.getProjects.date" />
                     :&nbsp;
                     {moment(parseInt(item.start_time, 10)).format('DD/MM/YYYY')} -&nbsp;
                     {item.end_time
@@ -59,9 +59,9 @@ const ListProject = ({ listProject }) => {
               }
             />
             <Row>
-              {item.status === 'running' && <Tag color="#108ee9"><FormattedMessage id="projects.listProject.status.running" /></Tag>}
-              {item.status === 'stopped' && <Tag color="#f5222D"><FormattedMessage id="projects.listProject.status.stopped" /></Tag>}
-              {item.status === 'completed' && <Tag color="#87d068"><FormattedMessage id="projects.listProject.status.completed" /></Tag>}
+              {item.status === 'running' && <Tag color="#108ee9"><FormattedMessage id="projects.status.running" /></Tag>}
+              {item.status === 'stopped' && <Tag color="#f5222D"><FormattedMessage id="projects.status.stopped" /></Tag>}
+              {item.status === 'completed' && <Tag color="#87d068"><FormattedMessage id="projects.status.completed" /></Tag>}
             </Row>
           </Skeleton>
         </List.Item>
@@ -70,6 +70,6 @@ const ListProject = ({ listProject }) => {
   );
 };
 
-ListProject.propTypes = propTypes;
+ProjectsList.propTypes = propTypes;
 
-export default ListProject;
+export default ProjectsList;

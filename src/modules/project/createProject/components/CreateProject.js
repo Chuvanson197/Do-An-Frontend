@@ -23,9 +23,8 @@ import {
 
 import ErrorNotification from '../../../../components/Notification/Error';
 import SuccessNotification from '../../../../components/Notification/Success';
-import { actions as createProjectActions } from '../store';
 import { actions as customerActions } from '../../../customer/store';
-import { actions as projectActions } from '../../listProject/store';
+import { actions as projectActions } from '../../store';
 
 const propTypes = {
   visible: PropTypes.bool.isRequired,
@@ -61,7 +60,9 @@ const CreateProject = ({ visible, close, form, selectedCustomer, intl }) => {
   const { getCustomersError, getCustomersErrors } = useSelector((state) => state.customers);
   const customersList = useSelector((state) => state.customers.list);
   const customerLoading = useSelector((state) => state.customers.loading);
-  const { createProjectError, result, loading } = useSelector((state) => state.createProject);
+  const { createProjectError, createProjectErrors, createProjectResult, loading } = useSelector(
+    (state) => state.projects
+  );
 
   // Get all customers after open modal
   useEffect(() => {
@@ -90,9 +91,9 @@ const CreateProject = ({ visible, close, form, selectedCustomer, intl }) => {
   // Handle showing notification after add new project
   useEffect(() => {
     // show success notification
-    if (result) {
+    if (createProjectResult) {
       const title = intl.formatMessage({ id: 'notification.success' });
-      const message = intl.formatMessage({ id: result.message });
+      const message = intl.formatMessage({ id: createProjectResult.message });
       SuccessNotification(title, message);
       // close the modal and clean state
       close();
@@ -106,12 +107,16 @@ const CreateProject = ({ visible, close, form, selectedCustomer, intl }) => {
     // show error notification
     if (createProjectError) {
       const title = intl.formatMessage({ id: 'notification.error' });
-      const message = intl.formatMessage({ id: 'projects.createProject.message.error' });
+      const message = intl.formatMessage({
+        id: createProjectErrors.message
+          ? createProjectError.message
+          : 'projects.createProject.message.error'
+      });
       ErrorNotification(title, message);
-      // clean state
-      dispatch(createProjectActions.cleanError(false));
+      // clean error
+      dispatch(projectActions.createProjectCleanError());
     }
-  }, [close, dispatch, intl, createProjectError, result]);
+  }, [close, dispatch, intl, createProjectError, createProjectErrors, createProjectResult]);
 
   // Form submit
   const handleSubmit = () => {
@@ -125,7 +130,7 @@ const CreateProject = ({ visible, close, form, selectedCustomer, intl }) => {
           end_time: parseInt(moment(values.estimated[1]).format('x'), 10)
         };
         // call api when valid data
-        dispatch(createProjectActions.createProject({ body, path: 'projects' }));
+        dispatch(projectActions.createProject({ body, path: 'projects' }));
       } else {
         // showing error form input notification
         const title = intl.formatMessage({ id: 'notification.error' });
@@ -207,7 +212,7 @@ const CreateProject = ({ visible, close, form, selectedCustomer, intl }) => {
               {(listStatus || []).map((e) => {
                 return (
                   <Select.Option key={e.id} value={e.name}>
-                    <FormattedMessage id={`projects.listProject.status.${e.name}`} />
+                    <FormattedMessage id={`projects.status.${e.name}`} />
                   </Select.Option>
                 );
               })}

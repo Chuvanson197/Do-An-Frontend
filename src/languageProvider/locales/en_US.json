@@ -22,13 +22,14 @@
   "notification.message.form.deletedCustomer": "This customer information has been deleted, please select another customer",
   "Network Error": "Network error, please check your internet connection",
 
-  "projects.listProject.title": "Projects",
-  "projects.listProject.customer": "Customer",
-  "projects.listProject.date": "Date",
-  "projects.listProject.status.running": "running",
-  "projects.listProject.status.completed": "completed",
-  "projects.listProject.status.stopped": "stopped",
-  "projects.listProject.message.error": "Get projects list failure",
+  "projects.status.running": "running",
+  "projects.status.completed": "completed",
+  "projects.status.stopped": "stopped",
+
+  "projects.getProjects.title": "Projects",
+  "projects.getProjects.customer": "Customer",
+  "projects.getProjects.date": "Date",
+  "projects.getProjects.message.error": "Get projects list failure",
 
   "projects.createProject.title": "Create new project",
   "projects.createProject.projectInformation": "Project information",

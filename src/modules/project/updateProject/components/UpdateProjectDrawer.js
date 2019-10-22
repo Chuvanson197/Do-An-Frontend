@@ -25,8 +25,7 @@ import {
 import ErrorNotification from '../../../../components/Notification/Error';
 import SuccessNotification from '../../../../components/Notification/Success';
 import { actions as customerActions } from '../../../customer/store';
-import { actions as updateProjectActions } from '../store';
-import { actions as projectDetailActions } from '../../projectDetails/store';
+import { actions as projectActions } from '../../store';
 
 const propTypes = {
   intl: PropTypes.shape({}).isRequired,
@@ -74,7 +73,9 @@ const UpdateProjectDrawer = ({ intl, onClose, drawerVisible, form, project }) =>
   const [customerDetail, setCustomerDetail] = useState(project.customer);
   const { getCustomersError, getCustomersErrors } = useSelector((state) => state.customers);
   const customersList = useSelector((state) => state.customers.list);
-  const { result, updateProjectError, loading } = useSelector((state) => state.updateProject);
+  const { updateProjectResult, updateProjectError, updateProjectErrors, loading } = useSelector(
+    (state) => state.projects
+  );
   const customerLoading = useSelector((state) => state.customers.loading);
   const [validCustomer, setValidCustomer] = useState(customersList.indexOf(project.customer) > -1);
 
@@ -105,15 +106,15 @@ const UpdateProjectDrawer = ({ intl, onClose, drawerVisible, form, project }) =>
   // Handle showing notification after update project
   useEffect(() => {
     // show success notification
-    if (result) {
+    if (updateProjectResult) {
       const title = intl.formatMessage({ id: 'notification.success' });
-      const message = intl.formatMessage({ id: result.message });
+      const message = intl.formatMessage({ id: updateProjectResult.message });
       SuccessNotification(title, message);
       // close the modal and clean state
       onClose();
       // re-call get project detail api
       dispatch(
-        projectDetailActions.getProjectDetail({
+        projectActions.getProject({
           path: 'projects',
           param: project.id
         })
@@ -125,9 +126,17 @@ const UpdateProjectDrawer = ({ intl, onClose, drawerVisible, form, project }) =>
       const message = intl.formatMessage({ id: 'projects.updateProject.message.error' });
       ErrorNotification(title, message);
       // clean state
-      dispatch(updateProjectActions.cleanError(false));
+      dispatch(projectActions.updateProjectCleanError());
     }
-  }, [onClose, dispatch, intl, updateProjectError, result, project.id]);
+  }, [
+    onClose,
+    dispatch,
+    intl,
+    updateProjectError,
+    updateProjectErrors,
+    updateProjectResult,
+    project.id
+  ]);
 
   const handleSubmit = () => {
     form.validateFields((err, values) => {
@@ -159,7 +168,7 @@ const UpdateProjectDrawer = ({ intl, onClose, drawerVisible, form, project }) =>
           const message = intl.formatMessage({ id: 'notification.message.form.deletedCustomer' });
           return ErrorNotification(title, message);
         }
-        dispatch(updateProjectActions.updateProject({ body, path: 'projects', param: project.id }));
+        dispatch(projectActions.updateProject({ body, path: 'projects', param: project.id }));
       } else {
         // showing error form input notification
         const title = intl.formatMessage({ id: 'notification.error' });
