@@ -77,7 +77,6 @@ const UpdateProjectDrawer = ({ intl, onClose, drawerVisible, form, project }) =>
     (state) => state.projects
   );
   const customerLoading = useSelector((state) => state.customers.loading);
-  const [validCustomer, setValidCustomer] = useState(customersList.indexOf(project.customer) > -1);
 
   // Get all customers after open modal
   useEffect(() => {
@@ -163,7 +162,7 @@ const UpdateProjectDrawer = ({ intl, onClose, drawerVisible, form, project }) =>
           return ErrorNotification(title, message);
         }
 
-        if (!validCustomer) {
+        if (customerDetail.hidden) {
           const title = intl.formatMessage({ id: 'notification.error' });
           const message = intl.formatMessage({ id: 'notification.message.form.deletedCustomer' });
           return ErrorNotification(title, message);
@@ -184,7 +183,6 @@ const UpdateProjectDrawer = ({ intl, onClose, drawerVisible, form, project }) =>
       if (customer.id === value) {
         setCustomerDetail(customer);
       }
-      setValidCustomer(true);
       return customer;
     });
   };
@@ -239,7 +237,7 @@ const UpdateProjectDrawer = ({ intl, onClose, drawerVisible, form, project }) =>
               {(listStatus || []).map((e) => {
                 return (
                   <Select.Option key={e.id} value={e.name}>
-                    <FormattedMessage id={`projects.listProject.status.${e.name}`} />
+                    <FormattedMessage id={`projects.status.${e.name}`} />
                   </Select.Option>
                 );
               })}
@@ -291,7 +289,7 @@ const UpdateProjectDrawer = ({ intl, onClose, drawerVisible, form, project }) =>
                 message: intl.formatMessage({ id: 'projects.createProject.error.customer' })
               }
             ],
-            initialValue: validCustomer ? project.customer.id : project.customer.name
+            initialValue: !customerDetail.hidden ? project.customer.id : project.customer.name
           })(
             <Select
               allowClear
@@ -326,7 +324,7 @@ const UpdateProjectDrawer = ({ intl, onClose, drawerVisible, form, project }) =>
                 {customerDetail.address || null}
               </Descriptions.Item>
             </Descriptions>
-            {!validCustomer && (
+            {customerDetail.hidden && (
               <Typography.Text className={styles.deletedCustomerMsg}>
                 <FormattedMessage id="projects.updateProject.deletedCustomer" />
               </Typography.Text>

@@ -241,6 +241,7 @@
   "members.createMembers.confirm.create":"Create this member?",
   "members.addMember.message.success": "Create new member successful",
   "members.addMember.message.error": "Create new member failure",
+  "members.addMember.message.staff_code.exits": "Staff code already exits",
 
   "members.updateMember.message.success": "Update member information successful",
   "members.updateMember.message.error": "Update member information failure",

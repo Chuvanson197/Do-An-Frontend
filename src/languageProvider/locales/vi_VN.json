@@ -231,6 +231,7 @@
   "members.createMembers.memberInformation": "Thông tin thành viên",
   "members.addMember.message.success": "Thêm mới thông tin thành viên thành công",
   "members.addMember.message.error": "Thêm mới thông tin thành viên thất bại",
+  "members.addMember.message.staff_code.exits": "Mã nhân viên đã tồn tại",
 
   "members.updateMember.message.success": "Cập nhật thông tin thành viên thành công",
   "members.updateMember.message.error": "Cập nhật thông tin thành viên thất bại",
