@@ -24,9 +24,8 @@ import {
 
 import ErrorNotification from '../../../../components/Notification/Error';
 import SuccessNotification from '../../../../components/Notification/Success';
-import { actions as memberActions } from '../../store';
-import { actions as memberAddActions } from '../store';
-import { actions as projectActions } from '../../../project/projectDetails/store';
+import { actions as memberActions } from '../../../member/store';
+import { actions as projectActions } from '../../store';
 import { roles } from '../../../../utils/roles';
 
 const propTypes = {
@@ -62,11 +61,13 @@ const formItemLayout = {
 
 const listStatus = [{ id: 1, name: 'working' }, { id: 2, name: 'leave' }, { id: 3, name: 'idle' }];
 
-const MemberAdd = ({ visible, close, form, selectedMember, joinedMembers, intl, match }) => {
+const AddMemberModal = ({ visible, close, form, selectedMember, joinedMembers, intl, match }) => {
   const dispatch = useDispatch();
   const { members, getMembersError } = useSelector((state) => state.memberList);
   const memberLoading = useSelector((state) => state.memberList.loading);
-  const { addMemberError, result, loading } = useSelector((state) => state.memberAdd);
+  const { addMemberError, addMemberErrors, addMemberResult, loading } = useSelector(
+    (state) => state.projects
+  );
   const [memberDetail, setMemberDetail] = useState(selectedMember);
 
   // Get all members after open modal
@@ -91,22 +92,22 @@ const MemberAdd = ({ visible, close, form, selectedMember, joinedMembers, intl, 
 
   // Handle showing notification after add new members into project
   useEffect(() => {
-    if (result) {
+    if (addMemberResult) {
       const title = intl.formatMessage({ id: 'notification.success' });
-      const message = intl.formatMessage({ id: result.message });
+      const message = intl.formatMessage({ id: addMemberResult.message });
       SuccessNotification(title, message);
       // close the modal and clean state
       close();
       // re-call get project detail api
       dispatch(
-        projectActions.getProjectDetail({
+        projectActions.getProject({
           param: match.params.id,
           path: 'projects'
         })
       );
       // re-call get project's members api
       dispatch(
-        projectActions.getMembers({
+        projectActions.getJoinedMembers({
           param: match.params.id,
           path: 'projects/membersList'
         })
@@ -115,12 +116,16 @@ const MemberAdd = ({ visible, close, form, selectedMember, joinedMembers, intl, 
     // show error notification
     if (addMemberError) {
       const title = intl.formatMessage({ id: 'notification.error' });
-      const message = intl.formatMessage({ id: 'projects.addMemberIntoProject.message.error' });
+      const message = intl.formatMessage({
+        id: addMemberErrors.message
+          ? addMemberErrors.message
+          : 'projects.addMemberIntoProject.message.error'
+      });
       ErrorNotification(title, message);
       // clean state
-      dispatch(memberAddActions.cleanError(false));
+      dispatch(projectActions.cleanError(false));
     }
-  }, [close, dispatch, intl, addMemberError, match.params.id, result]);
+  }, [close, dispatch, intl, addMemberError, addMemberErrors, match.params.id, addMemberResult]);
 
   // Form submit
   const handleSubmit = () => {
@@ -133,7 +138,7 @@ const MemberAdd = ({ visible, close, form, selectedMember, joinedMembers, intl, 
           time_out: values.time_out ? parseInt(moment(values.time_out).format('x'), 10) : null
         };
         // call api when valid data
-        dispatch(memberAddActions.addMember({ body, path: 'projects/membersList' }));
+        dispatch(projectActions.addMember({ body, path: 'projects/membersList' }));
       } else {
         // showing error form input notification
         const title = intl.formatMessage({ id: 'notification.error' });
@@ -337,10 +342,10 @@ const MemberAdd = ({ visible, close, form, selectedMember, joinedMembers, intl, 
   );
 };
 
-MemberAdd.propTypes = propTypes;
+AddMemberModal.propTypes = propTypes;
 
-MemberAdd.defaultProps = defaultProps;
+AddMemberModal.defaultProps = defaultProps;
 
-const MemberAddForm = Form.create({ name: 'memberAdd' })(MemberAdd);
+const AddMemberForm = Form.create({ name: 'memberAdd' })(AddMemberModal);
 
-export default injectIntl(MemberAddForm, {});
+export default injectIntl(AddMemberForm, {});

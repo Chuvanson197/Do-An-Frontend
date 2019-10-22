@@ -10,7 +10,7 @@ const propTypes = {};
 const defaultProps = {};
 
 const TableMemberHistory = () => {
-  const { members, loading } = useSelector((state) => state.projectMemberHistory);
+  const { members, loading } = useSelector((state) => state.projects);
   const columns = [
     {
       title: <FormattedMessage id="projects.detail.member.staff_code" />,
@@ -89,7 +89,7 @@ const TableMemberHistory = () => {
       rowKey={(record) => record.id}
       pagination={false}
       columns={columns}
-      dataSource={members}
+      dataSource={members || []}
       loading={loading}
     />
   );

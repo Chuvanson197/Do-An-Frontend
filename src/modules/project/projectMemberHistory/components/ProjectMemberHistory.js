@@ -6,7 +6,7 @@ import { css } from 'emotion';
 import { injectIntl } from 'react-intl';
 import { Row, DatePicker } from 'antd';
 
-import { actions as projectMemberHistoryActions } from '../store';
+import { actions as projectActions } from '../../store';
 import TableMemberHistory from './TableMemberHistory';
 import ErrorNotification from '../../../../components/Notification/Error';
 
@@ -26,7 +26,7 @@ const styles = {
 const ProjectMemberHistory = ({ match, intl }) => {
   const dispatch = useDispatch();
   const [dateRange, setDateRange] = useState([moment().startOf('year'), moment().endOf('year')]);
-  const { getMemberHistoryError } = useSelector((state) => state.projectMemberHistory);
+  const { getMemberHistoryError, getMemberHistoryErrors } = useSelector((state) => state.projects);
 
   // First call members list api
   useEffect(() => {
@@ -48,7 +48,7 @@ const ProjectMemberHistory = ({ match, intl }) => {
     };
 
     dispatch(
-      projectMemberHistoryActions.getMemberHistory({
+      projectActions.getMemberHistory({
         body,
         path: 'projects/membersList',
         param: match.params.id
@@ -60,11 +60,15 @@ const ProjectMemberHistory = ({ match, intl }) => {
   useEffect(() => {
     if (getMemberHistoryError) {
       const title = intl.formatMessage({ id: 'notification.error' });
-      const message = intl.formatMessage({ id: 'projects.memberHistory.message.error' });
+      const message = intl.formatMessage({
+        id: getMemberHistoryErrors.message
+          ? getMemberHistoryErrors.message
+          : 'projects.memberHistory.message.error'
+      });
       ErrorNotification(title, message);
-      dispatch(projectMemberHistoryActions.cleanError(false));
+      dispatch(projectActions.getMemberHistoryCleanError());
     }
-  }, [dispatch, getMemberHistoryError, intl]);
+  }, [dispatch, getMemberHistoryError, getMemberHistoryErrors, intl]);
 
   const handleChange = (value) => {
     setDateRange(value);
@@ -73,7 +77,7 @@ const ProjectMemberHistory = ({ match, intl }) => {
       time_out: parseInt(moment(value[1]).format('x'), 10)
     };
     dispatch(
-      projectMemberHistoryActions.getMemberHistory({
+      projectActions.getMemberHistory({
         body,
         path: 'projects/membersList',
         param: match.params.id
