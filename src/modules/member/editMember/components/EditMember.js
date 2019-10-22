@@ -117,7 +117,7 @@ const EditMember = ({ intl, visible, close, form, data }) => {
       <Row style={{ marginBottom: 10 }}>
           <Icon type="user" style={{ marginRight: 10 }} />
           <Typography.Text style={{ fontWeight: 'bold' }}>
-            {<FormattedMessage id="customers.createCustomers.customerInformation" />}
+            {<FormattedMessage id="members.createMembers.memberInformation" />}
           </Typography.Text>
         </Row>
         <Form.Item
