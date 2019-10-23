@@ -43,32 +43,44 @@ export const roles = [
   },
   {
     id: 8,
+    name: 'Front-end Leader',
+    key: 'fel',
+    level: 4
+  },
+  {
+    id: 9,
     name: 'Back-end Leader',
     key: 'bel',
     level: 4
   },
   {
-    id: 9,
+    id: 10,
     name: 'Quality Assurance',
     key: 'qa',
     level: 5
   },
   {
-    id: 10,
+    id: 11,
     name: 'Android developer',
     key: 'adev',
     level: 5
   },
   {
-    id: 11,
+    id: 12,
     name: 'IOS developer',
     key: 'iosdev',
     level: 5
   },
   {
-    id: 12,
+    id: 13,
     name: 'Back-end developer',
     key: 'bedev',
+    level: 5
+  },
+  {
+    id: 14,
+    name: 'Front-end developer',
+    key: 'fedev',
     level: 5
   }
 ];

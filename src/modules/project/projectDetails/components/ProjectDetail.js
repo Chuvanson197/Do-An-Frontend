@@ -85,7 +85,7 @@ const ProjectDetail = ({ project, joinedMembers, loading, match, intl }) => {
           : 'projectDetail.getMembers.message.error'
       });
       ErrorNotification(title, message);
-      dispatch(projectActions.removeProjectCleanError());
+      dispatch(projectActions.getJoinedMembersCleanError());
     }
   }, [dispatch, getJoinedMembersError, getJoinedMembersErrors, intl]);
 
@@ -109,7 +109,7 @@ const ProjectDetail = ({ project, joinedMembers, loading, match, intl }) => {
           path: 'projects/membersList'
         })
       );
-      dispatch(projectActions.removeProjectCleanData());
+      dispatch(projectActions.removeMemberCleanData());
     } else if (removeMemberError) {
       const title = intl.formatMessage({ id: 'notification.error' });
       const message = intl.formatMessage({
