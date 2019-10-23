@@ -71,11 +71,6 @@ const Members = ({ intl, members, createMember }) => {
       key: 'email'
     },
     {
-      title: <FormattedMessage id="members.membersTable.effort.title" />,
-      dataIndex: 'effort',
-      key: 'effort'
-    },
-    {
       title: '',
       dataIndex: '',
       key: 'x',
