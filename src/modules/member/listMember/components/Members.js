@@ -11,7 +11,6 @@ import SuccessNotification from '../../../../components/Notification/Success';
 import ErrorNotification from '../../../../components/Notification/Error';
 import { actions as memberActions } from '../../store';
 
-
 const propTypes = {
   intl: PropTypes.shape({}).isRequired,
   members: PropTypes.arrayOf(PropTypes.shape({})).isRequired
@@ -31,7 +30,7 @@ const Members = ({ intl, members, createMember }) => {
   const [openCreateModal, setOpenCreateModal] = useState(false);
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [dataItem, setDataItem] = useState({});
-  const { removeMemberResult, removeMemberError, removeMemberErrors } = useSelector(
+  const { removeMemberResult, removeMemberError, removeMemberErrors, loading } = useSelector(
     (state) => state.members
   );
 
@@ -156,6 +155,7 @@ const Members = ({ intl, members, createMember }) => {
         rowKey={(record, index) => index}
         dataSource={members}
         pagination={false}
+        loading={loading}
       />
       {openCreateModal && (
         <CreateMember

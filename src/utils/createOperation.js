@@ -13,8 +13,10 @@ export default ({ actions = {}, process = () => {} }) => (payload) => async (
 
       return result;
     } catch (error) {
-      failAction && dispatch(failAction(error.response.data));
-      return error;
+      if (error.response && error.response.status) {
+        return failAction && dispatch(failAction(error.response.data));
+      }
+      return failAction && dispatch(failAction(error));
     }
   };
 

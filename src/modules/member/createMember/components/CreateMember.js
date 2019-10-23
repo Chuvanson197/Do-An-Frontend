@@ -38,7 +38,7 @@ const formItemLayout = {
 
 const CreateMember = ({ visible, close, form, intl }) => {
   const dispatch = useDispatch();
-  const { createMemberResult, createMemberError, createMemberErrors } = useSelector(
+  const { createMemberResult, createMemberError, createMemberErrors, loading } = useSelector(
     (state) => state.members
   );
 
@@ -112,7 +112,7 @@ const CreateMember = ({ visible, close, form, intl }) => {
             onConfirm={() => handleSubmit()}
             okText={<FormattedMessage id="members.memberModal.button.confirm.yes" />}
             cancelText={<FormattedMessage id="members.memberModal.button.confirm.no" />}>
-            <Button icon="plus" type="primary">
+            <Button icon="plus" type="primary" loading={loading}>
               <FormattedMessage id="members.memberModal.createButton.title" />
             </Button>
           </Popconfirm>
