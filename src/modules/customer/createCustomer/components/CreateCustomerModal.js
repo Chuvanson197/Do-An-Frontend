@@ -30,10 +30,10 @@ const styles = {
 
 const formItemLayout = {
   labelCol: {
-    span: 5
+    span: 7
   },
   wrapperCol: {
-    span: 19
+    span: 17
   }
 };
 
