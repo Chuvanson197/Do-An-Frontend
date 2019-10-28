@@ -53,9 +53,10 @@ const EditMember = ({
   const { updateMemberResult, updateMemberError, updateMemberErrors } = useSelector(
     (state) => state.members
   );
+
   useEffect(() => {
-    // show success notification
     if (updateMemberResult) {
+      // show success notification
       const title = intl.formatMessage({ id: 'notification.success' });
       const message = intl.formatMessage({ id: updateMemberResult.message });
       SuccessNotification(title, message);
@@ -64,8 +65,11 @@ const EditMember = ({
       // re-call get members list
       getMembers();
     }
-    // show error notification
+  }, [updateMemberResult, close, intl, getMembers]);
+
+  useEffect(() => {
     if (updateMemberError) {
+      // show error notification
       const title = intl.formatMessage({ id: 'notification.error' });
       const message = intl.formatMessage({
         id: updateMemberErrors.message
@@ -76,15 +80,7 @@ const EditMember = ({
       // clean error
       updateMemberCleanError();
     }
-  }, [
-    close,
-    intl,
-    updateMemberError,
-    updateMemberResult,
-    updateMemberErrors,
-    updateMemberCleanError,
-    getMembers
-  ]);
+  }, [intl, updateMemberError, updateMemberErrors, updateMemberCleanError]);
 
   const handleSubmit = () => {
     form.validateFields((err, values) => {

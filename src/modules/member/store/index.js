@@ -35,7 +35,7 @@ const defaultState = {
   list: [],
   createMemberResult: null,
   updateMemberResult: null,
-  removeMemberResult: null
+  removeMemberResult: null,
 };
 
 const store = createResourceHandler('members', apiActions, reducerActions, defaultState);

@@ -96,8 +96,8 @@ const Members = ({
   ];
 
   useEffect(() => {
-    // show success notification
     if (removeMemberResult) {
+      // show success notification
       const title = intl.formatMessage({ id: 'notification.success' });
       const message = intl.formatMessage({ id: removeMemberResult.message });
       SuccessNotification(title, message);
@@ -106,8 +106,11 @@ const Members = ({
       // re-call get Members list
       getMembers();
     }
-    // show error notification
+  }, [removeMemberResult, intl, getMembers, removeMemberCleanData]);
+
+  useEffect(() => {
     if (removeMemberError) {
+      // show error notification
       const title = intl.formatMessage({ id: 'notification.error' });
       const message = intl.formatMessage({
         id: removeMemberErrors.message
@@ -118,15 +121,7 @@ const Members = ({
       // clean error
       removeMemberCleanError();
     }
-  }, [
-    intl,
-    removeMemberError,
-    removeMemberErrors,
-    removeMemberResult,
-    removeMemberCleanData,
-    removeMemberCleanError,
-    getMembers
-  ]);
+  }, [intl, removeMemberError, removeMemberErrors, removeMemberCleanError]);
 
   return (
     <React.Fragment>

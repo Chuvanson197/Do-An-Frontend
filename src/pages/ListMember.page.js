@@ -94,6 +94,14 @@ const ListMemberPage = ({ history, intl }) => {
     [dispatch]
   );
 
+  const createMemberCleanData = useCallback(() => {
+    dispatch(memberActions.removeMemberCleanData());
+  }, [dispatch]);
+
+  const createMemberCleanError = useCallback(() => {
+    dispatch(memberActions.createMemberCleanError(false));
+  }, [dispatch]);
+
   const updateMember = useCallback(
     (body) => {
       dispatch(memberActions.updateMember({ body, path: 'members', param: body.staff_code }));
@@ -101,12 +109,9 @@ const ListMemberPage = ({ history, intl }) => {
     [dispatch]
   );
 
-  const updateMemberCleanError = useCallback(
-    (body) => {
-      dispatch(memberActions.updateMemberCleanError());
-    },
-    [dispatch]
-  );
+  const updateMemberCleanError = useCallback(() => {
+    dispatch(memberActions.updateMemberCleanError(false));
+  }, [dispatch]);
 
   const updateMemberCleanData = useCallback(
     (body) => {
@@ -147,7 +152,10 @@ const ListMemberPage = ({ history, intl }) => {
         </Row>
         {openCreateModal && (
           <CreateMember
+            createMemberCleanError={createMemberCleanError}
+            createMemberCleanData={createMemberCleanData}
             createMember={createNewMember}
+            getMembers={getMembers}
             visible={openCreateModal}
             close={() => handleCreateModal()}
           />
