@@ -16,6 +16,7 @@ const propTypes = {
   onClose: PropTypes.func.isRequired,
   drawerVisible: PropTypes.bool.isRequired,
   form: formShape.isRequired,
+  getCustomers: PropTypes.func.isRequired,
 
   customer: PropTypes.shape({})
 };
@@ -43,7 +44,7 @@ const formItemLayout = {
   }
 };
 
-const UpdateCustomer = ({ intl, drawerVisible, onClose, form, customer }) => {
+const UpdateCustomer = ({ intl, drawerVisible, onClose, form, customer, getCustomers }) => {
   const dispatch = useDispatch();
   const { loading, updateCustomerResult, updateCustomerError, updateCustomerErrors } = useSelector(
     (state) => state.customers
@@ -59,13 +60,12 @@ const UpdateCustomer = ({ intl, drawerVisible, onClose, form, customer }) => {
       // close the modal and clean data
       onClose();
       // re-call get customers list
-      dispatch(
-        customerActions.getCustomers({
-          path: 'customers'
-        })
-      );
+      getCustomers && getCustomers();
     }
-    // show error notification
+  }, [onClose, dispatch, intl, updateCustomerResult, getCustomers]);
+
+  // show error if update member failure
+  useEffect(() => {
     if (updateCustomerError) {
       const title = intl.formatMessage({ id: 'notification.error' });
       const message = intl.formatMessage({
@@ -77,7 +77,7 @@ const UpdateCustomer = ({ intl, drawerVisible, onClose, form, customer }) => {
       // clean error
       dispatch(customerActions.updateCustomerCleanError(false));
     }
-  }, [onClose, dispatch, intl, updateCustomerError, updateCustomerResult, updateCustomerErrors]);
+  }, [dispatch, intl, updateCustomerError, updateCustomerErrors]);
 
   // Form submit
   const handleSubmit = () => {
