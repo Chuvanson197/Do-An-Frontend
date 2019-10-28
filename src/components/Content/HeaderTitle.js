@@ -8,12 +8,12 @@ const propTypes = {
 
 const defaultProps = {};
 
-const HeaderTitle = ({ title }) => (
+const HeaderTitle = React.memo(({ title }) => (
   <React.Fragment>
     <Typography.Title level={2}>{title}</Typography.Title>
     <Divider />
   </React.Fragment>
-);
+));
 
 HeaderTitle.propTypes = propTypes;
 

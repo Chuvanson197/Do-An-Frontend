@@ -3,11 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Table, Row, Button, Tooltip, Popconfirm } from 'antd';
+import { css } from 'emotion';
 
-import UpdateCustomerDrawer from '../../updateCustomer/components/UpdateCustomerDrawer';
-import ErrorNotification from '../../../../components/Notification/Error';
-import SuccessNotification from '../../../../components/Notification/Success';
-import { actions as customerActions } from '../../store';
+import CreateCustomer from './src/modules/customer/createCustomer/components/CreateCustomerModal';
+import UpdateCustomerDrawer from './src/modules/customer/updateCustomer/components/UpdateCustomerDrawer';
+import ErrorNotification from './src/components/Notification/Error';
+import SuccessNotification from './src/components/Notification/Success';
+import { actions as customerActions } from './src/modules/customer/store';
 
 const propTypes = {
   intl: PropTypes.shape({}).isRequired,
@@ -19,6 +21,7 @@ const defaultProps = {};
 
 const CustomersTable = ({ intl, customers, getCustomers }) => {
   const dispatch = useDispatch();
+  const [OpenCreateModal, setOpenCreateModal] = useState(false);
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [customer, selectCustomer] = useState(null);
   const { loading, removeCustomerResult, removeCustomerError, removeCustomerErrors } = useSelector(
@@ -95,13 +98,10 @@ const CustomersTable = ({ intl, customers, getCustomers }) => {
       SuccessNotification(title, message);
       // clean data
       dispatch(customerActions.removeCustomerCleanData(false));
-      // re-call get customers list
+      // call back get customers function
       getCustomers && getCustomers();
     }
-  }, [dispatch, getCustomers, intl, removeCustomerResult]);
-
-  // Showing error if remove customer failure
-  useEffect(() => {
+    // show error notification
     if (removeCustomerError) {
       const title = intl.formatMessage({ id: 'notification.error' });
       const message = intl.formatMessage({
@@ -113,7 +113,14 @@ const CustomersTable = ({ intl, customers, getCustomers }) => {
       // clean error
       dispatch(customerActions.removeCustomerCleanError(false));
     }
-  }, [dispatch, intl, removeCustomerError, removeCustomerErrors]);
+  }, [
+    dispatch,
+    getCustomers,
+    intl,
+    removeCustomerError,
+    removeCustomerErrors,
+    removeCustomerResult
+  ]);
 
   // Handle control open/close update customer drawer
   const handleControlDrawer = (selectedCustomer) => {
@@ -137,7 +144,6 @@ const CustomersTable = ({ intl, customers, getCustomers }) => {
           drawerVisible={drawerVisible}
           onClose={() => handleControlDrawer()}
           customer={customer}
-          getCustomers={getCustomers}
         />
       )}
     </React.Fragment>

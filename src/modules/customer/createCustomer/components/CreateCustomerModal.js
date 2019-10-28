@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { formShape } from 'rc-form';
@@ -16,13 +16,19 @@ const propTypes = {
   visible: PropTypes.bool.isRequired,
   close: PropTypes.func.isRequired,
   form: formShape.isRequired,
+  getCutomers: PropTypes.func.isRequired,
+  addCustomer: PropTypes.func.isRequired,
 
   listStatus: PropTypes.arrayOf(PropTypes.shape({})),
   listCustomer: PropTypes.arrayOf(PropTypes.shape({})),
   selectedCustomer: PropTypes.shape({})
 };
 
-const defaultProps = [];
+const defaultProps = {
+  listStatus: [],
+  listCustomer: [],
+  selectedCustomer: {}
+};
 
 const styles = {
   modal: css``
@@ -37,7 +43,7 @@ const formItemLayout = {
   }
 };
 
-const CreateCustomerModal = ({ visible, close, form, intl }) => {
+const CreateCustomerModal = ({ visible, close, form, intl, getCutomers, addCustomer }) => {
   const dispatch = useDispatch();
   const { createCustomerResult, createCustomerError, createCustomerErrors, loading } = useSelector(
     (state) => state.customers
@@ -53,13 +59,12 @@ const CreateCustomerModal = ({ visible, close, form, intl }) => {
       // close the modal and clean data
       close();
       // re-call get all customers api
-      dispatch(
-        customerActions.getCustomers({
-          path: 'customers'
-        })
-      );
+      getCutomers && getCutomers();
     }
-    // show error notification
+  }, [close, dispatch, intl, createCustomerResult, getCutomers]);
+
+  // Handle showing error if add new customer failure
+  useEffect(() => {
     if (createCustomerError) {
       const title = intl.formatMessage({ id: 'notification.error' });
       const message = intl.formatMessage({
@@ -71,7 +76,15 @@ const CreateCustomerModal = ({ visible, close, form, intl }) => {
       // clean error
       dispatch(customerActions.createCustomerCleanError(false));
     }
-  }, [close, dispatch, intl, createCustomerError, createCustomerErrors, createCustomerResult]);
+  }, [createCustomerError, createCustomerErrors, dispatch, intl]);
+
+  // Clean Data, Error after close
+  useEffect(() => {
+    return () => {
+      dispatch(customerActions.createCustomerCleanError());
+      dispatch(customerActions.createCustomerCleanData());
+    };
+  }, [dispatch]);
 
   // Form submit
   const handleSubmit = () => {
@@ -84,7 +97,7 @@ const CreateCustomerModal = ({ visible, close, form, intl }) => {
           email: values.email
         };
         // call api when valid data
-        dispatch(customerActions.createCustomer({ body, path: 'customers' }));
+        addCustomer && addCustomer(body);
       } else {
         // showing error form input notification
         const title = intl.formatMessage({ id: 'notification.error' });
