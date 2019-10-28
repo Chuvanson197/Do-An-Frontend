@@ -36,7 +36,7 @@ const formItemLayout = {
   }
 };
 
-const CreateMember = ({ visible, close, form, intl }) => {
+const CreateMember = ({ visible, close, form, intl, getMembers, createMemberCleanError }) => {
   const dispatch = useDispatch();
   const { createMemberResult, createMemberError, createMemberErrors, loading } = useSelector(
     (state) => state.members
@@ -51,12 +51,11 @@ const CreateMember = ({ visible, close, form, intl }) => {
       // close the modal and clean data
       close();
       // re-call get all customers api
-      dispatch(
-        memberActions.getMembers({
-          path: 'members'
-        })
-      );
+      getMembers();
     }
+  }, [createMemberResult, intl, getMembers, close]);
+
+  useEffect(() => {
     // show error notification
     if (createMemberError) {
       const title = intl.formatMessage({ id: 'notification.error' });
@@ -67,9 +66,9 @@ const CreateMember = ({ visible, close, form, intl }) => {
       });
       ErrorNotification(title, message);
       // clean error
-      dispatch(memberActions.createMemberCleanError(false));
+      createMemberCleanError();
     }
-  }, [close, createMemberError, createMemberErrors, createMemberResult, dispatch, intl]);
+  }, [createMemberError, createMemberErrors, createMemberCleanError, intl]);
 
   const handleSubmit = () => {
     form.validateFields((err, values) => {
@@ -123,7 +122,7 @@ const CreateMember = ({ visible, close, form, intl }) => {
       ]}
       {...modalConfig}>
       <Form onSubmit={() => handleSubmit()} {...formItemLayout}>
-      <Row style={{ marginBottom: 10 }}>
+        <Row style={{ marginBottom: 10 }}>
           <Icon type="user" style={{ marginRight: 10 }} />
           <Typography.Text style={{ fontWeight: 'bold' }}>
             {<FormattedMessage id="members.createMembers.memberInformation" />}
