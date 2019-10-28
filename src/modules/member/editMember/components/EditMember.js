@@ -2,11 +2,10 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Row, Button, Input, Form, Popconfirm, Drawer, Typography, Icon } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { css } from 'emotion';
 import { formShape } from 'rc-form';
 
-import { actions as memberActions } from '../../store';
 import ErrorNotification from '../../../../components/Notification/Error';
 import SuccessNotification from '../../../../components/Notification/Success';
 
@@ -41,8 +40,16 @@ const formItemLayout = {
   }
 };
 
-const EditMember = ({ intl, visible, close, form, data }) => {
-  const dispatch = useDispatch();
+const EditMember = ({
+  intl,
+  visible,
+  close,
+  form,
+  data,
+  updateMember,
+  updateMemberCleanError,
+  getMembers
+}) => {
   const { updateMemberResult, updateMemberError, updateMemberErrors } = useSelector(
     (state) => state.members
   );
@@ -55,11 +62,7 @@ const EditMember = ({ intl, visible, close, form, data }) => {
       // close the modal and clean data
       close();
       // re-call get members list
-      dispatch(
-        memberActions.getMembers({
-          path: 'members'
-        })
-      );
+      getMembers();
     }
     // show error notification
     if (updateMemberError) {
@@ -71,9 +74,17 @@ const EditMember = ({ intl, visible, close, form, data }) => {
       });
       ErrorNotification(title, message);
       // clean error
-      dispatch(memberActions.updateMemberCleanError(false));
+      updateMemberCleanError();
     }
-  }, [close, dispatch, intl, updateMemberError, updateMemberResult, updateMemberErrors]);
+  }, [
+    close,
+    intl,
+    updateMemberError,
+    updateMemberResult,
+    updateMemberErrors,
+    updateMemberCleanError,
+    getMembers
+  ]);
 
   const handleSubmit = () => {
     form.validateFields((err, values) => {
@@ -95,7 +106,8 @@ const EditMember = ({ intl, visible, close, form, data }) => {
           const message = intl.formatMessage({ id: 'notification.message.form.noChanging' });
           return ErrorNotification(title, message);
         }
-        dispatch(memberActions.updateMember({ body, path: 'members', param: data.staff_code }));
+        updateMember(body);
+        // dispatch(memberActions.updateMember({ body, path: 'members', param: data.staff_code }));
       } else {
         const title = intl.formatMessage({ id: 'notification.error' });
         const message = intl.formatMessage({ id: 'notification.message.form.error' });
@@ -114,7 +126,7 @@ const EditMember = ({ intl, visible, close, form, data }) => {
       onClose={close}
       maskClosable={false}>
       <Form onSubmit={() => handleSubmit()} {...formItemLayout}>
-      <Row style={{ marginBottom: 10 }}>
+        <Row style={{ marginBottom: 10 }}>
           <Icon type="user" style={{ marginRight: 10 }} />
           <Typography.Text style={{ fontWeight: 'bold' }}>
             {<FormattedMessage id="members.createMembers.memberInformation" />}
