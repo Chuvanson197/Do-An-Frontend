@@ -139,9 +139,6 @@ const ListMemberPage = ({ history, intl }) => {
           <Members
             members={list}
             getMembers={getMembers}
-            // createNewMember={createNewMember}
-            // createMemberCleanError={createMemberCleanError}
-            // createMemberCleanData={createMemberCleanData}
             updateMember={updateMember}
             updateMemberCleanData={updateMemberCleanData}
             updateMemberCleanError={updateMemberCleanError}

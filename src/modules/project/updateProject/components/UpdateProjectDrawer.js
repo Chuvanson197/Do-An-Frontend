@@ -68,7 +68,15 @@ const formItemLayout = {
   }
 };
 
-const UpdateProjectDrawer = ({ intl, onClose, drawerVisible, form, project }) => {
+const UpdateProjectDrawer = ({
+  getCustomers,
+  updateProject,
+  intl,
+  onClose,
+  drawerVisible,
+  form,
+  project
+}) => {
   const dispatch = useDispatch();
   const [customerDetail, setCustomerDetail] = useState(project.customer);
   const { getCustomersError, getCustomersErrors } = useSelector((state) => state.customers);
@@ -80,12 +88,8 @@ const UpdateProjectDrawer = ({ intl, onClose, drawerVisible, form, project }) =>
 
   // Get all customers after open modal
   useEffect(() => {
-    dispatch(
-      customerActions.getCustomers({
-        path: 'customers'
-      })
-    );
-  }, [dispatch]);
+    getCustomers();
+  }, [getCustomers]);
 
   // show notification if get customers failure
   useEffect(() => {
@@ -120,6 +124,9 @@ const UpdateProjectDrawer = ({ intl, onClose, drawerVisible, form, project }) =>
       );
     }
     // show error notification
+  }, [onClose, intl, updateProjectResult, dispatch, project.id]);
+
+  useEffect(() => {
     if (updateProjectError) {
       const title = intl.formatMessage({ id: 'notification.error' });
       const message = intl.formatMessage({ id: 'projects.updateProject.message.error' });
@@ -127,15 +134,7 @@ const UpdateProjectDrawer = ({ intl, onClose, drawerVisible, form, project }) =>
       // clean state
       dispatch(projectActions.updateProjectCleanError());
     }
-  }, [
-    onClose,
-    dispatch,
-    intl,
-    updateProjectError,
-    updateProjectErrors,
-    updateProjectResult,
-    project.id
-  ]);
+  }, [dispatch, intl, updateProjectError, updateProjectErrors]);
 
   const handleSubmit = () => {
     form.validateFields((err, values) => {
@@ -167,7 +166,7 @@ const UpdateProjectDrawer = ({ intl, onClose, drawerVisible, form, project }) =>
           const message = intl.formatMessage({ id: 'notification.message.form.deletedCustomer' });
           return ErrorNotification(title, message);
         }
-        dispatch(projectActions.updateProject({ body, path: 'projects', param: project.id }));
+        updateProject(body);
       } else {
         // showing error form input notification
         const title = intl.formatMessage({ id: 'notification.error' });

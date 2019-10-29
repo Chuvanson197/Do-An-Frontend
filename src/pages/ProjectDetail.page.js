@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { useSelector, useDispatch } from 'react-redux';
@@ -7,6 +7,7 @@ import { css } from 'emotion';
 
 import { actions as layoutActions } from '../modules/layout/store';
 import { actions as projectActions } from '../modules/project/store';
+import { actions as customerActions } from '../modules/customer/store';
 
 import Layout from '../modules/layout/components/Layout';
 
@@ -42,6 +43,59 @@ const ProjectDetailPage = ({ match, history, intl }) => {
     removeProjectErrors,
     loading
   } = useSelector((state) => state.projects);
+
+  const getProject = useCallback(() => {
+    dispatch(
+      projectActions.getProject({
+        param: match.params.id,
+        path: 'projects'
+      })
+    );
+  }, [dispatch, match.params.id]);
+
+  const getJoinedMembers = useCallback(() => {
+    dispatch(
+      projectActions.getJoinedMembers({
+        param: match.params.id,
+        path: 'projects/membersList'
+      })
+    );
+  }, [dispatch, match.params.id]);
+
+  const cleanError = useCallback(() => {
+    dispatch(projectActions.cleanError(false));
+  }, [dispatch]);
+
+  const removeMember = useCallback(
+    (data) => {
+      dispatch(
+        projectActions.removeMember({
+          param: data.id,
+          path: 'projects/membersList/remove'
+        })
+      );
+    },
+    [dispatch]
+  );
+
+  const getCustomers = useCallback(() => {
+    dispatch(
+      customerActions.getCustomers({
+        path: 'customers'
+      })
+    );
+  }, [dispatch]);
+
+  const updateProject = useCallback(
+    (body) => {
+      dispatch(projectActions.updateProject({ body, path: 'projects', param: project.id }));
+    },
+    [dispatch, project]
+  );
+
+  // const  = useCallback(() => {
+
+  // })
 
   useEffect(() => {
     dispatch(layoutActions.selectItem(['project']));
@@ -111,6 +165,12 @@ const ProjectDetailPage = ({ match, history, intl }) => {
         </Row>
         <Row>
           <ProjectDetail
+            getProject={getProject}
+            getJoinedMembers={getJoinedMembers}
+            cleanError={cleanError}
+            removeMember={removeMember}
+            getCustomers={getCustomers}
+            updateProject={updateProject}
             project={project}
             joinedMembers={joinedMembers}
             loading={loading}

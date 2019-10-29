@@ -24,7 +24,6 @@ import {
 import ErrorNotification from '../../../../components/Notification/Error';
 import SuccessNotification from '../../../../components/Notification/Success';
 import { actions as customerActions } from '../../../customer/store';
-import { actions as projectActions } from '../../store';
 
 const propTypes = {
   visible: PropTypes.bool.isRequired,
@@ -54,7 +53,16 @@ const listStatus = [
   { id: 3, name: 'stopped' }
 ];
 
-const CreateProject = ({ visible, close, form, selectedCustomer, intl }) => {
+const CreateProject = ({
+  visible,
+  close,
+  form,
+  selectedCustomer,
+  intl,
+  createProject,
+  createProjectCleanError,
+  getProjects
+}) => {
   const dispatch = useDispatch();
   const [customerDetail, setCustomerDetail] = useState(selectedCustomer);
   const { getCustomersError, getCustomersErrors } = useSelector((state) => state.customers);
@@ -98,11 +106,7 @@ const CreateProject = ({ visible, close, form, selectedCustomer, intl }) => {
       // close the modal and clean state
       close();
       // re-call get all projects api
-      dispatch(
-        projectActions.getProjects({
-          path: 'projects'
-        })
-      );
+      getProjects();
     }
     // show error notification
     if (createProjectError) {
@@ -114,9 +118,19 @@ const CreateProject = ({ visible, close, form, selectedCustomer, intl }) => {
       });
       ErrorNotification(title, message);
       // clean error
-      dispatch(projectActions.createProjectCleanError());
+      createProjectCleanError();
+      // dispatch(projectActions.createProjectCleanError());
     }
-  }, [close, dispatch, intl, createProjectError, createProjectErrors, createProjectResult]);
+  }, [
+    close,
+    dispatch,
+    intl,
+    createProjectError,
+    createProjectErrors,
+    createProjectResult,
+    createProjectCleanError,
+    getProjects
+  ]);
 
   // Form submit
   const handleSubmit = () => {
@@ -130,7 +144,7 @@ const CreateProject = ({ visible, close, form, selectedCustomer, intl }) => {
           end_time: parseInt(moment(values.estimated[1]).format('x'), 10)
         };
         // call api when valid data
-        dispatch(projectActions.createProject({ body, path: 'projects' }));
+        createProject(body);
       } else {
         // showing error form input notification
         const title = intl.formatMessage({ id: 'notification.error' });

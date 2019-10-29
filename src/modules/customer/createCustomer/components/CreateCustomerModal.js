@@ -1,4 +1,4 @@
-import React, { useEffect, memo } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { formShape } from 'rc-form';
@@ -61,7 +61,7 @@ const CreateCustomerModal = ({ visible, close, form, intl, getCutomers, addCusto
       // re-call get all customers api
       getCutomers && getCutomers();
     }
-  }, [close, dispatch, intl, createCustomerResult, getCutomers]);
+  }, [close, intl, createCustomerResult, getCutomers]);
 
   // Handle showing error if add new customer failure
   useEffect(() => {

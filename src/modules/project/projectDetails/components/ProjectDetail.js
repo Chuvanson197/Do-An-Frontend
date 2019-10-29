@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
 import {
   Table,
@@ -17,14 +17,14 @@ import {
   Tag
 } from 'antd';
 
+import { actions as projectActions } from '../../store';
+
 import MemberDiagram from '../../../member/memberDiagram/MemberDiagram';
 import AddMemberModal from '../../addMember/components/AddMemberModal';
 import ErrorNotification from '../../../../components/Notification/Error';
 import SuccessNotification from '../../../../components/Notification/Success';
 import UpdateProjectDrawer from '../../updateProject/components/UpdateProjectDrawer';
 import UpdateMemberDrawer from '../../updateMember/components/UpdateMemberDrawer';
-
-import { actions as projectActions } from '../../store';
 
 const propTypes = {
   match: PropTypes.shape({}).isRequired,
@@ -44,7 +44,18 @@ const defaultProps = {
   }
 };
 
-const ProjectDetail = ({ project, joinedMembers, loading, match, intl }) => {
+const ProjectDetail = ({
+  project,
+  joinedMembers,
+  loading,
+  match,
+  intl,
+  getProject,
+  getJoinedMembers,
+  removeMember,
+  getCustomers,
+  updateProject,
+}) => {
   const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
   const [drawerVisible, setDrawerVisible] = useState(false);
@@ -97,20 +108,14 @@ const ProjectDetail = ({ project, joinedMembers, loading, match, intl }) => {
       const message = intl.formatMessage({ id: removeMemberResult.message });
       SuccessNotification(title, message);
       // re-call api request and clean error state
-      dispatch(
-        projectActions.getProject({
-          param: match.params.id,
-          path: 'projects'
-        })
-      );
-      dispatch(
-        projectActions.getJoinedMembers({
-          param: match.params.id,
-          path: 'projects/membersList'
-        })
-      );
+      getProject();
+      getJoinedMembers();
       dispatch(projectActions.removeMemberCleanData());
-    } else if (removeMemberError) {
+    }
+  }, [dispatch, getProject, getJoinedMembers, intl, removeMemberResult]);
+
+  useEffect(() => {
+    if (removeMemberError) {
       const title = intl.formatMessage({ id: 'notification.error' });
       const message = intl.formatMessage({
         id: removeMemberErrors.message
@@ -120,15 +125,10 @@ const ProjectDetail = ({ project, joinedMembers, loading, match, intl }) => {
       ErrorNotification(title, message);
       dispatch(projectActions.cleanError(false));
     }
-  }, [dispatch, intl, removeMemberError, removeMemberErrors, match.params.id, removeMemberResult]);
+  }, [dispatch, intl, removeMemberError, removeMemberErrors]);
 
   const handleConfirmDelete = (data) => {
-    dispatch(
-      projectActions.removeMember({
-        param: data.id,
-        path: 'projects/membersList/remove'
-      })
-    );
+    removeMember(data);
   };
 
   const columns = [
@@ -346,6 +346,8 @@ const ProjectDetail = ({ project, joinedMembers, loading, match, intl }) => {
             drawerVisible={drawerVisible}
             onClose={() => handleControlDrawer()}
             project={project}
+            getCustomers={getCustomers}
+            updateProject={updateProject}
           />
         )}
       </Row>

@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { css } from 'emotion';
 import { Row, Button } from 'antd';
 

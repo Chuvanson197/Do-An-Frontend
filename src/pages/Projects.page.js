@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
@@ -75,6 +75,24 @@ const ProjectsPage = ({ history, intl }) => {
     dispatch(projectActions.createProjectCleanError());
   };
 
+  const getProjects = useCallback(() => {
+    dispatch(
+      projectActions.getProjects({
+        path: 'projects'
+      })
+    );
+  }, [dispatch]);
+
+  const createProjectCleanError = useCallback(() => {
+    dispatch(projectActions.createProjectCleanError());
+  }, [dispatch]);
+
+  const createProject = useCallback(
+    (body) => {
+      dispatch(projectActions.createProject({ body, path: 'projects' }));
+    },
+    [dispatch]
+  );
   return (
     <Layout>
       <React.Fragment>
@@ -124,7 +142,16 @@ const ProjectsPage = ({ history, intl }) => {
             </Tabs>
           </Col>
         </Row>
-        {visible && <CreateProject visible={visible} close={() => handleControlModal()} />}
+        {visible && (
+          <CreateProject
+            visible={visible}
+            close={() => handleControlModal()}
+            getProjects={getProjects}
+            createProject={createProject}
+            // createProjectCleanData={createProjectCleanData}
+            createProjectCleanError={createProjectCleanError}
+          />
+        )}
       </React.Fragment>
     </Layout>
   );
