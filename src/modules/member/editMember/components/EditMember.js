@@ -2,12 +2,14 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Row, Button, Input, Form, Popconfirm, Drawer, Typography, Icon } from 'antd';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { css } from 'emotion';
 import { formShape } from 'rc-form';
 
 import ErrorNotification from '../../../../components/Notification/Error';
 import SuccessNotification from '../../../../components/Notification/Success';
+
+import { actions as memberActions } from '../../store';
 
 const propTypes = {
   intl: PropTypes.shape({}).isRequired,
@@ -47,9 +49,9 @@ const EditMember = ({
   form,
   data,
   updateMember,
-  updateMemberCleanError,
   getMembers
 }) => {
+  const dispatch = useDispatch();
   const { updateMemberResult, updateMemberError, updateMemberErrors } = useSelector(
     (state) => state.members
   );
@@ -78,9 +80,9 @@ const EditMember = ({
       });
       ErrorNotification(title, message);
       // clean error
-      updateMemberCleanError();
+      dispatch(memberActions.updateMemberCleanError(false));
     }
-  }, [intl, updateMemberError, updateMemberErrors, updateMemberCleanError]);
+  }, [intl, updateMemberError, updateMemberErrors, dispatch]);
 
   const handleSubmit = () => {
     form.validateFields((err, values) => {
@@ -103,7 +105,6 @@ const EditMember = ({
           return ErrorNotification(title, message);
         }
         updateMember(body);
-        // dispatch(memberActions.updateMember({ body, path: 'members', param: data.staff_code }));
       } else {
         const title = intl.formatMessage({ id: 'notification.error' });
         const message = intl.formatMessage({ id: 'notification.message.form.error' });

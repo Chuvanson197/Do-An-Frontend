@@ -75,14 +75,6 @@ const ListMemberPage = ({ history, intl }) => {
     [dispatch]
   );
 
-  const removeMemberCleanError = useCallback(() => {
-    dispatch(memberActions.removeMemberCleanError(false));
-  }, [dispatch]);
-
-  const removeMemberCleanData = useCallback(() => {
-    dispatch(memberActions.removeMemberCleanData());
-  }, [dispatch]);
-
   const getMembers = useCallback(() => {
     dispatch(memberActions.getMembers({ path: 'members' }));
   }, [dispatch]);
@@ -94,13 +86,6 @@ const ListMemberPage = ({ history, intl }) => {
     [dispatch]
   );
 
-  const createMemberCleanData = useCallback(() => {
-    dispatch(memberActions.removeMemberCleanData());
-  }, [dispatch]);
-
-  const createMemberCleanError = useCallback(() => {
-    dispatch(memberActions.createMemberCleanError(false));
-  }, [dispatch]);
 
   const updateMember = useCallback(
     (body) => {
@@ -109,16 +94,6 @@ const ListMemberPage = ({ history, intl }) => {
     [dispatch]
   );
 
-  const updateMemberCleanError = useCallback(() => {
-    dispatch(memberActions.updateMemberCleanError(false));
-  }, [dispatch]);
-
-  const updateMemberCleanData = useCallback(
-    (body) => {
-      dispatch(memberActions.updateMemberCleanData());
-    },
-    [dispatch]
-  );
   return (
     <Layout>
       <React.Fragment>
@@ -140,17 +115,11 @@ const ListMemberPage = ({ history, intl }) => {
             members={list}
             getMembers={getMembers}
             updateMember={updateMember}
-            updateMemberCleanData={updateMemberCleanData}
-            updateMemberCleanError={updateMemberCleanError}
             removeMember={removeMember}
-            removeMemberCleanData={removeMemberCleanData}
-            removeMemberCleanError={removeMemberCleanError}
           />
         </Row>
         {openCreateModal && (
           <CreateMember
-            createMemberCleanError={createMemberCleanError}
-            createMemberCleanData={createMemberCleanData}
             createMember={createNewMember}
             getMembers={getMembers}
             visible={openCreateModal}

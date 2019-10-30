@@ -83,10 +83,6 @@ const ProjectsPage = ({ history, intl }) => {
     );
   }, [dispatch]);
 
-  const createProjectCleanError = useCallback(() => {
-    dispatch(projectActions.createProjectCleanError());
-  }, [dispatch]);
-
   const createProject = useCallback(
     (body) => {
       dispatch(projectActions.createProject({ body, path: 'projects' }));
@@ -148,8 +144,6 @@ const ProjectsPage = ({ history, intl }) => {
             close={() => handleControlModal()}
             getProjects={getProjects}
             createProject={createProject}
-            // createProjectCleanData={createProjectCleanData}
-            createProjectCleanError={createProjectCleanError}
           />
         )}
       </React.Fragment>

@@ -61,7 +61,19 @@ const formItemLayout = {
 
 const listStatus = [{ id: 1, name: 'working' }, { id: 2, name: 'leave' }, { id: 3, name: 'idle' }];
 
-const AddMemberModal = ({ visible, close, form, selectedMember, joinedMembers, intl, match }) => {
+const AddMemberModal = ({
+  visible,
+  close,
+  form,
+  selectedMember,
+  joinedMembers,
+  intl,
+  match,
+  getMembers,
+  getJoinedMembers,
+  getProject,
+  addMember,
+}) => {
   const dispatch = useDispatch();
   const { list, getMembersError } = useSelector((state) => state.members);
   const memberLoading = useSelector((state) => state.members.loading);
@@ -72,12 +84,13 @@ const AddMemberModal = ({ visible, close, form, selectedMember, joinedMembers, i
 
   // Get all members after open modal
   useEffect(() => {
-    dispatch(
-      memberActions.getMembers({
-        path: 'members'
-      })
-    );
-  }, [dispatch]);
+    getMembers();
+    // dispatch(
+    //   memberActions.getMembers({
+    //     path: 'members'
+    //   })
+    // );
+  }, [getMembers]);
 
   // show notification if get members failure
   useEffect(() => {
@@ -99,20 +112,37 @@ const AddMemberModal = ({ visible, close, form, selectedMember, joinedMembers, i
       // close the modal and clean state
       close();
       // re-call get project detail api
-      dispatch(
-        projectActions.getProject({
-          param: match.params.id,
-          path: 'projects'
-        })
-      );
+      getProject();
+      // dispatch(
+      //   projectActions.getProject({
+      //     param: match.params.id,
+      //     path: 'projects'
+      //   })
+      // );
       // re-call get project's members api
-      dispatch(
-        projectActions.getJoinedMembers({
-          param: match.params.id,
-          path: 'projects/membersList'
-        })
-      );
+      getJoinedMembers();
+      // dispatch(
+      //   projectActions.getJoinedMembers({
+      //     param: match.params.id,
+      //     path: 'projects/membersList'
+      //   })
+      // );
     }
+    // // show error notification
+    // if (addMemberError) {
+    //   const title = intl.formatMessage({ id: 'notification.error' });
+    //   const message = intl.formatMessage({
+    //     id: addMemberErrors.message
+    //       ? addMemberErrors.message
+    //       : 'projects.addMemberIntoProject.message.error'
+    //   });
+    //   ErrorNotification(title, message);
+    //   // clean state
+    //   dispatch(projectActions.cleanError(false));
+    // }
+  }, [close, intl, addMemberResult, getJoinedMembers, getProject]);
+
+  useEffect(() => {
     // show error notification
     if (addMemberError) {
       const title = intl.formatMessage({ id: 'notification.error' });
@@ -125,7 +155,7 @@ const AddMemberModal = ({ visible, close, form, selectedMember, joinedMembers, i
       // clean state
       dispatch(projectActions.cleanError(false));
     }
-  }, [close, dispatch, intl, addMemberError, addMemberErrors, match.params.id, addMemberResult]);
+  }, [dispatch, intl, addMemberError, addMemberErrors]);
 
   // Form submit
   const handleSubmit = () => {
@@ -138,7 +168,8 @@ const AddMemberModal = ({ visible, close, form, selectedMember, joinedMembers, i
           time_out: values.time_out ? parseInt(moment(values.time_out).format('x'), 10) : null
         };
         // call api when valid data
-        dispatch(projectActions.addMember({ body, path: 'projects/membersList' }));
+        addMember(body);
+        // dispatch(projectActions.addMember({ body, path: 'projects/membersList' }));
       } else {
         // showing error form input notification
         const title = intl.formatMessage({ id: 'notification.error' });

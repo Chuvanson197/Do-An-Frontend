@@ -55,6 +55,8 @@ const ProjectDetail = ({
   removeMember,
   getCustomers,
   updateProject,
+  addMember,
+  getMembers
 }) => {
   const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
@@ -338,7 +340,8 @@ const ProjectDetail = ({
             drawerVisible={memberDrawerVisible}
             onClose={() => handleControlMemberDrawer()}
             member={selectedMember}
-            match={match}
+            getProject={getProject}
+            getJoinedMembers={getJoinedMembers}
           />
         )}
         {drawerVisible && (
@@ -354,10 +357,14 @@ const ProjectDetail = ({
       <MemberDiagram visible={visible} close={() => setVisible(!visible)} />
       {openAddModal && (
         <AddMemberModal
+          getMembers={getMembers}
+          getJoinedMembers={getJoinedMembers}
+          getProject={getProject}
           joinedMembers={joinedMembers.list}
           visible={openAddModal}
           close={() => handleControlModal()}
           match={match}
+          addMember={addMember}
         />
       )}
     </React.Fragment>

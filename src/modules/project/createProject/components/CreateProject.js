@@ -24,6 +24,7 @@ import {
 import ErrorNotification from '../../../../components/Notification/Error';
 import SuccessNotification from '../../../../components/Notification/Success';
 import { actions as customerActions } from '../../../customer/store';
+import { actions as projectActions } from '../../store';
 
 const propTypes = {
   visible: PropTypes.bool.isRequired,
@@ -60,7 +61,6 @@ const CreateProject = ({
   selectedCustomer,
   intl,
   createProject,
-  createProjectCleanError,
   getProjects
 }) => {
   const dispatch = useDispatch();
@@ -108,6 +108,9 @@ const CreateProject = ({
       // re-call get all projects api
       getProjects();
     }
+  }, [close, dispatch, intl, createProjectResult, getProjects]);
+
+  useEffect(() => {
     // show error notification
     if (createProjectError) {
       const title = intl.formatMessage({ id: 'notification.error' });
@@ -118,19 +121,9 @@ const CreateProject = ({
       });
       ErrorNotification(title, message);
       // clean error
-      createProjectCleanError();
-      // dispatch(projectActions.createProjectCleanError());
+      dispatch(projectActions.createProjectCleanError());
     }
-  }, [
-    close,
-    dispatch,
-    intl,
-    createProjectError,
-    createProjectErrors,
-    createProjectResult,
-    createProjectCleanError,
-    getProjects
-  ]);
+  }, [dispatch, intl, createProjectError, createProjectErrors]);
 
   // Form submit
   const handleSubmit = () => {

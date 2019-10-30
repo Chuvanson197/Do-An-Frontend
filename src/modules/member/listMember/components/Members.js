@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Table, Tooltip, Popconfirm, Button } from 'antd';
 import PropTypes from 'prop-types';
@@ -7,6 +7,8 @@ import PropTypes from 'prop-types';
 import EditMember from '../../editMember/components/EditMember';
 import SuccessNotification from '../../../../components/Notification/Success';
 import ErrorNotification from '../../../../components/Notification/Error';
+
+import { actions as memberActions } from '../../store';
 
 const propTypes = {
   intl: PropTypes.shape({}).isRequired,
@@ -21,11 +23,8 @@ const Members = ({
   getMembers,
   updateMember,
   removeMember,
-  updateMemberCleanData,
-  updateMemberCleanError,
-  removeMemberCleanData,
-  removeMemberCleanError
 }) => {
+  const dispatch = useDispatch();
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [dataItem, setDataItem] = useState({});
   const { removeMemberResult, removeMemberError, removeMemberErrors, loading } = useSelector(
@@ -35,8 +34,8 @@ const Members = ({
   const handleEditSelected = (data) => {
     data && setDataItem(data);
     setDrawerVisible(!drawerVisible);
-    updateMemberCleanError();
-    updateMemberCleanData();
+    dispatch(memberActions.updateMemberCleanError(false));
+    dispatch(memberActions.updateMemberCleanData());
   };
   const columns = [
     {
@@ -102,11 +101,11 @@ const Members = ({
       const message = intl.formatMessage({ id: removeMemberResult.message });
       SuccessNotification(title, message);
       // clean data
-      removeMemberCleanData();
+      dispatch(memberActions.removeMemberCleanData());
       // re-call get Members list
       getMembers();
     }
-  }, [removeMemberResult, intl, getMembers, removeMemberCleanData]);
+  }, [removeMemberResult, intl, getMembers, dispatch]);
 
   useEffect(() => {
     if (removeMemberError) {
@@ -119,9 +118,9 @@ const Members = ({
       });
       ErrorNotification(title, message);
       // clean error
-      removeMemberCleanError();
+      dispatch(memberActions.removeMemberCleanError(false));
     }
-  }, [intl, removeMemberError, removeMemberErrors, removeMemberCleanError]);
+  }, [intl, removeMemberError, removeMemberErrors, dispatch]);
 
   return (
     <React.Fragment>
@@ -136,7 +135,6 @@ const Members = ({
         <EditMember
           visible={drawerVisible}
           updateMember={updateMember}
-          updateMemberCleanError={updateMemberCleanError}
           getMembers={getMembers}
           close={() => handleEditSelected()}
           data={dataItem}

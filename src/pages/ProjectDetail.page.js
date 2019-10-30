@@ -8,6 +8,7 @@ import { css } from 'emotion';
 import { actions as layoutActions } from '../modules/layout/store';
 import { actions as projectActions } from '../modules/project/store';
 import { actions as customerActions } from '../modules/customer/store';
+import { actions as memberActions } from '../modules/member/store';
 
 import Layout from '../modules/layout/components/Layout';
 
@@ -93,9 +94,19 @@ const ProjectDetailPage = ({ match, history, intl }) => {
     [dispatch, project]
   );
 
-  // const  = useCallback(() => {
-
-  // })
+  const addMember = useCallback(
+    (body) => {
+      dispatch(projectActions.addMember({ body, path: 'projects/membersList' }));
+    },
+    [dispatch]
+  );
+  const getMembers = useCallback(() => {
+    dispatch(
+      memberActions.getMembers({
+        path: 'members'
+      })
+    );
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(layoutActions.selectItem(['project']));
@@ -136,7 +147,11 @@ const ProjectDetailPage = ({ match, history, intl }) => {
 
       dispatch(projectActions.removeProjectCleanData());
       history.push('/project/list');
-    } else if (removeProjectError) {
+    }
+  }, [dispatch, history, intl, removeProjectResult]);
+
+  useEffect(() => {
+    if (removeProjectError) {
       const title = intl.formatMessage({ id: 'notification.error' });
       const message = intl.formatMessage({
         id: removeProjectErrors.message
@@ -146,7 +161,7 @@ const ProjectDetailPage = ({ match, history, intl }) => {
       ErrorNotification(title, message);
       dispatch(projectActions.removeProjectCleanError());
     }
-  }, [dispatch, history, intl, removeProjectError, removeProjectErrors, removeProjectResult]);
+  }, [dispatch, intl, removeProjectError, removeProjectErrors]);
 
   // redirect functions
   const onBack = () => {
@@ -175,6 +190,8 @@ const ProjectDetailPage = ({ match, history, intl }) => {
             joinedMembers={joinedMembers}
             loading={loading}
             match={match}
+            addMember={addMember}
+            getMembers={getMembers}
           />
         </Row>
         <Row className={styles.footer}>

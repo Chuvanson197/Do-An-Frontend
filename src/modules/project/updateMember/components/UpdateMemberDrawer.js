@@ -57,7 +57,15 @@ const formItemLayout = {
   }
 };
 
-const UpdateMemberDrawer = ({ intl, onClose, drawerVisible, form, member, match }) => {
+const UpdateMemberDrawer = ({
+  intl,
+  onClose,
+  drawerVisible,
+  form,
+  member,
+  getProject,
+  getJoinedMembers
+}) => {
   const dispatch = useDispatch();
   const { updateMemberResult, updateMemberError, updateMemberErrors, loading } = useSelector(
     (state) => state.projects
@@ -72,20 +80,13 @@ const UpdateMemberDrawer = ({ intl, onClose, drawerVisible, form, member, match 
       // close the modal and clean state
       onClose();
       // re-call get project detail api
-      dispatch(
-        projectActions.getProject({
-          param: match.params.id,
-          path: 'projects'
-        })
-      );
+      getProject();
       // re-call get members list api
-      dispatch(
-        projectActions.getJoinedMembers({
-          param: match.params.id,
-          path: 'projects/membersList'
-        })
-      );
+      getJoinedMembers();
     }
+  }, [onClose, intl, updateMemberResult, getJoinedMembers, getProject]);
+
+  useEffect(() => {
     // show error notification
     if (updateMemberError) {
       const title = intl.formatMessage({ id: 'notification.error' });
@@ -98,15 +99,7 @@ const UpdateMemberDrawer = ({ intl, onClose, drawerVisible, form, member, match 
       // clean state
       dispatch(projectActions.updateMemberCleanError(false));
     }
-  }, [
-    onClose,
-    dispatch,
-    intl,
-    updateMemberError,
-    updateMemberErrors,
-    updateMemberResult,
-    match.params.id
-  ]);
+  }, [dispatch, intl, updateMemberError, updateMemberErrors]);
 
   const handleSubmit = () => {
     form.validateFields((err, values) => {
