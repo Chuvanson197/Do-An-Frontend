@@ -21,7 +21,8 @@ const propTypes = {
 
   listStatus: PropTypes.arrayOf(PropTypes.shape({})),
   listCustomer: PropTypes.arrayOf(PropTypes.shape({})),
-  selectedCustomer: PropTypes.shape({})
+  selectedCustomer: PropTypes.shape({}),
+
 };
 
 const defaultProps = {
