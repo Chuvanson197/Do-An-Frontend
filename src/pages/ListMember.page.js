@@ -62,12 +62,6 @@ const ListMemberPage = ({ history, intl }) => {
     }
   }, [dispatch, getMembersError, getMembersErrors, intl]);
 
-  const handleCreateModal = () => {
-    setOpenCreateModal(!openCreateModal);
-    dispatch(memberActions.createMemberCleanError());
-    dispatch(memberActions.createMemberCleanData());
-  };
-
   const removeMember = useCallback(
     (record) => {
       dispatch(memberActions.removeMember({ path: 'members/remove', param: record.staff_code }));
@@ -106,7 +100,7 @@ const ListMemberPage = ({ history, intl }) => {
           <Button
             icon="user-add"
             className={styles.addMemberButton}
-            onClick={() => handleCreateModal()}>
+            onClick={() => setOpenCreateModal(!openCreateModal)}>
             <FormattedMessage id="members.memberTable.buttonAdd.title" />
           </Button>
         </Row>
@@ -123,7 +117,7 @@ const ListMemberPage = ({ history, intl }) => {
             createMember={createNewMember}
             getMembers={getMembers}
             visible={openCreateModal}
-            close={() => handleCreateModal()}
+            close={() => setOpenCreateModal(!openCreateModal)}
           />
         )}
       </React.Fragment>

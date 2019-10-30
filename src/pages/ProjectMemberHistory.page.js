@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
@@ -7,6 +7,7 @@ import { css } from 'emotion';
 import { Row, Col } from 'antd';
 
 import { actions as layoutActions } from '../modules/layout/store';
+import { actions as projectActions } from '../modules/project/store';
 
 import Layout from '../modules/layout/components/Layout';
 
@@ -41,6 +42,16 @@ const ProjectMemberHistoryPage = ({ match, history }) => {
     }
   }, [authenticated, history]);
 
+  const getMemberHistory = useCallback((body) => {
+    dispatch(
+      projectActions.getMemberHistory({
+        body,
+        path: 'projects/membersList',
+        param: match.params.id
+      })
+    );
+  }, [dispatch, match.params.id]);
+
   const onBack = () => {
     history.push(`/project/detail/${match.params.id}`);
   };
@@ -52,7 +63,7 @@ const ProjectMemberHistoryPage = ({ match, history }) => {
           <HeaderTitle title={<FormattedMessage id="projects.memberHistory.title" />} />
         </Row>
         <Row>
-          <ProjectMemberHistory match={match} />
+          <ProjectMemberHistory match={match} getMemberHistory={getMemberHistory}/>
         </Row>
         <Row className={styles.footer}>
           <Col span={12}>

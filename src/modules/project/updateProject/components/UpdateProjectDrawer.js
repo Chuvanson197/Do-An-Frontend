@@ -33,7 +33,10 @@ const propTypes = {
   drawerVisible: PropTypes.bool.isRequired,
   form: formShape.isRequired,
 
-  project: PropTypes.shape({})
+  project: PropTypes.shape({}),
+
+  getCustomers: PropTypes.func.isRequired,
+  updateProject: PropTypes.func.isRequired
 };
 
 const defaultProps = {
@@ -88,8 +91,12 @@ const UpdateProjectDrawer = ({
 
   // Get all customers after open modal
   useEffect(() => {
-    getCustomers();
-  }, [getCustomers]);
+    getCustomers && getCustomers();
+    return () => {
+      dispatch(projectActions.updateProjectCleanError());
+      dispatch(projectActions.updateProjectCleanData());
+    };
+  }, [getCustomers, dispatch]);
 
   // show notification if get customers failure
   useEffect(() => {
@@ -166,7 +173,7 @@ const UpdateProjectDrawer = ({
           const message = intl.formatMessage({ id: 'notification.message.form.deletedCustomer' });
           return ErrorNotification(title, message);
         }
-        updateProject(body);
+        updateProject && updateProject(body);
       } else {
         // showing error form input notification
         const title = intl.formatMessage({ id: 'notification.error' });

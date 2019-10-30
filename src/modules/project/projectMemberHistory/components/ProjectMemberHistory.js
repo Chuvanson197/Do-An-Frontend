@@ -12,7 +12,9 @@ import ErrorNotification from '../../../../components/Notification/Error';
 
 const propTypes = {
   match: PropTypes.shape({}).isRequired,
-  intl: PropTypes.shape({}).isRequired
+  intl: PropTypes.shape({}).isRequired,
+
+  getMemberHistory: PropTypes.func.isRequired
 };
 
 const defaultProps = {};
@@ -23,7 +25,7 @@ const styles = {
   `
 };
 
-const ProjectMemberHistory = ({ match, intl }) => {
+const ProjectMemberHistory = ({ intl, getMemberHistory}) => {
   const dispatch = useDispatch();
   const [dateRange, setDateRange] = useState([moment().startOf('year'), moment().endOf('year')]);
   const { getMemberHistoryError, getMemberHistoryErrors } = useSelector((state) => state.projects);
@@ -47,14 +49,8 @@ const ProjectMemberHistory = ({ match, intl }) => {
       )
     };
 
-    dispatch(
-      projectActions.getMemberHistory({
-        body,
-        path: 'projects/membersList',
-        param: match.params.id
-      })
-    );
-  }, [dispatch, match.params.id]);
+    getMemberHistory && getMemberHistory(body);
+  }, [getMemberHistory]);
 
   // Handle if api call failure
   useEffect(() => {
@@ -76,13 +72,7 @@ const ProjectMemberHistory = ({ match, intl }) => {
       time_in: parseInt(moment(value[0]).format('x'), 10),
       time_out: parseInt(moment(value[1]).format('x'), 10)
     };
-    dispatch(
-      projectActions.getMemberHistory({
-        body,
-        path: 'projects/membersList',
-        param: match.params.id
-      })
-    );
+    getMemberHistory && getMemberHistory(body);
   };
 
   return (

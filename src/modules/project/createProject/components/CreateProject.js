@@ -32,7 +32,11 @@ const propTypes = {
   form: formShape.isRequired,
   intl: PropTypes.shape({}).isRequired,
 
-  selectedCustomer: PropTypes.shape({})
+  selectedCustomer: PropTypes.shape({}),
+
+  createProject: PropTypes.isRequired,
+  getProjects: PropTypes.isRequired,
+  getCustomers: PropTypes.isRequired
 };
 
 const defaultProps = {
@@ -61,7 +65,8 @@ const CreateProject = ({
   selectedCustomer,
   intl,
   createProject,
-  getProjects
+  getProjects,
+  getCustomers
 }) => {
   const dispatch = useDispatch();
   const [customerDetail, setCustomerDetail] = useState(selectedCustomer);
@@ -74,12 +79,8 @@ const CreateProject = ({
 
   // Get all customers after open modal
   useEffect(() => {
-    dispatch(
-      customerActions.getCustomers({
-        path: 'customers'
-      })
-    );
-  }, [dispatch]);
+    getCustomers && getCustomers();
+  }, [getCustomers]);
 
   // show notification if get customers failure
   useEffect(() => {
@@ -106,7 +107,7 @@ const CreateProject = ({
       // close the modal and clean state
       close();
       // re-call get all projects api
-      getProjects();
+      getProjects && getProjects();
     }
   }, [close, dispatch, intl, createProjectResult, getProjects]);
 

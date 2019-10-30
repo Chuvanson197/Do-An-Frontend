@@ -15,7 +15,10 @@ const propTypes = {
   intl: PropTypes.shape({}).isRequired,
   close: PropTypes.func.isRequired,
   form: formShape.isRequired,
-  data: PropTypes.shape({})
+  data: PropTypes.shape({}),
+
+  updateMember: PropTypes.func.isRequired,
+  getMembers: PropTypes.func.isRequired
 };
 
 const defaultProps = {
@@ -42,19 +45,18 @@ const formItemLayout = {
   }
 };
 
-const EditMember = ({
-  intl,
-  visible,
-  close,
-  form,
-  data,
-  updateMember,
-  getMembers
-}) => {
+const EditMember = ({ intl, visible, close, form, data, updateMember, getMembers }) => {
   const dispatch = useDispatch();
   const { updateMemberResult, updateMemberError, updateMemberErrors } = useSelector(
     (state) => state.members
   );
+
+  useEffect(() => {
+    return () => {
+      dispatch(memberActions.updateMemberCleanError(false));
+      dispatch(memberActions.updateMemberCleanData());
+    };
+  }, [dispatch]);
 
   useEffect(() => {
     if (updateMemberResult) {
@@ -65,7 +67,7 @@ const EditMember = ({
       // close the modal and clean data
       close();
       // re-call get members list
-      getMembers();
+      getMembers && getMembers();
     }
   }, [updateMemberResult, close, intl, getMembers]);
 
@@ -104,7 +106,7 @@ const EditMember = ({
           const message = intl.formatMessage({ id: 'notification.message.form.noChanging' });
           return ErrorNotification(title, message);
         }
-        updateMember(body);
+        updateMember && updateMember(body);
       } else {
         const title = intl.formatMessage({ id: 'notification.error' });
         const message = intl.formatMessage({ id: 'notification.message.form.error' });

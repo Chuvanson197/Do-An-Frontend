@@ -7,6 +7,7 @@ import { css } from 'emotion';
 
 import { actions as layoutActions } from '../modules/layout/store';
 import { actions as projectActions } from '../modules/project/store';
+import { actions as customerActions } from '../modules/customer/store';
 
 import Layout from '../modules/layout/components/Layout';
 import HeaderTitle from '../components/Content/HeaderTitle';
@@ -83,6 +84,14 @@ const ProjectsPage = ({ history, intl }) => {
     );
   }, [dispatch]);
 
+  const getCustomers = useCallback(() => {
+    dispatch(
+      customerActions.getCustomers({
+        path: 'customers'
+      })
+    );
+  }, [dispatch]);
+
   const createProject = useCallback(
     (body) => {
       dispatch(projectActions.createProject({ body, path: 'projects' }));
@@ -144,6 +153,7 @@ const ProjectsPage = ({ history, intl }) => {
             close={() => handleControlModal()}
             getProjects={getProjects}
             createProject={createProject}
+            getCustomers={getCustomers}
           />
         )}
       </React.Fragment>

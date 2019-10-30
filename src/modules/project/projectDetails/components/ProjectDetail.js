@@ -32,7 +32,15 @@ const propTypes = {
 
   project: PropTypes.shape({}),
   joinedMembers: PropTypes.shape({}),
-  loading: PropTypes.bool
+  loading: PropTypes.bool,
+
+  getProject: PropTypes.func.isRequired,
+  getJoinedMembers: PropTypes.func.isRequired,
+  getMembers: PropTypes.func.isRequired,
+  removeMember: PropTypes.func.isRequired,
+  addMember: PropTypes.func.isRequired,
+  updateProject: PropTypes.func.isRequired,
+  getCustomers: PropTypes.func.isRequired
 };
 
 const defaultProps = {
@@ -110,8 +118,8 @@ const ProjectDetail = ({
       const message = intl.formatMessage({ id: removeMemberResult.message });
       SuccessNotification(title, message);
       // re-call api request and clean error state
-      getProject();
-      getJoinedMembers();
+      getProject && getProject();
+      getJoinedMembers && getJoinedMembers();
       dispatch(projectActions.removeMemberCleanData());
     }
   }, [dispatch, getProject, getJoinedMembers, intl, removeMemberResult]);
@@ -233,20 +241,6 @@ const ProjectDetail = ({
     }
   ];
 
-  // Handle control open/close add member modal
-  const handleControlModal = () => {
-    setOpenAddModal(!openAddModal);
-    dispatch(projectActions.addMemberCleanError());
-    dispatch(projectActions.addMemberCleanData());
-  };
-
-  // Handle control open/close update project drawer
-  const handleControlDrawer = () => {
-    setDrawerVisible(!drawerVisible);
-    dispatch(projectActions.updateProjectCleanError());
-    dispatch(projectActions.updateProjectCleanData());
-  };
-
   // Handle control open/close update member in project drawer
   const handleControlMemberDrawer = (member) => {
     if (member) {
@@ -255,8 +249,6 @@ const ProjectDetail = ({
       selectMember(null);
     }
     setMemberDrawerVisible(!memberDrawerVisible);
-    dispatch(projectActions.updateMemberCleanError());
-    dispatch(projectActions.updateMemberCleanData(false));
   };
 
   return (
@@ -288,7 +280,7 @@ const ProjectDetail = ({
             icon="edit"
             type="primary"
             disabled={!project}
-            onClick={() => handleControlDrawer()}>
+            onClick={() => setDrawerVisible(!drawerVisible)}>
             <FormattedMessage id="button.update" />
           </Button>
         </Row>
@@ -308,7 +300,7 @@ const ProjectDetail = ({
                   type="primary"
                   shape="circle"
                   icon="usergroup-add"
-                  onClick={() => handleControlModal()}
+                  onClick={() => setOpenAddModal(!openAddModal)}
                 />
               </Tooltip>
             </Col>
@@ -347,7 +339,7 @@ const ProjectDetail = ({
         {drawerVisible && (
           <UpdateProjectDrawer
             drawerVisible={drawerVisible}
-            onClose={() => handleControlDrawer()}
+            onClose={() => setDrawerVisible(!drawerVisible)}
             project={project}
             getCustomers={getCustomers}
             updateProject={updateProject}
@@ -362,7 +354,7 @@ const ProjectDetail = ({
           getProject={getProject}
           joinedMembers={joinedMembers.list}
           visible={openAddModal}
-          close={() => handleControlModal()}
+          close={() => setOpenAddModal(!openAddModal)}
           match={match}
           addMember={addMember}
         />

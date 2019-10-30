@@ -31,7 +31,9 @@ const propTypes = {
   onClose: PropTypes.func.isRequired,
   drawerVisible: PropTypes.bool.isRequired,
   form: formShape.isRequired,
-  match: PropTypes.shape({}).isRequired
+
+  getProject: PropTypes.func.isRequired,
+  getJoinedMembers: PropTypes.func.isRequired
 };
 
 const defaultProps = {};
@@ -70,6 +72,14 @@ const UpdateMemberDrawer = ({
   const { updateMemberResult, updateMemberError, updateMemberErrors, loading } = useSelector(
     (state) => state.projects
   );
+
+  useEffect(() => {
+    return () => {
+      dispatch(projectActions.updateMemberCleanError());
+      dispatch(projectActions.updateMemberCleanData(false));
+    };
+  }, [dispatch]);
+
   // Handle showing notification after update project
   useEffect(() => {
     // show success notification
@@ -80,9 +90,9 @@ const UpdateMemberDrawer = ({
       // close the modal and clean state
       onClose();
       // re-call get project detail api
-      getProject();
+      getProject && getProject();
       // re-call get members list api
-      getJoinedMembers();
+      getJoinedMembers && getJoinedMembers();
     }
   }, [onClose, intl, updateMemberResult, getJoinedMembers, getProject]);
 

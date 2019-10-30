@@ -12,7 +12,11 @@ import { actions as memberActions } from '../../store';
 
 const propTypes = {
   intl: PropTypes.shape({}).isRequired,
-  members: PropTypes.arrayOf(PropTypes.shape({})).isRequired
+  members: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+
+  getMembers: PropTypes.func.isRequired,
+  updateMember: PropTypes.func.isRequired,
+  removeMember: PropTypes.func.isRequired,
 };
 
 const defaultProps = {};
@@ -34,8 +38,6 @@ const Members = ({
   const handleEditSelected = (data) => {
     data && setDataItem(data);
     setDrawerVisible(!drawerVisible);
-    dispatch(memberActions.updateMemberCleanError(false));
-    dispatch(memberActions.updateMemberCleanData());
   };
   const columns = [
     {
@@ -70,7 +72,7 @@ const Members = ({
             title={<FormattedMessage id="members.memberTable.buttonDelete.title" />}>
             <Popconfirm
               title={<FormattedMessage id="members.confirm.delete" />}
-              onConfirm={() => removeMember(record)}
+              onConfirm={() => removeMember && removeMember(record)}
               okText={<FormattedMessage id="members.button.confirm.yes" />}
               cancelText={<FormattedMessage id="members.button.confirm.no" />}>
               <Button shape="circle" icon="delete" type="danger" style={{ margin: '0px 5px' }} />
@@ -103,7 +105,7 @@ const Members = ({
       // clean data
       dispatch(memberActions.removeMemberCleanData());
       // re-call get Members list
-      getMembers();
+      getMembers && getMembers();
     }
   }, [removeMemberResult, intl, getMembers, dispatch]);
 

@@ -36,7 +36,13 @@ const propTypes = {
   match: PropTypes.shape({}).isRequired,
 
   selectedMember: PropTypes.shape({}),
-  joinedMembers: PropTypes.arrayOf(PropTypes.shape({}))
+  joinedMembers: PropTypes.arrayOf(PropTypes.shape({})),
+
+  getMembers: PropTypes.func.isRequired,
+  getJoinedMembers: PropTypes.func.isRequired,
+  getProject: PropTypes.func.isRequired,
+  addMember: PropTypes.func.isRequired,
+
 };
 
 const defaultProps = {
@@ -85,12 +91,11 @@ const AddMemberModal = ({
   // Get all members after open modal
   useEffect(() => {
     getMembers();
-    // dispatch(
-    //   memberActions.getMembers({
-    //     path: 'members'
-    //   })
-    // );
-  }, [getMembers]);
+    return () => {
+      dispatch(projectActions.addMemberCleanError());
+      dispatch(projectActions.addMemberCleanData());
+    };
+  }, [getMembers, dispatch]);
 
   // show notification if get members failure
   useEffect(() => {
@@ -112,34 +117,10 @@ const AddMemberModal = ({
       // close the modal and clean state
       close();
       // re-call get project detail api
-      getProject();
-      // dispatch(
-      //   projectActions.getProject({
-      //     param: match.params.id,
-      //     path: 'projects'
-      //   })
-      // );
+      getProject && getProject();
       // re-call get project's members api
-      getJoinedMembers();
-      // dispatch(
-      //   projectActions.getJoinedMembers({
-      //     param: match.params.id,
-      //     path: 'projects/membersList'
-      //   })
-      // );
+      getJoinedMembers && getJoinedMembers();
     }
-    // // show error notification
-    // if (addMemberError) {
-    //   const title = intl.formatMessage({ id: 'notification.error' });
-    //   const message = intl.formatMessage({
-    //     id: addMemberErrors.message
-    //       ? addMemberErrors.message
-    //       : 'projects.addMemberIntoProject.message.error'
-    //   });
-    //   ErrorNotification(title, message);
-    //   // clean state
-    //   dispatch(projectActions.cleanError(false));
-    // }
   }, [close, intl, addMemberResult, getJoinedMembers, getProject]);
 
   useEffect(() => {
@@ -169,7 +150,6 @@ const AddMemberModal = ({
         };
         // call api when valid data
         addMember(body);
-        // dispatch(projectActions.addMember({ body, path: 'projects/membersList' }));
       } else {
         // showing error form input notification
         const title = intl.formatMessage({ id: 'notification.error' });
