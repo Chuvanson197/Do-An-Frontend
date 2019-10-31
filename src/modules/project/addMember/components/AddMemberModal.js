@@ -90,7 +90,7 @@ const AddMemberModal = ({
 
   // Get all members after open modal
   useEffect(() => {
-    getMembers();
+    getMembers && getMembers();
     return () => {
       dispatch(projectActions.addMemberCleanError());
       dispatch(projectActions.addMemberCleanData());
@@ -149,7 +149,7 @@ const AddMemberModal = ({
           time_out: values.time_out ? parseInt(moment(values.time_out).format('x'), 10) : null
         };
         // call api when valid data
-        addMember(body);
+        addMember && addMember(body);
       } else {
         // showing error form input notification
         const title = intl.formatMessage({ id: 'notification.error' });

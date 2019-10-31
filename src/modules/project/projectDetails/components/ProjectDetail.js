@@ -140,7 +140,7 @@ const ProjectDetail = ({
   }, [dispatch, intl, removeMemberError, removeMemberErrors]);
 
   const handleConfirmDelete = (data) => {
-    removeMember(data);
+    removeMember && removeMember(data);
   };
 
   const columns = [
