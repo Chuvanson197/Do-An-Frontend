@@ -18,7 +18,10 @@ const propTypes = {
 
   listStatus: PropTypes.arrayOf(PropTypes.shape({})),
   listMember: PropTypes.arrayOf(PropTypes.shape({})),
-  selectedMember: PropTypes.shape({})
+  selectedMember: PropTypes.shape({}),
+
+  getMembers: PropTypes.func.isRequired,
+  createMember: PropTypes.func.isRequired
 };
 
 const defaultProps = [];
@@ -36,11 +39,18 @@ const formItemLayout = {
   }
 };
 
-const CreateMember = ({ visible, close, form, intl, getMembers, createMemberCleanError }) => {
+const CreateMember = ({ visible, close, form, intl, getMembers, createMember }) => {
   const dispatch = useDispatch();
   const { createMemberResult, createMemberError, createMemberErrors, loading } = useSelector(
     (state) => state.members
   );
+
+  useEffect(() => {
+    return () => {
+      dispatch(memberActions.createMemberCleanError(false));
+      dispatch(memberActions.createMemberCleanData());
+    };
+  }, [dispatch]);
 
   useEffect(() => {
     // show success notification
@@ -51,7 +61,7 @@ const CreateMember = ({ visible, close, form, intl, getMembers, createMemberClea
       // close the modal and clean data
       close();
       // re-call get all customers api
-      getMembers();
+      getMembers && getMembers();
     }
   }, [createMemberResult, intl, getMembers, close]);
 
@@ -66,9 +76,9 @@ const CreateMember = ({ visible, close, form, intl, getMembers, createMemberClea
       });
       ErrorNotification(title, message);
       // clean error
-      createMemberCleanError();
+      dispatch(memberActions.createMemberCleanError());
     }
-  }, [createMemberError, createMemberErrors, createMemberCleanError, intl]);
+  }, [createMemberError, createMemberErrors, dispatch, intl]);
 
   const handleSubmit = () => {
     form.validateFields((err, values) => {
@@ -79,7 +89,7 @@ const CreateMember = ({ visible, close, form, intl, getMembers, createMemberClea
           phone_number: values.phone_number,
           email: values.email
         };
-        dispatch(memberActions.createMember({ body, path: 'members' }));
+        createMember && createMember(body);
       } else {
         notification.open({
           message: (

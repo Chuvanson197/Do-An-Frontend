@@ -32,7 +32,11 @@ const propTypes = {
   form: formShape.isRequired,
   intl: PropTypes.shape({}).isRequired,
 
-  selectedCustomer: PropTypes.shape({})
+  selectedCustomer: PropTypes.shape({}),
+
+  createProject: PropTypes.func.isRequired,
+  getProjects: PropTypes.func.isRequired,
+  getCustomers: PropTypes.func.isRequired
 };
 
 const defaultProps = {
@@ -54,7 +58,16 @@ const listStatus = [
   { id: 3, name: 'stopped' }
 ];
 
-const CreateProject = ({ visible, close, form, selectedCustomer, intl }) => {
+const CreateProject = ({
+  visible,
+  close,
+  form,
+  selectedCustomer,
+  intl,
+  createProject,
+  getProjects,
+  getCustomers
+}) => {
   const dispatch = useDispatch();
   const [customerDetail, setCustomerDetail] = useState(selectedCustomer);
   const { getCustomersError, getCustomersErrors } = useSelector((state) => state.customers);
@@ -66,12 +79,10 @@ const CreateProject = ({ visible, close, form, selectedCustomer, intl }) => {
 
   // Get all customers after open modal
   useEffect(() => {
-    dispatch(
-      customerActions.getCustomers({
-        path: 'customers'
-      })
-    );
-  }, [dispatch]);
+    getCustomers && getCustomers();
+    dispatch(projectActions.createProjectCleanData());
+    dispatch(projectActions.createProjectCleanError());
+  }, [getCustomers, dispatch]);
 
   // show notification if get customers failure
   useEffect(() => {
@@ -98,12 +109,11 @@ const CreateProject = ({ visible, close, form, selectedCustomer, intl }) => {
       // close the modal and clean state
       close();
       // re-call get all projects api
-      dispatch(
-        projectActions.getProjects({
-          path: 'projects'
-        })
-      );
+      getProjects && getProjects();
     }
+  }, [close, dispatch, intl, createProjectResult, getProjects]);
+
+  useEffect(() => {
     // show error notification
     if (createProjectError) {
       const title = intl.formatMessage({ id: 'notification.error' });
@@ -116,7 +126,7 @@ const CreateProject = ({ visible, close, form, selectedCustomer, intl }) => {
       // clean error
       dispatch(projectActions.createProjectCleanError());
     }
-  }, [close, dispatch, intl, createProjectError, createProjectErrors, createProjectResult]);
+  }, [dispatch, intl, createProjectError, createProjectErrors]);
 
   // Form submit
   const handleSubmit = () => {
@@ -130,7 +140,7 @@ const CreateProject = ({ visible, close, form, selectedCustomer, intl }) => {
           end_time: parseInt(moment(values.estimated[1]).format('x'), 10)
         };
         // call api when valid data
-        dispatch(projectActions.createProject({ body, path: 'projects' }));
+        createProject && createProject(body);
       } else {
         // showing error form input notification
         const title = intl.formatMessage({ id: 'notification.error' });

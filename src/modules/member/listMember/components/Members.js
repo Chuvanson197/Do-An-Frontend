@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Table, Tooltip, Popconfirm, Button } from 'antd';
 import PropTypes from 'prop-types';
@@ -8,9 +8,15 @@ import EditMember from '../../editMember/components/EditMember';
 import SuccessNotification from '../../../../components/Notification/Success';
 import ErrorNotification from '../../../../components/Notification/Error';
 
+import { actions as memberActions } from '../../store';
+
 const propTypes = {
   intl: PropTypes.shape({}).isRequired,
-  members: PropTypes.arrayOf(PropTypes.shape({})).isRequired
+  members: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+
+  getMembers: PropTypes.func.isRequired,
+  updateMember: PropTypes.func.isRequired,
+  removeMember: PropTypes.func.isRequired,
 };
 
 const defaultProps = {};
@@ -21,11 +27,8 @@ const Members = ({
   getMembers,
   updateMember,
   removeMember,
-  updateMemberCleanData,
-  updateMemberCleanError,
-  removeMemberCleanData,
-  removeMemberCleanError
 }) => {
+  const dispatch = useDispatch();
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [dataItem, setDataItem] = useState({});
   const { removeMemberResult, removeMemberError, removeMemberErrors, loading } = useSelector(
@@ -35,8 +38,6 @@ const Members = ({
   const handleEditSelected = (data) => {
     data && setDataItem(data);
     setDrawerVisible(!drawerVisible);
-    updateMemberCleanError();
-    updateMemberCleanData();
   };
   const columns = [
     {
@@ -71,7 +72,7 @@ const Members = ({
             title={<FormattedMessage id="members.memberTable.buttonDelete.title" />}>
             <Popconfirm
               title={<FormattedMessage id="members.confirm.delete" />}
-              onConfirm={() => removeMember(record)}
+              onConfirm={() => removeMember && removeMember(record)}
               okText={<FormattedMessage id="members.button.confirm.yes" />}
               cancelText={<FormattedMessage id="members.button.confirm.no" />}>
               <Button shape="circle" icon="delete" type="danger" style={{ margin: '0px 5px' }} />
@@ -102,11 +103,11 @@ const Members = ({
       const message = intl.formatMessage({ id: removeMemberResult.message });
       SuccessNotification(title, message);
       // clean data
-      removeMemberCleanData();
+      dispatch(memberActions.removeMemberCleanData());
       // re-call get Members list
-      getMembers();
+      getMembers && getMembers();
     }
-  }, [removeMemberResult, intl, getMembers, removeMemberCleanData]);
+  }, [removeMemberResult, intl, getMembers, dispatch]);
 
   useEffect(() => {
     if (removeMemberError) {
@@ -119,9 +120,9 @@ const Members = ({
       });
       ErrorNotification(title, message);
       // clean error
-      removeMemberCleanError();
+      dispatch(memberActions.removeMemberCleanError(false));
     }
-  }, [intl, removeMemberError, removeMemberErrors, removeMemberCleanError]);
+  }, [intl, removeMemberError, removeMemberErrors, dispatch]);
 
   return (
     <React.Fragment>
@@ -136,7 +137,6 @@ const Members = ({
         <EditMember
           visible={drawerVisible}
           updateMember={updateMember}
-          updateMemberCleanError={updateMemberCleanError}
           getMembers={getMembers}
           close={() => handleEditSelected()}
           data={dataItem}

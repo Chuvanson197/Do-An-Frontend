@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { Table, Row, Button, Tooltip, Popconfirm } from 'antd';
+import { Table, Button, Tooltip, Popconfirm } from 'antd';
 
 import UpdateCustomerDrawer from '../../updateCustomer/components/UpdateCustomerDrawer';
 import ErrorNotification from '../../../../components/Notification/Error';

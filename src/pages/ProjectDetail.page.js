@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { useSelector, useDispatch } from 'react-redux';
@@ -7,6 +7,8 @@ import { css } from 'emotion';
 
 import { actions as layoutActions } from '../modules/layout/store';
 import { actions as projectActions } from '../modules/project/store';
+import { actions as customerActions } from '../modules/customer/store';
+import { actions as memberActions } from '../modules/member/store';
 
 import Layout from '../modules/layout/components/Layout';
 
@@ -42,6 +44,78 @@ const ProjectDetailPage = ({ match, history, intl }) => {
     removeProjectErrors,
     loading
   } = useSelector((state) => state.projects);
+
+  const getProject = useCallback(() => {
+    dispatch(
+      projectActions.getProject({
+        param: match.params.id,
+        path: 'projects'
+      })
+    );
+  }, [dispatch, match.params.id]);
+
+  const getJoinedMembers = useCallback(() => {
+    dispatch(
+      projectActions.getJoinedMembers({
+        param: match.params.id,
+        path: 'projects/membersList'
+      })
+    );
+  }, [dispatch, match.params.id]);
+
+  const cleanError = useCallback(() => {
+    dispatch(projectActions.cleanError(false));
+  }, [dispatch]);
+
+  const removeMember = useCallback(
+    (data) => {
+      dispatch(
+        projectActions.removeMember({
+          param: data.id,
+          path: 'projects/membersList/remove'
+        })
+      );
+    },
+    [dispatch]
+  );
+
+  const getCustomers = useCallback(() => {
+    dispatch(
+      customerActions.getCustomers({
+        path: 'customers'
+      })
+    );
+  }, [dispatch]);
+
+  const updateProject = useCallback(
+    (body) => {
+      dispatch(projectActions.updateProject({ body, path: 'projects', param: project.id }));
+    },
+    [dispatch, project]
+  );
+
+  const addMember = useCallback(
+    (body) => {
+      dispatch(projectActions.addMember({ body, path: 'projects/membersList' }));
+    },
+    [dispatch]
+  );
+  const getMembers = useCallback(() => {
+    dispatch(
+      memberActions.getMembers({
+        path: 'members'
+      })
+    );
+  }, [dispatch]);
+  const updateMember = useCallback((body, member) => {
+    dispatch(
+      projectActions.updateMember({
+        body,
+        path: 'projects/membersList',
+        param: member.id
+      })
+    );
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(layoutActions.selectItem(['project']));
@@ -82,7 +156,11 @@ const ProjectDetailPage = ({ match, history, intl }) => {
 
       dispatch(projectActions.removeProjectCleanData());
       history.push('/project/list');
-    } else if (removeProjectError) {
+    }
+  }, [dispatch, history, intl, removeProjectResult]);
+
+  useEffect(() => {
+    if (removeProjectError) {
       const title = intl.formatMessage({ id: 'notification.error' });
       const message = intl.formatMessage({
         id: removeProjectErrors.message
@@ -92,7 +170,7 @@ const ProjectDetailPage = ({ match, history, intl }) => {
       ErrorNotification(title, message);
       dispatch(projectActions.removeProjectCleanError());
     }
-  }, [dispatch, history, intl, removeProjectError, removeProjectErrors, removeProjectResult]);
+  }, [dispatch, intl, removeProjectError, removeProjectErrors]);
 
   // redirect functions
   const onBack = () => {
@@ -111,10 +189,19 @@ const ProjectDetailPage = ({ match, history, intl }) => {
         </Row>
         <Row>
           <ProjectDetail
+            getProject={getProject}
+            getJoinedMembers={getJoinedMembers}
+            cleanError={cleanError}
+            removeMember={removeMember}
+            getCustomers={getCustomers}
+            updateProject={updateProject}
             project={project}
             joinedMembers={joinedMembers}
             loading={loading}
             match={match}
+            addMember={addMember}
+            getMembers={getMembers}
+            updateMember={updateMember}
           />
         </Row>
         <Row className={styles.footer}>

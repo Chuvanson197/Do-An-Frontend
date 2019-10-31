@@ -62,26 +62,12 @@ const ListMemberPage = ({ history, intl }) => {
     }
   }, [dispatch, getMembersError, getMembersErrors, intl]);
 
-  const handleCreateModal = () => {
-    setOpenCreateModal(!openCreateModal);
-    dispatch(memberActions.createMemberCleanError());
-    dispatch(memberActions.createMemberCleanData());
-  };
-
   const removeMember = useCallback(
     (record) => {
       dispatch(memberActions.removeMember({ path: 'members/remove', param: record.staff_code }));
     },
     [dispatch]
   );
-
-  const removeMemberCleanError = useCallback(() => {
-    dispatch(memberActions.removeMemberCleanError(false));
-  }, [dispatch]);
-
-  const removeMemberCleanData = useCallback(() => {
-    dispatch(memberActions.removeMemberCleanData());
-  }, [dispatch]);
 
   const getMembers = useCallback(() => {
     dispatch(memberActions.getMembers({ path: 'members' }));
@@ -94,13 +80,6 @@ const ListMemberPage = ({ history, intl }) => {
     [dispatch]
   );
 
-  const createMemberCleanData = useCallback(() => {
-    dispatch(memberActions.removeMemberCleanData());
-  }, [dispatch]);
-
-  const createMemberCleanError = useCallback(() => {
-    dispatch(memberActions.createMemberCleanError(false));
-  }, [dispatch]);
 
   const updateMember = useCallback(
     (body) => {
@@ -109,16 +88,6 @@ const ListMemberPage = ({ history, intl }) => {
     [dispatch]
   );
 
-  const updateMemberCleanError = useCallback(() => {
-    dispatch(memberActions.updateMemberCleanError(false));
-  }, [dispatch]);
-
-  const updateMemberCleanData = useCallback(
-    (body) => {
-      dispatch(memberActions.updateMemberCleanData());
-    },
-    [dispatch]
-  );
   return (
     <Layout>
       <React.Fragment>
@@ -131,7 +100,7 @@ const ListMemberPage = ({ history, intl }) => {
           <Button
             icon="user-add"
             className={styles.addMemberButton}
-            onClick={() => handleCreateModal()}>
+            onClick={() => setOpenCreateModal(!openCreateModal)}>
             <FormattedMessage id="members.memberTable.buttonAdd.title" />
           </Button>
         </Row>
@@ -139,25 +108,16 @@ const ListMemberPage = ({ history, intl }) => {
           <Members
             members={list}
             getMembers={getMembers}
-            // createNewMember={createNewMember}
-            // createMemberCleanError={createMemberCleanError}
-            // createMemberCleanData={createMemberCleanData}
             updateMember={updateMember}
-            updateMemberCleanData={updateMemberCleanData}
-            updateMemberCleanError={updateMemberCleanError}
             removeMember={removeMember}
-            removeMemberCleanData={removeMemberCleanData}
-            removeMemberCleanError={removeMemberCleanError}
           />
         </Row>
         {openCreateModal && (
           <CreateMember
-            createMemberCleanError={createMemberCleanError}
-            createMemberCleanData={createMemberCleanData}
             createMember={createNewMember}
             getMembers={getMembers}
             visible={openCreateModal}
-            close={() => handleCreateModal()}
+            close={() => setOpenCreateModal(!openCreateModal)}
           />
         )}
       </React.Fragment>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
 import {
   Table,
@@ -17,6 +17,8 @@ import {
   Tag
 } from 'antd';
 
+import { actions as projectActions } from '../../store';
+
 import MemberDiagram from '../../../member/memberDiagram/MemberDiagram';
 import AddMemberModal from '../../addMember/components/AddMemberModal';
 import ErrorNotification from '../../../../components/Notification/Error';
@@ -24,15 +26,22 @@ import SuccessNotification from '../../../../components/Notification/Success';
 import UpdateProjectDrawer from '../../updateProject/components/UpdateProjectDrawer';
 import UpdateMemberDrawer from '../../updateMember/components/UpdateMemberDrawer';
 
-import { actions as projectActions } from '../../store';
-
 const propTypes = {
   match: PropTypes.shape({}).isRequired,
   intl: PropTypes.shape({}).isRequired,
 
   project: PropTypes.shape({}),
   joinedMembers: PropTypes.shape({}),
-  loading: PropTypes.bool
+  loading: PropTypes.bool,
+
+  getProject: PropTypes.func.isRequired,
+  getJoinedMembers: PropTypes.func.isRequired,
+  getMembers: PropTypes.func.isRequired,
+  removeMember: PropTypes.func.isRequired,
+  addMember: PropTypes.func.isRequired,
+  updateProject: PropTypes.func.isRequired,
+  getCustomers: PropTypes.func.isRequired,
+  updateMember: PropTypes.func.isRequired
 };
 
 const defaultProps = {
@@ -44,7 +53,21 @@ const defaultProps = {
   }
 };
 
-const ProjectDetail = ({ project, joinedMembers, loading, match, intl }) => {
+const ProjectDetail = ({
+  project,
+  joinedMembers,
+  loading,
+  match,
+  intl,
+  getProject,
+  getJoinedMembers,
+  removeMember,
+  getCustomers,
+  updateProject,
+  addMember,
+  updateMember,
+  getMembers
+}) => {
   const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
   const [drawerVisible, setDrawerVisible] = useState(false);
@@ -97,20 +120,14 @@ const ProjectDetail = ({ project, joinedMembers, loading, match, intl }) => {
       const message = intl.formatMessage({ id: removeMemberResult.message });
       SuccessNotification(title, message);
       // re-call api request and clean error state
-      dispatch(
-        projectActions.getProject({
-          param: match.params.id,
-          path: 'projects'
-        })
-      );
-      dispatch(
-        projectActions.getJoinedMembers({
-          param: match.params.id,
-          path: 'projects/membersList'
-        })
-      );
+      getProject && getProject();
+      getJoinedMembers && getJoinedMembers();
       dispatch(projectActions.removeMemberCleanData());
-    } else if (removeMemberError) {
+    }
+  }, [dispatch, getProject, getJoinedMembers, intl, removeMemberResult]);
+
+  useEffect(() => {
+    if (removeMemberError) {
       const title = intl.formatMessage({ id: 'notification.error' });
       const message = intl.formatMessage({
         id: removeMemberErrors.message
@@ -120,15 +137,10 @@ const ProjectDetail = ({ project, joinedMembers, loading, match, intl }) => {
       ErrorNotification(title, message);
       dispatch(projectActions.cleanError(false));
     }
-  }, [dispatch, intl, removeMemberError, removeMemberErrors, match.params.id, removeMemberResult]);
+  }, [dispatch, intl, removeMemberError, removeMemberErrors]);
 
   const handleConfirmDelete = (data) => {
-    dispatch(
-      projectActions.removeMember({
-        param: data.id,
-        path: 'projects/membersList/remove'
-      })
-    );
+    removeMember && removeMember(data);
   };
 
   const columns = [
@@ -231,20 +243,6 @@ const ProjectDetail = ({ project, joinedMembers, loading, match, intl }) => {
     }
   ];
 
-  // Handle control open/close add member modal
-  const handleControlModal = () => {
-    setOpenAddModal(!openAddModal);
-    dispatch(projectActions.addMemberCleanError());
-    dispatch(projectActions.addMemberCleanData());
-  };
-
-  // Handle control open/close update project drawer
-  const handleControlDrawer = () => {
-    setDrawerVisible(!drawerVisible);
-    dispatch(projectActions.updateProjectCleanError());
-    dispatch(projectActions.updateProjectCleanData());
-  };
-
   // Handle control open/close update member in project drawer
   const handleControlMemberDrawer = (member) => {
     if (member) {
@@ -253,8 +251,6 @@ const ProjectDetail = ({ project, joinedMembers, loading, match, intl }) => {
       selectMember(null);
     }
     setMemberDrawerVisible(!memberDrawerVisible);
-    dispatch(projectActions.updateMemberCleanError());
-    dispatch(projectActions.updateMemberCleanData(false));
   };
 
   return (
@@ -286,7 +282,7 @@ const ProjectDetail = ({ project, joinedMembers, loading, match, intl }) => {
             icon="edit"
             type="primary"
             disabled={!project}
-            onClick={() => handleControlDrawer()}>
+            onClick={() => setDrawerVisible(!drawerVisible)}>
             <FormattedMessage id="button.update" />
           </Button>
         </Row>
@@ -306,7 +302,7 @@ const ProjectDetail = ({ project, joinedMembers, loading, match, intl }) => {
                   type="primary"
                   shape="circle"
                   icon="usergroup-add"
-                  onClick={() => handleControlModal()}
+                  onClick={() => setOpenAddModal(!openAddModal)}
                 />
               </Tooltip>
             </Col>
@@ -338,24 +334,33 @@ const ProjectDetail = ({ project, joinedMembers, loading, match, intl }) => {
             drawerVisible={memberDrawerVisible}
             onClose={() => handleControlMemberDrawer()}
             member={selectedMember}
-            match={match}
+            getProject={getProject}
+            getJoinedMembers={getJoinedMembers}
+            updateMember={updateMember}
           />
         )}
         {drawerVisible && (
           <UpdateProjectDrawer
             drawerVisible={drawerVisible}
-            onClose={() => handleControlDrawer()}
+            onClose={() => setDrawerVisible(!drawerVisible)}
             project={project}
+            getCustomers={getCustomers}
+            updateProject={updateProject}
+            getProject={getProject}
           />
         )}
       </Row>
       <MemberDiagram visible={visible} close={() => setVisible(!visible)} />
       {openAddModal && (
         <AddMemberModal
+          getMembers={getMembers}
+          getJoinedMembers={getJoinedMembers}
+          getProject={getProject}
           joinedMembers={joinedMembers.list}
           visible={openAddModal}
-          close={() => handleControlModal()}
+          close={() => setOpenAddModal(!openAddModal)}
           match={match}
+          addMember={addMember}
         />
       )}
     </React.Fragment>

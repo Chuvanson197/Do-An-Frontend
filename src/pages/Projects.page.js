@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,6 +7,7 @@ import { css } from 'emotion';
 
 import { actions as layoutActions } from '../modules/layout/store';
 import { actions as projectActions } from '../modules/project/store';
+import { actions as customerActions } from '../modules/customer/store';
 
 import Layout from '../modules/layout/components/Layout';
 import HeaderTitle from '../components/Content/HeaderTitle';
@@ -68,13 +69,29 @@ const ProjectsPage = ({ history, intl }) => {
     }
   }, [dispatch, getProjectsError, getProjectsErrors, intl]);
 
-  const handleControlModal = () => {
-    setVisible(!visible);
-    // clean modal state after close or open
-    dispatch(projectActions.createProjectCleanData());
-    dispatch(projectActions.createProjectCleanError());
-  };
 
+  const getProjects = useCallback(() => {
+    dispatch(
+      projectActions.getProjects({
+        path: 'projects'
+      })
+    );
+  }, [dispatch]);
+
+  const getCustomers = useCallback(() => {
+    dispatch(
+      customerActions.getCustomers({
+        path: 'customers'
+      })
+    );
+  }, [dispatch]);
+
+  const createProject = useCallback(
+    (body) => {
+      dispatch(projectActions.createProject({ body, path: 'projects' }));
+    },
+    [dispatch]
+  );
   return (
     <Layout>
       <React.Fragment>
@@ -82,7 +99,7 @@ const ProjectsPage = ({ history, intl }) => {
         <Button
           icon="folder-add"
           className={styles.addCustomerButton}
-          onClick={() => handleControlModal()}>
+          onClick={() => setVisible(!visible)}>
           <FormattedMessage id="button.add" />
         </Button>
         <Row gutter={16}>
@@ -124,7 +141,15 @@ const ProjectsPage = ({ history, intl }) => {
             </Tabs>
           </Col>
         </Row>
-        {visible && <CreateProject visible={visible} close={() => handleControlModal()} />}
+        {visible && (
+          <CreateProject
+            visible={visible}
+            close={() => setVisible(!visible)}
+            getProjects={getProjects}
+            createProject={createProject}
+            getCustomers={getCustomers}
+          />
+        )}
       </React.Fragment>
     </Layout>
   );

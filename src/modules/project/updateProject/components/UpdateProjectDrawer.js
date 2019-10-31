@@ -33,7 +33,11 @@ const propTypes = {
   drawerVisible: PropTypes.bool.isRequired,
   form: formShape.isRequired,
 
-  project: PropTypes.shape({})
+  project: PropTypes.shape({}),
+
+  getCustomers: PropTypes.func.isRequired,
+  updateProject: PropTypes.func.isRequired,
+  getProject: PropTypes.func.isRequired
 };
 
 const defaultProps = {
@@ -68,7 +72,16 @@ const formItemLayout = {
   }
 };
 
-const UpdateProjectDrawer = ({ intl, onClose, drawerVisible, form, project }) => {
+const UpdateProjectDrawer = ({
+  getCustomers,
+  updateProject,
+  getProject,
+  intl,
+  onClose,
+  drawerVisible,
+  form,
+  project
+}) => {
   const dispatch = useDispatch();
   const [customerDetail, setCustomerDetail] = useState(project.customer);
   const { getCustomersError, getCustomersErrors } = useSelector((state) => state.customers);
@@ -80,12 +93,12 @@ const UpdateProjectDrawer = ({ intl, onClose, drawerVisible, form, project }) =>
 
   // Get all customers after open modal
   useEffect(() => {
-    dispatch(
-      customerActions.getCustomers({
-        path: 'customers'
-      })
-    );
-  }, [dispatch]);
+    getCustomers && getCustomers();
+    return () => {
+      dispatch(projectActions.updateProjectCleanError());
+      dispatch(projectActions.updateProjectCleanData());
+    };
+  }, [getCustomers, dispatch]);
 
   // show notification if get customers failure
   useEffect(() => {
@@ -112,14 +125,12 @@ const UpdateProjectDrawer = ({ intl, onClose, drawerVisible, form, project }) =>
       // close the modal and clean state
       onClose();
       // re-call get project detail api
-      dispatch(
-        projectActions.getProject({
-          path: 'projects',
-          param: project.id
-        })
-      );
+      getProject && getProject(project);
     }
     // show error notification
+  }, [onClose, intl, updateProjectResult, dispatch, project, getProject]);
+
+  useEffect(() => {
     if (updateProjectError) {
       const title = intl.formatMessage({ id: 'notification.error' });
       const message = intl.formatMessage({ id: 'projects.updateProject.message.error' });
@@ -127,15 +138,7 @@ const UpdateProjectDrawer = ({ intl, onClose, drawerVisible, form, project }) =>
       // clean state
       dispatch(projectActions.updateProjectCleanError());
     }
-  }, [
-    onClose,
-    dispatch,
-    intl,
-    updateProjectError,
-    updateProjectErrors,
-    updateProjectResult,
-    project.id
-  ]);
+  }, [dispatch, intl, updateProjectError, updateProjectErrors]);
 
   const handleSubmit = () => {
     form.validateFields((err, values) => {
@@ -167,7 +170,7 @@ const UpdateProjectDrawer = ({ intl, onClose, drawerVisible, form, project }) =>
           const message = intl.formatMessage({ id: 'notification.message.form.deletedCustomer' });
           return ErrorNotification(title, message);
         }
-        dispatch(projectActions.updateProject({ body, path: 'projects', param: project.id }));
+        updateProject && updateProject(body);
       } else {
         // showing error form input notification
         const title = intl.formatMessage({ id: 'notification.error' });
