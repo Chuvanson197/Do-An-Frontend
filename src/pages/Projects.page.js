@@ -69,12 +69,6 @@ const ProjectsPage = ({ history, intl }) => {
     }
   }, [dispatch, getProjectsError, getProjectsErrors, intl]);
 
-  const handleControlModal = () => {
-    setVisible(!visible);
-    // clean modal state after close or open
-    dispatch(projectActions.createProjectCleanData());
-    dispatch(projectActions.createProjectCleanError());
-  };
 
   const getProjects = useCallback(() => {
     dispatch(
@@ -105,7 +99,7 @@ const ProjectsPage = ({ history, intl }) => {
         <Button
           icon="folder-add"
           className={styles.addCustomerButton}
-          onClick={() => handleControlModal()}>
+          onClick={() => setVisible(!visible)}>
           <FormattedMessage id="button.add" />
         </Button>
         <Row gutter={16}>
@@ -150,7 +144,7 @@ const ProjectsPage = ({ history, intl }) => {
         {visible && (
           <CreateProject
             visible={visible}
-            close={() => handleControlModal()}
+            close={() => setVisible(!visible)}
             getProjects={getProjects}
             createProject={createProject}
             getCustomers={getCustomers}

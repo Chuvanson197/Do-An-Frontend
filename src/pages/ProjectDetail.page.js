@@ -107,6 +107,15 @@ const ProjectDetailPage = ({ match, history, intl }) => {
       })
     );
   }, [dispatch]);
+  const updateMember = useCallback((body, member) => {
+    dispatch(
+      projectActions.updateMember({
+        body,
+        path: 'projects/membersList',
+        param: member.id
+      })
+    );
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(layoutActions.selectItem(['project']));
@@ -192,6 +201,7 @@ const ProjectDetailPage = ({ match, history, intl }) => {
             match={match}
             addMember={addMember}
             getMembers={getMembers}
+            updateMember={updateMember}
           />
         </Row>
         <Row className={styles.footer}>

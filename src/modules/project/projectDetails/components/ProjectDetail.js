@@ -40,7 +40,8 @@ const propTypes = {
   removeMember: PropTypes.func.isRequired,
   addMember: PropTypes.func.isRequired,
   updateProject: PropTypes.func.isRequired,
-  getCustomers: PropTypes.func.isRequired
+  getCustomers: PropTypes.func.isRequired,
+  updateMember: PropTypes.func.isRequired
 };
 
 const defaultProps = {
@@ -64,6 +65,7 @@ const ProjectDetail = ({
   getCustomers,
   updateProject,
   addMember,
+  updateMember,
   getMembers
 }) => {
   const dispatch = useDispatch();
@@ -334,6 +336,7 @@ const ProjectDetail = ({
             member={selectedMember}
             getProject={getProject}
             getJoinedMembers={getJoinedMembers}
+            updateMember={updateMember}
           />
         )}
         {drawerVisible && (
@@ -343,6 +346,7 @@ const ProjectDetail = ({
             project={project}
             getCustomers={getCustomers}
             updateProject={updateProject}
+            getProject={getProject}
           />
         )}
       </Row>

@@ -36,7 +36,8 @@ const propTypes = {
   project: PropTypes.shape({}),
 
   getCustomers: PropTypes.func.isRequired,
-  updateProject: PropTypes.func.isRequired
+  updateProject: PropTypes.func.isRequired,
+  getProject: PropTypes.func.isRequired
 };
 
 const defaultProps = {
@@ -74,6 +75,7 @@ const formItemLayout = {
 const UpdateProjectDrawer = ({
   getCustomers,
   updateProject,
+  getProject,
   intl,
   onClose,
   drawerVisible,
@@ -123,15 +125,10 @@ const UpdateProjectDrawer = ({
       // close the modal and clean state
       onClose();
       // re-call get project detail api
-      dispatch(
-        projectActions.getProject({
-          path: 'projects',
-          param: project.id
-        })
-      );
+      getProject && getProject(project);
     }
     // show error notification
-  }, [onClose, intl, updateProjectResult, dispatch, project.id]);
+  }, [onClose, intl, updateProjectResult, dispatch, project, getProject]);
 
   useEffect(() => {
     if (updateProjectError) {

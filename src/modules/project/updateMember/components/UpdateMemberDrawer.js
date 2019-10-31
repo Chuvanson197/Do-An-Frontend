@@ -33,7 +33,8 @@ const propTypes = {
   form: formShape.isRequired,
 
   getProject: PropTypes.func.isRequired,
-  getJoinedMembers: PropTypes.func.isRequired
+  getJoinedMembers: PropTypes.func.isRequired,
+  updateMember: PropTypes.func.isRequired
 };
 
 const defaultProps = {};
@@ -66,7 +67,8 @@ const UpdateMemberDrawer = ({
   form,
   member,
   getProject,
-  getJoinedMembers
+  getJoinedMembers,
+  updateMember
 }) => {
   const dispatch = useDispatch();
   const { updateMemberResult, updateMemberError, updateMemberErrors, loading } = useSelector(
@@ -134,13 +136,7 @@ const UpdateMemberDrawer = ({
           const message = intl.formatMessage({ id: 'notification.message.form.noChanging' });
           return ErrorNotification(title, message);
         }
-        dispatch(
-          projectActions.updateMember({
-            body,
-            path: 'projects/membersList',
-            param: member.id
-          })
-        );
+        updateMember && updateMember(body, member);
       } else {
         // showing error form input notification
         const title = intl.formatMessage({ id: 'notification.error' });

@@ -34,9 +34,9 @@ const propTypes = {
 
   selectedCustomer: PropTypes.shape({}),
 
-  createProject: PropTypes.isRequired,
-  getProjects: PropTypes.isRequired,
-  getCustomers: PropTypes.isRequired
+  createProject: PropTypes.func.isRequired,
+  getProjects: PropTypes.func.isRequired,
+  getCustomers: PropTypes.func.isRequired
 };
 
 const defaultProps = {
@@ -80,7 +80,9 @@ const CreateProject = ({
   // Get all customers after open modal
   useEffect(() => {
     getCustomers && getCustomers();
-  }, [getCustomers]);
+    dispatch(projectActions.createProjectCleanData());
+    dispatch(projectActions.createProjectCleanError());
+  }, [getCustomers, dispatch]);
 
   // show notification if get customers failure
   useEffect(() => {
@@ -138,7 +140,7 @@ const CreateProject = ({
           end_time: parseInt(moment(values.estimated[1]).format('x'), 10)
         };
         // call api when valid data
-        createProject(body);
+        createProject && createProject(body);
       } else {
         // showing error form input notification
         const title = intl.formatMessage({ id: 'notification.error' });
