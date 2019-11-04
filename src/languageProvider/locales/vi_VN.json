@@ -243,6 +243,13 @@
   "members.removeMember.message.error": "Xóa thông tin thành viên thất bại",
   "members.removeMember.message.success": "Xóa thông tin thành viên thành công",
 
+  "users.title": "Người dùng",
+  "users.header.title": "Danh sách người dùng",
+  "users.name.title": "Tên",
+  "users.email.title": "Email",
+  "users.permission.title" : "Quyền",
+  "users.role.title" : "Phân quyền",
+
   "languageSwitcher.vi": "Tiếng Việt",
   "languageSwitcher.en": "Tiếng Anh"
 }
