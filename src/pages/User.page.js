@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { injectIntl } from 'react-intl';
@@ -9,6 +9,7 @@ import HeaderTitle from '../components/Content/HeaderTitle';
 import Layout from '../modules/layout/components/Layout';
 import UsersTable from '../modules/user/users/components/UsersTable';
 import ErrorNotification from '../components/Notification/Error';
+
 
 import { actions as layoutActions } from '../modules/layout/store';
 import { actions as userActions } from '../modules/user/store';
@@ -46,6 +47,22 @@ const UsersPage = React.memo(({ history, intl }) => {
     );
   }, [dispatch]);
 
+  const getUsers = useCallback(() => {
+    dispatch(
+      userActions.getUsers({
+        path: 'users'
+      })
+    );
+  }, [dispatch]);
+
+  const updateUser = useCallback((body) => {
+    dispatch(
+      userActions.updateUser({
+        body, path: 'users', param: body.id
+      })
+    );
+  }, [dispatch]);
+
   // show notification if get users list failure
   useEffect(() => {
     if (getUsersError) {
@@ -77,7 +94,7 @@ const UsersPage = React.memo(({ history, intl }) => {
           <HeaderTitle title={intl.formatMessage({ id: 'users.header.title' })} />
         </Row>
         <Row>
-          <UsersTable users={list} />
+          <UsersTable users={list} getUsers={getUsers} updateUser={updateUser}/>
         </Row>
       </Row>
     </Layout>

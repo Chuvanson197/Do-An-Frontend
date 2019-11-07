@@ -1,14 +1,24 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { Table, Button, Tooltip, Popconfirm } from 'antd';
+import { Table, Button, Tooltip, Row } from 'antd';
 
-const propTypes = {};
+import UpdateUserDrawer from '../../editUser/components/UpdateUserDrawer';
+
+const propTypes = {
+  intl: PropTypes.shape({}).isRequired,
+  users: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+
+  getUsers: PropTypes.func.isRequired,
+  updateUser: PropTypes.func.isRequired,
+};
 
 const defaultProps = {};
 
-const UsersTable = ({ users }) => {
+const UsersTable = ({ users, updateUser, getUsers }) => {
+  const [dataItem, setDataItem] = useState({});
+  const [drawerVisible, setDrawerVisible] = useState(false);
+
   const columns = [
     {
       title: <FormattedMessage id="users.name.title" />,
@@ -44,22 +54,37 @@ const UsersTable = ({ users }) => {
               type="primary"
               style={{ margin: '0px 5px' }}
               // eslint-disable-next-line no-use-before-define
-              //   onClick={() => handleControlDrawer(record)}
+              onClick={() => handleEditSelected(record)}
             />
           </Tooltip>
         </React.Fragment>
       )
     }
   ];
+  const handleEditSelected = (data) => {
+    data && setDataItem(data);
+    setDrawerVisible(!drawerVisible);
+  };
 
   return (
     <React.Fragment>
-      <Table
-        columns={columns}
-        // rowKey={(record) => record.id}
-        dataSource={users}
-        pagination={false}
-      />
+      <Row>
+        <Table
+          columns={columns}
+          rowKey={(record) => record.id}
+          dataSource={users}
+          pagination={false}
+        />
+      </Row>
+      {drawerVisible && (
+        <UpdateUserDrawer
+          drawerVisible={drawerVisible}
+          updateUser={updateUser}
+          getUsers={getUsers}
+          onClose={() => handleEditSelected()}
+          data={dataItem}
+        />
+      )}
     </React.Fragment>
   );
 };
