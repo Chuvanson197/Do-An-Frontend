@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { history } from './store';
 import AppLocale from './languageProvider';
 
-import routes from './routes';
+import Routes from './Routes';
 
 const App = () => {
   const { locale } = useSelector((state) => state.languageSwitcher);
@@ -16,9 +16,7 @@ const App = () => {
     <ConfigProvider locale={currentAppLocale.antd}>
       <IntlProvider locale={currentAppLocale.locale} messages={currentAppLocale.messages}>
         <Router history={history}>
-          {routes.map((route) => (
-            <Route key={route.path} {...route} />
-          ))}
+          <Routes></Routes>
         </Router>
       </IntlProvider>
     </ConfigProvider>

@@ -1,19 +1,22 @@
 import axios from 'axios';
+// import Cookies from 'js-cookie';
 
-const base = 'http://localhost:8080/api';
+import { Env } from './environment';
 
 const getHeaders = () => ({});
 
 const apiGet = (payload) => {
+  // Cookies.set('newCookie', 'new');
   const option = payload && payload.option ? payload.option : {};
   return axios
     .get(
       payload && payload.param
-        ? `${base}/${payload.path}/${payload.param}`
-        : `${base}/${payload.path}`,
+        ? `${Env.apiUrl}/${payload.path}/${payload.param}`
+        : `${Env.apiUrl}/${payload.path}`,
       {
         ...option,
-        headers: getHeaders()
+        headers: getHeaders(),
+        withCredentials: true
       }
     )
     .then((res) => res.data);
@@ -24,11 +27,14 @@ const apiPost = (payload) => {
   const option = payload && payload.option ? payload.option : {};
   return axios
     .post(
-      payload.param ? `${base}/${payload.path}/${payload.param}` : `${base}/${payload.path}`,
+      payload.param
+        ? `${Env.apiUrl}/${payload.path}/${payload.param}`
+        : `${Env.apiUrl}/${payload.path}`,
       body,
       {
         ...option,
-        headers: getHeaders()
+        headers: getHeaders(),
+        withCredentials: true
       }
     )
     .then((res) => res.data);
@@ -39,11 +45,14 @@ const apiPut = (payload) => {
   const option = payload && payload.option ? payload.option : {};
   return axios
     .put(
-      payload.param ? `${base}/${payload.path}/${payload.param}` : `${base}/${payload.path}`,
+      payload.param
+        ? `${Env.apiUrl}/${payload.path}/${payload.param}`
+        : `${Env.apiUrl}/${payload.path}`,
       body,
       {
         ...option,
-        headers: getHeaders()
+        headers: getHeaders(),
+        withCredentials: true
       }
     )
     .then((res) => res.data);
@@ -53,10 +62,13 @@ const apiDelete = (payload) => {
   const option = payload && payload.option ? payload.option : {};
   return axios
     .delete(
-      payload.param ? `${base}/${payload.path}/${payload.param}` : `${base}/${payload.path}`,
+      payload.param
+        ? `${Env.apiUrl}/${payload.path}/${payload.param}`
+        : `${Env.apiUrl}/${payload.path}`,
       {
         ...option,
-        headers: getHeaders()
+        headers: getHeaders(),
+        withCredentials: true
       }
     )
     .then((res) => res.data);
