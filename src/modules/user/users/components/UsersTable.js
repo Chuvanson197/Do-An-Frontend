@@ -9,21 +9,21 @@ const propTypes = {
   intl: PropTypes.shape({}).isRequired,
   users: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 
-  getUsers: PropTypes.func.isRequired,
-  updateUser: PropTypes.func.isRequired,
+  getMembers: PropTypes.func.isRequired,
+  updateMember: PropTypes.func.isRequired
 };
 
 const defaultProps = {};
 
-const UsersTable = ({ users, updateUser, getUsers }) => {
+const UsersTable = ({ users, updateMember, getMembers }) => {
   const [dataItem, setDataItem] = useState({});
   const [drawerVisible, setDrawerVisible] = useState(false);
 
   const columns = [
     {
       title: <FormattedMessage id="users.name.title" />,
-      dataIndex: 'name',
-      key: 'name'
+      dataIndex: 'full_name',
+      key: 'full_name'
     },
     {
       title: <FormattedMessage id="users.email.title" />,
@@ -37,8 +37,8 @@ const UsersTable = ({ users, updateUser, getUsers }) => {
     },
     {
       title: <FormattedMessage id="users.role.title" />,
-      dataIndex: 'role',
-      key: 'role'
+      dataIndex: 'type',
+      key: 'type'
     },
     {
       title: '',
@@ -71,7 +71,7 @@ const UsersTable = ({ users, updateUser, getUsers }) => {
       <Row>
         <Table
           columns={columns}
-          rowKey={(record) => record.id}
+          rowKey={(record, index) => index}
           dataSource={users}
           pagination={false}
         />
@@ -79,8 +79,8 @@ const UsersTable = ({ users, updateUser, getUsers }) => {
       {drawerVisible && (
         <UpdateUserDrawer
           drawerVisible={drawerVisible}
-          updateUser={updateUser}
-          getUsers={getUsers}
+          updateMember={updateMember}
+          getMembers={getMembers}
           onClose={() => handleEditSelected()}
           data={dataItem}
         />

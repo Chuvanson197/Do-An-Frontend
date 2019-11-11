@@ -243,7 +243,7 @@
   "members.removeMember.message.error": "Xóa thông tin thành viên thất bại",
   "members.removeMember.message.success": "Xóa thông tin thành viên thành công",
 
-  "users.title": "Người dùng",
+  "users.title": "Quyền thành viên",
   "users.header.title": "Danh sách người dùng",
   "users.name.title": "Tên",
   "users.email.title": "Thư điện tử",

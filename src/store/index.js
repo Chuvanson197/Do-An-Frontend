@@ -8,7 +8,6 @@ import { reducer as authenticationReducer } from '../modules/auth/login/store';
 import { reducer as projectsReducer } from '../modules/project/store';
 import { reducer as customersReducer } from '../modules/customer/store';
 import { reducer as membersReducer } from '../modules/member/store';
-import { reducer as usersReducer } from '../modules/user/store';
 
 
 export const history = createBrowserHistory();
@@ -22,7 +21,6 @@ export const rootReducer = combineReducers({
   projects: projectsReducer,
   customers: customersReducer,
   members: membersReducer,
-  users: usersReducer
 });
 
 const store = configureStore({

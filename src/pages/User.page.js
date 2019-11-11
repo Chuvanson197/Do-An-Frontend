@@ -10,9 +10,8 @@ import Layout from '../modules/layout/components/Layout';
 import UsersTable from '../modules/user/users/components/UsersTable';
 import ErrorNotification from '../components/Notification/Error';
 
-
 import { actions as layoutActions } from '../modules/layout/store';
-import { actions as userActions } from '../modules/user/store';
+import { actions as memberActions } from '../modules/member/store';
 
 const styles = {
   container: css`
@@ -36,46 +35,43 @@ const UsersPage = React.memo(({ history, intl }) => {
 
   // selector
   const { authenticated } = useSelector((state) => state.authentication);
-  const { list, getUsersError, getUsersErrors } = useSelector((state) => state.users);
+  const { list, getMembersError, getMembersErrors } = useSelector((state) => state.members);
 
   // get users function
   useEffect(() => {
     dispatch(
-      userActions.getUsers({
-        path: 'users'
+      memberActions.getMembers({
+        path: 'members'
       })
     );
   }, [dispatch]);
 
-  const getUsers = useCallback(() => {
+  const getMembers = useCallback(() => {
     dispatch(
-      userActions.getUsers({
-        path: 'users'
+      memberActions.getMembers({
+        path: 'members'
       })
     );
   }, [dispatch]);
 
-  const updateUser = useCallback((body) => {
-    dispatch(
-      userActions.updateUser({
-        body, path: 'users', param: body.id
-      })
-    );
-  }, [dispatch]);
+  const updateMember = useCallback(
+    (body) => {
+      dispatch(memberActions.updateMember({ body, path: 'members', param: body.staff_code }));
+    },
+    [dispatch]
+  );
 
   // show notification if get users list failure
   useEffect(() => {
-    if (getUsersError) {
+    if (getMembersError) {
       const title = intl.formatMessage({ id: 'notification.error' });
       const message = intl.formatMessage({
-        id: getUsersErrors.message
-          ? getUsersErrors.message
-          : 'users.getUsers.message.error'
+        id: getMembersErrors.message ? getMembersErrors.message : 'users.getMembers.message.error'
       });
       ErrorNotification(title, message);
-      dispatch(userActions.getUsersCleanError());
+      dispatch(memberActions.getMembersCleanError());
     }
-  }, [dispatch, getUsersError, getUsersErrors, intl]);
+  }, [dispatch, getMembersError, getMembersErrors, intl]);
 
   useEffect(() => {
     dispatch(layoutActions.selectItem(['user']));
@@ -94,7 +90,7 @@ const UsersPage = React.memo(({ history, intl }) => {
           <HeaderTitle title={intl.formatMessage({ id: 'users.header.title' })} />
         </Row>
         <Row>
-          <UsersTable users={list} getUsers={getUsers} updateUser={updateUser}/>
+          <UsersTable users={list} getMembers={getMembers} updateMember={updateMember} />
         </Row>
       </Row>
     </Layout>

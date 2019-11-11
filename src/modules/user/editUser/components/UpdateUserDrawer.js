@@ -21,7 +21,7 @@ import {
 
 import ErrorNotification from '../../../../components/Notification/Error';
 import SuccessNotification from '../../../../components/Notification/Success';
-import { actions as userActions } from '../../store';
+import { actions as memberActions } from '../../../member/store';
 
 const propTypes = {
   intl: PropTypes.shape({}).isRequired,
@@ -31,8 +31,8 @@ const propTypes = {
 
   data: PropTypes.shape({}),
 
-  getUsers: PropTypes.func.isRequired,
-  updateUser: PropTypes.func.isRequired
+  getMembers: PropTypes.func.isRequired,
+  updateMember: PropTypes.func.isRequired
 };
 
 const defaultProps = {
@@ -53,9 +53,9 @@ const styles = {
 };
 
 const listRole = [
-  { role: 'Admin', permission: 'All' },
-  { role: 'Manager', permission: 'View, Edit' },
-  { role: 'Normal', permission: 'View' }
+  { type: 'admin', permission: 'all' },
+  { type: 'manager', permission: 'view, edit' },
+  { type: 'normal', permission: 'view' }
 ];
 
 const formItemLayout = {
@@ -67,64 +67,74 @@ const formItemLayout = {
   }
 };
 
-const UpdateUserDrawer = ({ getUsers, updateUser, intl, onClose, drawerVisible, form, data }) => {
+const UpdateUserDrawer = ({
+  getMembers,
+  updateMember,
+  intl,
+  onClose,
+  drawerVisible,
+  form,
+  data
+}) => {
   const dispatch = useDispatch();
   const [userChange, setUserChange] = useState({ ...data });
-  const { updateUserResult, updateUserError, updateUserErrors, loading } = useSelector(
-    (state) => state.users
+  const { updateMemberResult, updateMemberError, updateMemberErrors, loading } = useSelector(
+    (state) => state.members
   );
   // const usersList = useSelector((state) => state.users.list);
 
-  const userLoading = useSelector((state) => state.users.loading);
+  const memberLoading = useSelector((state) => state.members.loading);
 
   useEffect(() => {
     return () => {
-      dispatch(userActions.updateUserCleanError(false));
-      dispatch(userActions.updateUserCleanData());
+      dispatch(memberActions.updateMemberCleanError(false));
+      dispatch(memberActions.updateMemberCleanData());
     };
   }, [dispatch]);
   // Handle showing notification after update project
   useEffect(() => {
     // show success notification
-    if (updateUserResult) {
+    if (updateMemberResult) {
       const title = intl.formatMessage({ id: 'notification.success' });
-      const message = intl.formatMessage({ id: updateUserResult.message });
+      const message = intl.formatMessage({ id: updateMemberResult.message });
       SuccessNotification(title, message);
       // close the modal and clean state
       onClose();
       // re-call get User detail api
-      getUsers && getUsers();
+      getMembers && getMembers();
     }
     // show error notification
-  }, [onClose, intl, updateUserResult, dispatch, getUsers]);
+  }, [onClose, intl, updateMemberResult, dispatch, getMembers]);
 
   useEffect(() => {
-    if (updateUserError) {
+    if (updateMemberError) {
       const title = intl.formatMessage({ id: 'notification.error' });
       const message = intl.formatMessage({ id: 'users.updateUser.message.error' });
       ErrorNotification(title, message);
       // clean state
-      dispatch(userActions.updateUserCleanError());
+      dispatch(memberActions.updateMemberCleanError());
     }
-  }, [dispatch, intl, updateUserError, updateUserErrors]);
+  }, [dispatch, intl, updateMemberError, updateMemberErrors]);
 
   const handleSubmit = () => {
     form.validateFields((err, values) => {
       if (!err) {
         const body = {
-          id: userChange.id,
-          name: userChange.name,
+          staff_code: userChange.staff_code,
+          full_name: userChange.full_name,
           email: userChange.email,
           permission: userChange.permission,
-          role: userChange.role
+          type: userChange.type,
+          phone_number: userChange.phone_number
         };
 
         const oldBody = {
-          id: data.id,
-          name: data.name,
+          staff_code: data.staff_code,
+          full_name: data.full_name,
           email: data.email,
           permission: data.permission,
-          role: data.role
+          type: data.type,
+          phone_number: data.phone_number
         };
         // check if value is not change
         if (JSON.stringify(body) === JSON.stringify(oldBody)) {
@@ -138,7 +148,7 @@ const UpdateUserDrawer = ({ getUsers, updateUser, intl, onClose, drawerVisible, 
           const message = intl.formatMessage({ id: 'notification.message.form.deletedUser' });
           return ErrorNotification(title, message);
         }
-        updateUser && updateUser(body);
+        updateMember && updateMember(body);
       } else {
         // showing error form input notification
         const title = intl.formatMessage({ id: 'notification.error' });
@@ -150,7 +160,7 @@ const UpdateUserDrawer = ({ getUsers, updateUser, intl, onClose, drawerVisible, 
   };
 
   const handleSelect = (value) => {
-    const newRole = listRole.filter((item) => item.role === value)[0];
+    const newRole = listRole.filter((item) => item.type === value)[0];
     setUserChange({ ...userChange, ...newRole });
     return userChange;
   };
@@ -173,8 +183,8 @@ const UpdateUserDrawer = ({ getUsers, updateUser, intl, onClose, drawerVisible, 
         <Form.Item
           style={{ display: 'flex' }}
           label={<FormattedMessage id="users.role.title" />}
-          validateStatus={form.getFieldError('role') ? 'error' : 'validating'}>
-          {form.getFieldDecorator('role', {
+          validateStatus={form.getFieldError('type') ? 'error' : 'validating'}>
+          {form.getFieldDecorator('type', {
             rules: [
               {
                 required: true,
@@ -182,18 +192,18 @@ const UpdateUserDrawer = ({ getUsers, updateUser, intl, onClose, drawerVisible, 
               }
             ],
             initialValue: listRole.find((e) => {
-              return e.role === data.role;
-            }).role
+              return e.type === data.type;
+            }).type
           })(
             <Select
               allowClear
               autoClearSearchValue
               onSelect={(value) => handleSelect(value)}
-              notFoundContent={userLoading && <Spin size="small" />}>
+              notFoundContent={memberLoading && <Spin size="small" />}>
               {(listRole || []).map((e) => {
                 return (
-                  <Select.Option key={e.role} value={e.role}>
-                    {e.role}
+                  <Select.Option key={e.type} value={e.type}>
+                    {e.type}
                   </Select.Option>
                 );
               })}
@@ -205,7 +215,7 @@ const UpdateUserDrawer = ({ getUsers, updateUser, intl, onClose, drawerVisible, 
           <Col span={16}>
             <Descriptions column={1}>
               <Descriptions.Item label={<FormattedMessage id="users.name.title" />}>
-                {userChange.name || null}
+                {userChange.full_name || null}
               </Descriptions.Item>
               <Descriptions.Item label={<FormattedMessage id="users.email.title" />}>
                 {userChange.email || null}
@@ -214,7 +224,7 @@ const UpdateUserDrawer = ({ getUsers, updateUser, intl, onClose, drawerVisible, 
                 {userChange.permission || null}
               </Descriptions.Item>
               <Descriptions.Item label={<FormattedMessage id="users.role.title" />}>
-                {userChange.role || null}
+                {userChange.type || null}
               </Descriptions.Item>
             </Descriptions>
             {userChange.hidden && (
