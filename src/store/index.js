@@ -9,6 +9,7 @@ import { reducer as projectsReducer } from '../modules/project/store';
 import { reducer as customersReducer } from '../modules/customer/store';
 import { reducer as membersReducer } from '../modules/member/store';
 
+
 export const history = createBrowserHistory();
 const routeMiddleware = routerMiddleware(history);
 
@@ -19,7 +20,7 @@ export const rootReducer = combineReducers({
   authentication: authenticationReducer,
   projects: projectsReducer,
   customers: customersReducer,
-  members: membersReducer
+  members: membersReducer,
 });
 
 const store = configureStore({

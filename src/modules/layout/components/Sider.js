@@ -64,6 +64,12 @@ const Sider = () => {
             <FormattedMessage id="members.title" />
           </Link>
         </Menu.Item>
+        <Menu.Item key="user">
+          <Link to="/users">
+            <Icon type="user" />
+            <FormattedMessage id="users.title"/>
+          </Link>
+        </Menu.Item>
       </Menu>
     </Layout.Sider>
   );

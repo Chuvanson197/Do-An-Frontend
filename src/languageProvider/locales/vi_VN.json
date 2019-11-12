@@ -243,6 +243,19 @@
   "members.removeMember.message.error": "Xóa thông tin thành viên thất bại",
   "members.removeMember.message.success": "Xóa thông tin thành viên thành công",
 
+  "users.title": "Quyền thành viên",
+  "users.header.title": "Danh sách người dùng",
+  "users.name.title": "Tên",
+  "users.email.title": "Thư điện tử",
+  "users.permission.title" : "Quyền",
+  "users.role.title" : "Vai trò",
+  "users.button.edit" : "Sửa vai trò",
+  "users.drawerUpdate.tile": "Cấp quyền người dùng",
+  "users.drawerUpdate.confirm.add": "Bạn chắc chắn muốn thay đổi quyền người dùng này không?",
+  "users.drawerUpdate.userInformation": "Thông tin người dùng",
+  "users.updateUser.message.error": "Cập nhật thông tin người dùng thất bại",
+  "users.updateUser.message.success": "Cập nhật thông tin người dùng thành công",
+  
   "languageSwitcher.vi": "Tiếng Việt",
   "languageSwitcher.en": "Tiếng Anh"
 }
