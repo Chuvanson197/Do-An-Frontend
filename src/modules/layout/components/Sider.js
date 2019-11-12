@@ -43,25 +43,25 @@ const Sider = () => {
         <Menu.Item key="dashboard">
           <Link to="/">
             <Icon type="pie-chart" />
-            <FormattedMessage id="dashboard.title"/>
+            <FormattedMessage id="dashboard.title" />
           </Link>
         </Menu.Item>
         <Menu.Item key="project">
-          <Link to="/project/list">
+          <Link to="/project">
             <Icon type="project" />
-            <FormattedMessage id="projects.title"/>
+            <FormattedMessage id="projects.title" />
           </Link>
         </Menu.Item>
         <Menu.Item key="customers">
           <Link to="/customers">
             <Icon type="team" />
-            <FormattedMessage id="customers.title"/>
+            <FormattedMessage id="customers.title" />
           </Link>
         </Menu.Item>
         <Menu.Item key="member">
           <Link to="/member/list">
             <Icon type="smile" />
-            <FormattedMessage id="members.title"/>
+            <FormattedMessage id="members.title" />
           </Link>
         </Menu.Item>
         <Menu.Item key="user">

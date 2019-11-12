@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { actions } from '../modules/layout/store';
 
 import Layout from '../modules/layout/components/Layout';
+import WithRole from '../hocs/WithRole';
 
 const propTypes = {
   history: PropTypes.shape({}).isRequired
@@ -26,7 +27,14 @@ const DashbroadPage = ({ history }) => {
     }
   }, [authenticated, history]);
 
-  return <Layout>Dashboard</Layout>;
+  const TestComponent = () => <p>Test nhe</p>;
+
+  return (
+    <Layout>
+      Dashboard
+      <WithRole role={['managera']} component={TestComponent}></WithRole>
+    </Layout>
+  );
 };
 
 DashbroadPage.propTypes = propTypes;
