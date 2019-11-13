@@ -7,8 +7,6 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 
 import { actions as layoutActions } from '../modules/layout/store';
 import { actions as memberActions } from '../modules/member/store';
-
-import Layout from '../modules/layout/components/Layout';
 import HeaderTitle from '../components/Content/HeaderTitle';
 import ErrorNotification from '../components/Notification/Error';
 import Members from '../modules/member/listMember/components/Members';
@@ -32,7 +30,6 @@ const styles = {
 const ListMemberPage = ({ history, intl }) => {
   const dispatch = useDispatch();
   const [openCreateModal, setOpenCreateModal] = useState(false);
-  const { authenticated } = useSelector((state) => state.authentication);
   const { list, getMembersError, getMembersErrors } = useSelector((state) => state.members);
 
   useEffect(() => {
@@ -43,11 +40,6 @@ const ListMemberPage = ({ history, intl }) => {
     dispatch(memberActions.getMembers({ path: 'members' }));
   }, [dispatch]);
 
-  useEffect(() => {
-    if (!authenticated) {
-      history.push('/login');
-    }
-  }, [authenticated, history]);
 
   useEffect(() => {
     if (getMembersError) {
@@ -80,7 +72,6 @@ const ListMemberPage = ({ history, intl }) => {
     [dispatch]
   );
 
-
   const updateMember = useCallback(
     (body) => {
       dispatch(memberActions.updateMember({ body, path: 'members', param: body.staff_code }));
@@ -89,39 +80,37 @@ const ListMemberPage = ({ history, intl }) => {
   );
 
   return (
-    <Layout>
-      <React.Fragment>
-        <Row>
-          <Col>
-            <HeaderTitle title={<FormattedMessage id="members.header.title" />} />
-          </Col>
-        </Row>
-        <Row style={{ marginBottom: 15 }}>
-          <Button
-            icon="user-add"
-            className={styles.addMemberButton}
-            onClick={() => setOpenCreateModal(!openCreateModal)}>
-            <FormattedMessage id="members.memberTable.buttonAdd.title" />
-          </Button>
-        </Row>
-        <Row gutter={16}>
-          <Members
-            members={list}
-            getMembers={getMembers}
-            updateMember={updateMember}
-            removeMember={removeMember}
-          />
-        </Row>
-        {openCreateModal && (
-          <CreateMember
-            createMember={createNewMember}
-            getMembers={getMembers}
-            visible={openCreateModal}
-            close={() => setOpenCreateModal(!openCreateModal)}
-          />
-        )}
-      </React.Fragment>
-    </Layout>
+    <React.Fragment>
+      <Row>
+        <Col>
+          <HeaderTitle title={<FormattedMessage id="members.header.title" />} />
+        </Col>
+      </Row>
+      <Row style={{ marginBottom: 15 }}>
+        <Button
+          icon="user-add"
+          className={styles.addMemberButton}
+          onClick={() => setOpenCreateModal(!openCreateModal)}>
+          <FormattedMessage id="members.memberTable.buttonAdd.title" />
+        </Button>
+      </Row>
+      <Row gutter={16}>
+        <Members
+          members={list}
+          getMembers={getMembers}
+          updateMember={updateMember}
+          removeMember={removeMember}
+        />
+      </Row>
+      {openCreateModal && (
+        <CreateMember
+          createMember={createNewMember}
+          getMembers={getMembers}
+          visible={openCreateModal}
+          close={() => setOpenCreateModal(!openCreateModal)}
+        />
+      )}
+    </React.Fragment>
   );
 };
 

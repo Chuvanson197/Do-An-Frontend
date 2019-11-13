@@ -9,7 +9,6 @@ import { actions as layoutActions } from '../modules/layout/store';
 import { actions as customerActions } from '../modules/customer/store';
 
 import HeaderTitle from '../components/Content/HeaderTitle';
-import Layout from '../modules/layout/components/Layout';
 import Customers from '../modules/customer/cutomers/components/CustomersTable';
 import ErrorNotification from '../components/Notification/Error';
 
@@ -36,7 +35,6 @@ const CustomersPage = React.memo(({ history, intl }) => {
   const dispatch = useDispatch();
 
   // selector
-  const { authenticated } = useSelector((state) => state.authentication);
   const { list, getCustomersError, getCustomersErrors } = useSelector((state) => state.customers);
 
   // state
@@ -60,11 +58,6 @@ const CustomersPage = React.memo(({ history, intl }) => {
   );
 
   // check authencation
-  useEffect(() => {
-    if (!authenticated) {
-      history.push('/login');
-    }
-  }, [authenticated, history]);
 
   // get customers at first render
   useEffect(() => {
@@ -87,30 +80,28 @@ const CustomersPage = React.memo(({ history, intl }) => {
   }, [dispatch, getCustomersError, getCustomersErrors, intl]);
 
   return (
-    <Layout>
-      <Row className={styles.container}>
-        <Row>
-          <HeaderTitle title={intl.formatMessage({ id: 'customers.header.title' })} />
-        </Row>
-        <Row>
-          <Button
-            icon="user-add"
-            className={styles.addCustomerButton}
-            onClick={() => setVisible(!visible)}>
-            {intl.formatMessage({ id: 'button.add' })}
-          </Button>
-          <Customers customers={list} getCustomers={getCustomers} />
-        </Row>
-        {visible && (
-          <CreateModal
-            visible={visible}
-            close={() => setVisible(!visible)}
-            getCutomers={getCustomers}
-            addCustomer={addCustomer}
-          />
-        )}
+    <Row className={styles.container}>
+      <Row>
+        <HeaderTitle title={intl.formatMessage({ id: 'customers.header.title' })} />
       </Row>
-    </Layout>
+      <Row>
+        <Button
+          icon="user-add"
+          className={styles.addCustomerButton}
+          onClick={() => setVisible(!visible)}>
+          {intl.formatMessage({ id: 'button.add' })}
+        </Button>
+        <Customers customers={list} getCustomers={getCustomers} />
+      </Row>
+      {visible && (
+        <CreateModal
+          visible={visible}
+          close={() => setVisible(!visible)}
+          getCutomers={getCustomers}
+          addCustomer={addCustomer}
+        />
+      )}
+    </Row>
   );
 });
 

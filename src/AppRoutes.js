@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 
 import RouteNormal from './hocs/RouteNormal';
 import RouteWithManager from './hocs/RouteWithManager';
@@ -12,6 +12,8 @@ import ProjectMemberHistory from './pages/ProjectMemberHistory.page';
 import LoginPage from './pages/Login.page';
 import ListMemberPage from './pages/ListMember.page';
 import Customerpage from './pages/Customers.page';
+import NotFound from './pages/NotFound';
+import CallbackOAuth from './pages/CallbackOAuth';
 
 // export default [
 //   {
@@ -51,9 +53,12 @@ import Customerpage from './pages/Customers.page';
 //   }
 // ];
 
-function Routes() {
+function AppRoutes() {
   return (
     <Switch>
+      <Route component={LoginPage} path="/login"></Route>
+      <Route component={CallbackOAuth} path="/callback" />
+
       {/* dashboard */}
       <RouteWithAdmin component={Dashboard} path="/" exact></RouteWithAdmin>
 
@@ -70,8 +75,10 @@ function Routes() {
       {/* member */}
 
       <RouteWithManager component={ListMemberPage} path="/member/list" exact></RouteWithManager>
+
+      <RouteNormal component={NotFound} />
     </Switch>
   );
 }
 
-export default Routes;
+export default AppRoutes;

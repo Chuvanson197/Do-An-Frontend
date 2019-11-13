@@ -1,13 +1,26 @@
 import axios from 'axios';
-// import Cookies from 'js-cookie';
+import { authApi } from '../api/auth/authApi';
+import Cookies from 'js-cookie';
 
 import { Env } from './environment';
 
 const getHeaders = () => ({});
 
+const refreshToken = async () => {
+  let expresIn = localStorage.getItem('expresIn');
+  let now = new Date();
+  if (expresIn && parseInt(expresIn) < now.getTime()) {
+    authApi.refreshToken().then((res) => {
+      if (res.data.statusCode !== 400) {
+        Cookies.set('access-token', res.data.access_token, { secure: false });
+      }
+    });
+  }
+};
+
 const apiGet = (payload) => {
-  // Cookies.set('newCookie', 'new');
   const option = payload && payload.option ? payload.option : {};
+  refreshToken();
   return axios
     .get(
       payload && payload.param
@@ -25,6 +38,7 @@ const apiGet = (payload) => {
 const apiPost = (payload) => {
   const body = payload && payload.body ? payload.body : {};
   const option = payload && payload.option ? payload.option : {};
+  refreshToken();
   return axios
     .post(
       payload.param
@@ -43,6 +57,7 @@ const apiPost = (payload) => {
 const apiPut = (payload) => {
   const body = payload && payload.body ? payload.body : {};
   const option = payload && payload.option ? payload.option : {};
+  refreshToken();
   return axios
     .put(
       payload.param
@@ -60,6 +75,7 @@ const apiPut = (payload) => {
 
 const apiDelete = (payload) => {
   const option = payload && payload.option ? payload.option : {};
+  refreshToken();
   return axios
     .delete(
       payload.param

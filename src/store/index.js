@@ -2,12 +2,13 @@ import { configureStore, getDefaultMiddleware, combineReducers } from 'redux-sta
 import { routerReducer, routerMiddleware } from 'react-router-redux';
 import { createBrowserHistory } from 'history';
 
-import { reducer as layoutReducer } from '../modules/layout/store';
+import { reducer as layoutSliderReducer } from '../modules/layout/store';
 import { reducer as languageSwitcherReducer } from '../modules/languageSwitcher/store';
-import { reducer as authenticationReducer } from '../modules/auth/login/store';
 import { reducer as projectsReducer } from '../modules/project/store';
 import { reducer as customersReducer } from '../modules/customer/store';
 import { reducer as membersReducer } from '../modules/member/store';
+import { layoutReducer } from '../reducers/layoutReducer';
+import { authReducer } from '../reducers/authReducer';
 
 export const history = createBrowserHistory();
 const routeMiddleware = routerMiddleware(history);
@@ -15,8 +16,9 @@ const routeMiddleware = routerMiddleware(history);
 export const rootReducer = combineReducers({
   router: routerReducer,
   layout: layoutReducer,
+  layoutSlider: layoutSliderReducer,
   languageSwitcher: languageSwitcherReducer,
-  authentication: authenticationReducer,
+  auth: authReducer,
   projects: projectsReducer,
   customers: customersReducer,
   members: membersReducer

@@ -1,23 +1,28 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import LoadingPage from '../pages/LoadingPage';
 
 function RouteWithAdmin({ component: Component, ...rest }) {
-  const user = useSelector((state) => state.authentication);
-  const checkAuth = user.authentication.role;
-  const checkRole = user.authentication.role === 'admin';
+  const user = useSelector((state) => state.auth);
+  const checkAuth = user.user.role;
+  const checkRole = user.user.role === 'admin';
   const renderRoute = (props) => {
-    if (checkAuth) {
-      if (checkRole) {
-        return <Component {...props}></Component>;
-      } else {
-        return <p>Ban khong co quyen</p>;
-      }
+    if (checkRole) {
+      return <Component {...props}></Component>;
     } else {
-      return <Redirect path="/login"></Redirect>;
+      return <p>Ban khong co quyen</p>;
     }
   };
-  return <Route {...rest} render={(props) => renderRoute(props)}></Route>;
+  return (
+    <>
+      {checkAuth ? (
+        <Route {...rest} render={(props) => renderRoute(props)}></Route>
+      ) : (
+        <Route {...rest} component={LoadingPage}></Route>
+      )}
+    </>
+  );
 }
 
 export default RouteWithAdmin;

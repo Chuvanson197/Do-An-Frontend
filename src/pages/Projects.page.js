@@ -9,7 +9,6 @@ import { actions as layoutActions } from '../modules/layout/store';
 import { actions as projectActions } from '../modules/project/store';
 import { actions as customerActions } from '../modules/customer/store';
 
-import Layout from '../modules/layout/components/Layout';
 import HeaderTitle from '../components/Content/HeaderTitle';
 import ProjectsList from '../modules/project/projects/components/ProjectsList';
 import CreateProject from '../modules/project/createProject/components/CreateProject';
@@ -32,18 +31,12 @@ const styles = {
 
 const ProjectsPage = ({ history, intl }) => {
   const dispatch = useDispatch();
-  const { authenticated } = useSelector((state) => state.authentication);
   const { list, loading, getProjectsError, getProjectsErrors } = useSelector(
     (state) => state.projects
   );
   const [visible, setVisible] = useState(false);
 
   // check authencation if not redirect to login page
-  useEffect(() => {
-    if (!authenticated) {
-      history.push('/login');
-    }
-  }, [authenticated, history]);
 
   // get projects list
   useEffect(() => {
@@ -93,7 +86,7 @@ const ProjectsPage = ({ history, intl }) => {
     [dispatch]
   );
   return (
-    <Layout>
+    
       <React.Fragment>
         <HeaderTitle title={<FormattedMessage id="projects.getProjects.title" />} />
         <Button
@@ -151,7 +144,7 @@ const ProjectsPage = ({ history, intl }) => {
           />
         )}
       </React.Fragment>
-    </Layout>
+    
   );
 };
 

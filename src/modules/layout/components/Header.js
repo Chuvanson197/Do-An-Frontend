@@ -34,6 +34,7 @@ const styles = {
 
 const Header = () => {
   const dispatch = useDispatch();
+  const layoutCheck = useSelector((state) => state.layout);
   const { isCollapsed } = useSelector((state) => state.layout);
 
   const toggle = () => {
@@ -41,18 +42,22 @@ const Header = () => {
   };
 
   return (
-    <Layout.Header className={styles.header}>
-      <Row className={styles.leftContents}>
-        <Icon
-          className={styles.trigger}
-          type={isCollapsed ? 'menu-unfold' : 'menu-fold'}
-          onClick={() => toggle()}
-        />
-      </Row>
-      <Row type="flex" className={styles.rightContents}>
-        <LanguageSwitcher />
-      </Row>
-    </Layout.Header>
+    <>
+      {layoutCheck.isShow && (
+        <Layout.Header className={styles.header}>
+          <Row className={styles.leftContents}>
+            <Icon
+              className={styles.trigger}
+              type={isCollapsed ? 'menu-unfold' : 'menu-fold'}
+              onClick={() => toggle()}
+            />
+          </Row>
+          <Row type="flex" className={styles.rightContents}>
+            <LanguageSwitcher />
+          </Row>
+        </Layout.Header>
+      )}
+    </>
   );
 };
 

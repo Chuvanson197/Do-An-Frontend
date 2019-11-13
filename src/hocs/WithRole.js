@@ -1,11 +1,11 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-function WithRole({ component: Component, role = [] }) {
-  const user = useSelector((state) => state.authentication);
-  const checkRole = role.includes(user.authentication.role);
+function WithRole({ component: Component, role = [], ...rest }) {
+  const user = useSelector((state) => state.auth);
+  const checkRole = role.includes(user.user.role);
 
-  return <>{checkRole ? <Component></Component> : <p>Khong phai nhe</p>}</>;
+  return <>{checkRole ? <Component {...rest}></Component> : <p>deo pahi ban dau</p>}</>;
 }
 
 export default WithRole;
