@@ -29,7 +29,7 @@ const apiGet = (payload) => {
       {
         ...option,
         headers: getHeaders(),
-        withCredentials: false
+        withCredentials: true
       }
     )
     .then((res) => res.data);
@@ -67,7 +67,7 @@ const apiPut = (payload) => {
       {
         ...option,
         headers: getHeaders(),
-        withCredentials: false
+        withCredentials: true
       }
     )
     .then((res) => res.data);
@@ -84,7 +84,7 @@ const apiDelete = (payload) => {
       {
         ...option,
         headers: getHeaders(),
-        withCredentials: false
+        withCredentials: true
       }
     )
     .then((res) => res.data);
