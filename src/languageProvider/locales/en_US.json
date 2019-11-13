@@ -253,6 +253,17 @@
   "members.removeMember.message.error": "Remove member information failure",
   "members.removeMember.message.success": "Remove member information successful",
 
+  "users.title": "Users",
+  "users.header.title": "Users",
+
+  "users.name.title": "Name",
+  "users.email.title": "Email",
+  "users.permission.title" : "Permission",
+  "users.role.title" : "Role",
+
+
+
+
   "languageSwitcher.vi": "Vietnamese",
   "languageSwitcher.en": "English"
 }

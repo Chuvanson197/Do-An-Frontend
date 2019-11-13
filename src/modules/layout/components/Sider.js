@@ -79,6 +79,13 @@ const Sider = () => {
               typeIcon={'smile'}
               message={'members.title'}
               role={['admin', 'manager']}></WithRole>
+            <WithRole
+              component={CustomMenu}
+              key={'user'}
+              to={'/users'}
+              typeIcon={'user'}
+              message={'users.title'}
+              role={['admin', 'manager']}></WithRole>
             {/* <Menu.Item key="project">
       <Link to="/project">
         <Icon type="project" />

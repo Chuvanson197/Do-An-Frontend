@@ -15,6 +15,8 @@ import Customerpage from './pages/Customers.page';
 import NotFound from './pages/NotFound';
 import CallbackOAuth from './pages/CallbackOAuth';
 
+import UsersPage from './pages/User.page';
+
 // export default [
 //   {
 //     component: Dashboard,
@@ -59,22 +61,17 @@ function AppRoutes() {
       <Route component={LoginPage} path="/login"></Route>
       <Route component={CallbackOAuth} path="/callback" />
 
-      {/* dashboard */}
       <RouteWithAdmin component={Dashboard} path="/" exact></RouteWithAdmin>
-
-      {/* project */}
 
       <RouteNormal component={ProjectPage} path="/project" exact></RouteNormal>
       <RouteNormal component={ProjectDetail} path="/project/detail/:id"></RouteNormal>
       <RouteNormal component={ProjectMemberHistory} path="/project/memberHistory/:id"></RouteNormal>
 
-      {/* customers */}
-
       <RouteWithManager component={Customerpage} path="/customers" exact></RouteWithManager>
 
-      {/* member */}
-
       <RouteWithManager component={ListMemberPage} path="/member/list" exact></RouteWithManager>
+
+      <RouteWithManager component={ListMemberPage} path="/users" exact></RouteWithManager>
 
       <RouteNormal component={NotFound} />
     </Switch>
