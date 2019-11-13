@@ -35,6 +35,7 @@ const Sider = () => {
   };
 
   return (
+<<<<<<< HEAD
     <>
       {layoutCheck.isShow && (
         <Layout.Sider className={styles.sider} trigger={null} collapsible collapsed={isCollapsed}>
@@ -108,6 +109,48 @@ const Sider = () => {
         </Layout.Sider>
       )}
     </>
+=======
+    <Layout.Sider className={styles.sider} trigger={null} collapsible collapsed={isCollapsed}>
+      <Menu
+        mode="inline"
+        theme="dark"
+        className={styles.menu}
+        selectedKeys={selectedItem}
+        openKeys={selectedSubMenu}
+        onOpenChange={(selectedKeys) => handleSelectSubMenu(selectedKeys)}>
+        <Menu.Item key="dashboard">
+          <Link to="/">
+            <Icon type="pie-chart" />
+            <FormattedMessage id="dashboard.title" />
+          </Link>
+        </Menu.Item>
+        <Menu.Item key="project">
+          <Link to="/project">
+            <Icon type="project" />
+            <FormattedMessage id="projects.title" />
+          </Link>
+        </Menu.Item>
+        <Menu.Item key="customers">
+          <Link to="/customers">
+            <Icon type="team" />
+            <FormattedMessage id="customers.title" />
+          </Link>
+        </Menu.Item>
+        <Menu.Item key="member">
+          <Link to="/member/list">
+            <Icon type="smile" />
+            <FormattedMessage id="members.title" />
+          </Link>
+        </Menu.Item>
+        <Menu.Item key="roles">
+          <Link to="/admin/roles">
+            <Icon type="user" />
+            <FormattedMessage id="users.title"/>
+          </Link>
+        </Menu.Item>
+      </Menu>
+    </Layout.Sider>
+>>>>>>> fix language
   );
 };
 

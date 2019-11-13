@@ -74,7 +74,7 @@ const UsersPage = React.memo(({ history, intl }) => {
   }, [dispatch, getMembersError, getMembersErrors, intl]);
 
   useEffect(() => {
-    dispatch(layoutActions.selectItem(['user']));
+    dispatch(layoutActions.selectItem(['roles']));
   });
   // check authencation
   useEffect(() => {

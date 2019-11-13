@@ -17,7 +17,11 @@ const reducerActions = [
 
 const defaultState = {
   authentication: {
+<<<<<<< HEAD
     // role: 'admin'
+=======
+    role: 'admin'
+>>>>>>> fix language
   },
   authenticated: true
 };

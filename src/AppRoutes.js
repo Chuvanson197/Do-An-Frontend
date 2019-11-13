@@ -12,10 +12,14 @@ import ProjectMemberHistory from './pages/ProjectMemberHistory.page';
 import LoginPage from './pages/Login.page';
 import ListMemberPage from './pages/ListMember.page';
 import Customerpage from './pages/Customers.page';
+<<<<<<< HEAD:src/AppRoutes.js
 import NotFound from './pages/NotFound';
 import CallbackOAuth from './pages/CallbackOAuth';
 
 import UsersPage from './pages/User.page';
+=======
+import UserPage from './pages/User.page';
+>>>>>>> fix language:src/routes.js
 
 // export default [
 //   {
@@ -58,8 +62,14 @@ import UsersPage from './pages/User.page';
 function AppRoutes() {
   return (
     <Switch>
+<<<<<<< HEAD:src/AppRoutes.js
       <Route component={LoginPage} path="/login"></Route>
       <Route component={CallbackOAuth} path="/callback" />
+=======
+      {/* dashboard */}
+      <RouteWithAdmin component={Dashboard} path="/" exact></RouteWithAdmin>
+      <RouteWithAdmin component={UserPage} path="/admin/roles"></RouteWithAdmin>
+>>>>>>> fix language:src/routes.js
 
       <RouteWithAdmin component={Dashboard} path="/" exact></RouteWithAdmin>
 
