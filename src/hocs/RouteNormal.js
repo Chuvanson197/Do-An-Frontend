@@ -1,11 +1,12 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import LoadingPage from '../pages/LoadingPage';
 
 function RouteNormal({ component: Component, ...rest }) {
   const user = useSelector((state) => state.auth);
-  const checkAuth = user.user.role;
+  const checkAuth = user.user.type;
+  console.log(rest);
   return (
     <>
       {checkAuth ? (

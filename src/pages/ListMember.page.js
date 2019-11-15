@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { Row, Col, Button } from 'antd';
-import { css } from 'emotion';
+import { Row, Col } from 'antd';
 import { FormattedMessage, injectIntl } from 'react-intl';
 
 import { actions as layoutActions } from '../modules/layout/store';
@@ -19,13 +18,13 @@ const propTypes = {
 
 const defaultProps = {};
 
-const styles = {
-  addMemberButton: css`
-    margin-left: 15px;
-    background: #49a32b !important;
-    color: #fff !important;
-  `
-};
+// const styles = {
+//   addMemberButton: css`
+//     margin-left: 15px;
+//     background: #49a32b !important;
+//     color: #fff !important;
+//   `
+// };
 
 const ListMemberPage = ({ history, intl }) => {
   const dispatch = useDispatch();
@@ -86,14 +85,14 @@ const ListMemberPage = ({ history, intl }) => {
           <HeaderTitle title={<FormattedMessage id="members.header.title" />} />
         </Col>
       </Row>
-      <Row style={{ marginBottom: 15 }}>
+      {/* <Row style={{ marginBottom: 15 }}>
         <Button
           icon="user-add"
           className={styles.addMemberButton}
           onClick={() => setOpenCreateModal(!openCreateModal)}>
           <FormattedMessage id="members.memberTable.buttonAdd.title" />
         </Button>
-      </Row>
+      </Row> */}
       <Row gutter={16}>
         <Members
           members={list}

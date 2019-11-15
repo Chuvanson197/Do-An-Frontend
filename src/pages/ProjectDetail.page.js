@@ -14,6 +14,7 @@ import ProjectDetail from '../modules/project/projectDetails/components/ProjectD
 import BackButton from '../components/Button/BackButton';
 import ErrorNotification from '../components/Notification/Error';
 import SuccessNotification from '../components/Notification/Success';
+import WithRole from '../hocs/WithRole';
 
 const propTypes = {
   match: PropTypes.shape({}).isRequired,
@@ -28,6 +29,32 @@ const styles = {
     left: 0;
     right: 0;
   `
+};
+
+const ButtonRemoveProject = ({ loading, match }) => {
+  const dispatch = useDispatch();
+
+  return (
+    <Popconfirm
+      title={<FormattedMessage id="projectDetail.removeProject.confirm.remove" />}
+      onConfirm={
+        () =>
+          dispatch(
+            projectActions.removeProject({
+              path: 'projects/remove',
+              param: match.params.id
+            })
+          )
+        // eslint-disable-next-line react/jsx-curly-newline
+      }
+      okText={<FormattedMessage id="button.confirm.yes" />}
+      cancelText={<FormattedMessage id="button.confirm.no" />}>
+      <Button style={{ marginRight: 15 }} type="danger" disabled={loading}>
+        <Icon type={loading ? 'loading' : 'delete'} />
+        <FormattedMessage id="projectDetail.removeProject" />
+      </Button>
+    </Popconfirm>
+  );
 };
 
 const ProjectDetailPage = ({ match, history, intl }) => {
@@ -203,25 +230,12 @@ const ProjectDetailPage = ({ match, history, intl }) => {
         </Col>
         <Col span={12}>
           <Row type="flex" justify="end">
-            <Popconfirm
-              title={<FormattedMessage id="projectDetail.removeProject.confirm.remove" />}
-              onConfirm={
-                () =>
-                  dispatch(
-                    projectActions.removeProject({
-                      path: 'projects/remove',
-                      param: match.params.id
-                    })
-                  )
-                // eslint-disable-next-line react/jsx-curly-newline
-              }
-              okText={<FormattedMessage id="button.confirm.yes" />}
-              cancelText={<FormattedMessage id="button.confirm.no" />}>
-              <Button style={{ marginRight: 15 }} type="danger" disabled={loading}>
-                <Icon type={loading ? 'loading' : 'delete'} />
-                <FormattedMessage id="projectDetail.removeProject" />
-              </Button>
-            </Popconfirm>
+            <WithRole
+              type={['admin']}
+              component={ButtonRemoveProject}
+              match={match}
+              loading={loading}
+            />
 
             <Button type="primary" onClick={() => toMemberHistory()}>
               <Icon type="history" />

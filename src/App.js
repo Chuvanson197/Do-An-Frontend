@@ -1,23 +1,16 @@
 import React from 'react';
 import { Router } from 'react-router-dom';
-<<<<<<< HEAD
 import { ConfigProvider, Layout as AntdLayout } from 'antd';
-=======
-import { ConfigProvider } from 'antd';
->>>>>>> fix language
 import { IntlProvider } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { history } from './store';
 import AppLocale from './languageProvider';
 import { css } from 'emotion';
 
-<<<<<<< HEAD
 import AppRoutes from './AppRoutes';
 import Header from './modules/layout/components/Header';
 import Sider from './modules/layout/components/Sider';
-=======
-import Routes from './routes';
->>>>>>> fix language
+// import Routes from './routes';
 
 const App = () => {
   const { locale } = useSelector((state) => state.languageSwitcher);

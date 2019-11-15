@@ -15,17 +15,18 @@ function LoadingPage(props) {
     dispatchHideLayout(dispatch);
 
     authApi.refreshLogin().then((userLogin) => {
-      if (userLogin.data.statusCode == 400) {
+      if (userLogin.data.statusCode === 400) {
         Cookies.remove('access-token');
         props.history.push('/login');
       } else {
-        let userInfo = jwtDecode(userLogin.data.access_token);
+        const userInfo = jwtDecode(userLogin.data.access_token);
         localStorage.setItem('expresIn', userInfo.exp * 1000);
         Cookies.set('access-token', userLogin.data.access_token, { secure: false });
         dispatchShowLayout(dispatch);
-        dispatchLogin(dispatch, { ...userInfo, role: 'admin' });
+        dispatchLogin(dispatch, { ...userInfo });
       }
     });
+  // eslint-disable-next-line react/destructuring-assignment
   }, [dispatch, props.location.search, props.history]);
 
   const override = css`
@@ -47,7 +48,7 @@ function LoadingPage(props) {
         alignItems: 'center'
       }}>
       <h2 style={{ color: '#747CDD', marginRight: 10 }}>Loading</h2>
-      <SyncLoader css={override} sizeUnit={'px'} size={10} color={'#747CDD'} loading={true} />
+      <SyncLoader css={override} sizeUnit="px" size={10} color="#747CDD" />
     </div>
   );
 }

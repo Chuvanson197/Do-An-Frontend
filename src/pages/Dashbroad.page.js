@@ -23,7 +23,7 @@ const DashbroadPage = ({ history }) => {
   return (
     <>
       Dashboard
-      <WithRole role={['managera']} component={TestComponent}></WithRole>
+      <WithRole type={['manager']} component={TestComponent}/>
     </>
   );
 };

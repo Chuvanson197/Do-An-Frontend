@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import EditMember from '../../editMember/components/EditMember';
 import SuccessNotification from '../../../../components/Notification/Success';
 import ErrorNotification from '../../../../components/Notification/Error';
+import WithRole from '../../../../hocs/WithRole';
 
 import { actions as memberActions } from '../../store';
 
@@ -16,18 +17,36 @@ const propTypes = {
 
   getMembers: PropTypes.func.isRequired,
   updateMember: PropTypes.func.isRequired,
-  removeMember: PropTypes.func.isRequired,
+  removeMember: PropTypes.func.isRequired
 };
 
 const defaultProps = {};
+const ButtonEditMember = ({ handleEditSelected, record }) => {
+  return (
+    <Button
+      onClick={() => {
+        handleEditSelected(record);
+      }}
+      shape="circle"
+      icon="edit"
+      type="primary"
+      style={{ margin: '0px 5px' }}
+    />
+  );
+};
 
-const Members = ({
-  intl,
-  members,
-  getMembers,
-  updateMember,
-  removeMember,
-}) => {
+const ButtonDeleteMember = ({ removeMember, record }) => {
+  return (
+    <Popconfirm
+      title={<FormattedMessage id="members.confirm.delete" />}
+      onConfirm={() => removeMember && removeMember(record)}
+      okText={<FormattedMessage id="members.button.confirm.yes" />}
+      cancelText={<FormattedMessage id="members.button.confirm.no" />}>
+      <Button shape="circle" icon="delete" type="danger" style={{ margin: '0px 5px' }} />
+    </Popconfirm>
+  );
+};
+const Members = ({ intl, members, getMembers, updateMember, removeMember }) => {
   const dispatch = useDispatch();
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [dataItem, setDataItem] = useState({});
@@ -70,18 +89,32 @@ const Members = ({
           <Tooltip
             placement="top"
             title={<FormattedMessage id="members.memberTable.buttonDelete.title" />}>
-            <Popconfirm
+            <WithRole
+              type={['admin']}
+              component={ButtonDeleteMember}
+              removeMember={removeMember}
+              record={record}
+            />
+
+            {/* <Popconfirm
               title={<FormattedMessage id="members.confirm.delete" />}
               onConfirm={() => removeMember && removeMember(record)}
               okText={<FormattedMessage id="members.button.confirm.yes" />}
               cancelText={<FormattedMessage id="members.button.confirm.no" />}>
               <Button shape="circle" icon="delete" type="danger" style={{ margin: '0px 5px' }} />
-            </Popconfirm>
+            </Popconfirm> */}
           </Tooltip>
           <Tooltip
             placement="top"
             title={<FormattedMessage id="members.memberTable.buttonEdit.title" />}>
-            <Button
+            <WithRole
+              type={['admin']}
+              component={ButtonEditMember}
+              handleEditSelected={handleEditSelected}
+              record={record}
+            />
+
+            {/* <Button
               onClick={() => {
                 handleEditSelected(record);
               }}
@@ -89,7 +122,7 @@ const Members = ({
               icon="edit"
               type="primary"
               style={{ margin: '0px 5px' }}
-            />
+            /> */}
           </Tooltip>
         </React.Fragment>
       )

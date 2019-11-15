@@ -1,8 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-// import { FormattedMessage } from 'react-intl';
 import { actions } from '../store';
-// import { Link } from 'react-router-dom';
 import { Layout, Menu } from 'antd';
 import { css } from 'emotion';
 import CustomMenu from './CustomMenu';
@@ -35,7 +33,6 @@ const Sider = () => {
   };
 
   return (
-<<<<<<< HEAD
     <>
       {layoutCheck.isShow && (
         <Layout.Sider className={styles.sider} trigger={null} collapsible collapsed={isCollapsed}>
@@ -46,111 +43,45 @@ const Sider = () => {
             selectedKeys={selectedItem}
             openKeys={selectedSubMenu}
             onOpenChange={(selectedKeys) => handleSelectSubMenu(selectedKeys)}>
-            {/* <Menu.Item key="dashboard">
-      <Link to="/">
-        <Icon type="pie-chart" />
-        <FormattedMessage id="dashboard.title" />
-      </Link>
-    </Menu.Item> */}
             <WithRole
               component={CustomMenu}
-              key={'dashboard'}
-              to={'/'}
-              typeIcon={'pie-chart'}
-              message={'dashboard.title'}
-              role={['admin']}></WithRole>
+              key="dashboard"
+              to="/"
+              typeIcon="pie-chart"
+              message="dashboard.title"
+              type={['admin']}></WithRole>
             <WithRole
               component={CustomMenu}
-              key={'project'}
-              to={'/project'}
-              typeIcon={'project'}
-              message={'projects.title'}
-              role={['admin', 'manager', 'normal']}></WithRole>
+              key="project"
+              to="/project"
+              typeIcon="project"
+              message="projects.title"
+              type={['admin', 'manager', 'normal']}/>
             <WithRole
               component={CustomMenu}
-              key={'customers'}
-              to={'/customers'}
-              typeIcon={'team'}
-              message={'customers.title'}
-              role={['admin', 'manager', 'normal']}></WithRole>
+              key="customers"
+              to="/customers"
+              typeIcon="team"
+              message="customers.title"
+              type={['admin', 'manager']}/>
             <WithRole
               component={CustomMenu}
-              key={'member'}
-              to={'/member/list'}
-              typeIcon={'smile'}
-              message={'members.title'}
-              role={['admin', 'manager']}></WithRole>
+              key="member"
+              to="/member/list"
+              typeIcon="smile"
+              message="members.title"
+              type={['admin', 'manager']}/>
             <WithRole
               component={CustomMenu}
-              key={'user'}
-              to={'/users'}
-              typeIcon={'user'}
-              message={'users.title'}
-              role={['admin', 'manager']}></WithRole>
-            {/* <Menu.Item key="project">
-      <Link to="/project">
-        <Icon type="project" />
-        <FormattedMessage id="projects.title" />
-      </Link>
-    </Menu.Item>
-    <Menu.Item key="customers">
-      <Link to="/customers">
-        <Icon type="team" />
-        <FormattedMessage id="customers.title" />
-      </Link>
-    </Menu.Item>
-    <Menu.Item key="member">
-      <Link to="/member/list">
-        <Icon type="smile" />
-        <FormattedMessage id="members.title" />
-      </Link>
-    </Menu.Item> */}
+              key="roles"
+              to="/admin/roles"
+              typeIcon="user"
+              message="users.title"
+              type={['admin']}/>
           </Menu>
         </Layout.Sider>
       )}
     </>
-=======
-    <Layout.Sider className={styles.sider} trigger={null} collapsible collapsed={isCollapsed}>
-      <Menu
-        mode="inline"
-        theme="dark"
-        className={styles.menu}
-        selectedKeys={selectedItem}
-        openKeys={selectedSubMenu}
-        onOpenChange={(selectedKeys) => handleSelectSubMenu(selectedKeys)}>
-        <Menu.Item key="dashboard">
-          <Link to="/">
-            <Icon type="pie-chart" />
-            <FormattedMessage id="dashboard.title" />
-          </Link>
-        </Menu.Item>
-        <Menu.Item key="project">
-          <Link to="/project">
-            <Icon type="project" />
-            <FormattedMessage id="projects.title" />
-          </Link>
-        </Menu.Item>
-        <Menu.Item key="customers">
-          <Link to="/customers">
-            <Icon type="team" />
-            <FormattedMessage id="customers.title" />
-          </Link>
-        </Menu.Item>
-        <Menu.Item key="member">
-          <Link to="/member/list">
-            <Icon type="smile" />
-            <FormattedMessage id="members.title" />
-          </Link>
-        </Menu.Item>
-        <Menu.Item key="roles">
-          <Link to="/admin/roles">
-            <Icon type="user" />
-            <FormattedMessage id="users.title"/>
-          </Link>
-        </Menu.Item>
-      </Menu>
-    </Layout.Sider>
->>>>>>> fix language
   );
 };
 

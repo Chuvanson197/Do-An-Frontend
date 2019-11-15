@@ -1,18 +1,17 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import LoadingPage from '../pages/LoadingPage';
 
 function RouteWithManager({ component: Component, ...rest }) {
   const user = useSelector((state) => state.auth);
-  const checkAuth = user.user.role;
-  const checkRole = user.user.role === 'manager' || user.user.role === 'admin';
+  const checkAuth = user.user.type;
+  const checkRole = user.user.type === 'manager' || user.user.type === 'admin';
   const renderRoute = (props) => {
     if (checkRole) {
       return <Component {...props}></Component>;
-    } else {
-      return <p>Ban khong co quyen</p>;
     }
+    return <p>Ban khong co quyen truy cap</p>;
   };
   return (
     <>

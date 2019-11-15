@@ -6,7 +6,6 @@ import { css } from 'emotion';
 import { Row } from 'antd';
 
 import HeaderTitle from '../components/Content/HeaderTitle';
-import Layout from '../modules/layout/components/Layout';
 import UsersTable from '../modules/user/users/components/UsersTable';
 import ErrorNotification from '../components/Notification/Error';
 
@@ -25,16 +24,16 @@ const styles = {
 };
 
 const propTypes = {
-  history: PropTypes.shape({}).isRequired
+  history: PropTypes.shape({}).isRequired,
+  intl: PropTypes.shape({}).isRequired
 };
 
 const defaultProps = {};
 
-const UsersPage = React.memo(({ history, intl }) => {
+const UsersPage = ({ history, intl }) => {
   const dispatch = useDispatch();
 
   // selector
-  const { authenticated } = useSelector((state) => state.authentication);
   const { list, getMembersError, getMembersErrors } = useSelector((state) => state.members);
 
   // get users function
@@ -75,16 +74,10 @@ const UsersPage = React.memo(({ history, intl }) => {
 
   useEffect(() => {
     dispatch(layoutActions.selectItem(['roles']));
-  });
-  // check authencation
-  useEffect(() => {
-    if (!authenticated) {
-      history.push('/login');
-    }
-  }, [authenticated, history]);
+  }, [dispatch]);
 
   return (
-    <Layout>
+    <React.Fragment>
       <Row className={styles.container}>
         <Row>
           <HeaderTitle title={intl.formatMessage({ id: 'users.header.title' })} />
@@ -93,9 +86,9 @@ const UsersPage = React.memo(({ history, intl }) => {
           <UsersTable users={list} getMembers={getMembers} updateMember={updateMember} />
         </Row>
       </Row>
-    </Layout>
+    </React.Fragment>
   );
-});
+};
 
 UsersPage.propTypes = propTypes;
 

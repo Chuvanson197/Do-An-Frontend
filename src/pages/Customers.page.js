@@ -11,6 +11,7 @@ import { actions as customerActions } from '../modules/customer/store';
 import HeaderTitle from '../components/Content/HeaderTitle';
 import Customers from '../modules/customer/cutomers/components/CustomersTable';
 import ErrorNotification from '../components/Notification/Error';
+import WithRole from '../hocs/WithRole';
 
 import CreateModal from '../modules/customer/createCustomer/components/CreateCustomerModal';
 
@@ -30,6 +31,14 @@ const propTypes = {
 };
 
 const defaultProps = {};
+
+const ButtonCreateCustomer = ({ handleCreateModal, intl }) => {
+  return (
+    <Button icon="user-add" className={styles.addCustomerButton} onClick={handleCreateModal}>
+      {intl.formatMessage({ id: 'button.add' })}
+    </Button>
+  );
+};
 
 const CustomersPage = React.memo(({ history, intl }) => {
   const dispatch = useDispatch();
@@ -57,6 +66,18 @@ const CustomersPage = React.memo(({ history, intl }) => {
     [dispatch]
   );
 
+  const removeCustomer = useCallback(
+    (record) => {
+      dispatch(
+        customerActions.removeCustomer({
+          path: 'customers/remove',
+          param: record.id
+        })
+      );
+    },
+    [dispatch]
+  );
+
   // check authencation
 
   // get customers at first render
@@ -79,19 +100,23 @@ const CustomersPage = React.memo(({ history, intl }) => {
     }
   }, [dispatch, getCustomersError, getCustomersErrors, intl]);
 
+  const handleCreateModal = () => {
+    setVisible(!visible);
+  };
+
   return (
     <Row className={styles.container}>
       <Row>
         <HeaderTitle title={intl.formatMessage({ id: 'customers.header.title' })} />
       </Row>
       <Row>
-        <Button
-          icon="user-add"
-          className={styles.addCustomerButton}
-          onClick={() => setVisible(!visible)}>
-          {intl.formatMessage({ id: 'button.add' })}
-        </Button>
-        <Customers customers={list} getCustomers={getCustomers} />
+        <WithRole
+          type={['admin']}
+          component={ButtonCreateCustomer}
+          handleCreateModal={handleCreateModal}
+          intl={intl}
+        />
+        <Customers customers={list} removeCustomer={removeCustomer} getCustomers={getCustomers} />
       </Row>
       {visible && (
         <CreateModal
