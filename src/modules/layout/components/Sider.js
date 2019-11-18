@@ -26,7 +26,7 @@ const styles = {
 const Sider = () => {
   const dispacth = useDispatch();
   const layoutCheck = useSelector((state) => state.layout);
-  const { selectedItem, selectedSubMenu, isCollapsed } = useSelector((state) => state.layout);
+  const { selectedItem, selectedSubMenu, isCollapsed } = useSelector((state) => state.layoutSlider);
 
   const handleSelectSubMenu = (selectedKeys) => {
     dispacth(actions.selectSubMenu(selectedKeys));
