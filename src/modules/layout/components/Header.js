@@ -35,7 +35,7 @@ const styles = {
 const Header = () => {
   const dispatch = useDispatch();
   const layoutCheck = useSelector((state) => state.layout);
-  const { isCollapsed } = useSelector((state) => state.layout);
+  const { isCollapsed } = useSelector((state) => state.layoutSlider);
 
   const toggle = () => {
     dispatch(actions.setCollapse(!isCollapsed));
