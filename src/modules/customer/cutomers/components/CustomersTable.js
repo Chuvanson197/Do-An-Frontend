@@ -7,24 +7,58 @@ import { Table, Button, Tooltip, Popconfirm } from 'antd';
 import UpdateCustomerDrawer from '../../updateCustomer/components/UpdateCustomerDrawer';
 import ErrorNotification from '../../../../components/Notification/Error';
 import SuccessNotification from '../../../../components/Notification/Success';
+import WithRole from '../../../../hocs/WithRole';
+
 import { actions as customerActions } from '../../store';
 
 const propTypes = {
   intl: PropTypes.shape({}).isRequired,
   customers: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  getCustomers: PropTypes.func.isRequired
+  getCustomers: PropTypes.func.isRequired,
+  removeCustomer: PropTypes.func.isRequired
 };
 
 const defaultProps = {};
 
-const CustomersTable = ({ intl, customers, getCustomers }) => {
+const ButtonEditCustomer = ({ handleControlDrawer, record }) => {
+  return (
+    <Button
+      shape="circle"
+      icon="edit"
+      type="primary"
+      style={{ margin: '0px 5px' }}
+      // eslint-disable-next-line no-use-before-define
+      onClick={() => handleControlDrawer(record)}
+    />
+  );
+};
+
+const ButtonDeleteCustomer = ({ removeCustomer, record }) => {
+  return (
+    <Popconfirm
+      title={<FormattedMessage id="customers.confirm.delete" />}
+      onConfirm={() => removeCustomer && removeCustomer(record)}
+      okText={<FormattedMessage id="button.confirm.yes" />}
+      cancelText={<FormattedMessage id="button.confirm.no" />}>
+      <Button shape="circle" icon="delete" type="danger" style={{ margin: '0px 5px' }} />
+    </Popconfirm>
+  );
+};
+
+const CustomersTable = ({ intl, customers, getCustomers, removeCustomer }) => {
   const dispatch = useDispatch();
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [customer, selectCustomer] = useState(null);
   const { loading, removeCustomerResult, removeCustomerError, removeCustomerErrors } = useSelector(
     (state) => state.customers
   );
-
+  // Handle control open/close update customer drawer
+  const handleControlDrawer = (selectedCustomer) => {
+    selectedCustomer && selectCustomer(selectedCustomer);
+    setDrawerVisible(!drawerVisible);
+    dispatch(customerActions.updateCustomerCleanError());
+    dispatch(customerActions.updateCustomerCleanData());
+  };
   const columns = [
     {
       title: <FormattedMessage id="customers.name.title" />,
@@ -54,31 +88,19 @@ const CustomersTable = ({ intl, customers, getCustomers }) => {
       render: (record) => (
         <React.Fragment>
           <Tooltip placement="top" title={<FormattedMessage id="customers.button.delete" />}>
-            <Popconfirm
-              title={<FormattedMessage id="customers.confirm.delete" />}
-              onConfirm={
-                () =>
-                  dispatch(
-                    customerActions.removeCustomer({
-                      path: 'customers/remove',
-                      param: record.id
-                    })
-                  )
-                // eslint-disable-next-line react/jsx-curly-newline
-              }
-              okText={<FormattedMessage id="button.confirm.yes" />}
-              cancelText={<FormattedMessage id="button.confirm.no" />}>
-              <Button shape="circle" icon="delete" type="danger" style={{ margin: '0px 5px' }} />
-            </Popconfirm>
+            <WithRole
+              type={['admin']}
+              component={ButtonDeleteCustomer}
+              record={record}
+              removeCustomer={removeCustomer}
+            />
           </Tooltip>
           <Tooltip placement="top" title={<FormattedMessage id="customers.button.edit" />}>
-            <Button
-              shape="circle"
-              icon="edit"
-              type="primary"
-              style={{ margin: '0px 5px' }}
-              // eslint-disable-next-line no-use-before-define
-              onClick={() => handleControlDrawer(record)}
+            <WithRole
+              type={['admin']}
+              component={ButtonEditCustomer}
+              handleControlDrawer={handleControlDrawer}
+              record={record}
             />
           </Tooltip>
         </React.Fragment>
@@ -114,14 +136,6 @@ const CustomersTable = ({ intl, customers, getCustomers }) => {
       dispatch(customerActions.removeCustomerCleanError(false));
     }
   }, [dispatch, intl, removeCustomerError, removeCustomerErrors]);
-
-  // Handle control open/close update customer drawer
-  const handleControlDrawer = (selectedCustomer) => {
-    selectedCustomer && selectCustomer(selectedCustomer);
-    setDrawerVisible(!drawerVisible);
-    dispatch(customerActions.updateCustomerCleanError());
-    dispatch(customerActions.updateCustomerCleanData());
-  };
 
   return (
     <React.Fragment>

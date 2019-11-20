@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 
 import RouteNormal from './hocs/RouteNormal';
 import RouteWithManager from './hocs/RouteWithManager';
@@ -12,6 +12,9 @@ import ProjectMemberHistory from './pages/ProjectMemberHistory.page';
 import LoginPage from './pages/Login.page';
 import ListMemberPage from './pages/ListMember.page';
 import Customerpage from './pages/Customers.page';
+import NotFound from './pages/NotFound';
+import CallbackOAuth from './pages/CallbackOAuth';
+
 import UsersPage from './pages/User.page';
 
 // export default [
@@ -52,27 +55,29 @@ import UsersPage from './pages/User.page';
 //   }
 // ];
 
-function Routes() {
+function AppRoutes() {
   return (
     <Switch>
+      <Route component={LoginPage} path="/login"></Route>
+      <Route component={CallbackOAuth} path="/callback" />
       {/* dashboard */}
       <RouteWithAdmin component={Dashboard} path="/" exact></RouteWithAdmin>
+      <RouteWithAdmin component={UsersPage} path="/admin/roles"></RouteWithAdmin>
 
-      {/* project */}
 
       <RouteNormal component={ProjectPage} path="/project" exact></RouteNormal>
       <RouteNormal component={ProjectDetail} path="/project/detail/:id"></RouteNormal>
       <RouteNormal component={ProjectMemberHistory} path="/project/memberHistory/:id"></RouteNormal>
 
-      {/* customers */}
-
       <RouteWithManager component={Customerpage} path="/customers" exact></RouteWithManager>
 
-      {/* member */}
-
       <RouteWithManager component={ListMemberPage} path="/member/list" exact></RouteWithManager>
+
+      {/* <RouteWithManager component={ListMemberPage} path="/users" exact></RouteWithManager> */}
+
+      <RouteNormal component={NotFound} />
     </Switch>
   );
 }
 
-export default Routes;
+export default AppRoutes;

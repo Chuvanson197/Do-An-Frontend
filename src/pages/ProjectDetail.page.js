@@ -9,14 +9,12 @@ import { actions as layoutActions } from '../modules/layout/store';
 import { actions as projectActions } from '../modules/project/store';
 import { actions as customerActions } from '../modules/customer/store';
 import { actions as memberActions } from '../modules/member/store';
-
-import Layout from '../modules/layout/components/Layout';
-
 import HeaderTitle from '../components/Content/HeaderTitle';
 import ProjectDetail from '../modules/project/projectDetails/components/ProjectDetail';
 import BackButton from '../components/Button/BackButton';
 import ErrorNotification from '../components/Notification/Error';
 import SuccessNotification from '../components/Notification/Success';
+import WithRole from '../hocs/WithRole';
 
 const propTypes = {
   match: PropTypes.shape({}).isRequired,
@@ -33,9 +31,34 @@ const styles = {
   `
 };
 
+const ButtonRemoveProject = ({ loading, match }) => {
+  const dispatch = useDispatch();
+
+  return (
+    <Popconfirm
+      title={<FormattedMessage id="projectDetail.removeProject.confirm.remove" />}
+      onConfirm={
+        () =>
+          dispatch(
+            projectActions.removeProject({
+              path: 'projects/remove',
+              param: match.params.id
+            })
+          )
+        // eslint-disable-next-line react/jsx-curly-newline
+      }
+      okText={<FormattedMessage id="button.confirm.yes" />}
+      cancelText={<FormattedMessage id="button.confirm.no" />}>
+      <Button style={{ marginRight: 15 }} type="danger" disabled={loading}>
+        <Icon type={loading ? 'loading' : 'delete'} />
+        <FormattedMessage id="projectDetail.removeProject" />
+      </Button>
+    </Popconfirm>
+  );
+};
+
 const ProjectDetailPage = ({ match, history, intl }) => {
   const dispatch = useDispatch();
-  const { authenticated } = useSelector((state) => state.authentication);
   const {
     project,
     joinedMembers,
@@ -107,15 +130,18 @@ const ProjectDetailPage = ({ match, history, intl }) => {
       })
     );
   }, [dispatch]);
-  const updateMember = useCallback((body, member) => {
-    dispatch(
-      projectActions.updateMember({
-        body,
-        path: 'projects/membersList',
-        param: member.id
-      })
-    );
-  }, [dispatch]);
+  const updateMember = useCallback(
+    (body, member) => {
+      dispatch(
+        projectActions.updateMember({
+          body,
+          path: 'projects/membersList',
+          param: member.id
+        })
+      );
+    },
+    [dispatch]
+  );
 
   useEffect(() => {
     dispatch(layoutActions.selectItem(['project']));
@@ -141,11 +167,6 @@ const ProjectDetailPage = ({ match, history, intl }) => {
   }, [dispatch, match.params.id]);
 
   // check authencation if not redirect to login page
-  useEffect(() => {
-    if (!authenticated) {
-      history.push('/login');
-    }
-  }, [authenticated, history]);
 
   // show notification after remove project
   useEffect(() => {
@@ -182,63 +203,48 @@ const ProjectDetailPage = ({ match, history, intl }) => {
   };
 
   return (
-    <Layout>
+    <Row>
       <Row>
-        <Row>
-          <HeaderTitle title={<FormattedMessage id="projects.detail.title" />} />
-        </Row>
-        <Row>
-          <ProjectDetail
-            getProject={getProject}
-            getJoinedMembers={getJoinedMembers}
-            cleanError={cleanError}
-            removeMember={removeMember}
-            getCustomers={getCustomers}
-            updateProject={updateProject}
-            project={project}
-            joinedMembers={joinedMembers}
-            loading={loading}
-            match={match}
-            addMember={addMember}
-            getMembers={getMembers}
-            updateMember={updateMember}
-          />
-        </Row>
-        <Row className={styles.footer}>
-          <Col span={12}>
-            <BackButton onBack={() => onBack()} />
-          </Col>
-          <Col span={12}>
-            <Row type="flex" justify="end">
-              <Popconfirm
-                title={<FormattedMessage id="projectDetail.removeProject.confirm.remove" />}
-                onConfirm={
-                  () =>
-                    dispatch(
-                      projectActions.removeProject({
-                        path: 'projects/remove',
-                        param: match.params.id
-                      })
-                    )
-                  // eslint-disable-next-line react/jsx-curly-newline
-                }
-                okText={<FormattedMessage id="button.confirm.yes" />}
-                cancelText={<FormattedMessage id="button.confirm.no" />}>
-                <Button style={{ marginRight: 15 }} type="danger" disabled={loading}>
-                  <Icon type={loading ? 'loading' : 'delete'} />
-                  <FormattedMessage id="projectDetail.removeProject" />
-                </Button>
-              </Popconfirm>
-
-              <Button type="primary" onClick={() => toMemberHistory()}>
-                <Icon type="history" />
-                <FormattedMessage id="projects.detail.memberHistory" />
-              </Button>
-            </Row>
-          </Col>
-        </Row>
+        <HeaderTitle title={<FormattedMessage id="projects.detail.title" />} />
       </Row>
-    </Layout>
+      <Row>
+        <ProjectDetail
+          getProject={getProject}
+          getJoinedMembers={getJoinedMembers}
+          cleanError={cleanError}
+          removeMember={removeMember}
+          getCustomers={getCustomers}
+          updateProject={updateProject}
+          project={project}
+          joinedMembers={joinedMembers}
+          loading={loading}
+          match={match}
+          addMember={addMember}
+          getMembers={getMembers}
+          updateMember={updateMember}
+        />
+      </Row>
+      <Row className={styles.footer}>
+        <Col span={12}>
+          <BackButton onBack={() => onBack()} />
+        </Col>
+        <Col span={12}>
+          <Row type="flex" justify="end">
+            <WithRole
+              type={['admin']}
+              component={ButtonRemoveProject}
+              match={match}
+              loading={loading}
+            />
+
+            <Button type="primary" onClick={() => toMemberHistory()}>
+              <Icon type="history" />
+              <FormattedMessage id="projects.detail.memberHistory" />
+            </Button>
+          </Row>
+        </Col>
+      </Row>
+    </Row>
   );
 };
 

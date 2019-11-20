@@ -221,10 +221,10 @@
   "members.memberTable.status.title": "Status",
   "members.membersTable.effort.title": "Effort",
   "members.memberModal.headerCreateMember.title": "Create new Member",
-  "members.memberModal.headerEditMember.title": "Member Edit",
+  "members.memberModal.headerEditMember.title": "Update member information",
   "members.memberModal.createButton.title": "Create",
   "members.memberModal.cancelButton.title": "Cancle",
-  "members.memberModal.editButton.title": "Edit",
+  "members.memberModal.editButton.title": "Update information",
   "members.memberModal.form.memberStaffcode.title": "Staff code",
   "members.memberModal.form.memberStaffcode.validate": "Staff code is required",
   "members.memberModal.form.memberFullname.title": "Full name",
@@ -253,15 +253,19 @@
   "members.removeMember.message.error": "Remove member information failure",
   "members.removeMember.message.success": "Remove member information successful",
 
-  "users.title": "Users",
-  "users.header.title": "Users",
+  "users.title": "Roles",
+  "users.header.title": "Roles",
 
   "users.name.title": "Name",
   "users.email.title": "Email",
   "users.permission.title" : "Permission",
   "users.role.title" : "Role",
-
-
+  "users.button.edit" : "Edit permission",
+  "users.drawerUpdate.tile": "Update permission member",
+  "users.drawerUpdate.confirm.add": "Edit this member permission ?",
+  "users.drawerUpdate.userInformation": "Member information",
+  "users.updateUser.message.error": "Update member information failure",
+  "users.updateUser.message.success": "Update member information successful",
 
 
   "languageSwitcher.vi": "Vietnamese",

@@ -10,6 +10,7 @@
     "emotion": "^10.0.9",
     "history": "^4.10.0",
     "js-cookie": "^2.2.1",
+    "jwt-decode": "^2.2.0",
     "lodash": "^4.17.15",
     "mathjs": "^6.2.1",
     "moment": "^2.24.0",
@@ -26,6 +27,7 @@
     "react-router-dom": "^5.0.1",
     "react-router-redux": "^4.0.8",
     "react-scripts": "3.1.1",
+    "react-spinners": "^0.6.1",
     "redux-starter-kit": "^0.7.0",
     "storm-react-diagrams": "^5.2.1"
   },

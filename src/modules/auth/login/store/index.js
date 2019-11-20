@@ -17,7 +17,7 @@ const reducerActions = [
 
 const defaultState = {
   authentication: {
-    role: 'normal'
+    // role: 'admin'
   },
   authenticated: true
 };

@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { css } from 'emotion';
@@ -8,9 +8,6 @@ import { Row, Col } from 'antd';
 
 import { actions as layoutActions } from '../modules/layout/store';
 import { actions as projectActions } from '../modules/project/store';
-
-import Layout from '../modules/layout/components/Layout';
-
 import HeaderTitle from '../components/Content/HeaderTitle';
 import ProjectMemberHistory from '../modules/project/projectMemberHistory/components/ProjectMemberHistory';
 import BackButton from '../components/Button/BackButton';
@@ -31,47 +28,41 @@ const styles = {
 
 const ProjectMemberHistoryPage = ({ match, history }) => {
   const dispatch = useDispatch();
-  const { authenticated } = useSelector((state) => state.authentication);
   useEffect(() => {
     dispatch(layoutActions.selectItem(['project']));
   }, [dispatch]);
 
-  useEffect(() => {
-    if (!authenticated) {
-      history.push('/login');
-    }
-  }, [authenticated, history]);
-
-  const getMemberHistory = useCallback((body) => {
-    dispatch(
-      projectActions.getMemberHistory({
-        body,
-        path: 'projects/membersList',
-        param: match.params.id
-      })
-    );
-  }, [dispatch, match.params.id]);
+  const getMemberHistory = useCallback(
+    (body) => {
+      dispatch(
+        projectActions.getMemberHistory({
+          body,
+          path: 'projects/membersList',
+          param: match.params.id
+        })
+      );
+    },
+    [dispatch, match.params.id]
+  );
 
   const onBack = () => {
     history.push(`/project/detail/${match.params.id}`);
   };
 
   return (
-    <Layout>
+    <Row>
       <Row>
-        <Row>
-          <HeaderTitle title={<FormattedMessage id="projects.memberHistory.title" />} />
-        </Row>
-        <Row>
-          <ProjectMemberHistory match={match} getMemberHistory={getMemberHistory}/>
-        </Row>
-        <Row className={styles.footer}>
-          <Col span={12}>
-            <BackButton onBack={() => onBack()} />
-          </Col>
-        </Row>
+        <HeaderTitle title={<FormattedMessage id="projects.memberHistory.title" />} />
       </Row>
-    </Layout>
+      <Row>
+        <ProjectMemberHistory match={match} getMemberHistory={getMemberHistory} />
+      </Row>
+      <Row className={styles.footer}>
+        <Col span={12}>
+          <BackButton onBack={() => onBack()} />
+        </Col>
+      </Row>
+    </Row>
   );
 };
 

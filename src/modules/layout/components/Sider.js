@@ -1,10 +1,10 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
 import { actions } from '../store';
-import { Link } from 'react-router-dom';
-import { Layout, Menu, Icon } from 'antd';
+import { Layout, Menu } from 'antd';
 import { css } from 'emotion';
+import CustomMenu from './CustomMenu';
+import WithRole from '../../../hocs/WithRole';
 
 const styles = {
   sider: css`
@@ -25,53 +25,63 @@ const styles = {
 
 const Sider = () => {
   const dispacth = useDispatch();
-  const { selectedItem, selectedSubMenu, isCollapsed } = useSelector((state) => state.layout);
+  const layoutCheck = useSelector((state) => state.layout);
+  const { selectedItem, selectedSubMenu, isCollapsed } = useSelector((state) => state.layoutSlider);
 
   const handleSelectSubMenu = (selectedKeys) => {
     dispacth(actions.selectSubMenu(selectedKeys));
   };
 
   return (
-    <Layout.Sider className={styles.sider} trigger={null} collapsible collapsed={isCollapsed}>
-      <Menu
-        mode="inline"
-        theme="dark"
-        className={styles.menu}
-        selectedKeys={selectedItem}
-        openKeys={selectedSubMenu}
-        onOpenChange={(selectedKeys) => handleSelectSubMenu(selectedKeys)}>
-        <Menu.Item key="dashboard">
-          <Link to="/">
-            <Icon type="pie-chart" />
-            <FormattedMessage id="dashboard.title" />
-          </Link>
-        </Menu.Item>
-        <Menu.Item key="project">
-          <Link to="/project">
-            <Icon type="project" />
-            <FormattedMessage id="projects.title" />
-          </Link>
-        </Menu.Item>
-        <Menu.Item key="customers">
-          <Link to="/customers">
-            <Icon type="team" />
-            <FormattedMessage id="customers.title" />
-          </Link>
-        </Menu.Item>
-        <Menu.Item key="member">
-          <Link to="/member/list">
-            <Icon type="smile" />
-            <FormattedMessage id="members.title" />
-          </Link>
-        </Menu.Item>
-        <Menu.Item key="user">
-          <Link to="/users">
-            <Icon type="user" />
-            <FormattedMessage id="users.title"/>
-          </Link>
-        </Menu.Item>
-      </Menu>
-    </Layout.Sider>
+    <>
+      {layoutCheck.isShow && (
+        <Layout.Sider className={styles.sider} trigger={null} collapsible collapsed={isCollapsed}>
+          <Menu
+            mode="inline"
+            theme="dark"
+            className={styles.menu}
+            selectedKeys={selectedItem}
+            openKeys={selectedSubMenu}
+            onOpenChange={(selectedKeys) => handleSelectSubMenu(selectedKeys)}>
+            <WithRole
+              component={CustomMenu}
+              key="dashboard"
+              to="/"
+              typeIcon="pie-chart"
+              message="dashboard.title"
+              type={['admin']}></WithRole>
+            <WithRole
+              component={CustomMenu}
+              key="project"
+              to="/project"
+              typeIcon="project"
+              message="projects.title"
+              type={['admin', 'manager', 'normal']}/>
+            <WithRole
+              component={CustomMenu}
+              key="customers"
+              to="/customers"
+              typeIcon="team"
+              message="customers.title"
+              type={['admin', 'manager']}/>
+            <WithRole
+              component={CustomMenu}
+              key="member"
+              to="/member/list"
+              typeIcon="smile"
+              message="members.title"
+              type={['admin', 'manager']}/>
+            <WithRole
+              component={CustomMenu}
+              key="roles"
+              to="/admin/roles"
+              typeIcon="user"
+              message="users.title"
+              type={['admin']}/>
+          </Menu>
+        </Layout.Sider>
+      )}
+    </>
   );
 };
 

@@ -25,6 +25,7 @@ import ErrorNotification from '../../../../components/Notification/Error';
 import SuccessNotification from '../../../../components/Notification/Success';
 import UpdateProjectDrawer from '../../updateProject/components/UpdateProjectDrawer';
 import UpdateMemberDrawer from '../../updateMember/components/UpdateMemberDrawer';
+import WithRole from '../../../../hocs/WithRole';
 
 const propTypes = {
   match: PropTypes.shape({}).isRequired,
@@ -51,6 +52,51 @@ const defaultProps = {
     list: [],
     total: 0
   }
+};
+
+const ButtonEditProject = ({ handleEditProjectDrawer, project }) => {
+  return (
+    <Button icon="edit" type="primary" disabled={!project} onClick={handleEditProjectDrawer}>
+      <FormattedMessage id="button.update" />
+    </Button>
+  );
+};
+
+const ButtonEditMember = ({ handleControlMemberDrawer, record }) => {
+  return (
+    <Button
+      shape="circle"
+      icon="edit"
+      type="primary"
+      style={{ margin: '0px 5px' }}
+      // eslint-disable-next-line no-use-before-define
+      onClick={() => handleControlMemberDrawer(record)}
+    />
+  );
+};
+
+const ButtonDeleteMember = ({ handleConfirmDelete, record }) => {
+  return (
+    <Popconfirm
+      title={<FormattedMessage id="projectDetail.removeMember.confirm.delete" />}
+      onConfirm={() => handleConfirmDelete(record)}
+      okText={<FormattedMessage id="button.confirm.yes" />}
+      cancelText={<FormattedMessage id="button.confirm.no" />}>
+      <Button shape="circle" icon="minus-circle" type="danger" style={{ margin: '0px 5px' }} />;
+    </Popconfirm>
+  );
+};
+
+const ButtonAddMember = ({ handleAddMemberModal }) => {
+  return (
+    <Button
+      style={{ marginLeft: 10 }}
+      type="primary"
+      shape="circle"
+      icon="usergroup-add"
+      onClick={handleAddMemberModal}
+    />
+  );
 };
 
 const ProjectDetail = ({
@@ -143,6 +189,23 @@ const ProjectDetail = ({
     removeMember && removeMember(data);
   };
 
+  const handleEditProjectDrawer = () => {
+    setDrawerVisible(!drawerVisible);
+  };
+
+  // Handle control open/close update member in project drawer
+  const handleControlMemberDrawer = (member) => {
+    if (member) {
+      selectMember(member);
+    } else {
+      selectMember(null);
+    }
+    setMemberDrawerVisible(!memberDrawerVisible);
+  };
+
+  const handleAddMemberModal = () => {
+    setOpenAddModal(!openAddModal);
+  };
   const columns = [
     {
       title: <FormattedMessage id="projects.detail.member.staff_code" />,
@@ -215,43 +278,25 @@ const ProjectDetail = ({
       render: (record) => (
         <React.Fragment>
           <Tooltip placement="top" title={<FormattedMessage id="button.tooltip.removeMember" />}>
-            <Popconfirm
-              title={<FormattedMessage id="projectDetail.removeMember.confirm.delete" />}
-              onConfirm={() => handleConfirmDelete(record)}
-              okText={<FormattedMessage id="button.confirm.yes" />}
-              cancelText={<FormattedMessage id="button.confirm.no" />}>
-              <Button
-                shape="circle"
-                icon="minus-circle"
-                type="danger"
-                style={{ margin: '0px 5px' }}
-              />
-            </Popconfirm>
+            <WithRole
+              type={['admin', 'manager']}
+              component={ButtonDeleteMember}
+              record={record}
+              handleConfirmDelete={handleConfirmDelete}
+            />
           </Tooltip>
           <Tooltip placement="top" title={<FormattedMessage id="button.tooltip.editMember" />}>
-            <Button
-              shape="circle"
-              icon="edit"
-              type="primary"
-              style={{ margin: '0px 5px' }}
-              // eslint-disable-next-line no-use-before-define
-              onClick={() => handleControlMemberDrawer(record)}
+            <WithRole
+              type={['admin', 'manager']}
+              component={ButtonEditMember}
+              record={record}
+              handleControlMemberDrawer={handleControlMemberDrawer}
             />
           </Tooltip>
         </React.Fragment>
       )
     }
   ];
-
-  // Handle control open/close update member in project drawer
-  const handleControlMemberDrawer = (member) => {
-    if (member) {
-      selectMember(member);
-    } else {
-      selectMember(null);
-    }
-    setMemberDrawerVisible(!memberDrawerVisible);
-  };
 
   return (
     <React.Fragment>
@@ -278,13 +323,12 @@ const ProjectDetail = ({
         </Skeleton>
 
         <Row>
-          <Button
-            icon="edit"
-            type="primary"
-            disabled={!project}
-            onClick={() => setDrawerVisible(!drawerVisible)}>
-            <FormattedMessage id="button.update" />
-          </Button>
+          <WithRole
+            type={['admin', 'manager']}
+            component={ButtonEditProject}
+            project={project}
+            handleEditProjectDrawer={handleEditProjectDrawer}
+          />
         </Row>
 
         <Divider />
@@ -297,12 +341,10 @@ const ProjectDetail = ({
               <Tooltip
                 placement="bottom"
                 title={<FormattedMessage id="button.tooltip.addMember" />}>
-                <Button
-                  style={{ marginLeft: 10 }}
-                  type="primary"
-                  shape="circle"
-                  icon="usergroup-add"
-                  onClick={() => setOpenAddModal(!openAddModal)}
+                <WithRole
+                  type={['manager', 'admin']}
+                  component={ButtonAddMember}
+                  handleAddMemberModal={handleAddMemberModal}
                 />
               </Tooltip>
             </Col>
