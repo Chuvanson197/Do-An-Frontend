@@ -62,12 +62,12 @@ const Members = ({ intl, members, getMembers, updateMember, removeMember }) => {
     {
       title: <FormattedMessage id="members.memberTable.staffCode.title" />,
       dataIndex: 'staff_code',
-      key: 'staff_code'
+      key: 'staff_code',
     },
     {
       title: <FormattedMessage id="members.memberTable.name.title" />,
       dataIndex: 'full_name',
-      key: 'full_name'
+      key: 'full_name',
     },
     {
       title: <FormattedMessage id="members.memberTable.phoneNumber.title" />,
@@ -77,7 +77,7 @@ const Members = ({ intl, members, getMembers, updateMember, removeMember }) => {
     {
       title: <FormattedMessage id="members.memberTable.email.title" />,
       dataIndex: 'email',
-      key: 'email'
+      key: 'email',
     },
     {
       title: '',

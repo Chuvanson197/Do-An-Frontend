@@ -1,9 +1,9 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import { css } from 'emotion';
-import { Row } from 'antd';
+import { Row, Col, Input } from 'antd';
 
 import HeaderTitle from '../components/Content/HeaderTitle';
 import UsersTable from '../modules/user/users/components/UsersTable';
@@ -36,6 +36,8 @@ const UsersPage = ({ history, intl }) => {
   // selector
   const { list, getMembersError, getMembersErrors } = useSelector((state) => state.members);
 
+  const [searchInput, setSearchInput] = useState('');
+  const [filteredData, setFilteredData] = useState([]);
   // get users function
   useEffect(() => {
     dispatch(
@@ -44,6 +46,10 @@ const UsersPage = ({ history, intl }) => {
       })
     );
   }, [dispatch]);
+
+  useEffect(() => {
+    setFilteredData(list);
+  }, [list]);
 
   const getMembers = useCallback(() => {
     dispatch(
@@ -76,14 +82,32 @@ const UsersPage = ({ history, intl }) => {
     dispatch(layoutActions.selectItem(['roles']));
   }, [dispatch]);
 
+  const handleChange = (e) => {
+    const currValue = e.target.value;
+    setSearchInput(currValue);
+    const data = list.filter((value) => {
+      return (
+        value.staff_code.toLowerCase().includes(currValue.toLowerCase()) ||
+        value.full_name.toLowerCase().includes(currValue.toLowerCase()) ||
+        value.email.toLowerCase().includes(currValue.toLowerCase())
+      );
+    });
+    setFilteredData(data);
+  };
+
   return (
     <React.Fragment>
       <Row className={styles.container}>
         <Row>
-          <HeaderTitle title={intl.formatMessage({ id: 'users.header.title' })} />
+          <Col>
+            <HeaderTitle title={intl.formatMessage({ id: 'users.header.title' })} />
+          </Col>
+          <Col span={10} offset={14}>
+            <Input placeholder="Search" value={searchInput} onChange={handleChange} />
+          </Col>
         </Row>
         <Row>
-          <UsersTable users={list} getMembers={getMembers} updateMember={updateMember} />
+          <UsersTable users={filteredData} getMembers={getMembers} updateMember={updateMember} />
         </Row>
       </Row>
     </React.Fragment>
