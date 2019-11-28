@@ -115,9 +115,38 @@ const CustomersPage = React.memo(({ history, intl }) => {
     setSearchInput(currValue);
     const data = list.filter((value) => {
       return (
-        value.id.toLowerCase().includes(currValue.toLowerCase()) ||
-        value.name.toLowerCase().includes(currValue.toLowerCase()) ||
-        value.email.toLowerCase().includes(currValue.toLowerCase())
+        value.name
+          .replace(/\s/g, '')
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .replace(/đ/g, 'd')
+          .replace(/Đ/g, 'D')
+          .toLowerCase()
+          .includes(
+            currValue
+              .replace(/\s/g, '')
+              .toLowerCase()
+              .normalize('NFD')
+              .replace(/[\u0300-\u036f]/g, '')
+              .replace(/đ/g, 'd')
+              .replace(/Đ/g, 'D')
+          ) ||
+        value.email
+          .replace(/\s/g, '')
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .replace(/đ/g, 'd')
+          .replace(/Đ/g, 'D')
+          .toLowerCase()
+          .includes(
+            currValue
+              .replace(/\s/g, '')
+              .toLowerCase()
+              .normalize('NFD')
+              .replace(/[\u0300-\u036f]/g, '')
+              .replace(/đ/g, 'd')
+              .replace(/Đ/g, 'D')
+          )
       );
     });
     setFilteredData(data);
@@ -128,7 +157,7 @@ const CustomersPage = React.memo(({ history, intl }) => {
       <Row>
         <HeaderTitle title={intl.formatMessage({ id: 'customers.header.title' })} />
       </Row>
-      <Row justify="center">
+      <Row>
         <Col>
           <WithRole
             type={['admin']}
@@ -141,7 +170,7 @@ const CustomersPage = React.memo(({ history, intl }) => {
           <Input placeholder="Search" value={searchInput} onChange={handleChange} />
         </Col>
       </Row>
-      <Row>
+      <Row style={{paddingTop: 20}}>
         <Customers
           customers={filteredData}
           removeCustomer={removeCustomer}

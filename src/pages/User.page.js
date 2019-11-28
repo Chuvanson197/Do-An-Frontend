@@ -16,10 +16,8 @@ const styles = {
   container: css`
     height: 100% !important;
   `,
-  addCustomerButton: css`
-    background: #49a32b !important;
-    color: #fff !important;
-    margin-bottom: 10px;
+  table: css`
+  paddingTop: 20 !important;
   `
 };
 
@@ -87,9 +85,38 @@ const UsersPage = ({ history, intl }) => {
     setSearchInput(currValue);
     const data = list.filter((value) => {
       return (
-        value.staff_code.toLowerCase().includes(currValue.toLowerCase()) ||
-        value.full_name.toLowerCase().includes(currValue.toLowerCase()) ||
-        value.email.toLowerCase().includes(currValue.toLowerCase())
+        value.full_name
+          .replace(/\s/g, '')
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .replace(/đ/g, 'd')
+          .replace(/Đ/g, 'D')
+          .toLowerCase()
+          .includes(
+            currValue
+              .replace(/\s/g, '')
+              .toLowerCase()
+              .normalize('NFD')
+              .replace(/[\u0300-\u036f]/g, '')
+              .replace(/đ/g, 'd')
+              .replace(/Đ/g, 'D')
+          ) ||
+        value.email
+          .replace(/\s/g, '')
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .replace(/đ/g, 'd')
+          .replace(/Đ/g, 'D')
+          .toLowerCase()
+          .includes(
+            currValue
+              .replace(/\s/g, '')
+              .toLowerCase()
+              .normalize('NFD')
+              .replace(/[\u0300-\u036f]/g, '')
+              .replace(/đ/g, 'd')
+              .replace(/Đ/g, 'D')
+          )
       );
     });
     setFilteredData(data);
@@ -106,7 +133,7 @@ const UsersPage = ({ history, intl }) => {
             <Input placeholder="Search" value={searchInput} onChange={handleChange} />
           </Col>
         </Row>
-        <Row>
+        <Row style={{paddingTop: 20}}>
           <UsersTable users={filteredData} getMembers={getMembers} updateMember={updateMember} />
         </Row>
       </Row>

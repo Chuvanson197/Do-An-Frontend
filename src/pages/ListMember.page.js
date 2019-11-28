@@ -77,9 +77,54 @@ const ListMemberPage = ({ history, intl }) => {
     setSearchInput(currValue);
     const data = list.filter((value) => {
       return (
-        value.staff_code.toLowerCase().includes(currValue.toLowerCase()) ||
-        value.full_name.toLowerCase().includes(currValue.toLowerCase()) ||
-        value.email.toLowerCase().includes(currValue.toLowerCase())
+        value.staff_code
+          .replace(/\s/g, '')
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .replace(/đ/g, 'd')
+          .replace(/Đ/g, 'D')
+          .toLowerCase()
+          .includes(
+            currValue
+              .replace(/\s/g, '')
+              .toLowerCase()
+              .normalize('NFD')
+              .replace(/[\u0300-\u036f]/g, '')
+              .replace(/đ/g, 'd')
+              .replace(/Đ/g, 'D')
+          ) ||
+        value.full_name
+          .replace(/\s/g, '')
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .replace(/đ/g, 'd')
+          .replace(/Đ/g, 'D')
+          .toLowerCase()
+          .includes(
+            currValue
+              .replace(/\s/g, '')
+              .toLowerCase()
+              .normalize('NFD')
+              .replace(/[\u0300-\u036f]/g, '')
+              .replace(/đ/g, 'd')
+              .replace(/Đ/g, 'D')
+          ) ||
+        value.email
+          .replace(/\s/g, '')
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .replace(/đ/g, 'd')
+          .replace(/Đ/g, 'D')
+          .toLowerCase()
+          .includes(
+            currValue
+              .replace(/\s/g, '')
+              .toLowerCase()
+              .normalize('NFD')
+              .replace(/[\u0300-\u036f]/g, '')
+              .replace(/đ/g, 'd')
+              .replace(/Đ/g, 'D')
+          )
       );
     });
     setFilteredData(data);
@@ -97,7 +142,7 @@ const ListMemberPage = ({ history, intl }) => {
           <Input placeholder="Search" value={searchInput} onChange={handleChange} />
         </Col>
       </Row>
-      <Row gutter={16}>
+      <Row gutter={16} style={{paddingTop: 20}}>
         <Members
           members={filteredData}
           getMembers={getMembers}
