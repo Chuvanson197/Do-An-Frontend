@@ -73,7 +73,6 @@ const UsersTable = ({ users, updateMember, getMembers }) => {
           columns={columns}
           rowKey={(record, index) => index}
           dataSource={users}
-          pagination={false}
         />
       </Row>
       {drawerVisible && (

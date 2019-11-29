@@ -113,16 +113,6 @@ const Members = ({ intl, members, getMembers, updateMember, removeMember }) => {
               handleEditSelected={handleEditSelected}
               record={record}
             />
-
-            {/* <Button
-              onClick={() => {
-                handleEditSelected(record);
-              }}
-              shape="circle"
-              icon="edit"
-              type="primary"
-              style={{ margin: '0px 5px' }}
-            /> */}
           </Tooltip>
         </React.Fragment>
       )
@@ -163,7 +153,6 @@ const Members = ({ intl, members, getMembers, updateMember, removeMember }) => {
         columns={columns}
         rowKey={(record, index) => index}
         dataSource={members}
-        pagination={false}
         loading={loading}
       />
       {drawerVisible && (

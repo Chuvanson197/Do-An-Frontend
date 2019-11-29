@@ -143,7 +143,6 @@ const CustomersTable = ({ intl, customers, getCustomers, removeCustomer }) => {
         columns={columns}
         rowKey={(record) => record.id}
         dataSource={customers}
-        pagination={false}
         loading={loading}
       />
       {drawerVisible && (
