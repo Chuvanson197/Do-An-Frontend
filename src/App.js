@@ -10,7 +10,6 @@ import { css } from 'emotion';
 import AppRoutes from './AppRoutes';
 import Header from './modules/layout/components/Header';
 import Sider from './modules/layout/components/Sider';
-// import Routes from './routes';
 
 const App = () => {
   const { locale } = useSelector((state) => state.languageSwitcher);

@@ -21,6 +21,7 @@
   "notification.message.form.noChanging": "Không có dữ liệu nào được thay đổi, hãy cập nhật thông tin nếu có",
   "notification.message.form.deletedCustomer": "Thông tin khách hàng đã bị xóa, vui lòng chọn lại khách hàng",
   "Network Error": "Lỗi đường truyền, vui lòng kiểm tra lại kết nối internet của bạn",
+  "Not Found": "Trang không khả dụng",
 
   "projects.status.running": "Đang thực hiện",
   "projects.status.completed": "Đã hoàn thành",

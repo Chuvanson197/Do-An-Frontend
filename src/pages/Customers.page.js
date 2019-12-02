@@ -7,6 +7,7 @@ import { Row, Button, Col, Input } from 'antd';
 
 import { actions as layoutActions } from '../modules/layout/store';
 import { actions as customerActions } from '../modules/customer/store';
+import searchColumn from '../utils/searchColumn';
 
 import HeaderTitle from '../components/Content/HeaderTitle';
 import Customers from '../modules/customer/cutomers/components/CustomersTable';
@@ -114,40 +115,7 @@ const CustomersPage = React.memo(({ history, intl }) => {
     const currValue = e.target.value;
     setSearchInput(currValue);
     const data = list.filter((value) => {
-      return (
-        value.name
-          .replace(/\s/g, '')
-          .normalize('NFD')
-          .replace(/[\u0300-\u036f]/g, '')
-          .replace(/đ/g, 'd')
-          .replace(/Đ/g, 'D')
-          .toLowerCase()
-          .includes(
-            currValue
-              .replace(/\s/g, '')
-              .toLowerCase()
-              .normalize('NFD')
-              .replace(/[\u0300-\u036f]/g, '')
-              .replace(/đ/g, 'd')
-              .replace(/Đ/g, 'D')
-          ) ||
-        value.email
-          .replace(/\s/g, '')
-          .normalize('NFD')
-          .replace(/[\u0300-\u036f]/g, '')
-          .replace(/đ/g, 'd')
-          .replace(/Đ/g, 'D')
-          .toLowerCase()
-          .includes(
-            currValue
-              .replace(/\s/g, '')
-              .toLowerCase()
-              .normalize('NFD')
-              .replace(/[\u0300-\u036f]/g, '')
-              .replace(/đ/g, 'd')
-              .replace(/Đ/g, 'D')
-          )
-      );
+      return searchColumn(currValue, value.name) || searchColumn(currValue, value.email);
     });
     setFilteredData(data);
   };
@@ -170,7 +138,7 @@ const CustomersPage = React.memo(({ history, intl }) => {
           <Input placeholder="Search" value={searchInput} onChange={handleChange} />
         </Col>
       </Row>
-      <Row style={{paddingTop: 20}}>
+      <Row style={{ paddingTop: 20 }}>
         <Customers
           customers={filteredData}
           removeCustomer={removeCustomer}

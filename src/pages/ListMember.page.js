@@ -6,6 +6,7 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 
 import { actions as layoutActions } from '../modules/layout/store';
 import { actions as memberActions } from '../modules/member/store';
+import searchColumn from '../utils/searchColumn';
 import HeaderTitle from '../components/Content/HeaderTitle';
 import ErrorNotification from '../components/Notification/Error';
 import Members from '../modules/member/listMember/components/Members';
@@ -77,54 +78,9 @@ const ListMemberPage = ({ history, intl }) => {
     setSearchInput(currValue);
     const data = list.filter((value) => {
       return (
-        value.staff_code
-          .replace(/\s/g, '')
-          .normalize('NFD')
-          .replace(/[\u0300-\u036f]/g, '')
-          .replace(/đ/g, 'd')
-          .replace(/Đ/g, 'D')
-          .toLowerCase()
-          .includes(
-            currValue
-              .replace(/\s/g, '')
-              .toLowerCase()
-              .normalize('NFD')
-              .replace(/[\u0300-\u036f]/g, '')
-              .replace(/đ/g, 'd')
-              .replace(/Đ/g, 'D')
-          ) ||
-        value.full_name
-          .replace(/\s/g, '')
-          .normalize('NFD')
-          .replace(/[\u0300-\u036f]/g, '')
-          .replace(/đ/g, 'd')
-          .replace(/Đ/g, 'D')
-          .toLowerCase()
-          .includes(
-            currValue
-              .replace(/\s/g, '')
-              .toLowerCase()
-              .normalize('NFD')
-              .replace(/[\u0300-\u036f]/g, '')
-              .replace(/đ/g, 'd')
-              .replace(/Đ/g, 'D')
-          ) ||
-        value.email
-          .replace(/\s/g, '')
-          .normalize('NFD')
-          .replace(/[\u0300-\u036f]/g, '')
-          .replace(/đ/g, 'd')
-          .replace(/Đ/g, 'D')
-          .toLowerCase()
-          .includes(
-            currValue
-              .replace(/\s/g, '')
-              .toLowerCase()
-              .normalize('NFD')
-              .replace(/[\u0300-\u036f]/g, '')
-              .replace(/đ/g, 'd')
-              .replace(/Đ/g, 'D')
-          )
+        searchColumn(currValue, value.staff_code) ||
+        searchColumn(currValue, value.full_name) ||
+        searchColumn(currValue, value.email)
       );
     });
     setFilteredData(data);
@@ -142,7 +98,7 @@ const ListMemberPage = ({ history, intl }) => {
           <Input placeholder="Search" value={searchInput} onChange={handleChange} />
         </Col>
       </Row>
-      <Row gutter={16} style={{paddingTop: 20}}>
+      <Row gutter={16} style={{ paddingTop: 20 }}>
         <Members
           members={filteredData}
           getMembers={getMembers}

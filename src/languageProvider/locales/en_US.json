@@ -21,6 +21,7 @@
   "notification.message.form.noChanging": "No data changed, please update data first",
   "notification.message.form.deletedCustomer": "This customer information has been deleted, please select another customer",
   "Network Error": "Network error, please check your internet connection",
+  "Not Found": "Page not found",
 
   "projects.status.running": "running",
   "projects.status.completed": "completed",

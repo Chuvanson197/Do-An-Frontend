@@ -81,7 +81,6 @@ const UpdateUserDrawer = ({
   const { updateMemberResult, updateMemberError, updateMemberErrors, loading } = useSelector(
     (state) => state.members
   );
-  // const usersList = useSelector((state) => state.users.list);
 
   const memberLoading = useSelector((state) => state.members.loading);
 

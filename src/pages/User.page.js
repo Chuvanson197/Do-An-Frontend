@@ -11,13 +11,14 @@ import ErrorNotification from '../components/Notification/Error';
 
 import { actions as layoutActions } from '../modules/layout/store';
 import { actions as memberActions } from '../modules/member/store';
+import searchColumn from '../utils/searchColumn';
 
 const styles = {
   container: css`
     height: 100% !important;
   `,
   table: css`
-  paddingTop: 20 !important;
+    paddingtop: 20 !important;
   `
 };
 
@@ -84,40 +85,7 @@ const UsersPage = ({ history, intl }) => {
     const currValue = e.target.value;
     setSearchInput(currValue);
     const data = list.filter((value) => {
-      return (
-        value.full_name
-          .replace(/\s/g, '')
-          .normalize('NFD')
-          .replace(/[\u0300-\u036f]/g, '')
-          .replace(/đ/g, 'd')
-          .replace(/Đ/g, 'D')
-          .toLowerCase()
-          .includes(
-            currValue
-              .replace(/\s/g, '')
-              .toLowerCase()
-              .normalize('NFD')
-              .replace(/[\u0300-\u036f]/g, '')
-              .replace(/đ/g, 'd')
-              .replace(/Đ/g, 'D')
-          ) ||
-        value.email
-          .replace(/\s/g, '')
-          .normalize('NFD')
-          .replace(/[\u0300-\u036f]/g, '')
-          .replace(/đ/g, 'd')
-          .replace(/Đ/g, 'D')
-          .toLowerCase()
-          .includes(
-            currValue
-              .replace(/\s/g, '')
-              .toLowerCase()
-              .normalize('NFD')
-              .replace(/[\u0300-\u036f]/g, '')
-              .replace(/đ/g, 'd')
-              .replace(/Đ/g, 'D')
-          )
-      );
+      return searchColumn(currValue, value.full_name) || searchColumn(currValue, value.email);
     });
     setFilteredData(data);
   };
@@ -133,7 +101,7 @@ const UsersPage = ({ history, intl }) => {
             <Input placeholder="Search" value={searchInput} onChange={handleChange} />
           </Col>
         </Row>
-        <Row style={{paddingTop: 20}}>
+        <Row style={{ paddingTop: 20 }}>
           <UsersTable users={filteredData} getMembers={getMembers} updateMember={updateMember} />
         </Row>
       </Row>
