@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { Row, Col } from 'antd';
+import { Row, Col, Input } from 'antd';
 import { FormattedMessage, injectIntl } from 'react-intl';
 
 import { actions as layoutActions } from '../modules/layout/store';
 import { actions as memberActions } from '../modules/member/store';
+import searchColumn from '../utils/searchColumn';
 import HeaderTitle from '../components/Content/HeaderTitle';
 import ErrorNotification from '../components/Notification/Error';
 import Members from '../modules/member/listMember/components/Members';
@@ -18,27 +19,21 @@ const propTypes = {
 
 const defaultProps = {};
 
-// const styles = {
-//   addMemberButton: css`
-//     margin-left: 15px;
-//     background: #49a32b !important;
-//     color: #fff !important;
-//   `
-// };
-
 const ListMemberPage = ({ history, intl }) => {
   const dispatch = useDispatch();
   const [openCreateModal, setOpenCreateModal] = useState(false);
+  const [searchInput, setSearchInput] = useState('');
   const { list, getMembersError, getMembersErrors } = useSelector((state) => state.members);
+  const [filteredData, setFilteredData] = useState([]);
 
   useEffect(() => {
     dispatch(layoutActions.selectItem(['member']));
-  }, [dispatch]);
+    setFilteredData(list);
+  }, [dispatch, list]);
 
   useEffect(() => {
     dispatch(memberActions.getMembers({ path: 'members' }));
   }, [dispatch]);
-
 
   useEffect(() => {
     if (getMembersError) {
@@ -78,6 +73,19 @@ const ListMemberPage = ({ history, intl }) => {
     [dispatch]
   );
 
+  const handleChange = (e) => {
+    const currValue = e.target.value;
+    setSearchInput(currValue);
+    const data = list.filter((value) => {
+      return (
+        searchColumn(currValue, value.staff_code) ||
+        searchColumn(currValue, value.full_name) ||
+        searchColumn(currValue, value.email)
+      );
+    });
+    setFilteredData(data);
+  };
+
   return (
     <React.Fragment>
       <Row>
@@ -85,17 +93,14 @@ const ListMemberPage = ({ history, intl }) => {
           <HeaderTitle title={<FormattedMessage id="members.header.title" />} />
         </Col>
       </Row>
-      {/* <Row style={{ marginBottom: 15 }}>
-        <Button
-          icon="user-add"
-          className={styles.addMemberButton}
-          onClick={() => setOpenCreateModal(!openCreateModal)}>
-          <FormattedMessage id="members.memberTable.buttonAdd.title" />
-        </Button>
-      </Row> */}
-      <Row gutter={16}>
+      <Row justify="center">
+        <Col span={10} offset={14}>
+          <Input placeholder="Search" value={searchInput} onChange={handleChange} />
+        </Col>
+      </Row>
+      <Row gutter={16} style={{ paddingTop: 20 }}>
         <Members
-          members={list}
+          members={filteredData}
           getMembers={getMembers}
           updateMember={updateMember}
           removeMember={removeMember}

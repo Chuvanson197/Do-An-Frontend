@@ -95,14 +95,6 @@ const Members = ({ intl, members, getMembers, updateMember, removeMember }) => {
               removeMember={removeMember}
               record={record}
             />
-
-            {/* <Popconfirm
-              title={<FormattedMessage id="members.confirm.delete" />}
-              onConfirm={() => removeMember && removeMember(record)}
-              okText={<FormattedMessage id="members.button.confirm.yes" />}
-              cancelText={<FormattedMessage id="members.button.confirm.no" />}>
-              <Button shape="circle" icon="delete" type="danger" style={{ margin: '0px 5px' }} />
-            </Popconfirm> */}
           </Tooltip>
           <Tooltip
             placement="top"
@@ -113,16 +105,6 @@ const Members = ({ intl, members, getMembers, updateMember, removeMember }) => {
               handleEditSelected={handleEditSelected}
               record={record}
             />
-
-            {/* <Button
-              onClick={() => {
-                handleEditSelected(record);
-              }}
-              shape="circle"
-              icon="edit"
-              type="primary"
-              style={{ margin: '0px 5px' }}
-            /> */}
           </Tooltip>
         </React.Fragment>
       )
@@ -163,7 +145,6 @@ const Members = ({ intl, members, getMembers, updateMember, removeMember }) => {
         columns={columns}
         rowKey={(record, index) => index}
         dataSource={members}
-        pagination={false}
         loading={loading}
       />
       {drawerVisible && (

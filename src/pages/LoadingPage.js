@@ -4,6 +4,7 @@ import { SyncLoader } from 'react-spinners';
 import { css } from '@emotion/core';
 import jwtDecode from 'jwt-decode';
 import Cookies from 'js-cookie';
+import { Row } from 'antd';
 
 import { dispatchHideLayout, dispatchShowLayout } from '../actions/layout';
 import { dispatchLogin } from '../actions/auth';
@@ -36,7 +37,7 @@ function LoadingPage(props) {
   `;
 
   return (
-    <div
+    <Row
       style={{
         backgroundColor: '#fff',
         width: '100vw',
@@ -49,7 +50,7 @@ function LoadingPage(props) {
       }}>
       <h2 style={{ color: '#747CDD', marginRight: 10 }}>Loading</h2>
       <SyncLoader css={override} sizeUnit="px" size={10} color="#747CDD" />
-    </div>
+    </Row>
   );
 }
 

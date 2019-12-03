@@ -14,53 +14,14 @@ import ListMemberPage from './pages/ListMember.page';
 import Customerpage from './pages/Customers.page';
 import NotFound from './pages/NotFound';
 import CallbackOAuth from './pages/CallbackOAuth';
-
 import UsersPage from './pages/User.page';
-
-// export default [
-//   {
-//     component: Dashboard,
-//     exact: true,
-//     path: '/'
-//   },
-//   {
-//     component: ProjectPage,
-//     exact: false,
-//     path: '/project/list'
-//   },
-//   {
-//     component: ProjectDetail,
-//     exact: false,
-//     path: '/project/detail/:id'
-//   },
-//   {
-//     component: ProjectMemberHistory,
-//     exact: false,
-//     path: '/project/memberHistory/:id'
-//   },
-//   {
-//     component: LoginPage,
-//     exact: false,
-//     path: '/login'
-//   },
-//   {
-//     component: Customerpage,
-//     exact: false,
-//     path: '/customers'
-//   },
-//   {
-//     component: ListMemberPage,
-//     exact: false,
-//     path: '/member/list'
-//   }
-// ];
 
 function AppRoutes() {
   return (
     <Switch>
       <Route component={LoginPage} path="/login"></Route>
       <Route component={CallbackOAuth} path="/callback" />
-      {/* dashboard */}
+
       <RouteWithAdmin component={Dashboard} path="/" exact></RouteWithAdmin>
       <RouteWithAdmin component={UsersPage} path="/admin/roles"></RouteWithAdmin>
 
@@ -72,8 +33,6 @@ function AppRoutes() {
       <RouteWithManager component={Customerpage} path="/customers" exact></RouteWithManager>
 
       <RouteWithManager component={ListMemberPage} path="/member/list" exact></RouteWithManager>
-
-      {/* <RouteWithManager component={ListMemberPage} path="/users" exact></RouteWithManager> */}
 
       <RouteNormal component={NotFound} />
     </Switch>

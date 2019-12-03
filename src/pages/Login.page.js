@@ -5,32 +5,7 @@ import { Icon } from 'antd';
 import '../assets/styles/login.scss';
 import { dispatchHideLayout } from '../actions/layout';
 
-// import { Row, Typography, Icon } from 'antd';
-// import { FormattedMessage } from 'react-intl';
-// import { css } from 'emotion';
-
-// import LoginForm from '../modules/auth/login/components/Login';
-// import LanguageSwitcher from '../modules/languageSwitcher/components/LanguagaSwitcher';
-
-// const styles = {
-//   loginContainer: css`
-//     min-height: 100vh;
-//     align-items: center;
-//     flex-direction: column;
-//   `,
-//   loginHeading: css`
-//     position: fixed;
-//     top: 15px;
-//     right: 15px;
-//   `,
-//   jokeIcon: css`
-//     font-size: 20px;
-//     margin-left: 10px;
-//   `
-// };
-
 const LoginPage = (props) => {
-  // const layout = useSelector((state) => state.layout);
   const dispatch = useDispatch();
 
   useEffect(() => {

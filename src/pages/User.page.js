@@ -1,9 +1,9 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import { css } from 'emotion';
-import { Row } from 'antd';
+import { Row, Col, Input } from 'antd';
 
 import HeaderTitle from '../components/Content/HeaderTitle';
 import UsersTable from '../modules/user/users/components/UsersTable';
@@ -11,15 +11,14 @@ import ErrorNotification from '../components/Notification/Error';
 
 import { actions as layoutActions } from '../modules/layout/store';
 import { actions as memberActions } from '../modules/member/store';
+import searchColumn from '../utils/searchColumn';
 
 const styles = {
   container: css`
     height: 100% !important;
   `,
-  addCustomerButton: css`
-    background: #49a32b !important;
-    color: #fff !important;
-    margin-bottom: 10px;
+  table: css`
+    paddingtop: 20 !important;
   `
 };
 
@@ -36,6 +35,8 @@ const UsersPage = ({ history, intl }) => {
   // selector
   const { list, getMembersError, getMembersErrors } = useSelector((state) => state.members);
 
+  const [searchInput, setSearchInput] = useState('');
+  const [filteredData, setFilteredData] = useState([]);
   // get users function
   useEffect(() => {
     dispatch(
@@ -44,6 +45,10 @@ const UsersPage = ({ history, intl }) => {
       })
     );
   }, [dispatch]);
+
+  useEffect(() => {
+    setFilteredData(list);
+  }, [list]);
 
   const getMembers = useCallback(() => {
     dispatch(
@@ -76,14 +81,28 @@ const UsersPage = ({ history, intl }) => {
     dispatch(layoutActions.selectItem(['roles']));
   }, [dispatch]);
 
+  const handleChange = (e) => {
+    const currValue = e.target.value;
+    setSearchInput(currValue);
+    const data = list.filter((value) => {
+      return searchColumn(currValue, value.full_name) || searchColumn(currValue, value.email);
+    });
+    setFilteredData(data);
+  };
+
   return (
     <React.Fragment>
       <Row className={styles.container}>
         <Row>
-          <HeaderTitle title={intl.formatMessage({ id: 'users.header.title' })} />
+          <Col>
+            <HeaderTitle title={intl.formatMessage({ id: 'users.header.title' })} />
+          </Col>
+          <Col span={10} offset={14}>
+            <Input placeholder="Search" value={searchInput} onChange={handleChange} />
+          </Col>
         </Row>
-        <Row>
-          <UsersTable users={list} getMembers={getMembers} updateMember={updateMember} />
+        <Row style={{ paddingTop: 20 }}>
+          <UsersTable users={filteredData} getMembers={getMembers} updateMember={updateMember} />
         </Row>
       </Row>
     </React.Fragment>

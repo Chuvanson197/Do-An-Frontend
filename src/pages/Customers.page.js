@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import { css } from 'emotion';
-import { Row, Button } from 'antd';
+import { Row, Button, Col, Input } from 'antd';
 
 import { actions as layoutActions } from '../modules/layout/store';
 import { actions as customerActions } from '../modules/customer/store';
+import searchColumn from '../utils/searchColumn';
 
 import HeaderTitle from '../components/Content/HeaderTitle';
 import Customers from '../modules/customer/cutomers/components/CustomersTable';
@@ -48,6 +49,8 @@ const CustomersPage = React.memo(({ history, intl }) => {
 
   // state
   const [visible, setVisible] = useState(false);
+  const [searchInput, setSearchInput] = useState('');
+  const [filteredData, setFilteredData] = useState([]);
 
   // get customers function
   const getCustomers = useCallback(() => {
@@ -86,6 +89,10 @@ const CustomersPage = React.memo(({ history, intl }) => {
     getCustomers();
   }, [dispatch, getCustomers]);
 
+  useEffect(() => {
+    setFilteredData(list);
+  }, [list]);
+
   // show notification if get customers list failure
   useEffect(() => {
     if (getCustomersError) {
@@ -104,19 +111,39 @@ const CustomersPage = React.memo(({ history, intl }) => {
     setVisible(!visible);
   };
 
+  const handleChange = (e) => {
+    const currValue = e.target.value;
+    setSearchInput(currValue);
+    const data = list.filter((value) => {
+      return searchColumn(currValue, value.name) || searchColumn(currValue, value.email);
+    });
+    setFilteredData(data);
+  };
+
   return (
     <Row className={styles.container}>
       <Row>
         <HeaderTitle title={intl.formatMessage({ id: 'customers.header.title' })} />
       </Row>
       <Row>
-        <WithRole
-          type={['admin']}
-          component={ButtonCreateCustomer}
-          handleCreateModal={handleCreateModal}
-          intl={intl}
+        <Col>
+          <WithRole
+            type={['admin']}
+            component={ButtonCreateCustomer}
+            handleCreateModal={handleCreateModal}
+            intl={intl}
+          />
+        </Col>
+        <Col span={10} offset={14}>
+          <Input placeholder="Search" value={searchInput} onChange={handleChange} />
+        </Col>
+      </Row>
+      <Row style={{ paddingTop: 20 }}>
+        <Customers
+          customers={filteredData}
+          removeCustomer={removeCustomer}
+          getCustomers={getCustomers}
         />
-        <Customers customers={list} removeCustomer={removeCustomer} getCustomers={getCustomers} />
       </Row>
       {visible && (
         <CreateModal
