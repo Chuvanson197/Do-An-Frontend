@@ -30,14 +30,9 @@ const styles = {
   `
 };
 
-const ButtonAdd = () => {
-  const [visible, setVisible] = useState(false);
-
+const ButtonAdd = ({ handleCreateModal }) => {
   return (
-    <Button
-      icon="folder-add"
-      className={styles.addCustomerButton}
-      onClick={() => setVisible(!visible)}>
+    <Button icon="folder-add" className={styles.addCustomerButton} onClick={handleCreateModal}>
       <FormattedMessage id="button.add" />
     </Button>
   );
@@ -98,10 +93,13 @@ const ProjectsPage = ({ history, intl }) => {
     },
     [dispatch]
   );
+  const handleCreateModal = () => {
+    setVisible(!visible);
+  };
   return (
     <React.Fragment>
       <HeaderTitle title={<FormattedMessage id="projects.getProjects.title" />} />
-      <WithRole type={['admin']} component={ButtonAdd} />
+      <WithRole type={['admin']} component={ButtonAdd} handleCreateModal={handleCreateModal} />
       <Row gutter={16}>
         <Col span={12}>
           <Tabs defaultActiveKey="1">
