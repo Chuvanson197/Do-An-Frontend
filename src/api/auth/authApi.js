@@ -2,7 +2,11 @@ import axios from 'axios';
 
 const login = async (accessCode) => {
   let userLogin = await axios.post(
+<<<<<<< HEAD
     `${process.env.REACT_APP_API}/auth/login`,
+=======
+    'http://localhost:8081/api/auth/login',
+>>>>>>> fix port
     { accessCode },
     { withCredentials: true }
   );
@@ -10,7 +14,11 @@ const login = async (accessCode) => {
 };
 
 const refreshLogin = async () => {
+<<<<<<< HEAD
   let userLogin = await axios.get(`${process.env.REACT_APP_API}/auth/refreshLogin`, {
+=======
+  let userLogin = await axios.get('http://localhost:8081/api/auth/refreshLogin', {
+>>>>>>> fix port
     withCredentials: true
   });
   return userLogin;
