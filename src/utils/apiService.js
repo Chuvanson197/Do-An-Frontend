@@ -12,7 +12,7 @@ const refreshToken = async () => {
   if (expresIn && parseInt(expresIn) < now.getTime()) {
     authApi.refreshToken().then((res) => {
       if (res.data.statusCode !== 400) {
-        Cookies.set('access-token', res.data.access_token, { secure: false });
+        Cookies.set('access-token', res.data.access_token, { secure: false, path: '/' });
       }
     });
   }
