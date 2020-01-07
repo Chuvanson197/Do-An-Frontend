@@ -5,7 +5,7 @@ import LoadingPage from '../pages/LoadingPage';
 
 function RouteNormal({ component: Component, ...rest }) {
   const user = useSelector((state) => state.auth);
-  const checkAuth = user.user.type;
+  const checkAuth = user.isLogin;
   return (
     <>
       {checkAuth ? (
