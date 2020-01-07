@@ -1,4 +1,4 @@
-const apiUrl = 'http://45.118.144.98:8089//api';
+const apiUrl = 'http://localhost:2999/api';
 
 export const Env = {
   apiUrl
