@@ -15,6 +15,7 @@ const LoginPage = (props) => {
   const redirectLoginGoogle = () => {
     window.location.href =
       'http://auth.impl.vn/oauth/authorize?client_id=14&response_type=code&scope=user-info';
+
   };
 
   return (

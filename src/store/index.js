@@ -7,6 +7,8 @@ import { reducer as languageSwitcherReducer } from '../modules/languageSwitcher/
 import { reducer as projectsReducer } from '../modules/project/store';
 import { reducer as customersReducer } from '../modules/customer/store';
 import { reducer as membersReducer } from '../modules/member/store';
+import { reducer as settingReducer } from '../modules/setting/store';
+
 import { layoutReducer } from '../reducers/layoutReducer';
 import { authReducer } from '../reducers/authReducer';
 
@@ -23,6 +25,7 @@ export const rootReducer = combineReducers({
   projects: projectsReducer,
   customers: customersReducer,
   members: membersReducer,
+  setting: settingReducer
 });
 
 const store = configureStore({

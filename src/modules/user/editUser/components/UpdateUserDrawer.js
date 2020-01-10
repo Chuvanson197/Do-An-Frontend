@@ -148,6 +148,7 @@ const UpdateUserDrawer = ({
           return ErrorNotification(title, message);
         }
         updateMember && updateMember(body);
+        window.location.reload();
       } else {
         // showing error form input notification
         const title = intl.formatMessage({ id: 'notification.error' });
