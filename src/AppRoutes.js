@@ -15,6 +15,8 @@ import Customerpage from './pages/Customers.page';
 import NotFound from './pages/NotFound';
 import CallbackOAuth from './pages/CallbackOAuth';
 import UsersPage from './pages/User.page';
+import SettingPage from './pages/Setting.page';
+
 
 function AppRoutes() {
   return (
@@ -24,6 +26,8 @@ function AppRoutes() {
 
       <RouteWithAdmin component={Dashboard} path="/" exact></RouteWithAdmin>
       <RouteWithAdmin component={UsersPage} path="/admin/roles"></RouteWithAdmin>
+      <RouteWithAdmin component={SettingPage} path="/admin/setting"></RouteWithAdmin>
+
 
 
       <RouteNormal component={ProjectPage} path="/project" exact></RouteNormal>
