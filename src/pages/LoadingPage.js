@@ -17,17 +17,18 @@ function LoadingPage(props) {
 
     authApi.refreshLogin().then((userLogin) => {
       if (userLogin.data.statusCode === 400) {
-        Cookies.remove('access-token');
+        Cookies.remove('access-token', { path: '/' });
         props.history.push('/login');
       } else {
         const userInfo = jwtDecode(userLogin.data.access_token);
         localStorage.setItem('expresIn', userInfo.exp * 1000);
-        Cookies.set('access-token', userLogin.data.access_token, { secure: false });
+        Cookies.set('access-token', userLogin.data.access_token, { secure: false, path: '/' });
         dispatchShowLayout(dispatch);
+        console.log(userInfo);
         dispatchLogin(dispatch, { ...userInfo });
       }
     });
-  // eslint-disable-next-line react/destructuring-assignment
+    // eslint-disable-next-line react/destructuring-assignment
   }, [dispatch, props.location.search, props.history]);
 
   const override = css`

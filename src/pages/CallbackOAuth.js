@@ -20,13 +20,13 @@ function CallbackOAuth(props) {
       authApi.login(accessCode[1]).then((userLogin) => {
         const userInfo = jwtDecode(userLogin.data.access_token);
         localStorage.setItem('expresIn', userInfo.exp * 1000);
-        Cookies.set('access-token', userLogin.data.access_token, { secure: false });
+        Cookies.set('access-token', userLogin.data.access_token, { secure: false, path: '/' });
         dispatchShowLayout(dispatch);
         dispatchLogin(dispatch, { ...userInfo, role: 'normal' });
         props.history.push('/project');
       });
     }
-  // eslint-disable-next-line react/destructuring-assignment
+    // eslint-disable-next-line react/destructuring-assignment
   }, [dispatch, props.location.search, props.history]);
 
   const override = css`
