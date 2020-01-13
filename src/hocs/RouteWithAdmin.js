@@ -5,7 +5,7 @@ import LoadingPage from '../pages/LoadingPage';
 
 function RouteWithAdmin({ component: Component, ...rest }) {
   const user = useSelector((state) => state.auth);
-  const checkAuth = user.user.type;
+  const checkAuth = user.isLogin;
   const checkRole = user.user.type === 'admin';
   const renderRoute = (props) => {
     if (checkRole) {

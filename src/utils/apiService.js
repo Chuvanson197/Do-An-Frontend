@@ -10,17 +10,16 @@ const refreshToken = async () => {
   let expresIn = localStorage.getItem('expresIn');
   let now = new Date();
   if (expresIn && parseInt(expresIn) < now.getTime()) {
-    authApi.refreshToken().then((res) => {
-      if (res.data.statusCode !== 400) {
-        Cookies.set('access-token', res.data.access_token, { secure: false });
-      }
-    });
+    let res = await authApi.refreshToken();
+    if (res.data.statusCode !== 400) {
+      Cookies.set('access-token', res.data.access_token, { secure: false, path: '/' });
+    }
   }
 };
 
-const apiGet = (payload) => {
+const apiGet = async (payload) => {
   const option = payload && payload.option ? payload.option : {};
-  refreshToken();
+  await refreshToken();
   return axios
     .get(
       payload && payload.param
@@ -35,10 +34,10 @@ const apiGet = (payload) => {
     .then((res) => res.data);
 };
 
-const apiPost = (payload) => {
+const apiPost = async (payload) => {
   const body = payload && payload.body ? payload.body : {};
   const option = payload && payload.option ? payload.option : {};
-  refreshToken();
+  await refreshToken();
   return axios
     .post(
       payload.param
@@ -54,10 +53,10 @@ const apiPost = (payload) => {
     .then((res) => res.data);
 };
 
-const apiPut = (payload) => {
+const apiPut = async (payload) => {
   const body = payload && payload.body ? payload.body : {};
   const option = payload && payload.option ? payload.option : {};
-  refreshToken();
+  await refreshToken();
   return axios
     .put(
       payload.param
@@ -73,9 +72,9 @@ const apiPut = (payload) => {
     .then((res) => res.data);
 };
 
-const apiDelete = (payload) => {
+const apiDelete = async (payload) => {
   const option = payload && payload.option ? payload.option : {};
-  refreshToken();
+  await refreshToken();
   return axios
     .delete(
       payload.param
