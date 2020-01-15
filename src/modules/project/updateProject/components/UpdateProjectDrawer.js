@@ -45,12 +45,17 @@ const defaultProps = {
 };
 
 const styles = {
+  drawerBody: css`
+    padding: 0px 0px 56px 0px !important;
+  `,
   drawerFooter: css`
     position: absolute;
     bottom: 0;
     right: 24px;
     left: 24px;
     padding: 24px 0px;
+    background-color: #ffffff;
+    border-top: '1px solid #e8e8e8';
   `,
   deletedCustomerMsg: css`
     color: red !important;
@@ -143,34 +148,31 @@ const UpdateProjectDrawer = ({
   const handleSubmit = () => {
     form.validateFields((err, values) => {
       if (!err) {
+        //anphan 1/10/2020 clone new customField from values to compare  with project.customField
+        const customField = [];
+        let indexCustomField = 3;
+        do {
+          customField.push({
+            idInfoCustomField: project.customField[indexCustomField - 3].idInfoCustomField,
+            value: Object.values(values)[indexCustomField]
+          });
+          indexCustomField++;
+        } while (Object.keys(values)[indexCustomField] !== 'customer_id');
         const body = {
           customer_id: values.customer_id,
           name: values.name,
           status: values.status,
           start_time: parseInt(moment(values.estimated[0]).format('x'), 10),
-          end_time: parseInt(moment(values.estimated[1]).format('x'), 10)
+          end_time: parseInt(moment(values.estimated[1]).format('x'), 10),
+          customField: customField
         };
-
-        const oldBody = {
-          customer_id: project.customer.id,
-          name: project.name,
-          status: project.status,
-          start_time: parseInt(project.start_time, 10),
-          end_time: parseInt(project.end_time, 10)
-        };
-        // check if value is not change
-        if (JSON.stringify(body) === JSON.stringify(oldBody)) {
-          const title = intl.formatMessage({ id: 'notification.error' });
-          const message = intl.formatMessage({ id: 'notification.message.form.noChanging' });
-          return ErrorNotification(title, message);
-        }
-
         if (customerDetail.hidden) {
           const title = intl.formatMessage({ id: 'notification.error' });
           const message = intl.formatMessage({ id: 'notification.message.form.deletedCustomer' });
           return ErrorNotification(title, message);
         }
-        updateProject && updateProject(body);
+        body.customField = customField;
+        updateProject(body);
       } else {
         // showing error form input notification
         const title = intl.formatMessage({ id: 'notification.error' });
@@ -198,7 +200,7 @@ const UpdateProjectDrawer = ({
       visible={drawerVisible}
       maskClosable={false}
       width={550}>
-      <Form onSubmit={() => handleSubmit()} {...formItemLayout}>
+      <Form className={styles.drawerBody} onSubmit={() => handleSubmit()} {...formItemLayout}>
         <Row style={{ marginBottom: 10 }}>
           <Icon type="project" style={{ marginRight: 10 }} />
           <Typography.Text style={{ fontWeight: 'bold' }}>
@@ -273,6 +275,31 @@ const UpdateProjectDrawer = ({
             />
           )}
         </Form.Item>
+        <Row style={{ marginBottom: 10, marginLeft: '24px' }}>
+          <Typography.Text style={{ fontWeight: 'bold' }}>
+            <FormattedMessage id="projects.createProject.descriptions" />
+          </Typography.Text>
+        </Row>
+        {project
+          ? project.customField.map((obj) => (
+              <Form.Item
+                key={obj.idInfoCustomField}
+                style={{ display: 'flex' }}
+                label={obj.name}
+                validateStatus={form.getFieldError(obj.name) ? 'error' : 'validating'}>
+                {form.getFieldDecorator(obj.name, {
+                  rules: [
+                    {
+                      required: obj.require,
+                      message:
+                        obj.name + intl.formatMessage({ id: 'projects.createProject.required' })
+                    }
+                  ],
+                  initialValue: obj.value
+                })(<Input />)}
+              </Form.Item>
+            ))
+          : null}
 
         <Row style={{ marginBottom: 10 }}>
           <Icon type="user" style={{ marginRight: 10 }} />
@@ -309,7 +336,6 @@ const UpdateProjectDrawer = ({
             </Select>
           )}
         </Form.Item>
-
         <Row>
           <Col span={8}></Col>
           <Col span={16}>

@@ -51,6 +51,8 @@
   "projects.createProject.confirm.add": "Add new project?",
   "projects.createProject.message.error": "Create new project information failure!",
   "projects.createProject.message.success": "Create new project information successful!",
+  "projects.createProject.descriptions": "Descriptions",
+  "projects.createProject.required": " is required",
 
   "projects.detail.title": "Project detail",
   "projects.detail.customer": "Customer",

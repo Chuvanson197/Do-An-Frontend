@@ -302,24 +302,48 @@ const ProjectDetail = ({
     <React.Fragment>
       <Row style={{ marginBottom: 75 }}>
         <Skeleton active loading={loading} paragraph={{ rows: 4 }}>
-          <Descriptions title={project && project.name ? project.name : ''} column={1}>
-            <Descriptions.Item label={<FormattedMessage id="projects.detail.customer" />}>
-              {project && project.customer ? project.customer.name : ''}
-            </Descriptions.Item>
-            <Descriptions.Item label={<FormattedMessage id="projects.detail.totalMember" />}>
-              {joinedMembers && joinedMembers.total ? joinedMembers.total : 0}
-            </Descriptions.Item>
-            <Descriptions.Item label={<FormattedMessage id="projects.detail.start_time" />}>
-              {project && project.start_time
-                ? moment(parseInt(project.start_time, 10)).format('DD/MM/YYYY')
-                : ''}
-            </Descriptions.Item>
-            <Descriptions.Item label={<FormattedMessage id="projects.detail.end_time" />}>
-              {project && project.end_time
-                ? moment(parseInt(project.end_time, 10)).format('DD/MM/YYYY')
-                : ''}
-            </Descriptions.Item>
-          </Descriptions>
+          <Row>
+            <Col span={12}>
+              <Descriptions title={project && project.name ? project.name : ''} column={1}>
+                <Descriptions.Item label={<FormattedMessage id="projects.detail.customer" />}>
+                  {project && project.customer ? project.customer.name : ''}
+                </Descriptions.Item>
+                <Descriptions.Item label={<FormattedMessage id="projects.detail.totalMember" />}>
+                  {joinedMembers && joinedMembers.total ? joinedMembers.total : 0}
+                </Descriptions.Item>
+                <Descriptions.Item label={<FormattedMessage id="projects.detail.start_time" />}>
+                  {project && project.start_time
+                    ? moment(parseInt(project.start_time, 10)).format('DD/MM/YYYY')
+                    : ''}
+                </Descriptions.Item>
+                <Descriptions.Item label={<FormattedMessage id="projects.detail.end_time" />}>
+                  {project && project.end_time
+                    ? moment(parseInt(project.end_time, 10)).format('DD/MM/YYYY')
+                    : ''}
+                </Descriptions.Item>
+              </Descriptions>
+            </Col>
+            <Col span={12}>
+              <Typography.Text
+                style={{
+                  fontWeight: 'normal',
+                  display: 'block',
+                  marginBottom: '20px',
+                  fontSize: '16px'
+                }}>
+                <FormattedMessage id="projects.createProject.descriptions" />
+              </Typography.Text>
+              <Descriptions column={1}>
+                {project
+                  ? project.customField.map((obj) => (
+                      <Descriptions.Item key={obj.idInfoCustomField} label={obj.name}>
+                        {obj && obj.value ? obj.value : ''}
+                      </Descriptions.Item>
+                    ))
+                  : null}
+              </Descriptions>
+            </Col>
+          </Row>
         </Skeleton>
 
         <Row>
