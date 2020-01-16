@@ -1,15 +1,28 @@
-import axios from 'axios'
-import api from '../../utils/api';
+import axios from 'axios';
 import { Env } from '../../utils/environment';
 
-const login = accessCode =>
-  api.post(`${Env.apiUrl}/auth/login`, { accessCode })
+const login = async (accessCode) => {
+  let userLogin = await axios.post(
+    `${Env.apiUrl}/auth/login`,
+    { accessCode },
+    { withCredentials: true }
+  );
+  return userLogin;
+};
 
-const refreshLogin = () =>
-  api.get(`${Env.apiUrl}/auth/refreshLogin`)
+const refreshLogin = async () => {
+  let userLogin = await axios.get(`${Env.apiUrl}/auth/refreshLogin`, {
+    withCredentials: true
+  });
+  return userLogin;
+};
 
-const refreshToken = () =>
-  axios.get(`${Env.apiUrl}/auth/refreshToken`, { withCredentials: true })
+const refreshToken = async () => {
+  let refreshToken = await axios.get(`${Env.apiUrl}/auth/refreshToken`, {
+    withCredentials: true
+  });
+  return refreshToken;
+};
 
 export const authApi = {
   login,
