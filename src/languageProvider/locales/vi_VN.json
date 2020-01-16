@@ -51,7 +51,9 @@
   "projects.createProject.confirm.add": "Thêm mới thông tin dự án?",
   "projects.createProject.message.error": "Thêm mới thông tin dự án thất bại",
   "projects.createProject.message.success": "Thêm mới thông tin dự án thành công",
-  
+  "projects.createProject.descriptions": "Mô tả",
+  "projects.createProject.required": " không được để trống!",
+
   "projects.detail.title": "Thông tin chi tiết dự án",
   "projects.detail.customer": "Khách hàng",
   "projects.detail.totalMember": "Số thành viên",
