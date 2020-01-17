@@ -29,8 +29,6 @@ const propTypes = {
     visible: PropTypes.bool.isRequired,
     form: formShape.isRequired,
 
-    customfield: PropTypes.func.isRequired,
-    getCustomField: PropTypes.func.isRequired,
     updateCustomField: PropTypes.func.isRequired,
     removeAssigneeProject: PropTypes.func.isRequired,
     createAssigneeProject: PropTypes.func.isRequired
