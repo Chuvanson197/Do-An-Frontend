@@ -116,7 +116,7 @@ const UpdateUserDrawer = ({
   }, [dispatch, intl, updateMemberError, updateMemberErrors]);
 
   const handleSubmit = () => {
-    form.validateFields((err, values) => {
+    form.validateFields(async(err, values) => {
       if (!err) {
         const body = {
           staff_code: userChange.staff_code,
@@ -147,8 +147,7 @@ const UpdateUserDrawer = ({
           const message = intl.formatMessage({ id: 'notification.message.form.deletedUser' });
           return ErrorNotification(title, message);
         }
-        updateMember && updateMember(body);
-        window.location.reload();
+        updateMember &&  updateMember(body);
       } else {
         // showing error form input notification
         const title = intl.formatMessage({ id: 'notification.error' });

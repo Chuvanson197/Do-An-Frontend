@@ -101,15 +101,13 @@ const SettingForm = ({ intl, form }) => {
     [dispatch]
   );
 
-  const removeAssigneeProject = useCallback(
-    (body) =>{
+  const removeAssigneeProject = (body) =>{
       dispatch(settingActions.removeAssigneeProject({body, path:`customFields/${body.idCustomField}/assigneeProject`}))
-    },
-    [dispatch]
-  )
-
+    };
+  
   const updateCustomField = useCallback(
     (body) => {
+      console.log(body)
       dispatch(settingActions.updateCustomField({ body, path: 'customFields', param: body.id }));
     },
     [dispatch]

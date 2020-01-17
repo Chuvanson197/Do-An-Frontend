@@ -185,7 +185,7 @@ const UpdateCustomFieldDrawer = ({
 
 
     const handleSubmit = () => {
-        form.validateFields((err, values) => {
+        form.validateFields(async(err, values) => {
             if (!err) {
                 const body = {
                     id: customfield.id,
@@ -215,7 +215,10 @@ const UpdateCustomFieldDrawer = ({
                     }
                     removeAssigneeProject && removeAssigneeProject(bodyRemoveAssignee)
                     createAssigneeProject && createAssigneeProject(bodyCreateAssignee);
-                    updateCustomField && updateCustomField(body);
+                    updateCustomField(body);
+                    setTimeout(()=>{
+                        window.location.reload()
+                    },0)
 
                 }
 
