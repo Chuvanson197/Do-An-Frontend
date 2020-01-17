@@ -4,7 +4,6 @@ import { Icon } from 'antd';
 
 import '../assets/styles/login.scss';
 import { dispatchHideLayout } from '../actions/layout';
-import AUTH_URL from '../config'
 
 const LoginPage = (props) => {
   const dispatch = useDispatch();
@@ -14,7 +13,7 @@ const LoginPage = (props) => {
   }, [dispatch]);
 
   const redirectLoginGoogle = () => {
-    window.location.href ='http://auth.impl.vn/oauth/authorize?client_id=14&response_type=code&scope=user-info';
+    window.location.href ='http://auth.impl.vn/oauth/authorize?client_id=15&response_type=code&scope=user-info';
   };
 
   return (

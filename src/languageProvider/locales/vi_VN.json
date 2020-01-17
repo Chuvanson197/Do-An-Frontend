@@ -262,6 +262,7 @@
   "setting.header.title": "Cài đặt hệ thống",
   "setting.header.projectTitle": "Cài đặt dự án",
   "setting.header.customfeild": " Thêm mô tả cho dự án",
+  "setting.project.drawerUpdate.tile": "Cập nhật thông tin mô tả dự án",
   "setting.lable.feildName": "Tên field",
   "setting.lable.feildName.validate": "Tên field là bắt buộc",
   "setting.placeholder.feildName": "Nhập tên feild",
@@ -273,6 +274,9 @@
   "setting.placeholder.feildProjects": "Chọn tên dự án",
   "setting.options.true": "Bắt buộc",
   "setting.options.false": "Không bắt buộc",
+  "updateCustomFieldResult.message":"Cập nhật thông tin mô tả dự án thành công",
+  "removeCustomFieldResult.message":"Xoá thông tin mô tả dự án thành công",
+
   
   "languageSwitcher.vi": "Tiếng Việt",
   "languageSwitcher.en": "Tiếng Anh"

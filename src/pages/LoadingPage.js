@@ -24,7 +24,6 @@ function LoadingPage(props) {
         localStorage.setItem('expresIn', userInfo.exp * 1000);
         Cookies.set('access-token', userLogin.data.access_token, { secure: false, path: '/' });
         dispatchShowLayout(dispatch);
-        console.log(userInfo);
         dispatchLogin(dispatch, { ...userInfo });
       }
     });

@@ -274,6 +274,7 @@
   "setting.header.title": "System setting",
   "setting.header.projectTitle": "Project setting",
   "setting.header.customfeild": "Custom Field Setting ",
+  "setting.project.drawerUpdate.tile": "CustomField Update Information",
   "setting.lable.feildName": "Feild name",
   "setting.lable.feildName.validate": "Feild name is required",
   "setting.placeholder.feildName": "Please feild name input",
@@ -285,6 +286,10 @@
   "setting.placeholder.feildProjects": "Select assignee",
   "setting.options.true": "Require",
   "setting.options.false": "Unrequire",
+  "updateCustomFieldResult.message":"Update customfield information successful",
+  "removeCustomFieldResult.message":"Delete customfield information successful",
+
+  
 
   "languageSwitcher.vi": "Vietnamese",
   "languageSwitcher.en": "English"

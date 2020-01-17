@@ -6,6 +6,31 @@ const apiActions = [
     stateName: 'createCustomFieldResult',
     method: 'POST'
   },
+  {
+    actionName: 'getCustomFields',
+    stateName: 'customfields',
+    method: 'GET'
+  },
+  {
+    actionName: 'removeCustomField',
+    stateName: 'removeCustomFieldResult',
+    method: 'DELETE'
+  },
+  {
+    actionName: 'updateCustomField',
+    stateName: 'updateCustomFieldResult',
+    method: 'PUT'
+  },
+  {
+    actionName: 'createAssigneeProject',
+    stateName: 'createAssigneeProjectResult',
+    method: 'POST'
+  },
+  {
+    actionName: 'removeAssigneeProject',
+    stateName: 'removeAssigneeProjectResult',
+    method: 'DELETE'
+  },
 ];
 
 const reducerActions = [
@@ -16,7 +41,14 @@ const reducerActions = [
 ];
 
 const defaultState = {
+  customfields: [],
+  customfield: null,
   createCustomFieldResult: null,
+  removeCustomFieldResult: null,
+  getCustomFieldResult: null,
+  updateCustomFieldResult: null,
+  createAssigneeProjectResult: null,
+  removeAssigneeProjectResult: null
 };
 
 const store = createResourceHandler('setting', apiActions, reducerActions, defaultState);

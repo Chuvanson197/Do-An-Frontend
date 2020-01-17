@@ -73,14 +73,17 @@ const apiPut = async (payload) => {
 };
 
 const apiDelete = async (payload) => {
+  const body = payload && payload.body ? payload.body : {};
   const option = payload && payload.option ? payload.option : {};
+  console.log(body)
   await refreshToken();
   return axios
     .delete(
       payload.param
         ? `${Env.apiUrl}/${payload.path}/${payload.param}`
         : `${Env.apiUrl}/${payload.path}`,
-      {
+        {
+          data:body,
         ...option,
         headers: getHeaders(),
         withCredentials: true
