@@ -286,6 +286,7 @@
   "setting.placeholder.feildProjects": "Select assignee",
   "setting.options.true": "Require",
   "setting.options.false": "Unrequire",
+  "createCustomFieldResult.message":"Create customfield information successful",
   "updateCustomFieldResult.message":"Update customfield information successful",
   "removeCustomFieldResult.message":"Delete customfield information successful",
 

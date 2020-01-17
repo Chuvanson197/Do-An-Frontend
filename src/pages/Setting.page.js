@@ -15,7 +15,7 @@ import {
 } from 'antd';
 import { css } from 'emotion';
 
-import searchColumn from '../utils/searchColumn';
+// import searchColumn from '../utils/searchColumn';
 import HeaderTitle from '../components/Content/HeaderTitle';
 import FormCreateCustomField from '../modules/setting/createCustomField/CreateCustomField'
 import TableCustomFields from '../modules/setting/tableCustomFields/TableCustomFields';
@@ -40,7 +40,7 @@ const defaultProps = {};
 
 const ButtonCreateCustomField = ({ handleCreateModal, intl }) => {
   return (
-    <Button icon="user-add" className={styles.addCustomFieldButton} onClick={handleCreateModal}>
+    <Button icon="project" className={styles.addCustomFieldButton} onClick={handleCreateModal}>
       {intl.formatMessage({ id: 'button.add' })}
     </Button>
   );
@@ -49,10 +49,10 @@ const ButtonCreateCustomField = ({ handleCreateModal, intl }) => {
 const SettingForm = ({ intl, form }) => {
   const { customfields } = useSelector((state) => state.setting);
   const customfieldsArr = customfields.listCustomField;
-  const [filteredData, setFilteredData] = useState(customfieldsArr);
+  // const [filteredData, setFilteredData] = useState(customfields.listCustomField);
   const [searchInput, setSearchInput] = useState('');
   const [visible, setVisible] = useState(false);
-
+  
   const dispatch = useDispatch();
 
   // get projects list
@@ -118,10 +118,10 @@ const SettingForm = ({ intl, form }) => {
   const handleChange = (e) => {
     const currValue = e.target.value;
     setSearchInput(currValue);
-    const data = customfields.listCustomField.filter((value) => {
-      return searchColumn(currValue, value.name);
-    });
-    setFilteredData(data);
+    // const data = customfields.listCustomField.filter((value) => {
+    //   return searchColumn(currValue, value.name);
+    // });
+    // setFilteredData(data);
   };
 
   const handleCreateModal = () => {

@@ -274,6 +274,7 @@
   "setting.placeholder.feildProjects": "Chọn tên dự án",
   "setting.options.true": "Bắt buộc",
   "setting.options.false": "Không bắt buộc",
+  "createCustomFieldResult.message":"Thêm mới thông tin mô tả dự án thành công",
   "updateCustomFieldResult.message":"Cập nhật thông tin mô tả dự án thành công",
   "removeCustomFieldResult.message":"Xoá thông tin mô tả dự án thành công",
 

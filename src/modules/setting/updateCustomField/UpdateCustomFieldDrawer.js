@@ -22,8 +22,6 @@ import {
 
 import ErrorNotification from '../../../components/Notification/Error';
 import SuccessNotification from '../../../components/Notification/Success';
-// import { roles } from '../../../../utils/roles';
-// import { actions as projectActions } from '../store';
 
 const propTypes = {
     intl: PropTypes.shape({}).isRequired,
@@ -31,9 +29,11 @@ const propTypes = {
     visible: PropTypes.bool.isRequired,
     form: formShape.isRequired,
 
-    // getProject: PropTypes.func.isRequired,
-    // getJoinedMembers: PropTypes.func.isRequired,
-    // updateMember: PropTypes.func.isRequired
+    customfield: PropTypes.func.isRequired,
+    getCustomField: PropTypes.func.isRequired,
+    updateCustomField: PropTypes.func.isRequired,
+    removeAssigneeProject: PropTypes.func.isRequired,
+    createAssigneeProject: PropTypes.func.isRequired
 };
 
 const defaultProps = {};

@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { css } from 'emotion';
 import { FormattedMessage } from 'react-intl';
+import { formShape } from 'rc-form';
 import {
     Form,
     Select,
@@ -24,6 +25,11 @@ import modalConfig from '../../../utils/modal.config';
 
 
 const propTypes = {
+    form: formShape.isRequired,
+    intl: PropTypes.shape({}).isRequired,
+    createCustomField: PropTypes.func.isRequired,
+    visible: PropTypes.bool.isRequired,
+    close: PropTypes.func.isRequired,
 };
 
 const defaultProps = {};
@@ -41,7 +47,7 @@ const CreateCustomField = ({ form, intl, createCustomField, visible, close, getC
         (state) => state.projects
     );
 
-    const {createCustomFieldResult} = useSelector(
+    const { createCustomFieldResult } = useSelector(
         (state) => state.setting
     )
 
@@ -60,19 +66,19 @@ const CreateCustomField = ({ form, intl, createCustomField, visible, close, getC
         });
     };
 
-     // Handle showing notification after add new customfield
+    // Handle showing notification after add new customfield
     useEffect(() => {
-    // show success notification
-    if (createCustomFieldResult) {
-      const title = intl.formatMessage({ id: 'notification.success' });
-      const message = intl.formatMessage({ id: 'createCustomFieldResult.message' });
-      SuccessNotification(title, message);
-      // close the modal and clean data
-      close();
-      // re-call get all customfields api
-      getCutomField && getCutomField();
-    }
-  }, [close, intl, createCustomFieldResult, getCutomField]);
+        // show success notification
+        if (createCustomFieldResult) {
+            const title = intl.formatMessage({ id: 'notification.success' });
+            const message = intl.formatMessage({ id: 'createCustomFieldResult.message' });
+            SuccessNotification(title, message);
+            // close the modal and clean data
+            close();
+            // re-call get all customfields api
+            getCutomField && getCutomField();
+        }
+    }, [close, intl, createCustomFieldResult, getCutomField]);
 
     const formItemLayout = {
         labelCol: { span: 6 },
@@ -92,8 +98,8 @@ const CreateCustomField = ({ form, intl, createCustomField, visible, close, getC
                         onConfirm={() => handleSubmit()}
                         okText={<FormattedMessage id="button.confirm.yes" />}
                         cancelText={<FormattedMessage id="button.confirm.no" />}>
-                            <Button className={styles.buttonSubmit} loading={loading}>
-                                Submit
+                        <Button className={styles.buttonSubmit} loading={loading}>
+                            Submit
                             </Button>
                     </Popconfirm>
                     <Button

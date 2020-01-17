@@ -4,7 +4,6 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import { Table, Tooltip, Popconfirm, Button, Tag } from 'antd';
 import PropTypes from 'prop-types';
 
-// import EditMember from '../../editMember/components/EditMember';
 import { actions as settingActions } from '../store';
 import SuccessNotification from '../../../components/Notification/Success';
 import ErrorNotification from '../../../components/Notification/Error';
@@ -13,11 +12,12 @@ import UpdateCustomFieldDrawer from '../updateCustomField/UpdateCustomFieldDrawe
 
 const propTypes = {
   intl: PropTypes.shape({}).isRequired,
-  //   customfields: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 
-  //   getMembers: PropTypes.func.isRequired,
-  //   updateMember: PropTypes.func.isRequired,
-  //   removeMember: PropTypes.func.isRequired
+  updateCustomField: PropTypes.func.isRequired,
+  removeCustomField: PropTypes.func.isRequired,
+  getCustomField: PropTypes.func.isRequired,
+  removeAssigneeProject: PropTypes.func.isRequired,
+  createAssigneeProject: PropTypes.func.isRequired
 };
 
 const defaultProps = {};
@@ -46,11 +46,18 @@ const ButtonDeleteCustomField = ({ removeCustomField, record }) => {
     </Popconfirm>
   );
 };
-const TableCustomFields = ({ intl, customfields, updateCustomField, removeCustomField, getCustomField , removeAssigneeProject, createAssigneeProject}) => {
+const TableCustomFields = ({ intl,
+  customfields,
+  updateCustomField,
+  removeCustomField,
+  getCustomField,
+  removeAssigneeProject,
+  createAssigneeProject
+}) => {
   const dispatch = useDispatch();
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [dataItem, setDataItem] = useState({});
-  const { loading,  removeCustomFieldError, removeCustomFieldErrors, removeCustomFieldResult} = useSelector(
+  const { loading, removeCustomFieldError, removeCustomFieldErrors, removeCustomFieldResult } = useSelector(
     (state) => state.setting
   );
 
@@ -80,12 +87,6 @@ const TableCustomFields = ({ intl, customfields, updateCustomField, removeCustom
         )
       }
     },
-    // {
-    //     title: <FormattedMessage id="setting.lable.feildOptions" />,
-    //     dataIndex: 'infocustomField',
-    //     key: 'infocustomField'
-    //   },
-
     {
       title: '',
       dataIndex: '',
@@ -118,33 +119,33 @@ const TableCustomFields = ({ intl, customfields, updateCustomField, removeCustom
     }
   ];
 
-    useEffect(() => {
-      if (removeCustomFieldResult) {
-        // show success notification
-        const title = intl.formatMessage({ id: 'notification.success' });
-        const message = intl.formatMessage({ id: 'removeCustomFieldResult.message' });
-        SuccessNotification(title, message);
-        // clean data
-        dispatch(settingActions.removeCustomFieldCleanData());
-        // re-call get Members list
-        getCustomField && getCustomField();
-      }
-    }, [removeCustomFieldResult, intl, getCustomField, dispatch]);
+  useEffect(() => {
+    if (removeCustomFieldResult) {
+      // show success notification
+      const title = intl.formatMessage({ id: 'notification.success' });
+      const message = intl.formatMessage({ id: 'removeCustomFieldResult.message' });
+      SuccessNotification(title, message);
+      // clean data
+      dispatch(settingActions.removeCustomFieldCleanData());
+      // re-call get Members list
+      getCustomField && getCustomField();
+    }
+  }, [removeCustomFieldResult, intl, getCustomField, dispatch]);
 
-    useEffect(() => {
-      if (removeCustomFieldError) {
-        // show error notification
-        const title = intl.formatMessage({ id: 'notification.error' });
-        const message = intl.formatMessage({
-          id: removeCustomFieldErrors.message
-            ? removeCustomFieldErrors.message
-            : 'members.removeCustomField.message.error'
-        });
-        ErrorNotification(title, message);
-        // clean error
-        dispatch(settingActions.removeCustomFieldCleanError(false));
-      }
-    }, [intl, removeCustomFieldError, removeCustomFieldErrors, dispatch]);
+  useEffect(() => {
+    if (removeCustomFieldError) {
+      // show error notification
+      const title = intl.formatMessage({ id: 'notification.error' });
+      const message = intl.formatMessage({
+        id: removeCustomFieldErrors.message
+          ? removeCustomFieldErrors.message
+          : 'members.removeCustomField.message.error'
+      });
+      ErrorNotification(title, message);
+      // clean error
+      dispatch(settingActions.removeCustomFieldCleanError(false));
+    }
+  }, [intl, removeCustomFieldError, removeCustomFieldErrors, dispatch]);
 
   return (
     <React.Fragment>
