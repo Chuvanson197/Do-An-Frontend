@@ -13,7 +13,7 @@ const LoginPage = (props) => {
   }, [dispatch]);
 
   const redirectLoginGoogle = () => {
-    window.location.href =process.env.REACT_APP_AUTH;
+    window.location.href = process.env.REACT_APP_AUTH;
   };
 
   return (
