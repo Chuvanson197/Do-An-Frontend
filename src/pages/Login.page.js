@@ -13,7 +13,7 @@ const LoginPage = (props) => {
   }, [dispatch]);
 
   const redirectLoginGoogle = () => {
-    window.location.href ='http://auth.impl.vn/oauth/authorize?client_id=15&response_type=code&scope=user-info';
+    window.location.href =process.env.REACT_APP_AUTH;
   };
 
   return (
