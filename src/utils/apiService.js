@@ -73,6 +73,7 @@ const apiPut = async (payload) => {
 };
 
 const apiDelete = async (payload) => {
+  const body = payload && payload.body ? payload.body : {};
   const option = payload && payload.option ? payload.option : {};
   await refreshToken();
   return axios
@@ -80,7 +81,8 @@ const apiDelete = async (payload) => {
       payload.param
         ? `${Env.apiUrl}/${payload.path}/${payload.param}`
         : `${Env.apiUrl}/${payload.path}`,
-      {
+        {
+          data:body,
         ...option,
         headers: getHeaders(),
         withCredentials: true

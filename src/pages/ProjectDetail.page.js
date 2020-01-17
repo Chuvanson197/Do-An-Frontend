@@ -67,6 +67,7 @@ const ProjectDetailPage = ({ match, history, intl }) => {
     removeProjectErrors,
     loading
   } = useSelector((state) => state.projects);
+  
 
   const getProject = useCallback(() => {
     dispatch(

@@ -258,6 +258,28 @@
   "users.drawerUpdate.userInformation": "Thông tin thành viên",
   "users.updateUser.message.error": "Cập nhật thông tin thành viên thất bại",
   "users.updateUser.message.success": "Cập nhật thông tin thành viên thành công",
+
+  "setting.title": "Cài đặt",
+
+  "setting.header.title": "Cài đặt hệ thống",
+  "setting.header.projectTitle": "Cài đặt dự án",
+  "setting.header.customfeild": " Thêm mô tả cho dự án",
+  "setting.project.drawerUpdate.tile": "Cập nhật thông tin mô tả dự án",
+  "setting.lable.feildName": "Tên field",
+  "setting.lable.feildName.validate": "Tên field là bắt buộc",
+  "setting.placeholder.feildName": "Nhập tên feild",
+  "setting.lable.feildOptions": "Field này là bắt buộc",
+  "setting.lable.feildOptions.validate": "Tuỳ chọn là bắt buộc",
+  "setting.placeholder.feildOptions": "Nhập tên tùy chọn",
+  "setting.lable.feildProjects": "Dự án",
+  "setting.lable.feildprojects.validate": "Dự án là bắt buộc",
+  "setting.placeholder.feildProjects": "Chọn tên dự án",
+  "setting.options.true": "Bắt buộc",
+  "setting.options.false": "Không bắt buộc",
+  "createCustomFieldResult.message":"Thêm mới thông tin mô tả dự án thành công",
+  "updateCustomFieldResult.message":"Cập nhật thông tin mô tả dự án thành công",
+  "removeCustomFieldResult.message":"Xoá thông tin mô tả dự án thành công",
+
   
   "languageSwitcher.vi": "Tiếng Việt",
   "languageSwitcher.en": "Tiếng Anh"

@@ -78,6 +78,13 @@ const Sider = () => {
               typeIcon="user"
               message="users.title"
               type={['admin']}/>
+              <WithRole
+              component={CustomMenu}
+              key="setting"
+              to="/admin/setting"
+              typeIcon="setting"
+              message="setting.title"
+              type={['admin']}/>
           </Menu>
         </Layout.Sider>
       )}
