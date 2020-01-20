@@ -68,7 +68,8 @@ const UpdateCustomFieldDrawer = ({
     createAssigneeProject
 }) => {
     const dispatch = useDispatch();
-    const { updateCustomFieldResult,
+    const {
+        updateCustomFieldResult,
         updateCustomFieldError,
         updateCustomFieldErrors,
         loading, removeAssigneeProjectResult,
@@ -185,7 +186,7 @@ const UpdateCustomFieldDrawer = ({
 
 
     const handleSubmit = () => {
-        form.validateFields(async(err, values) => {
+        form.validateFields(async (err, values) => {
             if (!err) {
                 const body = {
                     id: customfield.id,
@@ -213,12 +214,12 @@ const UpdateCustomFieldDrawer = ({
                         idCustomField: customfield.id,
                         projects: arrRemove
                     }
-                    removeAssigneeProject && removeAssigneeProject(bodyRemoveAssignee)
+                    removeAssigneeProject && removeAssigneeProject(bodyRemoveAssignee);
                     createAssigneeProject && createAssigneeProject(bodyCreateAssignee);
                     updateCustomField(body);
-                    setTimeout(()=>{
+                    setTimeout(() => {
                         window.location.reload()
-                    },0)
+                    }, 0)
 
                 }
 
