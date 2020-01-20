@@ -24,7 +24,7 @@ const ListMemberPage = ({ history, intl }) => {
   const [openCreateModal, setOpenCreateModal] = useState(false);
   const [searchInput, setSearchInput] = useState('');
   const { list, getMembersError, getMembersErrors } = useSelector((state) => state.members);
-  const [filteredData, setFilteredData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);  
 
   useEffect(() => {
     dispatch(layoutActions.selectItem(['member']));

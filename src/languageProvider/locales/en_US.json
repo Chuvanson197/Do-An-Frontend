@@ -291,6 +291,10 @@
   "createCustomFieldResult.message":"Create customfield information successful",
   "updateCustomFieldResult.message":"Update customfield information successful",
   "removeCustomFieldResult.message":"Delete customfield information successful",
+  "setting.updateCustomField.confirm": "Update this customfield ?",
+  "setting.createCustomField.title":"Create customfield",
+  "setting.createCustomField.confirm":"Create this customfield ?",
+  "setting.deleteCustomField.confirm":"Delete this customfield ?",
 
   
 

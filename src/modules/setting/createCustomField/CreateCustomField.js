@@ -42,10 +42,12 @@ const styles = {
     margin-bottom: 10px;
   `
 };
-const CreateCustomField = ({ form, intl, createCustomField, visible, close, getCutomField }) => {
+const CreateCustomField = ({ form, intl, createCustomField, visible, close, getCustomField }) => {
+    
     const { list, loading } = useSelector(
         (state) => state.projects
     );
+
 
     const { createCustomFieldResult } = useSelector(
         (state) => state.setting
@@ -56,7 +58,10 @@ const CreateCustomField = ({ form, intl, createCustomField, visible, close, getC
             if (!err) {
                 // call api when valid data
                 createCustomField && createCustomField(values);
-                form.resetFields();
+                // form.resetFields();
+                setTimeout(()=>{
+                    window.location.reload()
+                },0)
             } else {
                 // showing error form input notification
                 const title = intl.formatMessage({ id: 'notification.error' });
@@ -76,9 +81,9 @@ const CreateCustomField = ({ form, intl, createCustomField, visible, close, getC
             // close the modal and clean data
             close();
             // re-call get all customfields api
-            getCutomField && getCutomField();
+            getCustomField && getCustomField();
         }
-    }, [close, intl, createCustomFieldResult, getCutomField]);
+    }, [close, intl, createCustomFieldResult, getCustomField]);
 
     const formItemLayout = {
         labelCol: { span: 6 },
@@ -86,7 +91,7 @@ const CreateCustomField = ({ form, intl, createCustomField, visible, close, getC
     };
     return (
         <Modal
-            title={<FormattedMessage id="customers.customerModal.headerCreateCustomer.title" />}
+            title={<FormattedMessage id="setting.createCustomField.title" />}
             visible={visible}
             width={550}
             className={styles.modal}
@@ -94,13 +99,13 @@ const CreateCustomField = ({ form, intl, createCustomField, visible, close, getC
             footer={[
                 <Row type="flex" key="abc" justify="end">
                     <Popconfirm
-                        title={<FormattedMessage id="customers.createCustomers.confirm.create" />}
+                        title={<FormattedMessage id="setting.createCustomField.confirm" />}
                         onConfirm={() => handleSubmit()}
                         okText={<FormattedMessage id="button.confirm.yes" />}
                         cancelText={<FormattedMessage id="button.confirm.no" />}>
                         <Button className={styles.buttonSubmit} loading={loading}>
-                            Submit
-                            </Button>
+                            <FormattedMessage id="button.add"/>
+                        </Button>
                     </Popconfirm>
                     <Button
                         icon="close-circle"

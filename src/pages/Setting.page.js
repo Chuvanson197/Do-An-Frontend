@@ -15,7 +15,7 @@ import {
 } from 'antd';
 import { css } from 'emotion';
 
-// import searchColumn from '../utils/searchColumn';
+import searchColumn from '../utils/searchColumn';
 import HeaderTitle from '../components/Content/HeaderTitle';
 import FormCreateCustomField from '../modules/setting/createCustomField/CreateCustomField'
 import TableCustomFields from '../modules/setting/tableCustomFields/TableCustomFields';
@@ -48,16 +48,21 @@ const ButtonCreateCustomField = ({ handleCreateModal, intl }) => {
 
 const SettingForm = ({ intl, form }) => {
   const { customfields } = useSelector((state) => state.setting);
-  const customfieldsArr = customfields.listCustomField;
-  // const [filteredData, setFilteredData] = useState(customfields.listCustomField);
+  const { listCustomField } = customfields;
+  const [filteredData, setFilteredData] = useState([]);
   const [searchInput, setSearchInput] = useState('');
   const [visible, setVisible] = useState(false);
-  
+
   const dispatch = useDispatch();
+
+
+  useEffect(() => {
+    dispatch(actions.selectItem(['setting']));
+    setFilteredData(listCustomField)
+  }, [dispatch, listCustomField]);
 
   // get projects list
   useEffect(() => {
-    dispatch(actions.selectItem(['setting']));
     dispatch(
       projectActions.getProjects({
         path: 'projects'
@@ -95,19 +100,18 @@ const SettingForm = ({ intl, form }) => {
   );
 
   const createAssigneeProject = useCallback(
-    (body) =>{
-      dispatch(settingActions.createAssigneeProject({body, path:`customFields/${body.idCustomField}/assigneeProject`}))
+    (body) => {
+      dispatch(settingActions.createAssigneeProject({ body, path: `customFields/${body.idCustomField}/assigneeProject` }))
     },
     [dispatch]
   );
 
-  const removeAssigneeProject = (body) =>{
-      dispatch(settingActions.removeAssigneeProject({body, path:`customFields/${body.idCustomField}/assigneeProject`}))
-    };
-  
+  const removeAssigneeProject = (body) => {
+    dispatch(settingActions.removeAssigneeProject({ body, path: `customFields/${body.idCustomField}/assigneeProject` }))
+  };
+
   const updateCustomField = useCallback(
     (body) => {
-      console.log(body)
       dispatch(settingActions.updateCustomField({ body, path: 'customFields', param: body.id }));
     },
     [dispatch]
@@ -116,10 +120,10 @@ const SettingForm = ({ intl, form }) => {
   const handleChange = (e) => {
     const currValue = e.target.value;
     setSearchInput(currValue);
-    // const data = customfields.listCustomField.filter((value) => {
-    //   return searchColumn(currValue, value.name);
-    // });
-    // setFilteredData(data);
+    const data = customfields.listCustomField.filter((value) => {
+      return searchColumn(currValue, value.name);
+    });
+    setFilteredData(data);
   };
 
   const handleCreateModal = () => {
@@ -149,14 +153,15 @@ const SettingForm = ({ intl, form }) => {
         <FormCreateCustomField
           visible={visible}
           close={() => setVisible(!visible)}
-          form={form} intl={intl}
+          form={form}
+          intl={intl}
           createCustomField={createCustomField}
           getCustomField={getCustomField}
         />
       )}
 
       <TableCustomFields
-        customfields={customfieldsArr}
+        customfields={filteredData}
         removeCustomField={removeCustomField}
         getCustomField={getCustomField}
         updateCustomField={updateCustomField}

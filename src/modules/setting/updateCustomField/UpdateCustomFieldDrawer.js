@@ -68,7 +68,8 @@ const UpdateCustomFieldDrawer = ({
     createAssigneeProject
 }) => {
     const dispatch = useDispatch();
-    const { updateCustomFieldResult,
+    const {
+        updateCustomFieldResult,
         updateCustomFieldError,
         updateCustomFieldErrors,
         loading, removeAssigneeProjectResult,
@@ -185,7 +186,7 @@ const UpdateCustomFieldDrawer = ({
 
 
     const handleSubmit = () => {
-        form.validateFields(async(err, values) => {
+        form.validateFields(async (err, values) => {
             if (!err) {
                 const body = {
                     id: customfield.id,
@@ -213,12 +214,12 @@ const UpdateCustomFieldDrawer = ({
                         idCustomField: customfield.id,
                         projects: arrRemove
                     }
-                    removeAssigneeProject && removeAssigneeProject(bodyRemoveAssignee)
+                    removeAssigneeProject && removeAssigneeProject(bodyRemoveAssignee);
                     createAssigneeProject && createAssigneeProject(bodyCreateAssignee);
                     updateCustomField(body);
-                    setTimeout(()=>{
+                    setTimeout(() => {
                         window.location.reload()
-                    },0)
+                    }, 0)
 
                 }
 
@@ -313,7 +314,7 @@ const UpdateCustomFieldDrawer = ({
                 </Form.Item>
                 <Row className={styles.drawerFooter}>
                     <Popconfirm
-                        title={<FormattedMessage id="projects.updateMember.confirm.add" />}
+                        title={<FormattedMessage id="setting.updateCustomField.confirm" />}
                         onConfirm={() => handleSubmit()}
                         okText={<FormattedMessage id="button.confirm.yes" />}
                         cancelText={<FormattedMessage id="button.confirm.no" />}>
