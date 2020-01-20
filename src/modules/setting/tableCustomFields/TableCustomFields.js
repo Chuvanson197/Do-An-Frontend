@@ -38,10 +38,10 @@ const ButtonEditCustomField = ({ handleEditSelected, record }) => {
 const ButtonDeleteCustomField = ({ removeCustomField, record }) => {
   return (
     <Popconfirm
-      title={<FormattedMessage id="members.confirm.delete" />}
+      title={<FormattedMessage id="setting.deleteCustomField.confirm" />}
       onConfirm={() => removeCustomField && removeCustomField(record)}
-      okText={<FormattedMessage id="members.button.confirm.yes" />}
-      cancelText={<FormattedMessage id="members.button.confirm.no" />}>
+      okText={<FormattedMessage id="button.confirm.yes" />}
+      cancelText={<FormattedMessage id="button.confirm.no" />}>
       <Button shape="circle" icon="delete" type="danger" style={{ margin: '0px 5px' }} />
     </Popconfirm>
   );
@@ -146,6 +146,8 @@ const TableCustomFields = ({ intl,
       dispatch(settingActions.removeCustomFieldCleanError(false));
     }
   }, [intl, removeCustomFieldError, removeCustomFieldErrors, dispatch]);
+
+
 
   return (
     <React.Fragment>

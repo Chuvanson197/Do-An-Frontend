@@ -313,7 +313,7 @@ const UpdateCustomFieldDrawer = ({
                 </Form.Item>
                 <Row className={styles.drawerFooter}>
                     <Popconfirm
-                        title={<FormattedMessage id="projects.updateMember.confirm.add" />}
+                        title={<FormattedMessage id="setting.updateCustomField.confirm" />}
                         onConfirm={() => handleSubmit()}
                         okText={<FormattedMessage id="button.confirm.yes" />}
                         cancelText={<FormattedMessage id="button.confirm.no" />}>

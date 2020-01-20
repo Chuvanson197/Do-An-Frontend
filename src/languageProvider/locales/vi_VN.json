@@ -279,8 +279,12 @@
   "createCustomFieldResult.message":"Thêm mới thông tin mô tả dự án thành công",
   "updateCustomFieldResult.message":"Cập nhật thông tin mô tả dự án thành công",
   "removeCustomFieldResult.message":"Xoá thông tin mô tả dự án thành công",
+  "setting.updateCustomField.confirm": "Cập nhật thông tin cho mô tả này ?",
+  "setting.createCustomField.title":"Thêm mới thông tin",
+  "setting.createCustomField.confirm":"Thêm thông tin mô tả cho các dự án này ?",
+  "setting.deleteCustomField.confirm":"Xoá thông tin mô tả này ?",
 
-  
+
   "languageSwitcher.vi": "Tiếng Việt",
   "languageSwitcher.en": "Tiếng Anh"
 }
