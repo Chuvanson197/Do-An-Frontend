@@ -2,8 +2,6 @@ import axios from 'axios';
 import { authApi } from '../api/auth/authApi';
 import Cookies from 'js-cookie';
 
-import { Env } from './environment';
-
 const getHeaders = () => ({});
 
 const refreshToken = async () => {
@@ -23,8 +21,8 @@ const apiGet = async (payload) => {
   return axios
     .get(
       payload && payload.param
-        ? `${Env.apiUrl}/${payload.path}/${payload.param}`
-        : `${Env.apiUrl}/${payload.path}`,
+        ? `${process.env.REACT_APP_API}/${payload.path}/${payload.param}`
+        : `${process.env.REACT_APP_API}/${payload.path}`,
       {
         ...option,
         headers: getHeaders(),
@@ -41,8 +39,8 @@ const apiPost = async (payload) => {
   return axios
     .post(
       payload.param
-        ? `${Env.apiUrl}/${payload.path}/${payload.param}`
-        : `${Env.apiUrl}/${payload.path}`,
+        ? `${process.env.REACT_APP_API}/${payload.path}/${payload.param}`
+        : `${process.env.REACT_APP_API}/${payload.path}`,
       body,
       {
         ...option,
@@ -60,8 +58,8 @@ const apiPut = async (payload) => {
   return axios
     .put(
       payload.param
-        ? `${Env.apiUrl}/${payload.path}/${payload.param}`
-        : `${Env.apiUrl}/${payload.path}`,
+        ? `${process.env.REACT_APP_API}/${payload.path}/${payload.param}`
+        : `${process.env.REACT_APP_API}/${payload.path}`,
       body,
       {
         ...option,
@@ -79,10 +77,10 @@ const apiDelete = async (payload) => {
   return axios
     .delete(
       payload.param
-        ? `${Env.apiUrl}/${payload.path}/${payload.param}`
-        : `${Env.apiUrl}/${payload.path}`,
-        {
-          data:body,
+        ? `${process.env.REACT_APP_API}/${payload.path}/${payload.param}`
+        : `${process.env.REACT_APP_API}/${payload.path}`,
+      {
+        data: body,
         ...option,
         headers: getHeaders(),
         withCredentials: true

@@ -1,9 +1,8 @@
 import axios from 'axios';
-import { Env } from '../../utils/environment';
 
 const login = async (accessCode) => {
   let userLogin = await axios.post(
-    `${Env.apiUrl}/auth/login`,
+    `${process.env.REACT_APP_API}/auth/login`,
     { accessCode },
     { withCredentials: true }
   );
@@ -11,14 +10,14 @@ const login = async (accessCode) => {
 };
 
 const refreshLogin = async () => {
-  let userLogin = await axios.get(`${Env.apiUrl}/auth/refreshLogin`, {
+  let userLogin = await axios.get(`${process.env.REACT_APP_API}/auth/refreshLogin`, {
     withCredentials: true
   });
   return userLogin;
 };
 
 const refreshToken = async () => {
-  let refreshToken = await axios.get(`${Env.apiUrl}/auth/refreshToken`, {
+  let refreshToken = await axios.get(`${process.env.REACT_APP_API}/auth/refreshToken`, {
     withCredentials: true
   });
   return refreshToken;
