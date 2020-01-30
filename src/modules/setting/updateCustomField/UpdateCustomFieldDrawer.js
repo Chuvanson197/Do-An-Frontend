@@ -62,10 +62,11 @@ const UpdateCustomFieldDrawer = ({
     visible,
     form,
     customfield,
-    getCustomField,
+    getCustomFields,
     updateCustomField,
     removeAssigneeProject,
-    createAssigneeProject
+    createAssigneeProject,
+    getProjects
 }) => {
     const dispatch = useDispatch();
     const {
@@ -88,11 +89,12 @@ const UpdateCustomFieldDrawer = ({
 
 
     useEffect(() => {
+        getProjects && getProjects();
         return () => {
             dispatch(settingActions.updateCustomFieldCleanError());
             dispatch(settingActions.updateCustomFieldCleanData(false));
         };
-    }, [dispatch]);
+    }, [dispatch, getProjects]);
 
     // Handle showing notification after update project
     useEffect(() => {
@@ -104,9 +106,9 @@ const UpdateCustomFieldDrawer = ({
             // close the modal and clean state
             onClose();
             // re-call get project detail api
-            getCustomField && getCustomField();
+            getCustomFields && getCustomFields();
         }
-    }, [onClose, intl, updateCustomFieldResult, getCustomField]);
+    }, [onClose, intl, updateCustomFieldResult, getCustomFields]);
 
     useEffect(() => {
         // show error notification
@@ -135,9 +137,9 @@ const UpdateCustomFieldDrawer = ({
             // close the modal and clean state
             onClose();
             // re-call get project detail api
-            getCustomField && getCustomField();
+            getCustomFields && getCustomFields();
         }
-    }, [onClose, intl, removeAssigneeProjectResult, getCustomField]);
+    }, [onClose, intl, removeAssigneeProjectResult, getCustomFields]);
 
     useEffect(() => {
         // show error notification
@@ -165,9 +167,9 @@ const UpdateCustomFieldDrawer = ({
             // close the modal and clean state
             onClose();
             // re-call get project detail api
-            getCustomField && getCustomField();
+            getCustomFields && getCustomFields();
         }
-    }, [onClose, intl, createAssigneeProjectResult, getCustomField]);
+    }, [onClose, intl, createAssigneeProjectResult, getCustomFields]);
 
     useEffect(() => {
         // show error notification
@@ -287,9 +289,7 @@ const UpdateCustomFieldDrawer = ({
                             }
                             onSelect={value => {
                                 if (arrRemove.includes(value)) {
-                                    setArrRemove(arrRemove.filter(removed => removed !== value
-
-                                    ))
+                                    setArrRemove(arrRemove.filter(removed => removed !== value))
                                 } else {
                                     setArrCreate([...arrCreate, value])
                                 }

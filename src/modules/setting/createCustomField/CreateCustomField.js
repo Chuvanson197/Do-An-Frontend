@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { css } from 'emotion';
 import { FormattedMessage } from 'react-intl';
@@ -17,6 +17,8 @@ import {
     Modal,
     Popconfirm
 } from 'antd';
+import { actions as settingActions } from '../store';
+
 import ErrorNotification from '../../../components/Notification/Error';
 import SuccessNotification from '..//../../components/Notification/Success';
 
@@ -42,20 +44,30 @@ const styles = {
     margin-bottom: 10px;
   `
 };
-const CreateCustomField = ({ form, intl, createCustomField, visible, close, getCustomField }) => {
+const CreateCustomField = ({ form, intl, createCustomField, visible, close, getCustomFields, getProjects }) => {
+
+    const dispatch = useDispatch();
     
     const { list, loading } = useSelector(
         (state) => state.projects
     );
 
 
-    const { createCustomFieldResult } = useSelector(
+    const { createCustomFieldResult, createCustomFieldError, createCustomFieldErrors } = useSelector(
         (state) => state.setting
     )
+
+  // Get all projects after open modal
+  useEffect(() => {
+    getProjects && getProjects();
+    dispatch(settingActions.createCustomFieldCleanData());
+    dispatch(settingActions.createCustomFieldCleanError());
+  }, [getProjects, dispatch]);
 
     const handleSubmit = () => {
         form.validateFields((err, values) => {
             if (!err) {
+                console.log(values);
                 // call api when valid data
                 createCustomField && createCustomField(values);
                 // form.resetFields();
@@ -81,9 +93,24 @@ const CreateCustomField = ({ form, intl, createCustomField, visible, close, getC
             // close the modal and clean data
             close();
             // re-call get all customfields api
-            getCustomField && getCustomField();
+            getCustomFields && getCustomFields();
         }
-    }, [close, intl, createCustomFieldResult, getCustomField]);
+    }, [close, intl, createCustomFieldResult, getCustomFields]);
+
+    useEffect(() => {
+        // show error notification
+        if (createCustomFieldError) {
+          const title = intl.formatMessage({ id: 'notification.error' });
+          const message = intl.formatMessage({
+            id: createCustomFieldErrors.message
+              ? createCustomFieldError.message
+              : 'setting.createCustomField.message.error'
+          });
+          ErrorNotification(title, message);
+          // clean error
+          dispatch(settingActions.createCustomFieldCleanError(false));
+        }
+      }, [dispatch, intl, createCustomFieldError, createCustomFieldErrors]);
 
     const formItemLayout = {
         labelCol: { span: 6 },
@@ -92,6 +119,7 @@ const CreateCustomField = ({ form, intl, createCustomField, visible, close, getC
     return (
         <Modal
             title={<FormattedMessage id="setting.createCustomField.title" />}
+            cancelText="Close"
             visible={visible}
             width={550}
             className={styles.modal}
