@@ -272,6 +272,7 @@
 
 
   "setting.title": "Setting",
+  "setting.customfield.title":"Customfield",
 
   "setting.header.title": "System setting",
   "setting.header.projectTitle": "Project setting",
@@ -295,6 +296,7 @@
   "setting.createCustomField.title":"Create customfield",
   "setting.createCustomField.confirm":"Create this customfield ?",
   "setting.deleteCustomField.confirm":"Delete this customfield ?",
+  "setting.createCustomField.message.error": "Create customfield failure",
 
   
 

@@ -260,10 +260,11 @@
   "users.updateUser.message.success": "Cập nhật thông tin thành viên thành công",
 
   "setting.title": "Cài đặt",
+  "setting.customfield.title":"Mô tả dự án",
 
   "setting.header.title": "Cài đặt hệ thống",
   "setting.header.projectTitle": "Cài đặt dự án",
-  "setting.header.customfeild": " Thêm mô tả cho dự án",
+  "setting.header.customfeild": " Cài đặt mô tả cho dự án",
   "setting.project.drawerUpdate.tile": "Cập nhật thông tin mô tả dự án",
   "setting.lable.feildName": "Tên field",
   "setting.lable.feildName.validate": "Tên field là bắt buộc",
@@ -280,10 +281,10 @@
   "updateCustomFieldResult.message":"Cập nhật thông tin mô tả dự án thành công",
   "removeCustomFieldResult.message":"Xoá thông tin mô tả dự án thành công",
   "setting.updateCustomField.confirm": "Cập nhật thông tin cho mô tả này ?",
-  "setting.createCustomField.title":"Thêm mới thông tin",
+  "setting.createCustomField.title":"Thêm mới thông tin mô tả",
   "setting.createCustomField.confirm":"Thêm thông tin mô tả cho các dự án này ?",
   "setting.deleteCustomField.confirm":"Xoá thông tin mô tả này ?",
-
+  "setting.createCustomField.message.error": "Thêm mới mô tả thất bại",
 
   "languageSwitcher.vi": "Tiếng Việt",
   "languageSwitcher.en": "Tiếng Anh"
