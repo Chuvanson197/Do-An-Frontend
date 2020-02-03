@@ -77,6 +77,9 @@ const CreateProject = ({
     (state) => state.projects
   );
 
+  const {
+    user: { staff_code }
+  } = useSelector((state) => state.auth);
   // Get all customers after open modal
   useEffect(() => {
     getCustomers && getCustomers();
@@ -137,7 +140,8 @@ const CreateProject = ({
           name: values.name,
           status: values.status,
           start_time: parseInt(moment(values.estimated[0]).format('x'), 10),
-          end_time: parseInt(moment(values.estimated[1]).format('x'), 10)
+          end_time: parseInt(moment(values.estimated[1]).format('x'), 10),
+          staff_code
         };
         // call api when valid data
         createProject && createProject(body);

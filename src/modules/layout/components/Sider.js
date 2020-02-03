@@ -9,7 +9,6 @@ import WithRole from '../../../hocs/WithRole';
 
 const { SubMenu } = Menu;
 
-
 const styles = {
   sider: css`
     width: 200px;
@@ -60,33 +59,39 @@ const Sider = () => {
               to="/project"
               typeIcon="project"
               message="projects.title"
-              type={['admin', 'manager', 'normal']} />
+              type={['admin', 'manager', 'normal']}
+            />
             <WithRole
               component={CustomMenu}
               key="customers"
               to="/customers"
               typeIcon="team"
               message="customers.title"
-              type={['admin', 'manager']} />
+              type={['admin', 'manager']}
+            />
             <WithRole
               component={CustomMenu}
               key="member"
               to="/member/list"
               typeIcon="smile"
               message="members.title"
-              type={['admin', 'manager']} />
+              type={['admin', 'manager']}
+            />
             <WithRole
               component={CustomMenu}
               key="roles"
               to="/admin/roles"
               typeIcon="user"
               message="users.title"
-              type={['admin']} />
-            <WithRole key="sub1-2" title={
-              <span>
-                <Icon type="setting" />
-                <FormattedMessage id="setting.title" />
-              </span>
+              type={['admin']}
+            />
+            <WithRole
+              key="sub1-2"
+              title={
+                <span>
+                  <Icon type="setting" />
+                  <FormattedMessage id="setting.title" />
+                </span>
               }
               component={SubMenu}
               type={['admin']}>
@@ -96,7 +101,8 @@ const Sider = () => {
                 to="/admin/setting"
                 typeIcon="project"
                 message="setting.customfield.title"
-                type={['admin']} />
+                type={['admin']}
+              />
             </WithRole>
           </Menu>
         </Layout.Sider>

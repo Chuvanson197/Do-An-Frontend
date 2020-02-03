@@ -4,28 +4,19 @@ import { actions } from '../modules/layout/store';
 import { actions as projectActions } from '../modules/project/store';
 import { actions as settingActions } from '../modules/setting/store';
 
-
 import PropTypes from 'prop-types';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import {
-  Form,
-  Row,
-  Button,
-  Col,
-  Input
-} from 'antd';
+import { Form, Row, Button, Col, Input } from 'antd';
 import { css } from 'emotion';
 
 import searchColumn from '../utils/searchColumn';
 import HeaderTitle from '../components/Content/HeaderTitle';
-import FormCreateCustomField from '../modules/setting/createCustomField/CreateCustomField'
+import FormCreateCustomField from '../modules/setting/createCustomField/CreateCustomField';
 import TableCustomFields from '../modules/setting/tableCustomFields/TableCustomFields';
-import WithRole from '../hocs/WithRole'
+import WithRole from '../hocs/WithRole';
 import ErrorNotification from '../components/Notification/Error';
 
-
 const styles = {
-
   addCustomFieldButton: css`
     background: #49a32b !important;
     color: #fff !important;
@@ -48,7 +39,9 @@ const ButtonCreateCustomField = ({ handleCreateModal }) => {
 };
 
 const SettingForm = ({ intl, form }) => {
-  const { customfields, getCustomFieldsError, getCustomFieldsErrors } = useSelector((state) => state.setting);
+  const { customfields, getCustomFieldsError, getCustomFieldsErrors } = useSelector(
+    (state) => state.setting
+  );
   const { listCustomField } = customfields;
   const [visible, setVisible] = useState(false);
   const [filteredData, setFilteredData] = useState([]);
@@ -56,10 +49,9 @@ const SettingForm = ({ intl, form }) => {
 
   const dispatch = useDispatch();
 
-
   useEffect(() => {
     dispatch(actions.selectItem(['setting']));
-    setFilteredData(listCustomField)
+    setFilteredData(listCustomField);
   }, [dispatch, listCustomField]);
 
   useEffect(() => {
@@ -70,30 +62,27 @@ const SettingForm = ({ intl, form }) => {
     );
   }, [dispatch]);
 
-    // show notification if get customfields list failure
-    useEffect(() => {
-      if (getCustomFieldsError) {
-        const title = intl.formatMessage({ id: 'notification.error' });
-        const message = intl.formatMessage({
-          id: getCustomFieldsErrors.message
-            ? getCustomFieldsErrors.message
-            : 'projects.getProjects.message.error'
-        });
-        ErrorNotification(title, message);
-        dispatch(settingActions.getCustomFieldsCleanError());
-      }
-    }, [dispatch, getCustomFieldsError, getCustomFieldsErrors, intl]);
+  // show notification if get customfields list failure
+  useEffect(() => {
+    if (getCustomFieldsError) {
+      const title = intl.formatMessage({ id: 'notification.error' });
+      const message = intl.formatMessage({
+        id: getCustomFieldsErrors.message
+          ? getCustomFieldsErrors.message
+          : 'projects.getProjects.message.error'
+      });
+      ErrorNotification(title, message);
+      dispatch(settingActions.getCustomFieldsCleanError());
+    }
+  }, [dispatch, getCustomFieldsError, getCustomFieldsErrors, intl]);
 
-  const getProjects = useCallback(
-    () => {
-      dispatch(
-        projectActions.getProjects({
-          path: 'projects'
-        })
-      );
-    },
-    [dispatch]
-  );
+  const getProjects = useCallback(() => {
+    dispatch(
+      projectActions.getProjects({
+        path: 'projects'
+      })
+    );
+  }, [dispatch]);
 
   const createCustomField = useCallback(
     (body) => {
@@ -102,12 +91,9 @@ const SettingForm = ({ intl, form }) => {
     [dispatch]
   );
 
-  const getCustomFields = useCallback(
-    () => {
-      dispatch(settingActions.getCustomFields({ path: 'customFields' }));
-    },
-    [dispatch]
-  );
+  const getCustomFields = useCallback(() => {
+    dispatch(settingActions.getCustomFields({ path: 'customFields' }));
+  }, [dispatch]);
 
   const removeCustomField = useCallback(
     (data) => {
@@ -118,13 +104,23 @@ const SettingForm = ({ intl, form }) => {
 
   const createAssigneeProject = useCallback(
     (body) => {
-      dispatch(settingActions.createAssigneeProject({ body, path: `customFields/${body.idCustomField}/assigneeProject` }))
+      dispatch(
+        settingActions.createAssigneeProject({
+          body,
+          path: `customFields/${body.idCustomField}/assigneeProject`
+        })
+      );
     },
     [dispatch]
   );
 
   const removeAssigneeProject = (body) => {
-    dispatch(settingActions.removeAssigneeProject({ body, path: `customFields/${body.idCustomField}/assigneeProject` }))
+    dispatch(
+      settingActions.removeAssigneeProject({
+        body,
+        path: `customFields/${body.idCustomField}/assigneeProject`
+      })
+    );
   };
 
   const updateCustomField = useCallback(
@@ -186,9 +182,7 @@ const SettingForm = ({ intl, form }) => {
         removeAssigneeProject={removeAssigneeProject}
         getProjects={getProjects}
       />
-
     </Row>
-
   );
 };
 const SettingPage = Form.create({ name: 'dynamic_form_item' })(SettingForm);
