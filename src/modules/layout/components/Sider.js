@@ -56,35 +56,40 @@ const Sider = () => {
               to="/project"
               typeIcon="project"
               message="projects.title"
-              type={['admin', 'manager', 'normal']}/>
+              type={['admin', 'manager', 'normal']}
+            />
             <WithRole
               component={CustomMenu}
               key="customers"
               to="/customers"
               typeIcon="team"
               message="customers.title"
-              type={['admin', 'manager']}/>
+              type={['admin', 'manager']}
+            />
             <WithRole
               component={CustomMenu}
               key="member"
               to="/member/list"
               typeIcon="smile"
               message="members.title"
-              type={['admin', 'manager']}/>
+              type={['admin', 'manager']}
+            />
             <WithRole
               component={CustomMenu}
               key="roles"
               to="/admin/roles"
               typeIcon="user"
               message="users.title"
-              type={['admin']}/>
-              <WithRole
+              type={['admin']}
+            />
+            <WithRole
               component={CustomMenu}
               key="setting"
               to="/admin/setting"
               typeIcon="setting"
               message="setting.title"
-              type={['admin']}/>
+              type={['admin']}
+            />
           </Menu>
         </Layout.Sider>
       )}

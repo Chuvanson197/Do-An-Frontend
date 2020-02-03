@@ -49,7 +49,11 @@ const styles = {
   `
 };
 
-const listStatus = [{ id: 1, name: 'working' }, { id: 2, name: 'leave' }, { id: 3, name: 'idle' }];
+const listStatus = [
+  { id: 1, name: 'working' },
+  { id: 2, name: 'leave' },
+  { id: 3, name: 'idle' }
+];
 
 const formItemLayout = {
   labelCol: {
@@ -146,7 +150,6 @@ const UpdateMemberDrawer = ({
       return null;
     });
   };
-
   return (
     <Drawer
       title={<FormattedMessage id="projects.updateMember.title" />}
@@ -228,13 +231,13 @@ const UpdateMemberDrawer = ({
               }
             ],
             initialValue: roles.find((e) => {
-              return e.name === member.role;
-            }).name
+              return e.key === member.role;
+            }).key
           })(
             <Select allowClear>
               {(roles || []).map((e) => {
                 return (
-                  <Select.Option key={e.id} value={e.name}>
+                  <Select.Option key={e.id} value={e.key}>
                     <FormattedMessage id={`projects.addMember.role.${e.key}`} />
                   </Select.Option>
                 );

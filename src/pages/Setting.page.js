@@ -6,20 +6,14 @@ import { actions as settingActions } from '../modules/setting/store';
 
 import PropTypes from 'prop-types';
 import { injectIntl } from 'react-intl';
-import {
-  Form,
-  Row,
-  Button,
-  Col,
-  Input
-} from 'antd';
+import { Form, Row, Button, Col, Input } from 'antd';
 import { css } from 'emotion';
 
 // import searchColumn from '../utils/searchColumn';
 import HeaderTitle from '../components/Content/HeaderTitle';
-import FormCreateCustomField from '../modules/setting/createCustomField/CreateCustomField'
+import FormCreateCustomField from '../modules/setting/createCustomField/CreateCustomField';
 import TableCustomFields from '../modules/setting/tableCustomFields/TableCustomFields';
-import WithRole from '../hocs/WithRole'
+import WithRole from '../hocs/WithRole';
 
 const styles = {
   container: css`
@@ -52,7 +46,7 @@ const SettingForm = ({ intl, form }) => {
   // const [filteredData, setFilteredData] = useState(customfields.listCustomField);
   const [searchInput, setSearchInput] = useState('');
   const [visible, setVisible] = useState(false);
-  
+
   const dispatch = useDispatch();
 
   // get projects list
@@ -80,12 +74,9 @@ const SettingForm = ({ intl, form }) => {
     [dispatch]
   );
 
-  const getCustomField = useCallback(
-    () => {
-      dispatch(settingActions.getCustomFields({ path: 'customFields' }));
-    },
-    [dispatch]
-  );
+  const getCustomField = useCallback(() => {
+    dispatch(settingActions.getCustomFields({ path: 'customFields' }));
+  }, [dispatch]);
 
   const removeCustomField = useCallback(
     (data) => {
@@ -95,19 +86,29 @@ const SettingForm = ({ intl, form }) => {
   );
 
   const createAssigneeProject = useCallback(
-    (body) =>{
-      dispatch(settingActions.createAssigneeProject({body, path:`customFields/${body.idCustomField}/assigneeProject`}))
+    (body) => {
+      dispatch(
+        settingActions.createAssigneeProject({
+          body,
+          path: `customFields/${body.idCustomField}/assigneeProject`
+        })
+      );
     },
     [dispatch]
   );
 
-  const removeAssigneeProject = (body) =>{
-      dispatch(settingActions.removeAssigneeProject({body, path:`customFields/${body.idCustomField}/assigneeProject`}))
-    };
-  
+  const removeAssigneeProject = (body) => {
+    dispatch(
+      settingActions.removeAssigneeProject({
+        body,
+        path: `customFields/${body.idCustomField}/assigneeProject`
+      })
+    );
+  };
+
   const updateCustomField = useCallback(
     (body) => {
-      console.log(body)
+      console.log(body);
       dispatch(settingActions.updateCustomField({ body, path: 'customFields', param: body.id }));
     },
     [dispatch]
@@ -149,7 +150,8 @@ const SettingForm = ({ intl, form }) => {
         <FormCreateCustomField
           visible={visible}
           close={() => setVisible(!visible)}
-          form={form} intl={intl}
+          form={form}
+          intl={intl}
           createCustomField={createCustomField}
           getCustomField={getCustomField}
         />

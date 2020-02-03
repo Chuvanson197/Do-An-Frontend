@@ -82,7 +82,7 @@ const ButtonDeleteMember = ({ handleConfirmDelete, record }) => {
       onConfirm={() => handleConfirmDelete(record)}
       okText={<FormattedMessage id="button.confirm.yes" />}
       cancelText={<FormattedMessage id="button.confirm.no" />}>
-      <Button shape="circle" icon="minus-circle" type="danger" style={{ margin: '0px 5px' }} />;
+      <Button shape="circle" icon="minus-circle" type="danger" style={{ margin: '0px 5px' }} />
     </Popconfirm>
   );
 };
@@ -129,7 +129,6 @@ const ProjectDetail = ({
     getJoinedMembersErrors,
     removeMemberResult
   } = useSelector((state) => state.projects);
-
   // show notification error when get project detail failure
   useEffect(() => {
     if (getProjectError) {
@@ -255,7 +254,8 @@ const ProjectDetail = ({
     {
       title: <FormattedMessage id="projects.detail.member.role" />,
       dataIndex: 'role',
-      key: 'role'
+      key: 'role',
+      render: (role) => <FormattedMessage id={`projects.addMember.role.${role}`} />
     },
     {
       title: <FormattedMessage id="projects.detail.member.effort" />,

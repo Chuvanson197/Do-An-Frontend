@@ -41,8 +41,7 @@ const propTypes = {
   getMembers: PropTypes.func.isRequired,
   getJoinedMembers: PropTypes.func.isRequired,
   getProject: PropTypes.func.isRequired,
-  addMember: PropTypes.func.isRequired,
-
+  addMember: PropTypes.func.isRequired
 };
 
 const defaultProps = {
@@ -65,7 +64,11 @@ const formItemLayout = {
   }
 };
 
-const listStatus = [{ id: 1, name: 'working' }, { id: 2, name: 'leave' }, { id: 3, name: 'idle' }];
+const listStatus = [
+  { id: 1, name: 'working' },
+  { id: 2, name: 'leave' },
+  { id: 3, name: 'idle' }
+];
 
 const AddMemberModal = ({
   visible,
@@ -78,7 +81,7 @@ const AddMemberModal = ({
   getMembers,
   getJoinedMembers,
   getProject,
-  addMember,
+  addMember
 }) => {
   const dispatch = useDispatch();
   const { list, getMembersError } = useSelector((state) => state.members);
@@ -277,7 +280,7 @@ const AddMemberModal = ({
             <Select allowClear>
               {(roles || []).map((e) => {
                 return (
-                  <Select.Option key={e.id} value={e.name}>
+                  <Select.Option key={e.id} value={e.key}>
                     <FormattedMessage id={`projects.addMember.role.${e.key}`} />
                   </Select.Option>
                 );
