@@ -1,19 +1,16 @@
 {
   "login.form.title": "Login to continue",
   "login.form.google.button.title": "Login with google",
-
   "button.add": "Add",
   "button.close": "Close",
   "button.confirm.yes": "Yes",
   "button.confirm.no": "No",
   "button.back": "Backward",
   "button.update": "Update information",
-
   "button.tooltip.addMember": "Add member",
   "button.tooltip.removeMember": "Remove member",
   "button.tooltip.editMember": "Edit member information",
   "button.tooltip.memberDiagram": "Members diagram",
-
   "notification.error": "Error",
   "notification.success": "Success",
   "notification.warning": "Warning",
@@ -22,16 +19,13 @@
   "notification.message.form.deletedCustomer": "This customer information has been deleted, please select another customer",
   "Network Error": "Network error, please check your internet connection",
   "Not Found": "Page not found",
-
   "projects.status.running": "running",
   "projects.status.completed": "completed",
   "projects.status.stopped": "stopped",
-
   "projects.getProjects.title": "Projects",
   "projects.getProjects.customer": "Customer",
   "projects.getProjects.date": "Date",
   "projects.getProjects.message.error": "Get projects list failure",
-
   "projects.createProject.title": "Create new project",
   "projects.createProject.projectInformation": "Project information",
   "projects.createProject.projectName": "Project name",
@@ -53,7 +47,6 @@
   "projects.createProject.message.success": "Create new project information successful!",
   "projects.createProject.descriptions": "Descriptions",
   "projects.createProject.required": " is required",
-
   "projects.detail.title": "Project detail",
   "projects.detail.customer": "Customer",
   "projects.detail.totalMember": "Members",
@@ -68,9 +61,7 @@
   "projects.detail.member.time_in": "Joined date",
   "projects.detail.member.time_out": "Leave date",
   "projects.detail.memberHistory": "Member history",
-
   "projects.getMembersList.message.error": "Get joined members list failure",
-
   "projects.addMember.title": "Add member into project",
   "projects.addMember.memberInformation": "Member information",
   "projects.addMember.member": "Member",
@@ -101,19 +92,16 @@
   "projects.addMemberIntoProject.message.success": "Add member into project successful",
   "projects.removeMemberFromProject.message.success": "Remove member from project successful",
   "projects.removeMemberFromProject.message.error": "Remove member from project failure",
-
   "projects.updateProject.title": "Update project information",
   "projects.updateProject.message.error": "Update project failure",
   "projects.updateProject.message.success": "Update project successful",
   "projects.updateProject.confirm.add": "Update this project information?",
   "projects.updateProject.deletedCustomer": "*This customer information has been deleted",
-  
   "projects.updateMember.title": "Update member information",
   "projects.updateMember.staff_code": "Staff code",
   "projects.updateMember.full_name": "Full name",
   "projects.updateMember.email": "Email",
   "projects.updateMember.phone_number": "Phone number",
-  
   "projectDetail.serviceDetail.title": "Service Details",
   "projectDetail.serviceDetail.homePage.title": "Home page:",
   "projectDetail.serviceDetail.detail.title": "Details:",
@@ -129,14 +117,10 @@
   "projectDetail.removeProject.confirm.remove": "Remove this project?",
   "projects.removeProject.message.success": "Remove this project information successful",
   "projects.removeProject.message.error": "Remove this project information failure",
-
   "projects.memberHistory.title": "Project's member history",
   "projects.memberHistory.message.error": "Get member list failure",
-
   "dashboard.title": "Dashboard",
-
   "projects.title": "Projects",
-
   "customers.title": "Customers",
   "customers.header.title": "Customers",
   "customers.buttonAdd.title": "Add",
@@ -157,12 +141,12 @@
   "customers.customerTable.name.title": "Customer Name",
   "customers.customerTable.address.title": "Address",
   "customers.customerTable.projectName.title": "Project Name",
-  "customers.customerModal.headerEditCustomer.title":"Customer Edit",
+  "customers.customerModal.headerEditCustomer.title": "Customer Edit",
   "customers.customerModal.headerCreateCustomer.title": "Create new customer",
-  "customers.customerModal.confirm.edit":"Edit this Customer ?",
-  "customers.customerModal.button.confirm.yes":"Yes",
-  "customers.customerModal.button.confirm.no":"No",
-  "customers.customerModal.editButton.title":"Edit",
+  "customers.customerModal.confirm.edit": "Edit this Customer ?",
+  "customers.customerModal.button.confirm.yes": "Yes",
+  "customers.customerModal.button.confirm.no": "No",
+  "customers.customerModal.editButton.title": "Edit",
   "customers.customerModal.createButton.title": "Create",
   "customers.customerModal.cancelButton.title": "Cancel",
   "customers.customerModal.form.customerName.title": "Name",
@@ -177,23 +161,17 @@
   "customers.customerModal.form.customerEmail.validate": "Email is required",
   "customers.customerModal.form.customerPhonenumber.title": "Phone number",
   "customers.customerModal.form.customerPhonenumber.validate": "Phone number is required",
-
   "customers.getCustomers.message.error": "Get customers list failure",
-
   "customers.createCustomers.customerInformation": "Customer information",
-  "customers.createCustomers.confirm.create":"Create this customer?",
+  "customers.createCustomers.confirm.create": "Create this customer?",
   "customers.createCustomer.message.success": "Create new customer successful",
   "customers.createCustomer.message.error": "Create new customer failure",
-
   "customers.updateCustomer.message.success": "Update customer information successful",
   "customers.updateCustomer.message.error": "Update customer information failure",
-
   "customers.removeCustomer.message.error": "Remove customer information failure",
   "customers.removeCustomer.message.success": "Remove customer information successful",
-
   "members.title": "Members",
   "members.header.title": "Members",
-
   "members.buttonAdd.title": "Add",
   "members.button.delete": "Remove",
   "members.confirm.delete": "Remove this member?",
@@ -234,37 +212,29 @@
   "members.memberModal.button.confirm.no": "No",
   "members.memberModal.edited.success": "Edited member information success",
   "members.memberModal.edited.failed": "Edited member information failed",
-
   "members.createMembers.memberInformation": "Member information",
-  "members.createMembers.confirm.create":"Create this member?",
+  "members.createMembers.confirm.create": "Create this member?",
   "members.addMember.message.success": "Create new member successful",
   "members.addMember.message.error": "Create new member failure",
   "members.addMember.message.staff_code.exits": "Staff code already exits",
-
   "members.updateMember.message.success": "Update member information successful",
   "members.updateMember.message.error": "Update member information failure",
-
   "members.removeMember.message.error": "Remove member information failure",
   "members.removeMember.message.success": "Remove member information successful",
-
   "users.title": "Roles",
   "users.header.title": "Roles",
-
   "users.name.title": "Name",
   "users.email.title": "Email",
-  "users.permission.title" : "Permission",
-  "users.role.title" : "Role",
-  "users.button.edit" : "Edit permission",
+  "users.permission.title": "Permission",
+  "users.role.title": "Role",
+  "users.button.edit": "Edit permission",
   "users.drawerUpdate.tile": "Update permission member",
   "users.drawerUpdate.confirm.add": "Edit this member permission ?",
   "users.drawerUpdate.userInformation": "Member information",
   "users.updateUser.message.error": "Update member information failure",
   "users.updateUser.message.success": "Update member information successful",
-
-
   "setting.title": "Setting",
-  "setting.customfield.title":"Customfield",
-
+  "setting.customfield.title": "Customfield",
   "setting.header.title": "System setting",
   "setting.header.projectTitle": "Project setting",
   "setting.header.customfeild": "Custom Field Setting ",
@@ -280,17 +250,15 @@
   "setting.placeholder.feildProjects": "Select assignee",
   "setting.options.true": "Require",
   "setting.options.false": "Unrequire",
-  "createCustomFieldResult.message":"Create customfield information successful",
-  "updateCustomFieldResult.message":"Update customfield information successful",
-  "removeCustomFieldResult.message":"Delete customfield information successful",
+  "createCustomFieldResult.message": "Create customfield information successful",
+  "updateCustomFieldResult.message": "Update customfield information successful",
+  "removeCustomFieldResult.message": "Delete customfield information successful",
   "setting.updateCustomField.confirm": "Update this customfield ?",
-  "setting.createCustomField.title":"Create customfield",
-  "setting.createCustomField.confirm":"Create this customfield ?",
-  "setting.deleteCustomField.confirm":"Delete this customfield ?",
+  "setting.createCustomField.title": "Create customfield",
+  "setting.createCustomField.confirm": "Create this customfield ?",
+  "setting.deleteCustomField.confirm": "Delete this customfield ?",
   "setting.createCustomField.message.error": "Create customfield failure",
-
-  
-
+  "setting.allProject": "All",
   "languageSwitcher.vi": "Vietnamese",
   "languageSwitcher.en": "English"
 }

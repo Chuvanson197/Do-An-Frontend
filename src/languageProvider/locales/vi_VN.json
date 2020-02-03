@@ -1,19 +1,16 @@
 {
   "login.form.title": "Đăng nhập để tiếp tục",
   "login.form.google.button.title": "Đăng nhập với google",
-
   "button.add": "Thêm mới",
   "button.close": "Đóng",
   "button.confirm.yes": "Có",
   "button.confirm.no": "Không",
   "button.back": "Quay lại trang trước",
   "button.update": "Cập nhật thông tin",
-
   "button.tooltip.addMember": "Thêm thành viên",
   "button.tooltip.removeMember": "Thành viên rời khỏi dự án",
   "button.tooltip.editMember": "Chỉnh sửa thông tin",
   "button.tooltip.memberDiagram": "Sơ đồ các thành viên",
-
   "notification.error": "Lỗi",
   "notification.success": "Thành công",
   "notification.warning": "Cảnh báo",
@@ -22,16 +19,13 @@
   "notification.message.form.deletedCustomer": "Thông tin khách hàng đã bị xóa, vui lòng chọn lại khách hàng",
   "Network Error": "Lỗi đường truyền, vui lòng kiểm tra lại kết nối internet của bạn",
   "Not Found": "Trang không khả dụng",
-
   "projects.status.running": "Đang thực hiện",
   "projects.status.completed": "Đã hoàn thành",
   "projects.status.stopped": "Đã dừng lại",
-
   "projects.getProjects.title": "Danh sách dự án",
   "projects.getProjects.customer": "Khách hàng",
   "projects.getProjects.date": "Thời gian",
   "projects.getProjects.message.error": "Lấy danh sách dự án thất bại",
-
   "projects.createProject.title": "Thêm mới thông tin dự án",
   "projects.createProject.projectInformation": "Thông tin dự án",
   "projects.createProject.projectName": "Tên dự án",
@@ -53,7 +47,6 @@
   "projects.createProject.message.success": "Thêm mới thông tin dự án thành công",
   "projects.createProject.descriptions": "Mô tả",
   "projects.createProject.required": " không được để trống!",
-
   "projects.detail.title": "Thông tin chi tiết dự án",
   "projects.detail.customer": "Khách hàng",
   "projects.detail.totalMember": "Số thành viên",
@@ -66,11 +59,9 @@
   "projects.detail.member.role": "Vị trí",
   "projects.detail.member.effort": "Khối lượng",
   "projects.detail.member.time_in": "Thời gian tham gia",
-  "projects.detail.member.time_out":"Thời gian rời dự án",
+  "projects.detail.member.time_out": "Thời gian rời dự án",
   "projects.detail.memberHistory": "Lịch sử thành viên từng tham gia",
-
   "projects.getMembersList.message.error": "Lấy danh sách thành viên trong dự án thất bại",
-
   "projects.addMember.title": "Thêm thành viên tham gia vào dự án",
   "projects.addMember.memberInformation": "Thông tin thành viên",
   "projects.addMember.member": "Thành viên",
@@ -101,13 +92,11 @@
   "projects.addMemberIntoProject.message.success": "Thêm mới thành viên vào dự án thành công",
   "projects.removeMemberFromProject.message.success": "Thành viên đã rời khỏi dự án",
   "projects.removeMember.message.error": "Không thể loại bỏ thành viên ra khỏi dự án",
-
   "projects.updateProject.title": "Cập nhật thông tin dự án",
   "projects.updateProject.message.error": "Cập nhật thông tin dự án thất bại",
   "projects.updateProject.message.success": "Cập nhật thông tin dự án thành công",
   "projects.updateProject.confirm.add": "Cập nhật thông tin dự án này?",
   "projects.updateProject.deletedCustomer": "*Thông tin khách hàng này đã bị xóa",
-
   "projects.updateMember.title": "Cập nhật thông tin thành viên",
   "projects.updateMember.confirm.add": "Cập nhật thông tin cho thành viên này?",
   "projects.updateMember.staff_code": "Mã nhân viên",
@@ -116,7 +105,6 @@
   "projects.updateMember.phone_number": "Số điện thoại",
   "projects.updateMemberIntoProject.message.success": "Cập nhật thông tin thành viên thành công",
   "projects.updateMemberInProject.message.error": "Cập nhật thông tin thành viên thất bại",
-
   "projectDetail.serviceDetail.title": "Thông tin dịch vụ",
   "projectDetail.serviceDetail.homePage.title": "Trang chủ:",
   "projectDetail.serviceDetail.detail.title": "Mô tả:",
@@ -132,14 +120,10 @@
   "projectDetail.removeProject.confirm.remove": "Hủy bỏ dự án này?",
   "projects.removeProject.message.success": "Hủy bỏ dự án thành công",
   "projects.removeProject.message.error": "Hủy bỏ dự án thất bại",
-
   "projects.memberHistory.title": "Lịch sử thành viên trong dự án",
   "projects.memberHistory.message.error": "Lấy danh sách thành viên thất bại ",
-
   "dashboard.title": "Thống Kê",
-
   "projects.title": "Dự Án",
-
   "customers.title": "Khách Hàng",
   "customers.header.title": "Danh sách khách hàng",
   "customers.buttonAdd.title": "Thêm",
@@ -159,7 +143,7 @@
   "customers.customerModal.createButton.title": "Tạo",
   "customers.customerModal.cancelButton.title": "Hủy",
   "customers.customerModal.editButton.title": "Chỉnh sửa",
-  "customers.customerModal.confirm.edit":"Chỉnh sửa thông tin khách hàng này?",
+  "customers.customerModal.confirm.edit": "Chỉnh sửa thông tin khách hàng này?",
   "customers.customerModal.form.customerName.title": "Tên khách hàng",
   "customers.customerModal.form.customerName.validate": "Tên khách hàng là bắt buộc",
   "customers.customerModal.form.customerAddress.title": "Địa chỉ",
@@ -167,25 +151,20 @@
   "customers.customerModal.form.projectName.title": "Tên dự án",
   "customers.customerModal.form.projectName.validate": "Tên dự án là bắt buộc",
   "customers.customersList.message.error": "Lấy danh sách khách hàng thất bại",
-  "customers.customerModal.form.customerEmail.title":"Email",
-  "customers.customerModal.form.customerEmail.validate":"Email là bắt buộc",
-  "customers.customerModal.form.customerEmail.validate.type":"Email không hợp lệ",
-  "customers.customerModal.form.customerPhonenumber.title":"Số điện thoại",
-  "customers.customerModal.form.customerPhonenumber.validate":"Số điện thoại là bắt buộc",
-
+  "customers.customerModal.form.customerEmail.title": "Email",
+  "customers.customerModal.form.customerEmail.validate": "Email là bắt buộc",
+  "customers.customerModal.form.customerEmail.validate.type": "Email không hợp lệ",
+  "customers.customerModal.form.customerPhonenumber.title": "Số điện thoại",
+  "customers.customerModal.form.customerPhonenumber.validate": "Số điện thoại là bắt buộc",
   "customers.getCustomers.message.error": "Lấy danh sách khách hàng thất bại",
-
   "customers.createCustomers.customerInformation": "Thông tin khách hàng",
-  "customers.createCustomers.confirm.create":"Thêm mới thông tin khách hàng này?",
+  "customers.createCustomers.confirm.create": "Thêm mới thông tin khách hàng này?",
   "customers.createCustomer.message.success": "Thêm mới thông tin khách hàng thành công",
   "customers.createCustomer.message.error": "Thêm mới thông tin khách hàng thất bại",
-
   "customers.updateCustomer.message.success": "Cập nhật thông tin khách hàng thành công",
   "customers.updateCustomer.message.error": "Cập nhật thông tin khách hàng thất bại",
-
   "customers.removeCustomer.message.error": "Xóa thông tin khách hàng thất bại",
   "customers.removeCustomer.message.success": "Xóa thông tin khách hàng thành công",
-
   "members.title": "Thành viên",
   "members.header.title": "Danh sách thành viên",
   "members.confirm.delete": "Xoá thông tin thành viên này?",
@@ -225,34 +204,28 @@
   "members.memberModal.button.confirm.yes": "Có",
   "members.memberModal.button.confirm.no": "Không",
   "members.membersList.message.error": "Lấy danh sách thành viên thất bại",
-
   "members.createMembers.memberInformation": "Thông tin thành viên",
   "members.addMember.message.success": "Thêm mới thông tin thành viên thành công",
   "members.addMember.message.error": "Thêm mới thông tin thành viên thất bại",
   "members.addMember.message.staff_code.exits": "Mã nhân viên đã tồn tại",
-
   "members.updateMember.message.success": "Cập nhật thông tin thành viên thành công",
   "members.updateMember.message.error": "Cập nhật thông tin thành viên thất bại",
-
   "members.removeMember.message.error": "Xóa thông tin thành viên thất bại",
   "members.removeMember.message.success": "Xóa thông tin thành viên thành công",
-
   "users.title": "Quyền thành viên",
   "users.header.title": "Danh sách quyền thành viên",
   "users.name.title": "Tên",
   "users.email.title": "Thư điện tử",
-  "users.permission.title" : "Quyền",
-  "users.role.title" : "Vai trò",
-  "users.button.edit" : "Sửa vai trò",
+  "users.permission.title": "Quyền",
+  "users.role.title": "Vai trò",
+  "users.button.edit": "Sửa vai trò",
   "users.drawerUpdate.tile": "Cấp quyền thành viên",
   "users.drawerUpdate.confirm.add": "Bạn chắc chắn muốn thay đổi quyền thành viên này không?",
   "users.drawerUpdate.userInformation": "Thông tin thành viên",
   "users.updateUser.message.error": "Cập nhật thông tin thành viên thất bại",
   "users.updateUser.message.success": "Cập nhật thông tin thành viên thành công",
-
   "setting.title": "Cài đặt",
-  "setting.customfield.title":"Mô tả dự án",
-
+  "setting.customfield.title": "Mô tả dự án",
   "setting.header.title": "Cài đặt hệ thống",
   "setting.header.projectTitle": "Cài đặt dự án",
   "setting.header.customfeild": " Cài đặt mô tả cho dự án",
@@ -268,15 +241,15 @@
   "setting.placeholder.feildProjects": "Chọn tên dự án",
   "setting.options.true": "Bắt buộc",
   "setting.options.false": "Không bắt buộc",
-  "createCustomFieldResult.message":"Thêm mới thông tin mô tả dự án thành công",
-  "updateCustomFieldResult.message":"Cập nhật thông tin mô tả dự án thành công",
-  "removeCustomFieldResult.message":"Xoá thông tin mô tả dự án thành công",
+  "createCustomFieldResult.message": "Thêm mới thông tin mô tả dự án thành công",
+  "updateCustomFieldResult.message": "Cập nhật thông tin mô tả dự án thành công",
+  "removeCustomFieldResult.message": "Xoá thông tin mô tả dự án thành công",
   "setting.updateCustomField.confirm": "Cập nhật thông tin cho mô tả này ?",
-  "setting.createCustomField.title":"Thêm mới thông tin mô tả",
-  "setting.createCustomField.confirm":"Thêm thông tin mô tả cho các dự án này ?",
-  "setting.deleteCustomField.confirm":"Xoá thông tin mô tả này ?",
+  "setting.createCustomField.title": "Thêm mới thông tin mô tả",
+  "setting.createCustomField.confirm": "Thêm thông tin mô tả cho các dự án này ?",
+  "setting.deleteCustomField.confirm": "Xoá thông tin mô tả này ?",
   "setting.createCustomField.message.error": "Thêm mới mô tả thất bại",
-
+  "setting.allProject": "Tất cả",
   "languageSwitcher.vi": "Tiếng Việt",
   "languageSwitcher.en": "Tiếng Anh"
 }
