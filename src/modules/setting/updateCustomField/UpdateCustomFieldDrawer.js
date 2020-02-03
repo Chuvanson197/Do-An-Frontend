@@ -62,13 +62,15 @@ const UpdateCustomFieldDrawer = ({
     visible,
     form,
     customfield,
-    getCustomField,
+    getCustomFields,
     updateCustomField,
     removeAssigneeProject,
-    createAssigneeProject
+    createAssigneeProject,
+    getProjects
 }) => {
     const dispatch = useDispatch();
-    const { updateCustomFieldResult,
+    const {
+        updateCustomFieldResult,
         updateCustomFieldError,
         updateCustomFieldErrors,
         loading, removeAssigneeProjectResult,
@@ -87,11 +89,12 @@ const UpdateCustomFieldDrawer = ({
 
 
     useEffect(() => {
+        getProjects && getProjects();
         return () => {
             dispatch(settingActions.updateCustomFieldCleanError());
             dispatch(settingActions.updateCustomFieldCleanData(false));
         };
-    }, [dispatch]);
+    }, [dispatch, getProjects]);
 
     // Handle showing notification after update project
     useEffect(() => {
@@ -103,9 +106,9 @@ const UpdateCustomFieldDrawer = ({
             // close the modal and clean state
             onClose();
             // re-call get project detail api
-            getCustomField && getCustomField();
+            getCustomFields && getCustomFields();
         }
-    }, [onClose, intl, updateCustomFieldResult, getCustomField]);
+    }, [onClose, intl, updateCustomFieldResult, getCustomFields]);
 
     useEffect(() => {
         // show error notification
@@ -134,9 +137,9 @@ const UpdateCustomFieldDrawer = ({
             // close the modal and clean state
             onClose();
             // re-call get project detail api
-            getCustomField && getCustomField();
+            getCustomFields && getCustomFields();
         }
-    }, [onClose, intl, removeAssigneeProjectResult, getCustomField]);
+    }, [onClose, intl, removeAssigneeProjectResult, getCustomFields]);
 
     useEffect(() => {
         // show error notification
@@ -164,9 +167,9 @@ const UpdateCustomFieldDrawer = ({
             // close the modal and clean state
             onClose();
             // re-call get project detail api
-            getCustomField && getCustomField();
+            getCustomFields && getCustomFields();
         }
-    }, [onClose, intl, createAssigneeProjectResult, getCustomField]);
+    }, [onClose, intl, createAssigneeProjectResult, getCustomFields]);
 
     useEffect(() => {
         // show error notification
@@ -185,7 +188,7 @@ const UpdateCustomFieldDrawer = ({
 
 
     const handleSubmit = () => {
-        form.validateFields(async(err, values) => {
+        form.validateFields(async (err, values) => {
             if (!err) {
                 const body = {
                     id: customfield.id,
@@ -213,12 +216,12 @@ const UpdateCustomFieldDrawer = ({
                         idCustomField: customfield.id,
                         projects: arrRemove
                     }
-                    removeAssigneeProject && removeAssigneeProject(bodyRemoveAssignee)
+                    removeAssigneeProject && removeAssigneeProject(bodyRemoveAssignee);
                     createAssigneeProject && createAssigneeProject(bodyCreateAssignee);
                     updateCustomField(body);
-                    setTimeout(()=>{
+                    setTimeout(() => {
                         window.location.reload()
-                    },0)
+                    }, 0)
 
                 }
 
@@ -286,9 +289,7 @@ const UpdateCustomFieldDrawer = ({
                             }
                             onSelect={value => {
                                 if (arrRemove.includes(value)) {
-                                    setArrRemove(arrRemove.filter(removed => removed !== value
-
-                                    ))
+                                    setArrRemove(arrRemove.filter(removed => removed !== value))
                                 } else {
                                     setArrCreate([...arrCreate, value])
                                 }
@@ -313,7 +314,7 @@ const UpdateCustomFieldDrawer = ({
                 </Form.Item>
                 <Row className={styles.drawerFooter}>
                     <Popconfirm
-                        title={<FormattedMessage id="projects.updateMember.confirm.add" />}
+                        title={<FormattedMessage id="setting.updateCustomField.confirm" />}
                         onConfirm={() => handleSubmit()}
                         okText={<FormattedMessage id="button.confirm.yes" />}
                         cancelText={<FormattedMessage id="button.confirm.no" />}>

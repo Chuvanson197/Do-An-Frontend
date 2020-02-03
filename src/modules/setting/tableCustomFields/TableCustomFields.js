@@ -4,6 +4,7 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import { Table, Tooltip, Popconfirm, Button, Tag } from 'antd';
 import PropTypes from 'prop-types';
 
+
 import { actions as settingActions } from '../store';
 import SuccessNotification from '../../../components/Notification/Success';
 import ErrorNotification from '../../../components/Notification/Error';
@@ -15,10 +16,11 @@ const propTypes = {
 
   updateCustomField: PropTypes.func.isRequired,
   removeCustomField: PropTypes.func.isRequired,
-  getCustomField: PropTypes.func.isRequired,
+  getCustomFields: PropTypes.func.isRequired,
   removeAssigneeProject: PropTypes.func.isRequired,
   createAssigneeProject: PropTypes.func.isRequired
 };
+
 
 const defaultProps = {};
 const ButtonEditCustomField = ({ handleEditSelected, record }) => {
@@ -38,10 +40,10 @@ const ButtonEditCustomField = ({ handleEditSelected, record }) => {
 const ButtonDeleteCustomField = ({ removeCustomField, record }) => {
   return (
     <Popconfirm
-      title={<FormattedMessage id="members.confirm.delete" />}
+      title={<FormattedMessage id="setting.deleteCustomField.confirm" />}
       onConfirm={() => removeCustomField && removeCustomField(record)}
-      okText={<FormattedMessage id="members.button.confirm.yes" />}
-      cancelText={<FormattedMessage id="members.button.confirm.no" />}>
+      okText={<FormattedMessage id="button.confirm.yes" />}
+      cancelText={<FormattedMessage id="button.confirm.no" />}>
       <Button shape="circle" icon="delete" type="danger" style={{ margin: '0px 5px' }} />
     </Popconfirm>
   );
@@ -50,9 +52,10 @@ const TableCustomFields = ({ intl,
   customfields,
   updateCustomField,
   removeCustomField,
-  getCustomField,
+  getCustomFields,
   removeAssigneeProject,
-  createAssigneeProject
+  createAssigneeProject,
+  getProjects
 }) => {
   const dispatch = useDispatch();
   const [drawerVisible, setDrawerVisible] = useState(false);
@@ -69,10 +72,10 @@ const TableCustomFields = ({ intl,
     {
       title: <FormattedMessage id="setting.lable.feildName" />,
       dataIndex: 'name',
-      key: 'name'
+      key: 'name',
     },
     {
-      title: <FormattedMessage id="setting.lable.feildProjects" />,
+      title: <FormattedMessage id="setting.lable.feildProjects"/>,
       dataIndex: 'infocustomField',
       key: 'infocustomField',
       render: (infocustomField) => {
@@ -128,9 +131,9 @@ const TableCustomFields = ({ intl,
       // clean data
       dispatch(settingActions.removeCustomFieldCleanData());
       // re-call get Members list
-      getCustomField && getCustomField();
+      getCustomFields && getCustomFields();
     }
-  }, [removeCustomFieldResult, intl, getCustomField, dispatch]);
+  }, [removeCustomFieldResult, intl, getCustomFields, dispatch]);
 
   useEffect(() => {
     if (removeCustomFieldError) {
@@ -146,6 +149,8 @@ const TableCustomFields = ({ intl,
       dispatch(settingActions.removeCustomFieldCleanError(false));
     }
   }, [intl, removeCustomFieldError, removeCustomFieldErrors, dispatch]);
+
+
 
   return (
     <React.Fragment>
@@ -163,6 +168,8 @@ const TableCustomFields = ({ intl,
           customfield={dataItem}
           removeAssigneeProject={removeAssigneeProject}
           createAssigneeProject={createAssigneeProject}
+          getCustomFields={getCustomFields}
+          getProjects={getProjects}
         />
       )}
     </React.Fragment>
@@ -173,3 +180,5 @@ TableCustomFields.propTypes = propTypes;
 TableCustomFields.defaultProps = defaultProps;
 
 export default injectIntl(TableCustomFields, {});
+
+

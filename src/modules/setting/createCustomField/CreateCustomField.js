@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { css } from 'emotion';
 import { FormattedMessage } from 'react-intl';
@@ -17,6 +17,8 @@ import {
     Modal,
     Popconfirm
 } from 'antd';
+import { actions as settingActions } from '../store';
+
 import ErrorNotification from '../../../components/Notification/Error';
 import SuccessNotification from '..//../../components/Notification/Success';
 
@@ -42,21 +44,36 @@ const styles = {
     margin-bottom: 10px;
   `
 };
-const CreateCustomField = ({ form, intl, createCustomField, visible, close, getCutomField }) => {
+const CreateCustomField = ({ form, intl, createCustomField, visible, close, getCustomFields, getProjects }) => {
+
+    const dispatch = useDispatch();
+    
     const { list, loading } = useSelector(
         (state) => state.projects
     );
 
-    const { createCustomFieldResult } = useSelector(
+
+    const { createCustomFieldResult, createCustomFieldError, createCustomFieldErrors } = useSelector(
         (state) => state.setting
     )
+
+  // Get all projects after open modal
+  useEffect(() => {
+    getProjects && getProjects();
+    dispatch(settingActions.createCustomFieldCleanData());
+    dispatch(settingActions.createCustomFieldCleanError());
+  }, [getProjects, dispatch]);
 
     const handleSubmit = () => {
         form.validateFields((err, values) => {
             if (!err) {
+                console.log(values);
                 // call api when valid data
                 createCustomField && createCustomField(values);
-                form.resetFields();
+                // form.resetFields();
+                setTimeout(()=>{
+                    window.location.reload()
+                },0)
             } else {
                 // showing error form input notification
                 const title = intl.formatMessage({ id: 'notification.error' });
@@ -76,9 +93,24 @@ const CreateCustomField = ({ form, intl, createCustomField, visible, close, getC
             // close the modal and clean data
             close();
             // re-call get all customfields api
-            getCutomField && getCutomField();
+            getCustomFields && getCustomFields();
         }
-    }, [close, intl, createCustomFieldResult, getCutomField]);
+    }, [close, intl, createCustomFieldResult, getCustomFields]);
+
+    useEffect(() => {
+        // show error notification
+        if (createCustomFieldError) {
+          const title = intl.formatMessage({ id: 'notification.error' });
+          const message = intl.formatMessage({
+            id: createCustomFieldErrors.message
+              ? createCustomFieldError.message
+              : 'setting.createCustomField.message.error'
+          });
+          ErrorNotification(title, message);
+          // clean error
+          dispatch(settingActions.createCustomFieldCleanError(false));
+        }
+      }, [dispatch, intl, createCustomFieldError, createCustomFieldErrors]);
 
     const formItemLayout = {
         labelCol: { span: 6 },
@@ -86,7 +118,8 @@ const CreateCustomField = ({ form, intl, createCustomField, visible, close, getC
     };
     return (
         <Modal
-            title={<FormattedMessage id="customers.customerModal.headerCreateCustomer.title" />}
+            title={<FormattedMessage id="setting.createCustomField.title" />}
+            cancelText="Close"
             visible={visible}
             width={550}
             className={styles.modal}
@@ -94,13 +127,13 @@ const CreateCustomField = ({ form, intl, createCustomField, visible, close, getC
             footer={[
                 <Row type="flex" key="abc" justify="end">
                     <Popconfirm
-                        title={<FormattedMessage id="customers.createCustomers.confirm.create" />}
+                        title={<FormattedMessage id="setting.createCustomField.confirm" />}
                         onConfirm={() => handleSubmit()}
                         okText={<FormattedMessage id="button.confirm.yes" />}
                         cancelText={<FormattedMessage id="button.confirm.no" />}>
                         <Button className={styles.buttonSubmit} loading={loading}>
-                            Submit
-                            </Button>
+                            <FormattedMessage id="button.add"/>
+                        </Button>
                     </Popconfirm>
                     <Button
                         icon="close-circle"
