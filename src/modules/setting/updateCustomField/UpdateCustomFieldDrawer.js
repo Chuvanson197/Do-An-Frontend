@@ -287,19 +287,19 @@ const UpdateCustomFieldDrawer = ({
                             }
                             }
                             onSelect={value => {
+                                //event when onselect option "All"
                                 if (value === 0) {
                                     let listProject = customfield.infocustomField.map(e => { return (e.project.id) });
                                     form.setFieldsValue({ ...form.getFieldsValue(), assignee: list.map(e => e.id) });
-                                    console.log(form.getFieldsValue());
                                     setArrRemove([]);
                                     setArrCreate(
+                                        // add all except selected projects
                                         list.reduce((accumulator, currentValue) => {
                                             if (!listProject.includes(currentValue.id)) {
                                                 return [...accumulator, currentValue.id]
                                             }
                                             return accumulator
                                         }, [])
-
                                     )
                                 }
                                 else {
@@ -312,6 +312,7 @@ const UpdateCustomFieldDrawer = ({
                             }
                             }
                             placeholder={<FormattedMessage id="setting.placeholder.feildProjects" />} notFoundContent={loading && <Spin size="small" />}>
+                            {/* add option All */}
                             <Select.Option title="setting.allProject" value={0}>{<FormattedMessage id="setting.allProject" />}</Select.Option>
                             {(list || []).map(e => {
                                 return (
