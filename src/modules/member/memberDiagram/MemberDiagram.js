@@ -12,6 +12,7 @@ const propTypes = {
 
 const MemberDiagram = ({ visible, close, joinedMembers }) => {
   const [engine, setEngine] = useState(createEngine());
+
   useEffect(() => {
     const listPo = [];
     const listPm = [];
@@ -37,9 +38,10 @@ const MemberDiagram = ({ visible, close, joinedMembers }) => {
           case 'dev':
             listDev.push(member);
             break;
+          default:
+            break;
         }
       });
-    console.log(listPo, listPm, listBrse, listComtor, listDev);
     if (listPo.length > 0) {
       var nodePoTitle = new DefaultNodeModel({
         name: 'PO',
@@ -135,7 +137,16 @@ const MemberDiagram = ({ visible, close, joinedMembers }) => {
       switch (node.options.role) {
         case 'po': {
           const portOut = node.addOutPort(' ');
-          const listPoLink = allNode.filter((node) => node.options.role === 'pm');
+          let listPoLink = [];
+          if (allNode.filter((node) => node.options.role === 'pm').length > 0) {
+            listPoLink = allNode.filter((node) => node.options.role === 'pm')
+          } else if (allNode.filter((node) => node.options.role === 'brse').length > 0) {
+            listPoLink = allNode.filter((node) => node.options.role === 'brse')
+          } else if (allNode.filter((node) => node.options.role === 'comtor').length > 0) {
+            listPoLink = allNode.filter((node) => node.options.role === 'comtor')
+          } else if (allNode.filter((node) => node.options.role === 'dev').length > 0) {
+            listPoLink = allNode.filter((node) => node.options.role === 'dev')
+          }
           listPoLink.forEach((pm) => {
             const portIn = pm.addInPort(`${node.options.name}`);
             const link = portOut.link(portIn);
@@ -145,7 +156,16 @@ const MemberDiagram = ({ visible, close, joinedMembers }) => {
         }
         case 'pm': {
           const portOut = node.addOutPort(' ');
-          const listPmLink = allNode.filter((node) => node.options.role === 'brse');
+          let listPmLink = [];
+          if (allNode.filter((node) => node.options.role === 'brse').length > 0) {
+            listPmLink = allNode.filter((node) => node.options.role === 'brse')
+
+          } else if (allNode.filter((node) => node.options.role === 'comtor').length > 0) {
+            listPmLink = allNode.filter((node) => node.options.role === 'comtor')
+          }
+          else if (allNode.filter((node) => node.options.role === 'dev').length > 0) {
+            listPmLink = allNode.filter((node) => node.options.role === 'dev')
+          }
           listPmLink.forEach((brse) => {
             const portIn = brse.addInPort(`${node.options.name}`);
             const link = portOut.link(portIn);
@@ -155,7 +175,12 @@ const MemberDiagram = ({ visible, close, joinedMembers }) => {
         }
         case 'brse': {
           const portOut = node.addOutPort(' ');
-          const listBrseLink = allNode.filter((node) => node.options.role === 'comtor');
+          let listBrseLink = [];
+          if (allNode.filter((node) => node.options.role === 'comtor').length > 0) {
+            listBrseLink = (allNode.filter((node) => node.options.role === 'comtor'))
+          } else if (allNode.filter((node) => node.options.role === 'dev').length > 0) {
+            listBrseLink = (allNode.filter((node) => node.options.role === 'dev'))
+          }
           listBrseLink.forEach((comtor) => {
             const portIn = comtor.addInPort(`${node.options.name}`);
             const link = portOut.link(portIn);
@@ -182,7 +207,7 @@ const MemberDiagram = ({ visible, close, joinedMembers }) => {
     model.addAll(nodePoTitle, nodePmTitle, nodeBrseTitle, nodeComtorTitle, nodeDevTitle);
     engine.setModel(model);
     setEngine(engine);
-  }, [joinedMembers]);
+  }, [joinedMembers, engine]);
   return (
     <Modal
       centered
