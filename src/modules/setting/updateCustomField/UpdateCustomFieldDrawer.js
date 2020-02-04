@@ -270,7 +270,7 @@ const UpdateCustomFieldDrawer = ({
                         initialValue: customfield.infocustomField.map(e => { return (e.project.id) }),
                         rules: [
                             {
-                                required: true,
+                                required: false,
                                 message: intl.formatMessage({ id: "setting.lable.feildprojects.validate" }),
                                 type: 'array'
                             },
@@ -280,7 +280,6 @@ const UpdateCustomFieldDrawer = ({
                             onDeselect={value => {
                                 if (arrCreate.includes(value)) {
                                     setArrCreate(arrCreate.filter(created => created !== value
-
                                     ))
                                 } else {
                                     setArrRemove([...arrRemove, value])
@@ -288,14 +287,33 @@ const UpdateCustomFieldDrawer = ({
                             }
                             }
                             onSelect={value => {
-                                if (arrRemove.includes(value)) {
-                                    setArrRemove(arrRemove.filter(removed => removed !== value))
-                                } else {
-                                    setArrCreate([...arrCreate, value])
+                                //event when onselect option "All"
+                                if (value === 0) {
+                                    let listProject = customfield.infocustomField.map(e => { return (e.project.id) });
+                                    form.setFieldsValue({ ...form.getFieldsValue(), assignee: list.map(e => e.id) });
+                                    setArrRemove([]);
+                                    setArrCreate(
+                                        // add all except selected projects
+                                        list.reduce((accumulator, currentValue) => {
+                                            if (!listProject.includes(currentValue.id)) {
+                                                return [...accumulator, currentValue.id]
+                                            }
+                                            return accumulator
+                                        }, [])
+                                    )
+                                }
+                                else {
+                                    if (arrRemove.includes(value)) {
+                                        setArrRemove(arrRemove.filter(removed => removed !== value))
+                                    } else {
+                                        setArrCreate([...arrCreate, value])
+                                    }
                                 }
                             }
                             }
                             placeholder={<FormattedMessage id="setting.placeholder.feildProjects" />} notFoundContent={loading && <Spin size="small" />}>
+                            {/* add option All */}
+                            <Select.Option title="setting.allProject" value={0}>{<FormattedMessage id="setting.allProject" />}</Select.Option>
                             {(list || []).map(e => {
                                 return (
                                     <Select.Option key={e.id} value={e.id}>
