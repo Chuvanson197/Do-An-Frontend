@@ -416,7 +416,11 @@ const ProjectDetail = ({
           />
         )}
       </Row>
-      <MemberDiagram visible={visible} close={() => setVisible(!visible)} />
+      <MemberDiagram
+        joinedMembers={joinedMembers}
+        visible={visible}
+        close={() => setVisible(!visible)}
+      />
       {openAddModal && (
         <AddMemberModal
           getMembers={getMembers}
