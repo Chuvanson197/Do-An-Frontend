@@ -1,202 +1,188 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { DiagramEngine, DiagramModel, DefaultNodeModel, DiagramWidget } from 'storm-react-diagrams';
 import { Modal, Button, Tooltip } from 'antd';
 import '../../../assets/styles/diagrams/main.scss';
+import createEngine, { DefaultNodeModel, DiagramModel } from '@projectstorm/react-diagrams';
+import { CanvasWidget } from '@projectstorm/react-canvas-core';
 
 const propTypes = {
   visible: PropTypes.bool.isRequired,
-  close: PropTypes.func.isRequired,
-
-  listMember: PropTypes.arrayOf(PropTypes.shape({}))
+  close: PropTypes.func.isRequired
 };
 
-const defaultProps = {
-  listMember: [
-    {
-      name: 'Member 1',
-      role: {
-        name: 'PO',
-        level: 1,
-        notLinked: []
-      }
-    },
-    {
-      name: 'Member 2',
-      role: {
-        name: 'PM',
-        level: 2,
-        notLinked: []
-      }
-    },
-    {
-      name: 'Member 3',
-      role: {
-        name: 'BrSE',
-        level: 3,
-        notLinked: []
-      }
-    },
-    {
-      name: 'Member 4',
-      role: {
-        name: 'Comtor',
-        level: 4,
-        notLinked: []
-      }
-    },
-    {
-      name: 'Member 5',
-      role: {
-        name: 'QA Leader',
-        level: 4,
-        notLinked: []
-      }
-    },
-    {
-      name: 'Member 6',
-      role: {
-        name: 'Android Leader',
-        level: 4,
-        notLinked: []
-      }
-    },
-    {
-      name: 'Member 7',
-      role: {
-        name: 'IOS Leader',
-        level: 4,
-        notLinked: []
-      }
-    },
-    {
-      name: 'Member 8',
-      role: {
-        name: 'BE Leader',
-        level: 4,
-        notLinked: []
-      }
-    },
-    {
-      name: 'Member 9',
-      role: {
-        name: 'QAs',
-        level: 5,
-        notLinked: ['Android Leader', 'IOS Leader', 'BE Leader']
-      }
-    },
-    {
-      name: 'Member 10',
-      role: {
-        name: 'Android Devs',
-        level: 5,
-        notLinked: ['QA Leader', 'IOS Leader', 'BE Leader']
-      }
-    },
-    {
-      name: 'Member 11',
-      role: {
-        name: 'Android Devs',
-        level: 5,
-        notLinked: ['QA Leader', 'IOS Leader', 'BE Leader']
-      }
-    },
-    {
-      name: 'Member 12',
-      role: {
-        name: 'IOS Devs',
-        level: 5,
-        notLinked: ['QA Leader', 'Android Leader', 'BE Leader']
-      }
-    },
-    {
-      name: 'Member 13',
-      role: {
-        name: 'IOS Devs',
-        level: 5,
-        notLinked: ['QA Leader', 'Android Leader', 'BE Leader']
-      }
-    },
-    {
-      name: 'Member 14',
-      role: {
-        name: 'BE Devs',
-        level: 5,
-        notLinked: ['QA Leader', 'IOS Leader', 'Android Leader']
-      }
-    },
-    {
-      name: 'Member 15',
-      role: {
-        name: 'BE Devs',
-        level: 5,
-        notLinked: ['QA Leader', 'IOS Leader', 'Android Leader']
-      }
-    }
-  ]
-};
-
-const MemberDiagram = ({ visible, close, listMember }) => {
-  const [Engine, setEngine] = useState(null);
+const MemberDiagram = ({ visible, close, joinedMembers }) => {
+  const [engine, setEngine] = useState(createEngine());
   useEffect(() => {
-    const engine = new DiagramEngine();
-    engine.installDefaultFactories();
+    const listPo = [];
+    const listPm = [];
+    const listBrse = [];
+    const listComtor = [];
+    const listDev = [];
     const model = new DiagramModel();
-    const roles = [
-      { name: ['PO'], level: 1 },
-      { name: ['PM'], level: 2 },
-      { name: ['BrSE'], level: 3 },
-      {
-        name: [
-          'Comtor',
-          'QA Leader',
-          'Android Leader',
-          'IOS Leader',
-          'Android Leader',
-          'BE Leader'
-        ],
-        level: 4
-      },
-      { name: ['QAs', 'Android Devs', 'IOS Devs', 'BE Devs'], level: 5 }
-    ];
-
-    const Arr = roles.map((role) => listMember.filter((e) => e.role.level === role.level));
-
-    let nodeArr = [];
-    Arr.forEach((e, index1) => {
-      e.forEach((member, index2) => {
-        const node = new DefaultNodeModel(member.role.name, 'rgb(0,192,255)');
-        if (member.role.level === 5) {
-          node.setPosition(250 * (index1 + 1), 100 * (index2 + 1));
-        } else {
-          node.setPosition(200 * (index1 + 1), 100 * (index2 + 1));
+    joinedMembers &&
+      joinedMembers.list.forEach((member) => {
+        switch (member.role) {
+          case 'po':
+            listPo.push(member);
+            break;
+          case 'pm':
+            listPm.push(member);
+            break;
+          case 'brse':
+            listBrse.push(member);
+            break;
+          case 'comtor':
+            listComtor.push(member);
+            break;
+          case 'dev':
+            listDev.push(member);
+            break;
         }
-
-        model.addAll(node);
-        node.notLinked = member.role.notLinked;
-        nodeArr.push(node);
       });
-    });
-
-    nodeArr = roles.map((role) => nodeArr.filter((e) => role.name.includes(e.name)));
-
-    // eslint-disable-next-line no-plusplus
-    for (let i = 0; i < nodeArr.length - 1; i++) {
-      nodeArr[i].forEach((node1, index1) => {
-        const portOut = node1.addOutPort(' ');
-        nodeArr[i + 1].forEach((node2, index2) => {
-          if (!node2.notLinked.includes(node1.name)) {
-            const portIn = node2.addInPort(' ');
+    console.log(listPo, listPm, listBrse, listComtor, listDev);
+    if (listPo.length > 0) {
+      var nodePoTitle = new DefaultNodeModel({
+        name: 'PO',
+        color: 'rgb(0,192,255)',
+        locked: true
+      });
+      nodePoTitle.setPosition(150, 150);
+      listPo.forEach((po, index) => {
+        const node = new DefaultNodeModel({
+          name: po['member_detail'].full_name,
+          color: 'rgb(0,192,255)',
+          id: `${po.id}`,
+          role: 'po'
+        });
+        node.setPosition(150, 150 + (1 + index) * 70);
+        model.addNode(node);
+      });
+    }
+    if (listPm.length > 0) {
+      var nodePmTitle = new DefaultNodeModel({
+        name: 'PM',
+        color: 'rgb(0,192,255)',
+        locked: true
+      });
+      nodePmTitle.setPosition(350, 150);
+      listPm.forEach((pm, index) => {
+        const node = new DefaultNodeModel({
+          name: pm['member_detail'].full_name,
+          color: 'rgb(0,192,255)',
+          id: `${pm.id}`,
+          role: 'pm'
+        });
+        node.setPosition(350, 150 + (1 + index) * 70);
+        model.addNode(node);
+      });
+    }
+    if (listBrse.length > 0) {
+      var nodeBrseTitle = new DefaultNodeModel({
+        name: 'BRSE',
+        color: 'rgb(0,192,255)',
+        locked: true
+      });
+      nodeBrseTitle.setPosition(550, 150);
+      listBrse.forEach((brse, index) => {
+        const node = new DefaultNodeModel({
+          name: brse['member_detail'].full_name,
+          color: 'rgb(0,192,255)',
+          id: `${brse.id}`,
+          role: 'brse'
+        });
+        node.setPosition(550, 150 + (1 + index) * 70);
+        model.addNode(node);
+      });
+    }
+    if (listComtor.length > 0) {
+      var nodeComtorTitle = new DefaultNodeModel({
+        name: 'COMTOR',
+        color: 'rgb(0,192,255)',
+        locked: true
+      });
+      nodeComtorTitle.setPosition(750, 150);
+      listComtor.forEach((comtor, index) => {
+        const node = new DefaultNodeModel({
+          name: comtor['member_detail'].full_name,
+          color: 'rgb(0,192,255)',
+          id: `${comtor.id}`,
+          role: 'comtor'
+        });
+        node.setPosition(750, 150 + (1 + index) * 70);
+        model.addNode(node);
+      });
+    }
+    if (listDev.length > 0) {
+      var nodeDevTitle = new DefaultNodeModel({
+        name: 'DEV',
+        color: 'rgb(0,192,255)',
+        locked: true
+      });
+      nodeDevTitle.setPosition(950, 150);
+      listDev.forEach((dev, index) => {
+        const node = new DefaultNodeModel({
+          name: dev['member_detail'].full_name,
+          color: 'rgb(0,192,255)',
+          id: `${dev.id}`,
+          role: 'dev'
+        });
+        node.setPosition(950, 150 + (1 + index) * 70);
+        model.addNode(node);
+      });
+    }
+    let allNode = model.getModels();
+    allNode.forEach((node) => {
+      switch (node.options.role) {
+        case 'po': {
+          const portOut = node.addOutPort(' ');
+          const listPoLink = allNode.filter((node) => node.options.role === 'pm');
+          listPoLink.forEach((pm) => {
+            const portIn = pm.addInPort(`${node.options.name}`);
             const link = portOut.link(portIn);
             model.addAll(link);
-          }
-        });
-      });
-    }
-
-    engine.setDiagramModel(model);
+          });
+          break;
+        }
+        case 'pm': {
+          const portOut = node.addOutPort(' ');
+          const listPmLink = allNode.filter((node) => node.options.role === 'brse');
+          listPmLink.forEach((brse) => {
+            const portIn = brse.addInPort(`${node.options.name}`);
+            const link = portOut.link(portIn);
+            model.addAll(link);
+          });
+          break;
+        }
+        case 'brse': {
+          const portOut = node.addOutPort(' ');
+          const listBrseLink = allNode.filter((node) => node.options.role === 'comtor');
+          listBrseLink.forEach((comtor) => {
+            const portIn = comtor.addInPort(`${node.options.name}`);
+            const link = portOut.link(portIn);
+            model.addAll(link);
+          });
+          break;
+        }
+        case 'comtor': {
+          const portOut = node.addOutPort(' ');
+          const listComtorLink = allNode.filter((node) => node.options.role === 'dev');
+          listComtorLink.forEach((dev) => {
+            const portIn = dev.addInPort(`${node.options.name}`);
+            const link = portOut.link(portIn);
+            model.addAll(link);
+          });
+          break;
+        }
+        case 'dev':
+          break;
+        default:
+          break;
+      }
+    });
+    model.addAll(nodePoTitle, nodePmTitle, nodeBrseTitle, nodeComtorTitle, nodeDevTitle);
+    engine.setModel(model);
     setEngine(engine);
-  }, [listMember]);
+  }, [joinedMembers]);
   return (
     <Modal
       centered
@@ -206,7 +192,7 @@ const MemberDiagram = ({ visible, close, listMember }) => {
           <Tooltip placement="right" title="Zoom to fit">
             <Button
               style={{ marginLeft: 10 }}
-              onClick={() => Engine.zoomToFit()}
+              onClick={() => engine.zoomToFit()}
               type="primary"
               shape="circle"
               icon="search"
@@ -223,17 +209,13 @@ const MemberDiagram = ({ visible, close, listMember }) => {
           Close
         </Button>
       ]}>
-      {Engine && (
-        <div style={{ height: '70vh' }}>
-          <DiagramWidget className="srd-demo-canvas" diagramEngine={Engine} />
-        </div>
-      )}
+      <div style={{ height: '70vh' }}>
+        <CanvasWidget className="srd-demo-canvas" engine={engine} />
+      </div>
     </Modal>
   );
 };
 
 MemberDiagram.propTypes = propTypes;
-
-MemberDiagram.defaultProps = defaultProps;
 
 export default MemberDiagram;
