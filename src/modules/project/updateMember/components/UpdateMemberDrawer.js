@@ -46,6 +46,8 @@ const styles = {
     right: 24px;
     left: 24px;
     padding: 24px 0px;
+    background-color: #ffffff;
+    border-top: '1px solid #e8e8e8';
   `
 };
 
@@ -72,13 +74,13 @@ const UpdateMemberDrawer = ({
   member,
   getProject,
   getJoinedMembers,
-  updateMember
+  updateMember,
+  joinedMembers
 }) => {
   const dispatch = useDispatch();
   const { updateMemberResult, updateMemberError, updateMemberErrors, loading } = useSelector(
     (state) => state.projects
   );
-
   useEffect(() => {
     return () => {
       dispatch(projectActions.updateMemberCleanError());
@@ -125,14 +127,16 @@ const UpdateMemberDrawer = ({
           time_out: values.time_out ? parseInt(moment(values.time_out).format('x'), 10) : null,
           effort: values.effort,
           role: values.role,
-          member_status: values.member_status
+          member_status: values.member_status,
+          assignee: values.assignee,
         };
         const oldBody = {
           time_in: parseInt(member.time_in, 10),
           time_out: member.time_out ? parseInt(member.time_out, 10) : null,
           effort: member.effort,
           role: member.role,
-          member_status: member.member_status
+          member_status: member.member_status,
+          assignee: member.assignee,
         };
         // check if value is not change
         if (JSON.stringify(body) === JSON.stringify(oldBody)) {
@@ -280,9 +284,39 @@ const UpdateMemberDrawer = ({
             />
           )}
         </Form.Item>
-
         <Form.Item
           style={{ display: 'flex' }}
+          label={<FormattedMessage id="projects.addMember.assignee" />}
+          validateStatus={form.getFieldError('assignee') ? 'error' : 'validating'}>
+          {form.getFieldDecorator('assignee', {
+            rules: [
+              {
+                message: ""
+              }
+            ],
+          })(
+            <Select
+              mode="multiple"
+              placeholder={intl.formatMessage({ id: 'projects.addMember.placeholer.link' })}>
+              {/* Default: All member under the rank */}
+              <Select.Option title={intl.formatMessage({ id: 'projects.addMember.title.defaultAssignee' })} value="Default">
+                <FormattedMessage id={`projects.addMember.defaultAssignee`} />
+              </Select.Option>
+              {(joinedMembers || []).map(
+                (e) => {
+                  if (e.id !== member.id) {
+                    return (
+                      <Select.Option key={e.id} value={e.member_detail.staff_code}>
+                        {e.member_detail.full_name} - <FormattedMessage id={`projects.addMember.role.${e.role}`} />
+                      </Select.Option>
+                    );
+                  }
+                })}
+            </Select>
+          )}
+        </Form.Item>
+        <Form.Item
+          style={{ display: 'flex', paddingBottom: '50px' }}
           label={<FormattedMessage id="projects.addMember.effort" />}
           validateStatus={form.getFieldError('effort') ? 'error' : 'validating'}>
           {form.getFieldDecorator('effort', {
