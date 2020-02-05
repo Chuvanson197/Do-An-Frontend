@@ -336,10 +336,10 @@ const ProjectDetail = ({
               <Descriptions column={1}>
                 {project
                   ? project.customField.map((obj) => (
-                      <Descriptions.Item key={obj.idInfoCustomField} label={obj.name}>
-                        {obj && obj.value ? obj.value : ''}
-                      </Descriptions.Item>
-                    ))
+                    <Descriptions.Item key={obj.idInfoCustomField} label={obj.name}>
+                      {obj && obj.value ? obj.value : ''}
+                    </Descriptions.Item>
+                  ))
                   : null}
               </Descriptions>
             </Col>
@@ -403,6 +403,7 @@ const ProjectDetail = ({
             getProject={getProject}
             getJoinedMembers={getJoinedMembers}
             updateMember={updateMember}
+            joinedMembers={joinedMembers.list}
           />
         )}
         {drawerVisible && (

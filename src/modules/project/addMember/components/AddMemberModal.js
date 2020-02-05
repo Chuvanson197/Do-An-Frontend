@@ -90,7 +90,8 @@ const AddMemberModal = ({
     (state) => state.projects
   );
   const [memberDetail, setMemberDetail] = useState(selectedMember);
-
+  //variable disabled field assignee
+  const [disabledLink, setDisabledLink] = useState(true);
   // Get all members after open modal
   useEffect(() => {
     getMembers && getMembers();
@@ -149,7 +150,8 @@ const AddMemberModal = ({
           ...values,
           project_id: match.params.id,
           time_in: parseInt(moment(values.time_in).format('x'), 10),
-          time_out: values.time_out ? parseInt(moment(values.time_out).format('x'), 10) : null
+          time_out: values.time_out ? parseInt(moment(values.time_out).format('x'), 10) : null,
+          assignee: values.assignee
         };
         // call api when valid data
         addMember && addMember(body);
@@ -170,7 +172,18 @@ const AddMemberModal = ({
       return member;
     });
   };
-
+  // when member not selected, disabled field assignee 
+  // When selected, chose default for field assignee: All member under rank
+  const handleChange = (value) => {
+    if (value) {
+      setDisabledLink(false);
+      form.setFieldsValue({ ...form.getFieldsValue(), assignee: ["Default"] });
+    }
+    else {
+      setDisabledLink(true);
+      form.setFieldsValue({ ...form.getFieldsValue(), assignee: undefined });
+    }
+  }
   return (
     <Modal
       title={<FormattedMessage id="projects.addMember.title" />}
@@ -221,7 +234,9 @@ const AddMemberModal = ({
               allowClear
               autoClearSearchValue
               notFoundContent={memberLoading && <Spin size="small" />}
-              onSelect={(value) => handleSelect(value)}>
+              onSelect={handleSelect}
+              onChange={handleChange}
+            >
               {(list || []).map((member) => {
                 return (
                   <Select.Option
@@ -321,7 +336,37 @@ const AddMemberModal = ({
             />
           )}
         </Form.Item>
-
+        <Form.Item
+          style={{ display: 'flex' }}
+          label={<FormattedMessage id="projects.addMember.assignee" />}
+          validateStatus={form.getFieldError('assignee') ? 'error' : 'validating'}>
+          {form.getFieldDecorator('assignee', {
+            rules: [
+              {
+                required: false,
+                message: ""
+              }
+            ],
+          })(
+            <Select
+              disabled={disabledLink}
+              mode="multiple"
+              placeholder={intl.formatMessage({ id: 'projects.addMember.placeholer.link' })}
+            >
+              <Select.Option title={intl.formatMessage({ id: 'projects.addMember.title.defaultAssignee' })} value="Default">
+                <FormattedMessage id={`projects.addMember.defaultAssignee`} />
+              </Select.Option>
+              {(joinedMembers || []).map(
+                (e) => {
+                  return (
+                    <Select.Option key={e.id} value={e.member_detail.staff_code}>
+                      {e.member_detail.full_name} - <FormattedMessage id={`projects.addMember.role.${e.role}`} />
+                    </Select.Option>
+                  );
+                })}
+            </Select>
+          )}
+        </Form.Item>
         <Form.Item
           style={{ display: 'flex' }}
           label={<FormattedMessage id="projects.addMember.effort" />}
