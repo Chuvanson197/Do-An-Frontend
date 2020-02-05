@@ -343,7 +343,6 @@ const AddMemberModal = ({
           {form.getFieldDecorator('assignee', {
             rules: [
               {
-                required: false,
                 message: ""
               }
             ],

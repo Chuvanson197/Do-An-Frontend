@@ -91,7 +91,7 @@
   "projects.addMember.role.brse": "Kỹ sư cầu nối",
   "projects.addMember.role.comtor": "Phiên dịch viên",
   "projects.addMember.role.dev": "Lập trình viên",
-  "projects.addMember.assignee": "Link tới",
+  "projects.addMember.assignee": "Làm việc với",
   "projects.addMemberIntoProject.message.error": "Thêm mới thành viên vào dự án thất bại",
   "projects.addMemberIntoProject.message.success": "Thêm mới thành viên vào dự án thành công",
   "projects.removeMemberFromProject.message.success": "Thành viên đã rời khỏi dự án",

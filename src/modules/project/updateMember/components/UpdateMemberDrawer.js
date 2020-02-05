@@ -291,7 +291,6 @@ const UpdateMemberDrawer = ({
           {form.getFieldDecorator('assignee', {
             rules: [
               {
-                required: false,
                 message: ""
               }
             ],
