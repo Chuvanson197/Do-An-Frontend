@@ -126,6 +126,7 @@
   "projects.removeProject.message.error": "Hủy bỏ dự án thất bại",
   "projects.memberHistory.title": "Lịch sử thành viên trong dự án",
   "projects.memberHistory.message.error": "Lấy danh sách thành viên thất bại ",
+  "projects.memberdiagram.title":"Sơ đồ thành viên trong dự án",
   "dashboard.title": "Thống Kê",
   "projects.title": "Dự Án",
   "customers.title": "Khách Hàng",

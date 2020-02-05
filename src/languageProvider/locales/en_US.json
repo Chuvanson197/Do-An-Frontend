@@ -123,6 +123,7 @@
   "projects.removeProject.message.error": "Remove this project information failure",
   "projects.memberHistory.title": "Project's member history",
   "projects.memberHistory.message.error": "Get member list failure",
+  "projects.memberdiagram.title":"Project Member Diagram",
   "dashboard.title": "Dashboard",
   "projects.title": "Projects",
   "customers.title": "Customers",

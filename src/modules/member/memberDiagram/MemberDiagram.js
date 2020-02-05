@@ -4,6 +4,8 @@ import { Modal, Button, Tooltip } from 'antd';
 import '../../../assets/styles/diagrams/main.scss';
 import createEngine, { DefaultNodeModel, DiagramModel } from '@projectstorm/react-diagrams';
 import { CanvasWidget } from '@projectstorm/react-canvas-core';
+import { FormattedMessage } from 'react-intl';
+
 
 const propTypes = {
   visible: PropTypes.bool.isRequired,
@@ -44,17 +46,19 @@ const MemberDiagram = ({ visible, close, joinedMembers }) => {
       });
     if (listPo.length > 0) {
       var nodePoTitle = new DefaultNodeModel({
-        name: 'PO',
-        color: 'rgb(0,192,255)',
-        locked: true
+        name: <FormattedMessage id="projects.addMember.role.po" />,
+        color: '#A4CFBB',
+        locked: true,
       });
       nodePoTitle.setPosition(150, 150);
       listPo.forEach((po, index) => {
         const node = new DefaultNodeModel({
           name: po['member_detail'].full_name,
-          color: 'rgb(0,192,255)',
+          color: '#A4CFBB',
           id: `${po.id}`,
-          role: 'po'
+          role: 'po',
+          width:500,
+          height:200
         });
         node.setPosition(150, 150 + (1 + index) * 70);
         model.addNode(node);
@@ -62,15 +66,15 @@ const MemberDiagram = ({ visible, close, joinedMembers }) => {
     }
     if (listPm.length > 0) {
       var nodePmTitle = new DefaultNodeModel({
-        name: 'PM',
-        color: 'rgb(0,192,255)',
+        name: <FormattedMessage id="projects.addMember.role.pm" />,
+        color: '#0B3954',
         locked: true
       });
       nodePmTitle.setPosition(350, 150);
       listPm.forEach((pm, index) => {
         const node = new DefaultNodeModel({
           name: pm['member_detail'].full_name,
-          color: 'rgb(0,192,255)',
+          color: '#0B3954',
           id: `${pm.id}`,
           role: 'pm'
         });
@@ -80,15 +84,15 @@ const MemberDiagram = ({ visible, close, joinedMembers }) => {
     }
     if (listBrse.length > 0) {
       var nodeBrseTitle = new DefaultNodeModel({
-        name: 'BRSE',
-        color: 'rgb(0,192,255)',
+        name: <FormattedMessage id="projects.addMember.role.brse" />,
+        color: '#087E8B',
         locked: true
       });
       nodeBrseTitle.setPosition(550, 150);
       listBrse.forEach((brse, index) => {
         const node = new DefaultNodeModel({
           name: brse['member_detail'].full_name,
-          color: 'rgb(0,192,255)',
+          color: '#087E8B',
           id: `${brse.id}`,
           role: 'brse'
         });
@@ -98,15 +102,15 @@ const MemberDiagram = ({ visible, close, joinedMembers }) => {
     }
     if (listComtor.length > 0) {
       var nodeComtorTitle = new DefaultNodeModel({
-        name: 'COMTOR',
-        color: 'rgb(0,192,255)',
+        name: <FormattedMessage id="projects.addMember.role.comtor" />,
+        color: '#FF5A5F',
         locked: true
       });
       nodeComtorTitle.setPosition(750, 150);
       listComtor.forEach((comtor, index) => {
         const node = new DefaultNodeModel({
           name: comtor['member_detail'].full_name,
-          color: 'rgb(0,192,255)',
+          color: '#FF5A5F',
           id: `${comtor.id}`,
           role: 'comtor'
         });
@@ -116,15 +120,15 @@ const MemberDiagram = ({ visible, close, joinedMembers }) => {
     }
     if (listDev.length > 0) {
       var nodeDevTitle = new DefaultNodeModel({
-        name: 'DEV',
-        color: 'rgb(0,192,255)',
+        name: <FormattedMessage id="projects.addMember.role.dev" />,
+        color: '#C81D25',
         locked: true
       });
       nodeDevTitle.setPosition(950, 150);
       listDev.forEach((dev, index) => {
         const node = new DefaultNodeModel({
           name: dev['member_detail'].full_name,
-          color: 'rgb(0,192,255)',
+          color: '#C81D25',
           id: `${dev.id}`,
           role: 'dev'
         });
@@ -213,7 +217,7 @@ const MemberDiagram = ({ visible, close, joinedMembers }) => {
       centered
       title={[
         <React.Fragment key="1">
-          Project Member Diagram
+          <FormattedMessage id="projects.memberdiagram.title" />
           <Tooltip placement="right" title="Zoom to fit">
             <Button
               style={{ marginLeft: 10 }}
@@ -231,7 +235,7 @@ const MemberDiagram = ({ visible, close, joinedMembers }) => {
       onCancel={() => close()}
       footer={[
         <Button type="primary" key="close" onClick={() => close()}>
-          Close
+          <FormattedMessage id="button.close" />
         </Button>
       ]}>
       <div style={{ height: '70vh' }}>
