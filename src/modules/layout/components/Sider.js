@@ -7,6 +7,7 @@ import { FormattedMessage } from 'react-intl';
 import CustomMenu from './CustomMenu';
 import WithRole from '../../../hocs/WithRole';
 import Cookies from 'js-cookie';
+import { authApi } from '../../../api/auth/authApi';
 
 const { SubMenu } = Menu;
 
@@ -26,26 +27,28 @@ const styles = {
     margin: 4px;
   `,
   user: css`
-    position:fixed !important;
+    position: fixed !important;
     bottom: 0;
-    width: 200px
+    width: 200px;
   `
 };
 const Sider = () => {
-
-  const user = useSelector((state) => state.auth);
+  const {
+    user: { staff_code },
+    user
+  } = useSelector((state) => state.auth);
   const dispacth = useDispatch();
   const layoutCheck = useSelector((state) => state.layout);
   const { selectedItem, selectedSubMenu, isCollapsed } = useSelector((state) => state.layoutSlider);
-
   const handleSelectSubMenu = (selectedKeys) => {
     dispacth(actions.selectSubMenu(selectedKeys));
   };
   const handleLogout = () => {
     localStorage.clear();
     Cookies.remove('access-token');
-    window.location.reload()
-  }
+    authApi.logout(staff_code);
+    window.location.reload();
+  };
   return (
     <>
       {layoutCheck.isShow && (
@@ -119,10 +122,11 @@ const Sider = () => {
               component={SubMenu}
               type={['admin', 'manager', 'normal']}
               className={styles.user}
-              title={user.user.full_name}
-              mode="inline"
-            >
-              <Menu.Item onClick={handleLogout} key="1"><FormattedMessage id="logout.title" /></Menu.Item>
+              title={user.full_name}
+              mode="inline">
+              <Menu.Item onClick={handleLogout} key="1">
+                <FormattedMessage id="logout.title" />
+              </Menu.Item>
             </WithRole>
           </Menu>
         </Layout.Sider>

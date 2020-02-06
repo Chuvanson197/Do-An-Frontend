@@ -23,8 +23,18 @@ const refreshToken = async () => {
   return refreshToken;
 };
 
+const logout = async (staff_code) =>
+  axios.post(
+    `${process.env.REACT_APP_API}/auth/logout`,
+    { staff_code },
+    {
+      withCredentials: true
+    }
+  );
+
 export const authApi = {
   login,
   refreshLogin,
-  refreshToken
+  refreshToken,
+  logout
 };
