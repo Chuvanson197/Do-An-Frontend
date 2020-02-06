@@ -6,6 +6,7 @@ import { css } from 'emotion';
 import { FormattedMessage } from 'react-intl';
 import CustomMenu from './CustomMenu';
 import WithRole from '../../../hocs/WithRole';
+import Cookies from 'js-cookie';
 
 const { SubMenu } = Menu;
 
@@ -23,10 +24,16 @@ const styles = {
     height: 56px;
     background-color: transparent;
     margin: 4px;
+  `,
+  user: css`
+    position:fixed !important;
+    bottom: 0;
+    width: 200px
   `
 };
-
 const Sider = () => {
+
+  const user = useSelector((state) => state.auth);
   const dispacth = useDispatch();
   const layoutCheck = useSelector((state) => state.layout);
   const { selectedItem, selectedSubMenu, isCollapsed } = useSelector((state) => state.layoutSlider);
@@ -34,7 +41,11 @@ const Sider = () => {
   const handleSelectSubMenu = (selectedKeys) => {
     dispacth(actions.selectSubMenu(selectedKeys));
   };
-
+  const handleLogout = () => {
+    localStorage.clear();
+    Cookies.remove('access-token');
+    window.location.reload()
+  }
   return (
     <>
       {layoutCheck.isShow && (
@@ -103,6 +114,15 @@ const Sider = () => {
                 message="setting.customfield.title"
                 type={['admin']}
               />
+            </WithRole>
+            <WithRole
+              component={SubMenu}
+              type={['admin', 'manager', 'normal']}
+              className={styles.user}
+              title={user.user.full_name}
+              mode="inline"
+            >
+              <Menu.Item onClick={handleLogout} key="1"><FormattedMessage id="logout.title" /></Menu.Item>
             </WithRole>
           </Menu>
         </Layout.Sider>
