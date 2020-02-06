@@ -12,15 +12,17 @@ const propTypes = {
   close: PropTypes.func.isRequired
 };
 
-const MemberDiagram = ({ visible, close, joinedMembers }) => {
+const MemberDiagram = ({ visible, close, project, joinedMembers }) => {
   const engine = createEngine();
-
   const listPo = [];
   const listPm = [];
   const listBrse = [];
   const listComtor = [];
   const listDev = [];
   const model = new DiagramModel();
+
+  const listAssignee = project && project.assigneeProject.filter(e => e.member_be_link_id !== "Default")
+
   joinedMembers &&
     joinedMembers.list.forEach((member) => {
       switch (member.role) {
@@ -54,7 +56,7 @@ const MemberDiagram = ({ visible, close, joinedMembers }) => {
       const node = new DefaultNodeModel({
         name: po['member_detail'].full_name,
         color: '#A4CFBB',
-        id: `${po.id}`,
+        id: `${po['member_detail'].staff_code}`,
         role: 'po',
         width: 500,
         height: 200
@@ -74,7 +76,7 @@ const MemberDiagram = ({ visible, close, joinedMembers }) => {
       const node = new DefaultNodeModel({
         name: pm['member_detail'].full_name,
         color: '#0B3954',
-        id: `${pm.id}`,
+        id: `${pm['member_detail'].staff_code}`,
         role: 'pm'
       });
       node.setPosition(350, 150 + (1 + index) * 70);
@@ -92,8 +94,9 @@ const MemberDiagram = ({ visible, close, joinedMembers }) => {
       const node = new DefaultNodeModel({
         name: brse['member_detail'].full_name,
         color: '#087E8B',
-        id: `${brse.id}`,
-        role: 'brse'
+        id: `${brse['member_detail'].staff_code}`,
+        role: 'brse',
+
       });
       node.setPosition(550, 150 + (1 + index) * 70);
       model.addNode(node);
@@ -110,7 +113,7 @@ const MemberDiagram = ({ visible, close, joinedMembers }) => {
       const node = new DefaultNodeModel({
         name: comtor['member_detail'].full_name,
         color: '#FF5A5F',
-        id: `${comtor.id}`,
+        id: `${comtor['member_detail'].staff_code}`,
         role: 'comtor'
       });
       node.setPosition(750, 150 + (1 + index) * 70);
@@ -128,7 +131,7 @@ const MemberDiagram = ({ visible, close, joinedMembers }) => {
       const node = new DefaultNodeModel({
         name: dev['member_detail'].full_name,
         color: '#C81D25',
-        id: `${dev.id}`,
+        id: `${dev['member_detail'].staff_code}`,
         role: 'dev'
       });
       node.setPosition(950, 150 + (1 + index) * 70);
@@ -206,7 +209,17 @@ const MemberDiagram = ({ visible, close, joinedMembers }) => {
       default:
         break;
     }
+
   });
+
+  listAssignee && listAssignee.length > 0 && listAssignee.forEach((link) => {
+    const nodeLink = allNode && allNode.filter(node => node.options.id === link.member_link_id);
+    const nodeBeLink = allNode && allNode.filter(node => node.options.id === link.member_be_link_id);
+    const portOut = nodeLink.length > 0 && nodeLink[0].addOutPort(' ');
+    const portIn = nodeBeLink.length > 0 && nodeBeLink[0].addInPort(`${nodeLink[0].options.name}`)
+    const linkNode = portOut && portOut.link(portIn);
+    model.addAll(linkNode);
+  })
   model.addAll(nodePoTitle, nodePmTitle, nodeBrseTitle, nodeComtorTitle, nodeDevTitle);
   engine.setModel(model);
   return (

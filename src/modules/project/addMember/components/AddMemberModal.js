@@ -341,11 +341,7 @@ const AddMemberModal = ({
           label={<FormattedMessage id="projects.addMember.assignee" />}
           validateStatus={form.getFieldError('assignee') ? 'error' : 'validating'}>
           {form.getFieldDecorator('assignee', {
-            rules: [
-              {
-                message: ""
-              }
-            ],
+            rules: [],
           })(
             <Select
               disabled={disabledLink}

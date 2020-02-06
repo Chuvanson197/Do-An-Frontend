@@ -421,6 +421,7 @@ const ProjectDetail = ({
         joinedMembers={joinedMembers}
         visible={visible}
         close={() => setVisible(!visible)}
+        project={project}
       />
       {openAddModal && (
         <AddMemberModal
