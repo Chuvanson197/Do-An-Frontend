@@ -144,6 +144,8 @@ const UpdateMemberDrawer = ({
           const message = intl.formatMessage({ id: 'notification.message.form.noChanging' });
           return ErrorNotification(title, message);
         }
+        console.log('body',body);
+        
         updateMember && updateMember(body, member);
       } else {
         // showing error form input notification
@@ -289,11 +291,7 @@ const UpdateMemberDrawer = ({
           label={<FormattedMessage id="projects.addMember.assignee" />}
           validateStatus={form.getFieldError('assignee') ? 'error' : 'validating'}>
           {form.getFieldDecorator('assignee', {
-            rules: [
-              {
-                message: ""
-              }
-            ],
+            rules: [],
           })(
             <Select
               mode="multiple"
@@ -302,7 +300,7 @@ const UpdateMemberDrawer = ({
               <Select.Option title={intl.formatMessage({ id: 'projects.addMember.title.defaultAssignee' })} value="Default">
                 <FormattedMessage id={`projects.addMember.defaultAssignee`} />
               </Select.Option>
-              {(joinedMembers || []).map(
+              {(joinedMembers).map(
                 (e) => {
                   if (e.id !== member.id) {
                     return (
@@ -311,6 +309,7 @@ const UpdateMemberDrawer = ({
                       </Select.Option>
                     );
                   }
+                  return undefined;
                 })}
             </Select>
           )}
