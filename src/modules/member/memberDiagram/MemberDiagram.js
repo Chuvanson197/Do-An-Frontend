@@ -21,7 +21,8 @@ const MemberDiagram = ({ visible, close, project, joinedMembers }) => {
   const listDev = [];
   const model = new DiagramModel();
 
-  const listAssignee = project && project.assigneeProject.filter(e => e.member_be_link_id !== "Default")
+  const listAssigneeUnDefault = project && project.assigneeProject.filter(e => e.member_be_link_id !== "Default");
+  const listAssignee = project && project.assigneeProject;
 
   joinedMembers &&
     joinedMembers.list.forEach((member) => {
@@ -144,64 +145,85 @@ const MemberDiagram = ({ visible, close, project, joinedMembers }) => {
       case 'po': {
         const portOut = node.addOutPort(' ');
         let listPoLink = [];
-        if (allNode.filter((node) => node.options.role === 'pm').length > 0) {
-          listPoLink = allNode.filter((node) => node.options.role === 'pm')
-        } else if (allNode.filter((node) => node.options.role === 'brse').length > 0) {
-          listPoLink = allNode.filter((node) => node.options.role === 'brse')
-        } else if (allNode.filter((node) => node.options.role === 'comtor').length > 0) {
-          listPoLink = allNode.filter((node) => node.options.role === 'comtor')
-        } else if (allNode.filter((node) => node.options.role === 'dev').length > 0) {
-          listPoLink = allNode.filter((node) => node.options.role === 'dev')
+        let linkAssignee = listAssignee && listAssignee.filter(e => e.member_link_id === node.options.id);
+        if ( linkAssignee && linkAssignee.length > 0 && linkAssignee[0].member_be_link_id === "Default") {
+          if (allNode.filter((node) => node.options.role === 'pm').length > 0) {
+            listPoLink = allNode.filter((node) => node.options.role === 'pm')
+          } else if (allNode.filter((node) => node.options.role === 'brse').length > 0) {
+            listPoLink = allNode.filter((node) => node.options.role === 'brse')
+          } else if (allNode.filter((node) => node.options.role === 'comtor').length > 0) {
+            listPoLink = allNode.filter((node) => node.options.role === 'comtor')
+          } else if (allNode.filter((node) => node.options.role === 'dev').length > 0) {
+            listPoLink = allNode.filter((node) => node.options.role === 'dev')
+          }
+          listPoLink.forEach((pm) => {
+            const portIn = pm.addInPort(`${node.options.name}`);
+            const link = portOut.link(portIn);
+            model.addAll(link);
+          });
+        } else {
+          return null;
         }
-        listPoLink.forEach((pm) => {
-          const portIn = pm.addInPort(`${node.options.name}`);
-          const link = portOut.link(portIn);
-          model.addAll(link);
-        });
         break;
       }
       case 'pm': {
         const portOut = node.addOutPort(' ');
         let listPmLink = [];
-        if (allNode.filter((node) => node.options.role === 'brse').length > 0) {
-          listPmLink = allNode.filter((node) => node.options.role === 'brse')
+        let linkAssignee = listAssignee && listAssignee.filter(e => e.member_link_id === node.options.id);
+        if (linkAssignee && linkAssignee.length > 0 && linkAssignee[0].member_be_link_id === "Default") {
+          if (allNode.filter((node) => node.options.role === 'brse').length > 0) {
+            listPmLink = allNode.filter((node) => node.options.role === 'brse')
 
-        } else if (allNode.filter((node) => node.options.role === 'comtor').length > 0) {
-          listPmLink = allNode.filter((node) => node.options.role === 'comtor')
+          } else if (allNode.filter((node) => node.options.role === 'comtor').length > 0) {
+            listPmLink = allNode.filter((node) => node.options.role === 'comtor')
+          }
+          else if (allNode.filter((node) => node.options.role === 'dev').length > 0) {
+            listPmLink = allNode.filter((node) => node.options.role === 'dev')
+          }
+          listPmLink.forEach((brse) => {
+            const portIn = brse.addInPort(`${node.options.name}`);
+            const link = portOut.link(portIn);
+            model.addAll(link);
+          });
+        } else {
+          return null;
         }
-        else if (allNode.filter((node) => node.options.role === 'dev').length > 0) {
-          listPmLink = allNode.filter((node) => node.options.role === 'dev')
-        }
-        listPmLink.forEach((brse) => {
-          const portIn = brse.addInPort(`${node.options.name}`);
-          const link = portOut.link(portIn);
-          model.addAll(link);
-        });
         break;
       }
       case 'brse': {
         const portOut = node.addOutPort(' ');
         let listBrseLink = [];
-        if (allNode.filter((node) => node.options.role === 'comtor').length > 0) {
-          listBrseLink = (allNode.filter((node) => node.options.role === 'comtor'))
-        } else if (allNode.filter((node) => node.options.role === 'dev').length > 0) {
-          listBrseLink = (allNode.filter((node) => node.options.role === 'dev'))
+        let linkAssignee = listAssignee && listAssignee.filter(e => e.member_link_id === node.options.id);
+        if (linkAssignee && linkAssignee.length > 0 && linkAssignee[0].member_be_link_id === "Default") {
+          if (allNode.filter((node) => node.options.role === 'comtor').length > 0) {
+            listBrseLink = (allNode.filter((node) => node.options.role === 'comtor'))
+          } else if (allNode.filter((node) => node.options.role === 'dev').length > 0) {
+            listBrseLink = (allNode.filter((node) => node.options.role === 'dev'))
+          }
+          listBrseLink.forEach((comtor) => {
+            const portIn = comtor.addInPort(`${node.options.name}`);
+            const link = portOut.link(portIn);
+            model.addAll(link);
+          });
+        } else {
+          return null;
         }
-        listBrseLink.forEach((comtor) => {
-          const portIn = comtor.addInPort(`${node.options.name}`);
-          const link = portOut.link(portIn);
-          model.addAll(link);
-        });
         break;
       }
       case 'comtor': {
         const portOut = node.addOutPort(' ');
-        const listComtorLink = allNode.filter((node) => node.options.role === 'dev');
-        listComtorLink.forEach((dev) => {
-          const portIn = dev.addInPort(`${node.options.name}`);
-          const link = portOut.link(portIn);
-          model.addAll(link);
-        });
+        let listComtorLink = [];
+        let linkAssignee = listAssignee && listAssignee.filter(e => e.member_link_id === node.options.id);
+        if(linkAssignee && linkAssignee.length > 0 &&  linkAssignee[0].member_be_link_id === "Default"){
+          listComtorLink = allNode.filter((node) => node.options.role === 'dev');
+          listComtorLink.forEach((dev) => {
+            const portIn = dev.addInPort(`${node.options.name}`);
+            const link = portOut.link(portIn);
+            model.addAll(link);
+          });
+        }else{
+          return null;
+        }
         break;
       }
       case 'dev':
@@ -212,11 +234,11 @@ const MemberDiagram = ({ visible, close, project, joinedMembers }) => {
 
   });
 
-  listAssignee && listAssignee.length > 0 && listAssignee.forEach((link) => {
+  listAssigneeUnDefault && listAssigneeUnDefault.length > 0 && listAssigneeUnDefault.forEach((link) => {
     const nodeLink = allNode && allNode.filter(node => node.options.id === link.member_link_id);
     const nodeBeLink = allNode && allNode.filter(node => node.options.id === link.member_be_link_id);
     const portOut = nodeLink.length > 0 && nodeLink[0].addOutPort(' ');
-    const portIn = nodeBeLink.length > 0 && nodeBeLink[0].addInPort(`${nodeLink[0].options.name}`)
+    const portIn = nodeLink.length > 0 && nodeBeLink.length > 0 && nodeBeLink[0].addInPort(`${nodeLink[0].options.name}`)
     const linkNode = portOut && portOut.link(portIn);
     model.addAll(linkNode);
   })
