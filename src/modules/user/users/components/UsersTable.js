@@ -31,11 +31,6 @@ const UsersTable = ({ users, updateMember, getMembers }) => {
       key: 'email'
     },
     {
-      title: <FormattedMessage id="users.permission.title" />,
-      dataIndex: 'permission',
-      key: 'permission'
-    },
-    {
       title: <FormattedMessage id="users.role.title" />,
       dataIndex: 'type',
       key: 'type'

@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Button, Tooltip } from 'antd';
-import '../../../assets/styles/diagrams/main.scss';
 import createEngine, { DefaultNodeModel, DiagramModel } from '@projectstorm/react-diagrams';
 import { CanvasWidget } from '@projectstorm/react-canvas-core';
 import { FormattedMessage } from 'react-intl';
@@ -51,6 +50,7 @@ const MemberDiagram = ({ visible, close, project, joinedMembers }) => {
       name: <FormattedMessage id="projects.addMember.role.po" />,
       color: '#A4CFBB',
       locked: true,
+      key:'po'
     });
     nodePoTitle.setPosition(150, 150);
     listPo.forEach((po, index) => {
@@ -60,7 +60,8 @@ const MemberDiagram = ({ visible, close, project, joinedMembers }) => {
         id: `${po['member_detail'].staff_code}`,
         role: 'po',
         width: 500,
-        height: 200
+        height: 200,
+        key:`${po['member_detail'].staff_code}`
       });
       node.setPosition(150, 150 + (1 + index) * 70);
       model.addNode(node);
@@ -70,7 +71,8 @@ const MemberDiagram = ({ visible, close, project, joinedMembers }) => {
     var nodePmTitle = new DefaultNodeModel({
       name: <FormattedMessage id="projects.addMember.role.pm" />,
       color: '#0B3954',
-      locked: true
+      locked: true,
+      key:"pm"
     });
     nodePmTitle.setPosition(350, 150);
     listPm.forEach((pm, index) => {
@@ -78,7 +80,8 @@ const MemberDiagram = ({ visible, close, project, joinedMembers }) => {
         name: pm['member_detail'].full_name,
         color: '#0B3954',
         id: `${pm['member_detail'].staff_code}`,
-        role: 'pm'
+        role: 'pm',
+        key:`${pm['member_detail'].staff_code}`
       });
       node.setPosition(350, 150 + (1 + index) * 70);
       model.addNode(node);
@@ -88,7 +91,8 @@ const MemberDiagram = ({ visible, close, project, joinedMembers }) => {
     var nodeBrseTitle = new DefaultNodeModel({
       name: <FormattedMessage id="projects.addMember.role.brse" />,
       color: '#087E8B',
-      locked: true
+      locked: true,
+      key:"brse"
     });
     nodeBrseTitle.setPosition(550, 150);
     listBrse.forEach((brse, index) => {
@@ -97,7 +101,7 @@ const MemberDiagram = ({ visible, close, project, joinedMembers }) => {
         color: '#087E8B',
         id: `${brse['member_detail'].staff_code}`,
         role: 'brse',
-
+        key:`${brse['member_detail'].staff_code}`
       });
       node.setPosition(550, 150 + (1 + index) * 70);
       model.addNode(node);
@@ -107,7 +111,8 @@ const MemberDiagram = ({ visible, close, project, joinedMembers }) => {
     var nodeComtorTitle = new DefaultNodeModel({
       name: <FormattedMessage id="projects.addMember.role.comtor" />,
       color: '#FF5A5F',
-      locked: true
+      locked: true,
+      key:"comtor"
     });
     nodeComtorTitle.setPosition(750, 150);
     listComtor.forEach((comtor, index) => {
@@ -115,7 +120,8 @@ const MemberDiagram = ({ visible, close, project, joinedMembers }) => {
         name: comtor['member_detail'].full_name,
         color: '#FF5A5F',
         id: `${comtor['member_detail'].staff_code}`,
-        role: 'comtor'
+        role: 'comtor',
+        key:`${comtor['member_detail'].staff_code}`
       });
       node.setPosition(750, 150 + (1 + index) * 70);
       model.addNode(node);
@@ -125,7 +131,8 @@ const MemberDiagram = ({ visible, close, project, joinedMembers }) => {
     var nodeDevTitle = new DefaultNodeModel({
       name: <FormattedMessage id="projects.addMember.role.dev" />,
       color: '#C81D25',
-      locked: true
+      locked: true,
+      key:"dev"
     });
     nodeDevTitle.setPosition(950, 150);
     listDev.forEach((dev, index) => {
@@ -133,7 +140,8 @@ const MemberDiagram = ({ visible, close, project, joinedMembers }) => {
         name: dev['member_detail'].full_name,
         color: '#C81D25',
         id: `${dev['member_detail'].staff_code}`,
-        role: 'dev'
+        role: 'dev',
+        key:`${dev['member_detail'].staff_code}`
       });
       node.setPosition(950, 150 + (1 + index) * 70);
       model.addNode(node);
@@ -141,96 +149,77 @@ const MemberDiagram = ({ visible, close, project, joinedMembers }) => {
   }
   let allNode = model.getModels();
   allNode.forEach((node) => {
+    const linkAssignee = listAssignee && listAssignee.filter(e => e.member_link_id === node.options.id);
+    if(linkAssignee && linkAssignee.length > 0 && linkAssignee[0].member_be_link_id === "Default"){
     switch (node.options.role) {
       case 'po': {
         const portOut = node.addOutPort(' ');
         let listPoLink = [];
-        let linkAssignee = listAssignee && listAssignee.filter(e => e.member_link_id === node.options.id);
-        if ( linkAssignee && linkAssignee.length > 0 && linkAssignee[0].member_be_link_id === "Default") {
-          if (allNode.filter((node) => node.options.role === 'pm').length > 0) {
+          if (allNode.includes((node) => node.options.role === 'pm')) {
             listPoLink = allNode.filter((node) => node.options.role === 'pm')
-          } else if (allNode.filter((node) => node.options.role === 'brse').length > 0) {
+          } else if (allNode.includes((node) => node.options.role === 'brse')) {
             listPoLink = allNode.filter((node) => node.options.role === 'brse')
-          } else if (allNode.filter((node) => node.options.role === 'comtor').length > 0) {
+          } else if (allNode.includes((node) => node.options.role === 'comtor')) {
             listPoLink = allNode.filter((node) => node.options.role === 'comtor')
-          } else if (allNode.filter((node) => node.options.role === 'dev').length > 0) {
+          } else if (allNode.includes((node) => node.options.role === 'dev')) {
             listPoLink = allNode.filter((node) => node.options.role === 'dev')
           }
           listPoLink.forEach((pm) => {
             const portIn = pm.addInPort(`${node.options.name}`);
-            const link = portOut.link(portIn);
-            model.addAll(link);
+            const linkPO = portOut.link(portIn);
+            model.addLink(linkPO);
           });
-        } else {
-          return null;
-        }
         break;
       }
       case 'pm': {
         const portOut = node.addOutPort(' ');
         let listPmLink = [];
-        let linkAssignee = listAssignee && listAssignee.filter(e => e.member_link_id === node.options.id);
-        if (linkAssignee && linkAssignee.length > 0 && linkAssignee[0].member_be_link_id === "Default") {
-          if (allNode.filter((node) => node.options.role === 'brse').length > 0) {
+          if (allNode.includes((node) => node.options.role === 'brse')) {
             listPmLink = allNode.filter((node) => node.options.role === 'brse')
-
-          } else if (allNode.filter((node) => node.options.role === 'comtor').length > 0) {
+          } else if (allNode.includes((node) => node.options.role === 'comtor')) {
             listPmLink = allNode.filter((node) => node.options.role === 'comtor')
-          }
-          else if (allNode.filter((node) => node.options.role === 'dev').length > 0) {
+          } else if (allNode.includes((node) => node.options.role === 'dev')) {
             listPmLink = allNode.filter((node) => node.options.role === 'dev')
           }
           listPmLink.forEach((brse) => {
             const portIn = brse.addInPort(`${node.options.name}`);
-            const link = portOut.link(portIn);
-            model.addAll(link);
+            const linkPM = portOut.link(portIn);
+            model.addLink(linkPM);
           });
-        } else {
-          return null;
         }
         break;
-      }
       case 'brse': {
         const portOut = node.addOutPort(' ');
         let listBrseLink = [];
-        let linkAssignee = listAssignee && listAssignee.filter(e => e.member_link_id === node.options.id);
-        if (linkAssignee && linkAssignee.length > 0 && linkAssignee[0].member_be_link_id === "Default") {
-          if (allNode.filter((node) => node.options.role === 'comtor').length > 0) {
+          if (allNode.includes((node) => node.options.role === 'comtor')) {
             listBrseLink = (allNode.filter((node) => node.options.role === 'comtor'))
-          } else if (allNode.filter((node) => node.options.role === 'dev').length > 0) {
+          } else if (allNode.includes((node) => node.options.role === 'dev')) {
             listBrseLink = (allNode.filter((node) => node.options.role === 'dev'))
           }
           listBrseLink.forEach((comtor) => {
             const portIn = comtor.addInPort(`${node.options.name}`);
-            const link = portOut.link(portIn);
-            model.addAll(link);
+            const linkBRSE = portOut.link(portIn);
+            model.addLink(linkBRSE);
           });
-        } else {
-          return null;
         }
         break;
-      }
       case 'comtor': {
         const portOut = node.addOutPort(' ');
         let listComtorLink = [];
-        let linkAssignee = listAssignee && listAssignee.filter(e => e.member_link_id === node.options.id);
-        if(linkAssignee && linkAssignee.length > 0 &&  linkAssignee[0].member_be_link_id === "Default"){
           listComtorLink = allNode.filter((node) => node.options.role === 'dev');
           listComtorLink.forEach((dev) => {
             const portIn = dev.addInPort(`${node.options.name}`);
-            const link = portOut.link(portIn);
-            model.addAll(link);
+            const linkComtor = portOut.link(portIn);
+            model.addLink(linkComtor);
           });
-        }else{
-          return null;
         }
         break;
-      }
       case 'dev':
         break;
       default:
         break;
     }
+  }
 
   });
 
@@ -269,9 +258,10 @@ const MemberDiagram = ({ visible, close, project, joinedMembers }) => {
         <Button type="primary" key="close" onClick={() => close()}>
           <FormattedMessage id="button.close" />
         </Button>
-      ]}>
+      ]}
+      >
       <div style={{ height: '70vh' }}>
-        <CanvasWidget className="srd-demo-canvas" engine={engine} />
+        <CanvasWidget className="srd-demo-canvas" engine={engine}/>
       </div>
     </Modal>
   );
