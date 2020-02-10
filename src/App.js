@@ -34,7 +34,7 @@ const App = () => {
       <IntlProvider locale={currentAppLocale.locale} messages={currentAppLocale.messages}>
         <Router history={history}>
           <AntdLayout className={styles.container}>
-            <Sider></Sider>
+            <Sider/>
             <Header />
             <AntdLayout style={{ padding: layoutCheck.isShow ? '88px 24px 24px 24px' : '0' }}>
               {/* <BackTop style={{ right: '15px' }} visibilityHeight={250} /> */}
