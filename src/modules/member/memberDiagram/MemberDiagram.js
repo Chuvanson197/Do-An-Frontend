@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Button, Tooltip } from 'antd';
+import '../../../assets/styles/diagrams/main.scss';
 import createEngine, { DefaultNodeModel, DiagramModel } from '@projectstorm/react-diagrams';
 import { CanvasWidget } from '@projectstorm/react-canvas-core';
 import { FormattedMessage } from 'react-intl';
