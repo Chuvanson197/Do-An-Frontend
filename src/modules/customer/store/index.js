@@ -7,6 +7,16 @@ const apiActions = [
     method: 'GET'
   },
   {
+    actionName: 'getProjectsByCustomer',
+    stateName: 'projectsOfCustomer',
+    method: 'GET'
+  },
+  {
+    actionName: 'getCustomer',
+    stateName: 'customer',
+    method: 'GET'
+  },
+  {
     actionName: 'createCustomer',
     stateName: 'createCustomerResult',
     method: 'POST'
@@ -33,6 +43,8 @@ const reducerActions = [
 
 const defaultState = {
   list: [],
+  customer: null,
+  projectsOfCustomer:[], 
   createCustomerResult: null,
   updateCustomerResult: null,
   removeCustomerResult: null

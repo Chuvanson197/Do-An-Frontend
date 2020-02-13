@@ -16,7 +16,7 @@ const propTypes = {
   onClose: PropTypes.func.isRequired,
   drawerVisible: PropTypes.bool.isRequired,
   form: formShape.isRequired,
-  getCustomers: PropTypes.func.isRequired,
+  getCustomer: PropTypes.func.isRequired,
 
   customer: PropTypes.shape({})
 };
@@ -44,7 +44,7 @@ const formItemLayout = {
   }
 };
 
-const UpdateCustomer = ({ intl, drawerVisible, onClose, form, customer, getCustomers }) => {
+const UpdateCustomer = ({ intl, drawerVisible, onClose, form, customer, getCustomer }) => {
   const dispatch = useDispatch();
   const { loading, updateCustomerResult, updateCustomerError, updateCustomerErrors } = useSelector(
     (state) => state.customers
@@ -60,9 +60,9 @@ const UpdateCustomer = ({ intl, drawerVisible, onClose, form, customer, getCusto
       // close the modal and clean data
       onClose();
       // re-call get customers list
-      getCustomers && getCustomers();
+      getCustomer && getCustomer();
     }
-  }, [onClose, dispatch, intl, updateCustomerResult, getCustomers]);
+  }, [onClose, dispatch, intl, updateCustomerResult, getCustomer]);
 
   // show error if update member failure
   useEffect(() => {
