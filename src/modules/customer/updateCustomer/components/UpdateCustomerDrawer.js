@@ -122,7 +122,7 @@ const UpdateCustomer = ({ intl, drawerVisible, onClose, form, customer, getCusto
 
   return (
     <Drawer
-      title={<FormattedMessage id="projects.updateProject.title" />}
+      title={<FormattedMessage id="customer.updateCustomer.title" />}
       placement="right"
       onClose={onClose}
       visible={drawerVisible}

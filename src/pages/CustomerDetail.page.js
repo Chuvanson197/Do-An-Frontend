@@ -2,14 +2,13 @@ import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { useSelector, useDispatch } from 'react-redux';
-import { Row, Col, Popconfirm, Button, Icon } from 'antd';
+import { Row, Popconfirm, Button, Icon } from 'antd';
 import { css } from 'emotion';
 
 import { actions as layoutActions } from '../modules/layout/store';
 import { actions as customerActions } from '../modules/customer/store';
 import HeaderTitle from '../components/Content/HeaderTitle';
 import CustomerDetail from '../modules/customer/customerDetail/customerDetail';
-import BackButton from '../components/Button/BackButton';
 import ErrorNotification from '../components/Notification/Error';
 import SuccessNotification from '../components/Notification/Success';
 import WithRole from '../hocs/WithRole';
@@ -61,23 +60,23 @@ const CustomerDetailPage = ({ match, history, intl }) => {
     (state) => state.customers
   );
 
-  
+
   const cleanError = useCallback(() => {
     dispatch(customerActions.cleanError(false));
   }, [dispatch])
 
   useEffect(() => {
     dispatch(layoutActions.selectItem(['customers']));
-  },[dispatch])
+  }, [dispatch])
 
-  const getCustomer = useCallback(()=>{
+  const getCustomer = useCallback(() => {
     dispatch(
       customerActions.getCustomer({
         param: match.params.id,
         path: 'customers'
       })
     );
-  },[dispatch, match])
+  }, [dispatch, match])
 
   useEffect(() => {
     // get project detail
@@ -96,41 +95,33 @@ const CustomerDetailPage = ({ match, history, intl }) => {
   }, [dispatch, match.params.id]);
 
 
-    // Handle showing notification after remove customer
-    useEffect(() => {
-      // show success notification
-      if (removeCustomerResult) {
-        const title = intl.formatMessage({ id: 'notification.success' });
-        const message = intl.formatMessage({ id: removeCustomerResult.message });
-        SuccessNotification(title, message);
-        // clean data
-        dispatch(customerActions.removeCustomerCleanData(false));
-        history.push('/customers');
-      }
-    }, [dispatch, intl, removeCustomerResult, history]);
-  
-    // Showing error if remove customer failure
-    useEffect(() => {
-      if (removeCustomerError) {
-        const title = intl.formatMessage({ id: 'notification.error' });
-        const message = intl.formatMessage({
-          id: removeCustomerErrors.message
-            ? removeCustomerErrors.message
-            : 'customers.removeCustomer.message.error'
-        });
-        ErrorNotification(title, message);
-        // clean error
-        dispatch(customerActions.removeCustomerCleanError(false));
-      }
-    }, [dispatch, intl, removeCustomerError, removeCustomerErrors]);
+  // Handle showing notification after remove customer
+  useEffect(() => {
+    // show success notification
+    if (removeCustomerResult) {
+      const title = intl.formatMessage({ id: 'notification.success' });
+      const message = intl.formatMessage({ id: removeCustomerResult.message });
+      SuccessNotification(title, message);
+      // clean data
+      dispatch(customerActions.removeCustomerCleanData(false));
+      history.push('/customers');
+    }
+  }, [dispatch, intl, removeCustomerResult, history]);
 
-
-
-
-  // redirect functions
-  const onBack = () => {
-    window.history.back()
-  };
+  // Showing error if remove customer failure
+  useEffect(() => {
+    if (removeCustomerError) {
+      const title = intl.formatMessage({ id: 'notification.error' });
+      const message = intl.formatMessage({
+        id: removeCustomerErrors.message
+          ? removeCustomerErrors.message
+          : 'customers.removeCustomer.message.error'
+      });
+      ErrorNotification(title, message);
+      // clean error
+      dispatch(customerActions.removeCustomerCleanError(false));
+    }
+  }, [dispatch, intl, removeCustomerError, removeCustomerErrors]);
 
   return (
     <Row>
@@ -139,29 +130,22 @@ const CustomerDetailPage = ({ match, history, intl }) => {
       </Row>
       <Row>
         <CustomerDetail
-        customer={customer}
-        loading={loading}
-        cleanError={cleanError}
-        match={match}
-        joinedProjects={projectsOfCustomer ? projectsOfCustomer.listProject : null}
-        history={history}
-        getCustomer={getCustomer}
+          customer={customer}
+          loading={loading}
+          cleanError={cleanError}
+          match={match}
+          joinedProjects={projectsOfCustomer ? projectsOfCustomer.listProject : null}
+          history={history}
+          getCustomer={getCustomer}
         />
       </Row>
-      <Row className={styles.footer}>
-        <Col span={12}>
-          <BackButton onBack={() => onBack()} />
-        </Col>
-        <Col span={12}>
-          <Row type="flex" justify="end">
-            <WithRole
-              type={['admin']}
-              component={ButtonRemoveCustomer}
-              match={match}
-              loading={loading}
-            />
-          </Row>
-        </Col>
+      <Row className={styles.footer} type="flex" justify="start">
+        <WithRole
+          type={['admin']}
+          component={ButtonRemoveCustomer}
+          match={match}
+          loading={loading}
+        />
       </Row>
     </Row>
   );

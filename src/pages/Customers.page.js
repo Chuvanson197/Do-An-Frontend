@@ -10,11 +10,11 @@ import { actions as customerActions } from '../modules/customer/store';
 import searchColumn from '../utils/searchColumn';
 
 import HeaderTitle from '../components/Content/HeaderTitle';
-import Customers from '../modules/customer/cutomers/components/CustomersTable';
 import ErrorNotification from '../components/Notification/Error';
 import WithRole from '../hocs/WithRole';
 
 import CreateModal from '../modules/customer/createCustomer/components/CreateCustomerModal';
+import CustomersTable from '../modules/customer/customers/components/CustomersTable';
 
 const styles = {
   container: css`
@@ -139,7 +139,7 @@ const CustomersPage = React.memo(({ history, intl }) => {
         </Col>
       </Row>
       <Row style={{ paddingTop: 20 }}>
-        <Customers
+        <CustomersTable
           customers={filteredData}
           removeCustomer={removeCustomer}
           getCustomers={getCustomers}

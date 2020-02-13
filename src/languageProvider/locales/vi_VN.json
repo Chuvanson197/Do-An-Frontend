@@ -167,6 +167,7 @@
   "customers.createCustomers.confirm.create": "Thêm mới thông tin khách hàng này?",
   "customers.createCustomer.message.success": "Thêm mới thông tin khách hàng thành công",
   "customers.createCustomer.message.error": "Thêm mới thông tin khách hàng thất bại",
+  "customer.updateCustomer.title":" Cập nhật thông tin khách hàng ",
   "customers.updateCustomer.message.success": "Cập nhật thông tin khách hàng thành công",
   "customers.updateCustomer.message.error": "Cập nhật thông tin khách hàng thất bại",
   "customers.removeCustomer.message.error": "Xóa thông tin khách hàng thất bại",

@@ -175,6 +175,7 @@
   "customers.createCustomers.confirm.create": "Create this customer?",
   "customers.createCustomer.message.success": "Create new customer successful",
   "customers.createCustomer.message.error": "Create new customer failure",
+  "customer.updateCustomer.title":" Update customer information ",
   "customers.updateCustomer.message.success": "Update customer information successful",
   "customers.updateCustomer.message.error": "Update customer information failure",
   "customers.removeCustomer.message.error": "Remove customer information failure",
