@@ -184,6 +184,8 @@
   "customerDetail.email": "Email",
   "customerDetail.address": "Address",
   "customerDetail.phoneNumber": "Phone number",
+  "customerDetail.removeCustomer": "Remove customer",
+  "customerDetail.removeCustomer.confirm.remove": "Remove this customer",
 
   "members.title": "Members",
   "members.header.title": "Members",

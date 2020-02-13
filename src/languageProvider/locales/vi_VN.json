@@ -176,6 +176,9 @@
   "customerDetail.address": "Địa chỉ",
   "customerDetail.phoneNumber": "Số điện thoại",
   "customerDetail.currentProjects.title": "Thông tin các dự án của khách hàng",
+  "customerDetail.removeCustomer": "Xoá khách hàng",
+  "customerDetail.removeCustomer.confirm.remove": "Xoá khách hàng này",
+
 
   "members.title": "Thành viên",
   "members.header.title": "Danh sách thành viên",

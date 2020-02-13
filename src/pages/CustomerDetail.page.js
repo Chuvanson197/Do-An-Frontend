@@ -34,7 +34,7 @@ const ButtonRemoveCustomer = ({ loading, match }) => {
 
   return (
     <Popconfirm
-      title={<FormattedMessage id="projectDetail.removeProject.confirm.remove" />}
+      title={<FormattedMessage id="customerDetail.removeCustomer.confirm.remove" />}
       onConfirm={
         () =>
           dispatch(
@@ -49,7 +49,7 @@ const ButtonRemoveCustomer = ({ loading, match }) => {
       cancelText={<FormattedMessage id="button.confirm.no" />}>
       <Button style={{ marginRight: 15 }} type="danger" disabled={loading}>
         <Icon type={loading ? 'loading' : 'delete'} />
-        <FormattedMessage id="projectDetail.removeProject" />
+        <FormattedMessage id="customerDetail.removeCustomer" />
       </Button>
     </Popconfirm>
   );
