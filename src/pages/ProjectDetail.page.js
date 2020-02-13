@@ -67,7 +67,6 @@ const ProjectDetailPage = ({ match, history, intl }) => {
     removeProjectErrors,
     loading
   } = useSelector((state) => state.projects);
-  
 
   const getProject = useCallback(() => {
     dispatch(
@@ -196,7 +195,7 @@ const ProjectDetailPage = ({ match, history, intl }) => {
 
   // redirect functions
   const onBack = () => {
-    history.push('/project/list');
+    window.history.back()
   };
 
   const toMemberHistory = () => {

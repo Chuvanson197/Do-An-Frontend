@@ -16,6 +16,7 @@ import NotFound from './pages/NotFound';
 import CallbackOAuth from './pages/CallbackOAuth';
 import UsersPage from './pages/User.page';
 import SettingPage from './pages/Setting.page';
+import CustomerDetail from './pages/CustomerDetail.page';
 
 
 function AppRoutes() {
@@ -29,7 +30,6 @@ function AppRoutes() {
       <RouteWithAdmin component={SettingPage} path="/admin/setting"></RouteWithAdmin>
 
 
-
       <RouteNormal component={ProjectPage} path="/project" exact></RouteNormal>
       <RouteNormal component={ProjectDetail} path="/project/detail/:id"></RouteNormal>
       <RouteNormal component={ProjectMemberHistory} path="/project/memberHistory/:id"></RouteNormal>
@@ -37,6 +37,7 @@ function AppRoutes() {
       <RouteWithManager component={Customerpage} path="/customers" exact></RouteWithManager>
 
       <RouteWithManager component={ListMemberPage} path="/member/list" exact></RouteWithManager>
+      <RouteWithManager component={CustomerDetail} path="/customer/detail/:id" exact></RouteWithManager>
 
       <RouteNormal component={NotFound} />
     </Switch>

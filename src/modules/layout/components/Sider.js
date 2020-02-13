@@ -20,8 +20,7 @@ const styles = {
   menu: css`
     height: 100%;
     border-right: 0;
-    position: fixed;
-    width: 200px !important;
+    width: 200px;
   `,
   logo: css`
     height: 56px;

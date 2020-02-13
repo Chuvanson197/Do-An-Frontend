@@ -43,6 +43,7 @@ const ProjectsPage = ({ history, intl }) => {
   const { list, loading, getProjectsError, getProjectsErrors } = useSelector(
     (state) => state.projects
   );
+  
   const [visible, setVisible] = useState(false);
 
   // check authencation if not redirect to login page

@@ -185,7 +185,7 @@ const MemberDiagram = ({ visible, close, project, joinedMembers }) => {
           listPmLink.forEach((brse) => {
             const portIn = brse.addInPort(`${node.options.name}`);
             const linkPM = portOut.link(portIn);
-            model.addLink(linkPM);
+            model.addAll(linkPM);
           });
         }
         break;
@@ -200,7 +200,7 @@ const MemberDiagram = ({ visible, close, project, joinedMembers }) => {
           listBrseLink.forEach((comtor) => {
             const portIn = comtor.addInPort(`${node.options.name}`);
             const linkBRSE = portOut.link(portIn);
-            model.addLink(linkBRSE);
+            model.addAll(linkBRSE);
           });
         }
         break;
@@ -211,7 +211,7 @@ const MemberDiagram = ({ visible, close, project, joinedMembers }) => {
           listComtorLink.forEach((dev) => {
             const portIn = dev.addInPort(`${node.options.name}`);
             const linkComtor = portOut.link(portIn);
-            model.addLink(linkComtor);
+            model.addAll(linkComtor);
           });
         }
         break;
