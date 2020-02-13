@@ -195,7 +195,6 @@ const ProjectDetailPage = ({ match, history, intl }) => {
 
   // redirect functions
   const onBack = () => {
-    // history.push('/project/list');
     window.history.back()
   };
 

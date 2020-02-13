@@ -59,14 +59,6 @@ const CustomersTable = ({ intl, customers }) => {
           onClick: () => onSelectCustomer(item)
         })}
       />
-      {/* {drawerVisible && (
-        <UpdateCustomerDrawer
-          drawerVisible={drawerVisible}
-          onClose={() => handleControlDrawer()}
-          customer={customer}
-          getCustomers={getCustomers}
-        />
-      )} */}
     </React.Fragment>
   );
 };
