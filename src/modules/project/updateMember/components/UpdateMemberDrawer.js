@@ -143,9 +143,7 @@ const UpdateMemberDrawer = ({
           const title = intl.formatMessage({ id: 'notification.error' });
           const message = intl.formatMessage({ id: 'notification.message.form.noChanging' });
           return ErrorNotification(title, message);
-        }
-        console.log('body',body);
-        
+        }        
         updateMember && updateMember(body, member);
       } else {
         // showing error form input notification

@@ -89,6 +89,11 @@ const CustomerDetail = ({
       }
     },
     {
+      title: <FormattedMessage id="projects.detail.totalMember" />,
+      dataIndex: 'project_member_detail.length',
+      key: 'total',
+    },
+    {
       title: <FormattedMessage id="projects.detail.member.status" />,
       dataIndex: 'status',
       key: 'status',
