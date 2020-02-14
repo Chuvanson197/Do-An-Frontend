@@ -36,7 +36,6 @@ export default class Gantt extends Component {
 
   render() {
     const { zoom } = this.props;
-    this.setZoom(zoom);
     return (
       <div
         ref={(input) => { this.ganttContainer = input }}
