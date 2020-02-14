@@ -1,0 +1,43 @@
+.zoom-bar {
+  background: #ededed;
+  height: 40px;
+  line-height: 40px;
+}
+.tool-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  &__time {
+    margin-right: 10px !important;
+  }
+}
+.radio-label {
+  box-sizing: border-box;
+  cursor: pointer;
+  display: inline-block;
+  height: 30px;
+  line-height: 28px;
+  text-align: center;
+  width: 70px;
+  border: 1px solid #d9d9d9;
+  border-radius: 2px;
+  background: #fff;
+  color: rgba(0, 0, 0, 0.7);
+  &:not(:first-child) {
+    margin-left: 6px;
+  }
+}
+
+.radio-label > input[type="radio"] {
+  height: 0;
+  margin: 0;
+  visibility: hidden;
+  width: 0;
+}
+
+.radio-label-active {
+  background: #a0a0a0;
+  color: white;
+  border-color: #707070;
+}
