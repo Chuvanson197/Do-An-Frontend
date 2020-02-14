@@ -23,6 +23,8 @@ export default class Gantt extends Component {
       { name: "start_date", label: "Start time", align: "center", width: "*" },
       { name: "end_date", label: "End time", align: "center", width: "*" },
     ];
+    gantt.config.scale_unit = 'month';
+    gantt.config.date_scale = "%M";
     gantt.init(this.ganttContainer);
     gantt.parse(tasks);
   }
@@ -35,7 +37,6 @@ export default class Gantt extends Component {
   }
 
   render() {
-    const { zoom } = this.props;
     return (
       <div
         ref={(input) => { this.ganttContainer = input }}

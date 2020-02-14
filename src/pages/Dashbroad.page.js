@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Gantt from "../modules/dashbroad/Gantt/Gantt";
 import { actions as layoutActions } from '../modules/layout/store';
 import { actions as projectActions } from '../modules/project/store';
-import moment from 'moment'
+import moment from 'moment';
 import { DatePicker, Radio } from 'antd';
 import '../assets/styles/gantt/main.scss';
 import { gantt } from 'dhtmlx-gantt';
