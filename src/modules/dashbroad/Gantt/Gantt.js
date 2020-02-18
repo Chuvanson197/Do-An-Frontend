@@ -1,48 +1,44 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { gantt } from 'dhtmlx-gantt';
 import 'dhtmlx-gantt/codebase/dhtmlxgantt.css';
+import 'dhtmlx-gantt/codebase/ext/dhtmlxgantt_tooltip.js';
 
-export default class Gantt extends Component {
-
-  // instance of gantt.dataProcessor
-  dataProcessor = null;
-
-  shouldComponentUpdate(nextProps) {
-    return this.props.zoom !== nextProps.zoom;
-  }
-
-  componentDidUpdate() {
-    gantt.render();
-  }
-
-  componentDidMount() {
-    gantt.config.xml_date = "%Y-%m-%d %H:%i";
-    const { tasks } = this.props;
-    gantt.config.columns = [
-      { name: "text", label: "Project name", width: "*" },
-      { name: "start_date", label: "Start time", align: "center", width: "*" },
-      { name: "end_date", label: "End time", align: "center", width: "*" },
-    ];
-    gantt.config.scale_unit = 'month';
-    gantt.config.date_scale = "%M";
-    gantt.init(this.ganttContainer);
-    gantt.parse(tasks);
-  }
-
-  componentWillUnmount() {
-    if (this.dataProcessor) {
-      this.dataProcessor.destructor();
-      this.dataProcessor = null;
+const Gantt = ({ tasks, intl }) => {
+  let ganttContainer = null
+  //fix language
+  useEffect(() => {
+    gantt.templates.tooltip_text = function (start, end, task) {
+      return `<b>${intl.formatMessage({ id: 'dashboard.projectName' })}:</b> ` + task.text + `<br/><b>${intl.formatMessage({ id: 'dashboard.startTime' })}:</b> `
+        + gantt.templates.tooltip_date_format(start)
+        + `<br/><b>${intl.formatMessage({ id: 'dashboard.endTime' })}:</b> `
+        + gantt.templates.tooltip_date_format(end);
+    };
+    gantt.config = {...gantt.config,
+      columns: [
+        { name: "text", label: intl.formatMessage({ id: 'dashboard.projectName' }), align: "center", width: "*" },
+        { name: "start_date", label: intl.formatMessage({ id: 'dashboard.startTime' }), align: "center", width: "*" },
+        { name: "end_date", label: intl.formatMessage({ id: 'dashboard.endTime' }), align: "center", width: "*" },
+      ],
+      date_scale: intl.formatMessage({ id: 'dashboard.config.scale' }),
+      xml_date: "%Y-%m-%d %H:%i"
     }
-  }
-
-  render() {
-    return (
-      <div
-        ref={(input) => { this.ganttContainer = input }}
-        style={{ width: '100%', height: '100%' }}
-      ></div>
-    );
-
-  }
+    gantt.init(ganttContainer);
+  }, [intl, ganttContainer])
+  //config
+  useEffect(() => {
+    gantt.config.scale_unit = 'month';
+    gantt.showLightbox = function (id) {
+      return null
+    }
+    gantt.init(ganttContainer);
+    gantt.parse(tasks);
+    gantt.render();
+  }, [ganttContainer,tasks])
+  return (
+    <div
+      ref={(input) => { ganttContainer = input }}
+      style={{ width: '100%', height: '100%' }}
+    ></div>
+  );
 }
+export default Gantt;
