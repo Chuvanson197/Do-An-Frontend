@@ -8,14 +8,17 @@ import moment from 'moment';
 import { DatePicker, Radio } from 'antd';
 import '../assets/styles/gantt/main.scss';
 import { gantt } from 'dhtmlx-gantt';
+import { FormattedMessage, injectIntl } from 'react-intl';
 
 
 const propTypes = {
-  history: PropTypes.shape({}).isRequired
+  history: PropTypes.shape({}).isRequired,
+  intl: PropTypes.shape({}).isRequired
+
 };
 
 const defaultProps = {};
-const DashbroadPage = ({ history }) => {
+const DashbroadPage = ({ history, intl }) => {
   const dispatch = useDispatch();
   const { RangePicker } = DatePicker;
   const [data, setData] = useState({ data: null })
@@ -58,7 +61,7 @@ const DashbroadPage = ({ history }) => {
               end_date: moment(parseInt(project.end_time, 10)).format('YYYY-MM-DD'),
               start_date: moment(parseInt(project.start_time, 10)).format('YYYY-MM-DD'),
               readonly: true,
-              color: colors[project.id % colors.length]
+              color: colors[project.id % colors.length],
             }
           })
         })
@@ -95,9 +98,9 @@ const DashbroadPage = ({ history }) => {
         <div className="tool-bar">
           <div>
             <Radio.Group defaultValue="3" onChange={handleChange}>
-              <Radio.Button value="3">3 Months</Radio.Button>
-              <Radio.Button value="6">6 Months</Radio.Button>
-              <Radio.Button value="12">1 Year</Radio.Button>
+              <Radio.Button value="3"><FormattedMessage id="dashboard.threeMonths" /></Radio.Button>
+              <Radio.Button value="6"><FormattedMessage id="dashboard.sixMonths" /></Radio.Button>
+              <Radio.Button value="12"><FormattedMessage id="dashboard.oneYear" /></Radio.Button>
             </Radio.Group>
           </div>
           <div>
@@ -115,7 +118,7 @@ const DashbroadPage = ({ history }) => {
         <div className="gantt-container">
           {data.data && <Gantt
             tasks={data}
-            zoom="Months"
+            intl={intl}
           />}
         </div>}
 
@@ -127,4 +130,4 @@ DashbroadPage.propTypes = propTypes;
 
 DashbroadPage.defaultProps = defaultProps;
 
-export default DashbroadPage;
+export default injectIntl(DashbroadPage, {});
