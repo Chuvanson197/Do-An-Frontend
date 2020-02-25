@@ -47,7 +47,7 @@ const styles = {
 const CreateCustomField = ({ form, intl, createCustomField, visible, close, getCustomFields, getProjects }) => {
 
     const dispatch = useDispatch();
-    
+
     const { list, loading } = useSelector(
         (state) => state.projects
     );
@@ -57,23 +57,22 @@ const CreateCustomField = ({ form, intl, createCustomField, visible, close, getC
         (state) => state.setting
     )
 
-  // Get all projects after open modal
-  useEffect(() => {
-    getProjects && getProjects();
-    dispatch(settingActions.createCustomFieldCleanData());
-    dispatch(settingActions.createCustomFieldCleanError());
-  }, [getProjects, dispatch]);
+    // Get all projects after open modal
+    useEffect(() => {
+        getProjects && getProjects();
+        dispatch(settingActions.createCustomFieldCleanData());
+        dispatch(settingActions.createCustomFieldCleanError());
+    }, [getProjects, dispatch]);
 
     const handleSubmit = () => {
         form.validateFields((err, values) => {
             if (!err) {
-                console.log(values);
                 // call api when valid data
                 createCustomField && createCustomField(values);
                 // form.resetFields();
-                setTimeout(()=>{
+                setTimeout(() => {
                     window.location.reload()
-                },0)
+                }, 0)
             } else {
                 // showing error form input notification
                 const title = intl.formatMessage({ id: 'notification.error' });
@@ -100,17 +99,15 @@ const CreateCustomField = ({ form, intl, createCustomField, visible, close, getC
     useEffect(() => {
         // show error notification
         if (createCustomFieldError) {
-          const title = intl.formatMessage({ id: 'notification.error' });
-          const message = intl.formatMessage({
-            id: createCustomFieldErrors.message
-              ? createCustomFieldError.message
-              : 'setting.createCustomField.message.error'
-          });
-          ErrorNotification(title, message);
-          // clean error
-          dispatch(settingActions.createCustomFieldCleanError(false));
+            const title = intl.formatMessage({ id: 'notification.error' });
+            const message = intl.formatMessage({
+                id: 'setting.createCustomField.message.error'
+            });
+            ErrorNotification(title, message);
+            // clean error
+            dispatch(settingActions.createCustomFieldCleanError(false));
         }
-      }, [dispatch, intl, createCustomFieldError, createCustomFieldErrors]);
+    }, [dispatch, intl, createCustomFieldError, createCustomFieldErrors]);
 
     const formItemLayout = {
         labelCol: { span: 6 },
@@ -132,7 +129,7 @@ const CreateCustomField = ({ form, intl, createCustomField, visible, close, getC
                         okText={<FormattedMessage id="button.confirm.yes" />}
                         cancelText={<FormattedMessage id="button.confirm.no" />}>
                         <Button className={styles.buttonSubmit} loading={loading}>
-                            <FormattedMessage id="button.add"/>
+                            <FormattedMessage id="button.add" />
                         </Button>
                     </Popconfirm>
                     <Button
@@ -177,7 +174,14 @@ const CreateCustomField = ({ form, intl, createCustomField, visible, close, getC
                             },
                         ],
                     })(
-                        <Select mode="multiple" placeholder={<FormattedMessage id="setting.placeholder.feildProjects" />} notFoundContent={loading && <Spin size="small" />}>
+                        <Select mode="multiple" placeholder={<FormattedMessage id="setting.placeholder.feildProjects" />} notFoundContent={loading && <Spin size="small" />}
+                            //add all projects    
+                            onSelect={value => {
+                                if (value === 0) {
+                                    form.setFieldsValue({ ...form.getFieldsValue(), assignee: list.map(e => e.id) })
+                                }
+                            }}>
+                            <Select.Option title="setting.allProject" value={0}>{<FormattedMessage id="setting.allProject" />}</Select.Option>
                             {(list || []).map((e) => {
                                 return (
                                     <Select.Option key={e.id} value={e.id}>

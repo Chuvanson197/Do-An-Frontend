@@ -20,17 +20,28 @@ const styles = {
   menu: css`
     height: 100%;
     border-right: 0;
-    width: 200px;
+    width: 200px !important;
+    position: fixed
+  `,
+  menu_collapse: css`
+    height: 100%;
+    border-right: 0;
+    position: fixed
   `,
   logo: css`
     height: 56px;
     background-color: transparent;
     margin: 4px;
   `,
+  //change style when collapse
   user: css`
-    position: fixed !important;
+    position: fixed;
     bottom: 0;
-    width: 200px;
+    width: 200px
+  `,
+  user_collapse: css`
+    position: fixed;
+    bottom: 0;
   `
 };
 const Sider = () => {
@@ -57,7 +68,7 @@ const Sider = () => {
           <Menu
             mode="inline"
             theme="dark"
-            className={styles.menu}
+            className={isCollapsed ? styles.menu_collapse : styles.menu}
             selectedKeys={selectedItem}
             openKeys={selectedSubMenu}
             onOpenChange={(selectedKeys) => handleSelectSubMenu(selectedKeys)}>
@@ -120,14 +131,23 @@ const Sider = () => {
               />
             </WithRole>
             <WithRole
+              key="logout"
+              title={<span>
+                <Icon type="user" />
+                {isCollapsed ? null : user.full_name}
+              </span>}
               component={SubMenu}
-              type={['admin', 'manager', 'normal']}
-              className={styles.user}
-              title={user.full_name}
-              mode="inline">
-              <Menu.Item onClick={handleLogout} key="1">
-                <FormattedMessage id="logout.title" />
-              </Menu.Item>
+              className={isCollapsed ? styles.user_collapse : styles.user}
+              type={['admin', 'manager', 'normal']}>
+              <WithRole
+                component={CustomMenu}
+                to=""
+                typeIcon="logout"
+                onClick={handleLogout}
+                key="logout-option"
+                message="logout.title"
+                type={['admin', 'manager', 'normal']}
+              />
             </WithRole>
           </Menu>
         </Layout.Sider>

@@ -5,6 +5,16 @@ import 'dhtmlx-gantt/codebase/ext/dhtmlxgantt_tooltip.js';
 
 const Gantt = ({ tasks, intl }) => {
   let ganttContainer = null
+  useEffect(() => {
+    gantt.config = {
+      ...gantt.config,
+      scale_unit: 'month',
+      xml_date: "%Y-%m-%d %H:%i"
+    };
+    gantt.showLightbox = function (id) {
+      return null
+    }
+  }, [])
   //fix language
   useEffect(() => {
     gantt.templates.tooltip_text = function (start, end, task) {
@@ -13,27 +23,24 @@ const Gantt = ({ tasks, intl }) => {
         + `<br/><b>${intl.formatMessage({ id: 'dashboard.endTime' })}:</b> `
         + gantt.templates.tooltip_date_format(end);
     };
-    gantt.config = {...gantt.config,
+    gantt.config = {
+      ...gantt.config,
       columns: [
         { name: "text", label: intl.formatMessage({ id: 'dashboard.projectName' }), align: "center", width: "*" },
         { name: "start_date", label: intl.formatMessage({ id: 'dashboard.startTime' }), align: "center", width: "*" },
         { name: "end_date", label: intl.formatMessage({ id: 'dashboard.endTime' }), align: "center", width: "*" },
       ],
       date_scale: intl.formatMessage({ id: 'dashboard.config.scale' }),
-      xml_date: "%Y-%m-%d %H:%i"
     }
     gantt.init(ganttContainer);
   }, [intl, ganttContainer])
   //config
   useEffect(() => {
-    gantt.config.scale_unit = 'month';
-    gantt.showLightbox = function (id) {
-      return null
-    }
+    gantt.clearAll();
     gantt.init(ganttContainer);
     gantt.parse(tasks);
     gantt.render();
-  }, [ganttContainer,tasks])
+  }, [ganttContainer, tasks])
   return (
     <div
       ref={(input) => { ganttContainer = input }}

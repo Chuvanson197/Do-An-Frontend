@@ -69,9 +69,7 @@ const CreateCustomerModal = ({ visible, close, form, intl, getCutomers, addCusto
     if (createCustomerError) {
       const title = intl.formatMessage({ id: 'notification.error' });
       const message = intl.formatMessage({
-        id: createCustomerErrors.message
-          ? createCustomerErrors.message
-          : 'projects.createProject.message.error'
+        id: 'projects.createProject.message.error'
       });
       ErrorNotification(title, message);
       // clean error
