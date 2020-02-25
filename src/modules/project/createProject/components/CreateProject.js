@@ -92,9 +92,7 @@ const CreateProject = ({
     if (getCustomersError) {
       const title = intl.formatMessage({ id: 'notification.error' });
       const message = intl.formatMessage({
-        id: getCustomersErrors.message
-          ? getCustomersErrors.message
-          : 'customers.getCustomers.message.error'
+        id: 'customers.getCustomers.message.error'
       });
       ErrorNotification(title, message);
       // clean error
@@ -145,6 +143,10 @@ const CreateProject = ({
         };
         // call api when valid data
         createProject && createProject(body);
+        // form.resetFields();
+        setTimeout(() => {
+          window.location.reload()
+        }, 0)
       } else {
         // showing error form input notification
         const title = intl.formatMessage({ id: 'notification.error' });

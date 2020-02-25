@@ -70,9 +70,7 @@ const CreateMember = ({ visible, close, form, intl, getMembers, createMember }) 
     if (createMemberError) {
       const title = intl.formatMessage({ id: 'notification.error' });
       const message = intl.formatMessage({
-        id: createMemberErrors.message
-          ? createMemberErrors.message
-          : 'projects.createProject.message.error'
+        id: 'projects.createProject.message.error'
       });
       ErrorNotification(title, message);
       // clean error

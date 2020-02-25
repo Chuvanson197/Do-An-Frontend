@@ -205,6 +205,10 @@ const ProjectDetail = ({
   const handleAddMemberModal = () => {
     setOpenAddModal(!openAddModal);
   };
+  const isURL = str => {
+    var res = str.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_.~#?&//=]*)/g);
+    return (res !== null)
+  }
   const columns = [
     {
       title: <FormattedMessage id="projects.detail.member.staff_code" />,
@@ -337,7 +341,7 @@ const ProjectDetail = ({
                 {project
                   ? project.customField.map((obj) => (
                     <Descriptions.Item key={obj.idInfoCustomField} label={obj.name}>
-                      {obj && obj.value ? obj.value : ''}
+                      {isURL(obj.value) ? <a href={obj.value}>{obj.value}</a> : obj.value}
                     </Descriptions.Item>
                   ))
                   : null}

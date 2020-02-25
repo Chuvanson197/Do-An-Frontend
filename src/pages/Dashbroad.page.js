@@ -7,7 +7,6 @@ import { actions as projectActions } from '../modules/project/store';
 import moment from 'moment';
 import { DatePicker, Radio } from 'antd';
 import '../assets/styles/gantt/main.scss';
-import { gantt } from 'dhtmlx-gantt';
 import { FormattedMessage, injectIntl } from 'react-intl';
 
 
@@ -22,7 +21,7 @@ const DashbroadPage = ({ history, intl }) => {
   const dispatch = useDispatch();
   const { RangePicker } = DatePicker;
   const [data, setData] = useState({ data: null })
-  const [value, setValue] = useState([])
+  const [value, setValue] = useState([moment(new Date()).subtract(3, 'months'), moment(new Date())])
   const [mode, setMode] = useState(['month', 'month'])
   const { list } = useSelector(
     (state) => state.projects
@@ -37,11 +36,6 @@ const DashbroadPage = ({ history, intl }) => {
   const handleChange = (e) => {
     setValue([moment(new Date()).subtract(e.target.value, 'months'), moment(new Date())])
   }
-  useEffect(() => {
-    setTimeout(() => {
-      setValue([moment(new Date()).subtract(3, 'months'), moment(new Date())])
-    }, 300);
-  }, [])
   //reload time space when change on buttons
   useEffect(() => {
     if (value.length > 0) {
@@ -51,39 +45,20 @@ const DashbroadPage = ({ history, intl }) => {
         !(parseInt(moment(new Date(parseInt(project.start_time))).format('YYYYMM')) > parseInt(endTime) ||
           parseInt(moment(new Date(parseInt(project.end_time))).format('YYYYMM')) < parseInt(startTime))
       )
-      gantt.clearAll();
       setData({ data: null })
-      setTimeout(() => {
-        setData({
-          data: result.map(project => {
-            return {
-              id: project.id, text: project.name,
-              end_date: moment(parseInt(project.end_time, 10)).format('YYYY-MM-DD'),
-              start_date: moment(parseInt(project.start_time, 10)).format('YYYY-MM-DD'),
-              readonly: true,
-              color: colors[project.id % colors.length],
-            }
-          })
-        })
-      }, 0)
-    }
-  }, [value])
-  //load projects
-  useEffect(() => {
-    if (list.length > 0) {
       setData({
-        data: list.map(project => {
+        data: result.map(project => {
           return {
             id: project.id, text: project.name,
             end_date: moment(parseInt(project.end_time, 10)).format('YYYY-MM-DD'),
             start_date: moment(parseInt(project.start_time, 10)).format('YYYY-MM-DD'),
             readonly: true,
-            color: colors[project.id % colors.length]
+            color: colors[project.id % colors.length],
           }
         })
       })
     }
-  }, [list])
+  }, [value, list])
   useEffect(() => {
     dispatch(layoutActions.selectItem(['dashboard']));
     dispatch(
