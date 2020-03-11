@@ -2,6 +2,16 @@ import createResourceHandler from '../../../utils/createResourceHandler';
 
 const apiActions = [
   {
+    actionName: 'getValueTypes',
+    stateName: 'valueTypes',
+    method: 'GET'
+  },
+  {
+    actionName: 'getBaseCustomFields',
+    stateName: 'baseCustomFields',
+    method: 'GET'
+  },
+  {
     actionName: 'createCustomField',
     stateName: 'createCustomFieldResult',
     method: 'POST'

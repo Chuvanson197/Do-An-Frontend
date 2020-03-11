@@ -26,6 +26,9 @@ const DashbroadPage = ({ history, intl }) => {
   const { list } = useSelector(
     (state) => state.projects
   );
+  const { user } = useSelector(
+    (state) => state.auth
+  );
   const colors = ["#99cc00", "#BDC667", "#3C6174", "#0672AA", "#77966D", "#56282D", "#cc0000", "#0000ff", "#00ffcc"]
   //hanlde when change time on monthpicker
   const handlePanelChange = (value, mode) => {
@@ -61,12 +64,17 @@ const DashbroadPage = ({ history, intl }) => {
   }, [value, list])
   useEffect(() => {
     dispatch(layoutActions.selectItem(['dashboard']));
-    dispatch(
-      projectActions.getProjects({
-        path: 'projects'
-      })
-    );
-  }, [dispatch]);
+    user.type === "admin" ?
+      dispatch(
+        projectActions.getProjects({
+          path: 'projects'
+        })
+      ) : dispatch(
+        projectActions.getProjects({
+          path: `projects/byUser/${user.staff_code}`
+        })
+      );
+  }, [dispatch, user]);
   return (
     <div>
       <div className="zoom-bar">
