@@ -247,31 +247,31 @@ const UpdateCustomFieldDrawer = ({
                 <Row style={{ marginBottom: 10 }}>
                     <Icon type="project" style={{ marginRight: 10 }} />
                     <Typography.Text style={{ fontWeight: 'bold' }}>
-                        {<FormattedMessage id="setting.header.customfeild" />}
+                        {<FormattedMessage id="setting.header.customfield" />}
                     </Typography.Text>
                 </Row>
                 <Form.Item
                     style={{ display: 'flex' }}
-                    label={<FormattedMessage id="setting.lable.feildName" />}
+                    label={<FormattedMessage id="settinglabel.fieldName" />}
                     validateStatus={form.getFieldError('name') ? 'error' : 'validating'}>
                     {form.getFieldDecorator('name', {
                         initialValue: customfield.name,
                         rules: [
                             {
                                 required: true,
-                                message: <FormattedMessage id="setting.lable.feildName.validate" />
+                                message: <FormattedMessage id="settinglabel.fieldName.validate" />
                             }
                         ]
-                    })(<Input placeholder={intl.formatMessage({ id: "setting.placeholder.feildName" })}
+                    })(<Input placeholder={intl.formatMessage({ id: "setting.placeholder.fieldName" })}
                     />)}
                 </Form.Item>
-                <Form.Item label={<FormattedMessage id="setting.lable.feildProjects" />}>
+                <Form.Item label={<FormattedMessage id="settinglabel.fieldProjects" />}>
                     {form.getFieldDecorator('assignee', {
                         initialValue: customfield.infocustomField.map(e => { return (e.project.id) }),
                         rules: [
                             {
                                 required: false,
-                                message: intl.formatMessage({ id: "setting.lable.feildprojects.validate" }),
+                                message: intl.formatMessage({ id: "settinglabel.fieldprojects.validate" }),
                                 type: 'array'
                             },
                         ],
@@ -311,7 +311,7 @@ const UpdateCustomFieldDrawer = ({
                                 }
                             }
                             }
-                            placeholder={<FormattedMessage id="setting.placeholder.feildProjects" />} notFoundContent={loading && <Spin size="small" />}>
+                            placeholder={<FormattedMessage id="setting.placeholder.fieldProjects" />} notFoundContent={loading && <Spin size="small" />}>
                             {/* add option All */}
                             <Select.Option title="setting.allProject" value={0}>{<FormattedMessage id="setting.allProject" />}</Select.Option>
                             {(list || []).map(e => {
@@ -328,7 +328,7 @@ const UpdateCustomFieldDrawer = ({
                     {form.getFieldDecorator('require', {
                         valuePropName: 'checked',
                         initialValue: customfield.require,
-                    })(<Checkbox>{<FormattedMessage id="setting.lable.feildOptions" />}</Checkbox>)}
+                    })(<Checkbox>{<FormattedMessage id="settinglabel.fieldOptions" />}</Checkbox>)}
                 </Form.Item>
                 <Row className={styles.drawerFooter}>
                     <Popconfirm

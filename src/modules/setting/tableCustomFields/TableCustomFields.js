@@ -70,12 +70,12 @@ const TableCustomFields = ({ intl,
   };
   const columns = [
     {
-      title: <FormattedMessage id="setting.lable.feildName" />,
+      title: <FormattedMessage id="setting.label.fieldName" />,
       dataIndex: 'name',
       key: 'name',
     },
     {
-      title: <FormattedMessage id="setting.lable.feildProjects"/>,
+      title: <FormattedMessage id="setting.label.fieldProjects" />,
       dataIndex: 'infocustomField',
       key: 'infocustomField',
       render: (infocustomField) => {

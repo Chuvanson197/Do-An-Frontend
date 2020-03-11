@@ -280,25 +280,25 @@ const UpdateProjectDrawer = ({
             <FormattedMessage id="projects.createProject.descriptions" />
           </Typography.Text>
         </Row>
-        {project
+        {(project && project.customField.length > 0)
           ? project.customField.map((obj) => (
-              <Form.Item
-                key={obj.idInfoCustomField}
-                style={{ display: 'flex' }}
-                label={obj.name}
-                validateStatus={form.getFieldError(obj.name) ? 'error' : 'validating'}>
-                {form.getFieldDecorator(obj.name, {
-                  rules: [
-                    {
-                      required: obj.require,
-                      message:
-                        obj.name + intl.formatMessage({ id: 'projects.createProject.required' })
-                    }
-                  ],
-                  initialValue: obj.value
-                })(<Input />)}
-              </Form.Item>
-            ))
+            <Form.Item
+              key={obj.idInfoCustomField}
+              style={{ display: 'flex' }}
+              label={obj.name}
+              validateStatus={form.getFieldError(obj.name) ? 'error' : 'validating'}>
+              {form.getFieldDecorator(obj.name, {
+                rules: [
+                  {
+                    required: obj.require,
+                    message:
+                      obj.name + intl.formatMessage({ id: 'projects.createProject.required' })
+                  }
+                ],
+                initialValue: obj.value
+              })(<Input />)}
+            </Form.Item>
+          ))
           : null}
 
         <Row style={{ marginBottom: 10 }}>

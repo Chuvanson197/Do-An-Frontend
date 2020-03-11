@@ -43,7 +43,7 @@ const ProjectsPage = ({ history, intl }) => {
   const { list, loading, getProjectsError, getProjectsErrors } = useSelector(
     (state) => state.projects
   );
-  
+  const { user } = useSelector((state) => state.auth);
   const [visible, setVisible] = useState(false);
 
   // check authencation if not redirect to login page
@@ -51,12 +51,17 @@ const ProjectsPage = ({ history, intl }) => {
   // get projects list
   useEffect(() => {
     dispatch(layoutActions.selectItem(['project']));
-    dispatch(
-      projectActions.getProjects({
-        path: 'projects'
-      })
-    );
-  }, [dispatch]);
+    user.type === "admin" ?
+      dispatch(
+        projectActions.getProjects({
+          path: 'projects'
+        })
+      ) : dispatch(
+        projectActions.getProjects({
+          path: `projects/byUser/${user.staff_code}`
+        })
+      );
+  }, [dispatch, user]);
 
   // show notification if get projects list failure
   useEffect(() => {
@@ -73,12 +78,17 @@ const ProjectsPage = ({ history, intl }) => {
   }, [dispatch, getProjectsError, getProjectsErrors, intl]);
 
   const getProjects = useCallback(() => {
-    dispatch(
-      projectActions.getProjects({
-        path: 'projects'
-      })
-    );
-  }, [dispatch]);
+    user.type === "admin" ?
+      dispatch(
+        projectActions.getProjects({
+          path: 'projects'
+        })
+      ) : dispatch(
+        projectActions.getProjects({
+          path: `projects/byUser/${user.staff_code}`
+        })
+      );
+  }, [dispatch, user]);
 
   const getCustomers = useCallback(() => {
     dispatch(
