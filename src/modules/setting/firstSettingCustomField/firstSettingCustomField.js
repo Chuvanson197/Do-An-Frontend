@@ -1,18 +1,29 @@
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { FormattedMessage, injectIntl } from 'react-intl';
+import { Table, Tooltip, Popconfirm, Button, Form, Input, Select, Row } from 'antd';
+import PropTypes from 'prop-types';
+import WithRole from '../../../hocs/WithRole';
+import '../../../assets/styles/firstSettingGlobalCustomField/main.scss';
+import { actions as settingActions } from '../store';
+import ErrorNotification from '../../../components/Notification/Error';
 
-import React, { useContext, useState, useEffect, useRef } from 'react';
-import { Table, Input, Button, Popconfirm, Form } from 'antd';
+const propTypes = {
+    intl: PropTypes.shape({}).isRequired,
+    createCustomField: PropTypes.func.isRequired
+};
 
+const defaultProps = {};
 
-const EditableContext = React.createContext();
-
-const EditableRow = ({ index, ...props }) => {
-    const [form] = Form.useForm();
+const ButtonDeleteCustomField = ({ record, handleDelete }) => {
     return (
-        <Form form={form} component={false}>
-            <EditableContext.Provider value={form}>
-                <tr {...props} />
-            </EditableContext.Provider>
-        </Form>
+        <Popconfirm
+            title={<FormattedMessage id="setting.deleteCustomField.confirm" />}
+            onConfirm={() => handleDelete(record)}
+            okText={<FormattedMessage id="button.confirm.yes" />}
+            cancelText={<FormattedMessage id="button.confirm.no" />}>
+            <Button shape="circle" icon="delete" type="danger" style={{ margin: '0px 5px' }} />
+        </Popconfirm>
     );
 };
 
@@ -23,161 +34,294 @@ const EditableCell = ({
     dataIndex,
     record,
     handleSave,
+    validateCell,
     ...restProps
 }) => {
-    const [editing, setEditing] = useState(false);
-    const inputRef = useRef();
-    const form = useContext(EditableContext);
+    const dispatch = useDispatch();
     useEffect(() => {
-        if (editing) {
-            inputRef.current.focus();
+        // get value type/baseCustomField
+        dispatch(
+            settingActions.getValueTypes({
+                path: 'data/valueType'
+            })
+        );
+        dispatch(
+            settingActions.getBaseCustomFields({
+                path: 'data/baseCustomField'
+            })
+        );
+    }, [dispatch]);
+    const { valueTypes } = useSelector(
+        (state) => state.setting
+    );
+    const [validate, setValidate] = useState([
+        {
+            status: "",
+            help: ""
         }
-    }, [editing]);
+    ]);
 
-    const toggleEdit = () => {
-        setEditing(!editing);
-        form.setFieldsValue({
-            [dataIndex]: record[dataIndex],
-        });
-    };
-
-    const save = async e => {
-        try {
-            const values = await form.validateFields();
-            toggleEdit();
-            handleSave({ ...record, ...values });
-        } catch (errInfo) {
-            console.log('Save failed:', errInfo);
+    const handleChangeSelect = (e) => {
+        record[dataIndex] = e;
+        save()
+    }
+    //handle change input
+    const handleChange = (e) => {
+        if (!e.target.value) {
+            setValidate({
+                ...validate, status: "error", help: <FormattedMessage id={`setting.label.${dataIndex}.validate`} />
+            })
+            validateCell(record, dataIndex, true)
         }
+        else {
+            setValidate({ ...validate, status: "success", help: "" });
+            validateCell(record, dataIndex, false)
+        }
+        record[dataIndex] = e.target.value
+    }
+
+    const save = e => {
+        handleSave({ ...record });
     };
 
     let childNode = children;
 
     if (editable) {
-        childNode = editing ? (
+        childNode = (
             <Form.Item
                 style={{
-                    margin: 0,
+                    margin: 0
                 }}
-                name={dataIndex}
-                rules={[
-                    {
-                        required: true,
-                        message: `${title} is required.`,
-                    },
-                ]}
+                validateStatus={validate.status}
+                help={validate.help}
             >
-                <Input ref={inputRef} onPressEnter={save} onBlur={save} />
+                {dataIndex === "valueType"
+                    ? <Select style={{ width: "100%" }}
+                        onChange={handleChangeSelect}
+                        placeholder={<FormattedMessage id="setting.placeholder.valueType" />}
+                        defaultValue={record[dataIndex]}
+                    >
+                        {valueTypes && valueTypes.map(e =>
+                            <Select.Option style={{ textTransform: 'capitalize' }} key={e.id} value={e.value}>{e.value}</Select.Option>)}
+                    </Select>
+                    : <Input onChange={handleChange} defaultValue={record[dataIndex]} onPressEnter={save} onBlur={save} />}
             </Form.Item>
-        ) : (
-                <div
-                    className="editable-cell-value-wrap"
-                    style={{
-                        paddingRight: 24,
-                    }}
-                    onClick={toggleEdit}
-                >
-                    {children}
-                </div>
-            );
+        )
     }
-
     return <td {...restProps}>{childNode}</td>;
 };
 
-const firstSettingCustomField = () => {
-    let columns = [
-        {
-            title: 'name',
-            dataIndex: 'name',
-            width: '30%',
-            editable: true,
-        },
-        {
-            title: 'age',
-            dataIndex: 'age',
-        },
-        {
-            title: 'address',
-            dataIndex: 'address',
-        },
-        {
-            title: 'operation',
-            dataIndex: 'operation',
-            render: (text, record) =>
-                dataSource.length >= 1 ? (
-                    <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.key)}>
-                        <a>Delete</a>
-                    </Popconfirm>
-                ) : null,
-        },
 
-    ]
-    const [dataSource, setDataSource] = useState([
-        {
-            key: '0',
-            name: 'Edward King 0',
-            age: '32',
-            address: 'London, Park Lane no. 0',
-        },
-        {
-            key: '1',
-            name: 'Edward King 1',
-            age: '32',
-            address: 'London, Park Lane no. 1',
-        },
-    ])
-    const [count, setCount] = useState(2)
+const FirstSettingCustomField = ({ intl, createCustomField, getProjects }) => {
+    const dispatch = useDispatch();
+    const { baseCustomFields } = useSelector(
+        (state) => state.setting
+    );
+    const [globalCustomFields, setGlobalCustomFields] = useState([]);
+    const { list } = useSelector(
+        (state) => state.projects
+    );
+    const [dataSource, setDataSource] = useState([]);
+    const [count, setCount] = useState(1)
+    const [validateError, setValidateError] = useState([])
 
+    useEffect(() => {
+        // get value type/baseCustomField
+        dispatch(
+            settingActions.getBaseCustomFields({
+                path: 'data/baseCustomField'
+            })
+        );
+    }, [dispatch]);
+
+    // Get all projects after open modal
+    useEffect(() => {
+        getProjects && getProjects();
+    }, [getProjects, dispatch]);
     const handleAdd = () => {
-        const newData = {
+        setDataSource([...dataSource, {
             key: count,
-            name: `Edward King ${count}`,
-            age: 32,
-            address: `London, Park Lane no. ${count}`,
-        };
-        setDataSource([...dataSource, newData]);
-        setCount(count + 1);
-
-    };
+            fieldName: "fieldName",
+            valueType: "Text",
+            defaultValue: "https://google.com"
+        }])
+        setCount(count + 1)
+        setValidateError([...validateError, { key: count, fieldName: false, valueType: false, defaultValue: false, error: false }])
+    }
 
     const handleSave = row => {
         const newData = dataSource;
         const index = newData.findIndex(item => row.key === item.key);
         const item = newData[index];
         newData.splice(index, 1, { ...item, ...row });
-        setDataSource(newData)
+        setDataSource([...newData]);
     };
+    const handleChangeCustomField = (e) => {
+        let listCustomField = baseCustomFields.filter(obj => e.includes(obj.id))
+        setGlobalCustomFields(listCustomField)
+    }
+    const handleSubmit = () => {
 
-    const handleDelete = key => {
-        setDataSource(dataSource.filter(item => item.key !== key))
-    };
+        if (validateError.filter(obj => obj.error === true).length > 0) {
+            // showing error form input notification
+            const title = intl.formatMessage({ id: 'notification.error' });
+            const message = intl.formatMessage({ id: 'notification.message.form.error' });
+            ErrorNotification(title, message);
 
+        }
+        else {
+            let global = [...globalCustomFields];
+            let projects = list.map(obj => obj.id)
+            dataSource.map(obj => {
+                global.push({
+                    id: globalCustomFields.length + obj.key * 1,
+                    name: obj.fieldName,
+                    require: true,
+                    default_value: obj.defaultValue,
+                    value_type: obj.valueType
+                })
+                return undefined
+            })
+            global.map(obj => {
+                createCustomField && createCustomField({
+                    name: obj.name,
+                    assignee: projects,
+                    valueType: obj.value_type,
+                    defaultValue: obj.default_value,
+                    require: obj.require,
+                    is_global: true
+                });
+
+            })
+            window.location.reload()
+        }
+    }
+    const handleDelete = (record) => {
+        setDataSource(dataSource.filter(item => item.key !== record.key))
+        setValidateError(validateError.filter(obj => obj.key !== record.key))
+    }
+    //validate on cell
+    const validateCell = (record, fieldName, boolean) => {
+        for (let i = 0; i < validateError.length; i++) {
+            if (validateError[i].key === record.key) {
+                let cloneValidateCell = [...validateError];
+                if (boolean) {
+                    cloneValidateCell[i][`${fieldName}`] = true
+                } else cloneValidateCell[i][`${fieldName}`] = false
+                if (Object.values(cloneValidateCell[i]).slice(1, 4).includes(true)) cloneValidateCell[i].error = true
+                else cloneValidateCell[i].error = false;
+                setValidateError([...cloneValidateCell])
+            }
+        }
+    }
+
+    const columns = [
+        {
+            title: <FormattedMessage id="setting.label.fieldName" />,
+            dataIndex: 'fieldName',
+            key: 'fieldName',
+            editable: true,
+            width: '300px',
+            onCell: record => ({
+                record,
+                title: <FormattedMessage id="setting.label.fieldName" />,
+                dataIndex: 'fieldName',
+                editable: true,
+                handleSave: handleSave,
+                validateCell: validateCell
+            })
+        },
+        {
+            title: <FormattedMessage id="setting.label.valueType" />,
+            dataIndex: 'valueType',
+            key: 'valueType',
+            editable: true,
+            width: '240px',
+            onCell: record => ({
+                record,
+                title: <FormattedMessage id="setting.label.valueType" />,
+                dataIndex: 'valueType',
+                editable: true,
+                handleSave: handleSave,
+                validateCell: validateCell
+            })
+        },
+        {
+            title: <FormattedMessage id="setting.label.defaultValue" />,
+            dataIndex: 'defaultValue',
+            key: 'defaultValue',
+            editable: true,
+            onCell: record => ({
+                record,
+                title: <FormattedMessage id="setting.label.defaultValue" />,
+                dataIndex: 'defaultValue',
+                editable: true,
+                handleSave: handleSave,
+                validateCell: validateCell
+            })
+        },
+        {
+            title: '',
+            dataIndex: '',
+            key: 'x',
+            align: 'right',
+            width: '180px',
+            render: (record) => (
+                <React.Fragment>
+                    <Tooltip
+                        placement="top"
+                        title={<FormattedMessage id="members.memberTable.buttonDelete.title" />}>
+                        <WithRole
+                            type={['admin']}
+                            component={ButtonDeleteCustomField}
+                            record={record}
+                            handleDelete={handleDelete}
+                        />
+                    </Tooltip>
+                </React.Fragment>
+            )
+        }
+    ];
     return (
-        <div>
-            <Button
-                onClick={handleAdd}
-                type="primary"
-                style={{
-                    marginBottom: 16,
-                }}
-            >
-                Add a row
-        </Button>
+        <React.Fragment>
+            <Row justify="space-between" align="middle">
+                <Button
+                    onClick={handleAdd}
+                    icon="plus"
+                    type="primary"
+                    style={{
+                        marginBottom: 16,
+                    }}
+                >
+                    {<FormattedMessage id="button.add" />}
+                </Button>
+                <Select
+                    mode="multiple"
+                    style={{ width: "500px", float: "right" }}
+                    onChange={handleChangeCustomField}
+                    placeholder={<FormattedMessage id="setting.placeholder.baseCustomFields" />}
+                >
+                    {baseCustomFields && baseCustomFields.map(e =>
+                        <Select.Option style={{ textTransform: 'capitalize' }} key={e.id} value={e.id}>{e.name}</Select.Option>)}
+                </Select>
+            </Row>
             <Table
-                components={{
-                    body: {
-                        row: EditableRow,
-                        cell: EditableCell,
-                    },
-                }}
-                rowClassName={() => 'editable-row'}
-                bordered
-                dataSource={{ dataSource: dataSource, count: count }}
                 columns={columns}
+                rowClassName={() => "editable-row"}
+                components={{ body: { cell: EditableCell } }}
+                dataSource={dataSource}
+                pagination={false}
             />
-        </div>
+            <Row style={{ display: 'flex', justifyContent: 'center' }}>
+                <Button type="primary" style={{ marginTop: "30px" }} onClick={handleSubmit}>
+                    {<FormattedMessage id="setting.button.addCustomFields" />}
+                </Button>
+            </Row>
+        </React.Fragment>
     )
 
+
 }
-export default firstSettingCustomField;
+FirstSettingCustomField.propTypes = propTypes;
+FirstSettingCustomField.defaultProps = defaultProps;
+export default injectIntl(FirstSettingCustomField, {});

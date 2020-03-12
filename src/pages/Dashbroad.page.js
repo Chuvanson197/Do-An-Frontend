@@ -29,7 +29,6 @@ const DashbroadPage = ({ history, intl }) => {
   const { user } = useSelector(
     (state) => state.auth
   );
-  const colors = ["#99cc00", "#BDC667", "#3C6174", "#0672AA", "#77966D", "#56282D", "#cc0000", "#0000ff", "#00ffcc"]
   //hanlde when change time on monthpicker
   const handlePanelChange = (value, mode) => {
     setValue(value);
@@ -41,6 +40,7 @@ const DashbroadPage = ({ history, intl }) => {
   }
   //reload time space when change on buttons
   useEffect(() => {
+    let colors = ["#99cc00", "#BDC667", "#3C6174", "#0672AA", "#77966D", "#56282D", "#cc0000", "#0000ff", "#00ffcc"];
     if (value.length > 0) {
       let startTime = moment(value[0]._d).format('YYYYMM');
       let endTime = moment(value[1]._d).format('YYYYMM');

@@ -15,6 +15,7 @@ import FormCreateCustomField from '../modules/setting/createCustomField/CreateCu
 import TableCustomFields from '../modules/setting/tableCustomFields/TableCustomFields';
 import WithRole from '../hocs/WithRole';
 import ErrorNotification from '../components/Notification/Error';
+import FirstSettingCustomField from '../modules/setting/firstSettingCustomField/firstSettingCustomField';
 
 const { TabPane } = Tabs;
 
@@ -180,75 +181,83 @@ const SettingForm = ({ intl, form }) => {
       <Row>
         <HeaderTitle title={intl.formatMessage({ id: 'setting.header.title' })} />
       </Row>
+      {(customField && customField.length > 0) || (globalCustomField && globalCustomField.length > 0) ? <Row>
+        <Row>
+          <Col>
+            <WithRole
+              type={['admin']}
+              component={ButtonCreateCustomField}
+              handleCreateModal={handleCreateModal}
+              intl={intl}
+            />
+            <WithRole
+              type={['admin']}
+              component={ButtonCreateGlobalCustomField}
+              handleCreateModal={handleCreateModalGlobal}
+              intl={intl}
+            />
+          </Col>
+          <Col span={10} offset={14}>
+            <Input placeholder="Search" value={searchInput} onChange={handleChange} />
+          </Col>
+        </Row>
+        {visibleCustomField && (
+          <FormCreateCustomField
+            global={false}
+            visible={visibleCustomField}
+            close={() => setVisibleCustomField(!visibleCustomField)}
+            form={form}
+            intl={intl}
+            createCustomField={createCustomField}
+            getCustomFields={getCustomFields}
+            getProjects={getProjects}
+          />
+        )}
+        {visibleGlobalCustomField && (
+          <FormCreateCustomField
+            global={true}
+            visible={visibleGlobalCustomField}
+            close={() => setVisibleGlobalCustomField(!visibleGlobalCustomField)}
+            form={form}
+            intl={intl}
+            createCustomField={createCustomField}
+            getCustomFields={getCustomFields}
+            getProjects={getProjects}
+          />
+        )}
 
-      <Row>
-        <Col>
-          <WithRole
-            type={['admin']}
-            component={ButtonCreateCustomField}
-            handleCreateModal={handleCreateModal}
-            intl={intl}
-          />
-          <WithRole
-            type={['admin']}
-            component={ButtonCreateGlobalCustomField}
-            handleCreateModal={handleCreateModalGlobal}
-            intl={intl}
-          />
-        </Col>
-        <Col span={10} offset={14}>
-          <Input placeholder="Search" value={searchInput} onChange={handleChange} />
-        </Col>
+        <Tabs defaultActiveKey="1">
+          <TabPane tab={intl.formatMessage({ id: 'setting.tabsLabel.customField' })} key="1">
+            <TableCustomFields
+              customfields={customField}
+              removeCustomField={removeCustomField}
+              getCustomFields={getCustomFields}
+              updateCustomField={updateCustomField}
+              createAssigneeProject={createAssigneeProject}
+              removeAssigneeProject={removeAssigneeProject}
+              getProjects={getProjects}
+            />
+          </TabPane>
+          <TabPane tab={intl.formatMessage({ id: 'setting.tabsLabel.globalCustomField' })} key="2">
+            <TableCustomFields
+              customfields={globalCustomField}
+              removeCustomField={removeCustomField}
+              getCustomFields={getCustomFields}
+              updateCustomField={updateCustomField}
+              createAssigneeProject={createAssigneeProject}
+              removeAssigneeProject={removeAssigneeProject}
+              getProjects={getProjects}
+            />
+          </TabPane>
+        </Tabs>
       </Row>
-      {visibleCustomField && (
-        <FormCreateCustomField
-          global={false}
-          visible={visibleCustomField}
-          close={() => setVisibleCustomField(!visibleCustomField)}
-          form={form}
-          intl={intl}
+        :
+        <FirstSettingCustomField
           createCustomField={createCustomField}
-          getCustomFields={getCustomFields}
-          getProjects={getProjects}
-        />
-      )}
-      {visibleGlobalCustomField && (
-        <FormCreateCustomField
-          global={true}
-          visible={visibleGlobalCustomField}
-          close={() => setVisibleGlobalCustomField(!visibleGlobalCustomField)}
-          form={form}
           intl={intl}
-          createCustomField={createCustomField}
-          getCustomFields={getCustomFields}
           getProjects={getProjects}
-        />
-      )}
 
-      <Tabs defaultActiveKey="1">
-        <TabPane tab={intl.formatMessage({ id: 'setting.tabsLabel.customField' })} key="1">
-          <TableCustomFields
-            customfields={customField}
-            removeCustomField={removeCustomField}
-            getCustomFields={getCustomFields}
-            updateCustomField={updateCustomField}
-            createAssigneeProject={createAssigneeProject}
-            removeAssigneeProject={removeAssigneeProject}
-            getProjects={getProjects}
-          />
-        </TabPane>
-        <TabPane tab={intl.formatMessage({ id: 'setting.tabsLabel.globalCustomField' })} key="2">
-          <TableCustomFields
-            customfields={globalCustomField}
-            removeCustomField={removeCustomField}
-            getCustomFields={getCustomFields}
-            updateCustomField={updateCustomField}
-            createAssigneeProject={createAssigneeProject}
-            removeAssigneeProject={removeAssigneeProject}
-            getProjects={getProjects}
-          />
-        </TabPane>
-      </Tabs>
+        />}
     </Row>
   );
 };

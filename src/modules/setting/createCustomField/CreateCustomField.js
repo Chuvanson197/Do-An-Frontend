@@ -79,7 +79,7 @@ const CreateCustomField = ({ form, intl, createCustomField, visible, close, getC
 
     const handleSubmit = () => {
         form.validateFields((err, values) => {
-            if (!err && defaultValue.status === "success") {
+            if (!err && defaultValue.status === "success") {``````
                 // call api when valid data
                 global ? values.is_global = true : values.is_global = false
                 createCustomField && createCustomField(values);
@@ -269,7 +269,7 @@ const CreateCustomField = ({ form, intl, createCustomField, visible, close, getC
                         }
                     ]
                 })(defaultValue.type === "Text Area" ?
-                    <Input.TextArea placeholder={intl.formatMessage({ id: "setting.placeholder.defaultValue" })} />
+                    <Input.TextArea onChange={handleChangeInput} placeholder={intl.formatMessage({ id: "setting.placeholder.defaultValue" })} />
                     : <Input onChange={handleChangeInput} placeholder={intl.formatMessage({ id: "setting.placeholder.defaultValue" })} />)}
                 </Form.Item>
                 <Form.Item wrapperCol={{ span: 12, offset: 6 }}>
