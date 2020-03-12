@@ -25,15 +25,13 @@ const styles = {
   `
 };
 
-const ProjectMemberHistory = ({ intl, getMemberHistory}) => {
+const ProjectMemberHistory = ({ intl, getMemberHistory }) => {
   const dispatch = useDispatch();
   const [dateRange, setDateRange] = useState([moment().startOf('year'), moment().endOf('year')]);
   const { getMemberHistoryError, getMemberHistoryErrors } = useSelector((state) => state.projects);
 
   // First call members list api
   useEffect(() => {
-    console.log('call 1 time only');
-
     const body = {
       time_in: parseInt(
         moment()

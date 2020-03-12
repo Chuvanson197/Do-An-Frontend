@@ -252,26 +252,26 @@ const UpdateCustomFieldDrawer = ({
                 </Row>
                 <Form.Item
                     style={{ display: 'flex' }}
-                    label={<FormattedMessage id="settinglabel.fieldName" />}
+                    label={<FormattedMessage id="setting.label.fieldName" />}
                     validateStatus={form.getFieldError('name') ? 'error' : 'validating'}>
                     {form.getFieldDecorator('name', {
                         initialValue: customfield.name,
                         rules: [
                             {
                                 required: true,
-                                message: <FormattedMessage id="settinglabel.fieldName.validate" />
+                                message: <FormattedMessage id="setting.label.fieldName.validate" />
                             }
                         ]
                     })(<Input placeholder={intl.formatMessage({ id: "setting.placeholder.fieldName" })}
                     />)}
                 </Form.Item>
-                <Form.Item label={<FormattedMessage id="settinglabel.fieldProjects" />}>
+                <Form.Item label={<FormattedMessage id="setting.label.fieldProjects" />}>
                     {form.getFieldDecorator('assignee', {
                         initialValue: customfield.infocustomField.map(e => { return (e.project.id) }),
                         rules: [
                             {
                                 required: false,
-                                message: intl.formatMessage({ id: "settinglabel.fieldprojects.validate" }),
+                                message: intl.formatMessage({ id: "setting.label.fieldprojects.validate" }),
                                 type: 'array'
                             },
                         ],
@@ -328,7 +328,7 @@ const UpdateCustomFieldDrawer = ({
                     {form.getFieldDecorator('require', {
                         valuePropName: 'checked',
                         initialValue: customfield.require,
-                    })(<Checkbox>{<FormattedMessage id="settinglabel.fieldOptions" />}</Checkbox>)}
+                    })(<Checkbox>{<FormattedMessage id="setting.label.fieldOptions" />}</Checkbox>)}
                 </Form.Item>
                 <Row className={styles.drawerFooter}>
                     <Popconfirm
