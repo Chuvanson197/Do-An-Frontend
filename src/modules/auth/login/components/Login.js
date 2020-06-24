@@ -28,6 +28,7 @@ const styles = {
 const Login = () => {
   const dispatch = useDispatch();
   const responseGoogle = (response) => {
+    console.log('reponse', response);
     const body = {
       googleAccessToken: response.tokenObj.access_token
     };

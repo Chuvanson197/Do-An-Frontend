@@ -132,6 +132,8 @@ const FirstSettingCustomField = ({ intl, createCustomField, getProjects }) => {
                 path: 'data/baseCustomField'
             })
         );
+        console.log('baseCustomFields', baseCustomFields);
+        
     }, [dispatch]);
 
     // Get all projects after open modal

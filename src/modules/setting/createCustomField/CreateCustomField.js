@@ -62,6 +62,8 @@ const CreateCustomField = ({ form, intl, createCustomField, visible, close, getC
                 path: 'data/valueType'
             })
         );
+        console.log('valueTypes', valueTypes);
+        
     }, [dispatch]);
 
     const [defaultValue, setDefaultValue] = useState({})
@@ -79,7 +81,7 @@ const CreateCustomField = ({ form, intl, createCustomField, visible, close, getC
 
     const handleSubmit = () => {
         form.validateFields((err, values) => {
-            if (!err && defaultValue.status === "success") {``````
+            if (!err && defaultValue.status === "success") {
                 // call api when valid data
                 global ? values.is_global = true : values.is_global = false
                 createCustomField && createCustomField(values);

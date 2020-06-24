@@ -10,15 +10,22 @@ import { dispatchLogin } from '../actions/auth';
 import { authApi } from '../api/auth/authApi';
 
 function CallbackOAuth(props) {
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatchHideLayout(dispatch);
+    console.log('props', props);
 
-    if (props.location.search) {
-      const query = props.location.search;
-      const accessCode = query.split('=');
-      authApi.login(accessCode[1]).then((userLogin) => {
+    if (props.location) {
+      // const query = props.location.search;
+      const token = props.location.hash.split('&')[1].split('=')[1];
+      console.log('props', props);
+      // console.log('query', query.slice(6, 97));
+      // const accessCode = query.slice(6, 97);
+      authApi.login(token).then((userLogin) => {
+        console.log('userLogin', userLogin);
         const userInfo = jwtDecode(userLogin.data.access_token);
+
         localStorage.setItem('expresIn', userInfo.exp * 1000);
         Cookies.set('access-token', userLogin.data.access_token, { secure: false, path: '/' });
         dispatchShowLayout(dispatch);
