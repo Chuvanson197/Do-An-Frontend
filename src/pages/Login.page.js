@@ -4,9 +4,14 @@ import { Icon } from 'antd';
 import GoogleLogin from 'react-google-login';
 import { authApi } from '../api/auth/authApi';
 import jwtDecode from 'jwt-decode';
-
+import Cookies from 'js-cookie';
 import '../assets/styles/login.scss';
-import { dispatchHideLayout } from '../actions/layout';
+// import {dispatchShowLayout} from '../actions/layout';
+// import {dispatchLogin} from '../actions/auth';
+
+// import { dispatchHideLayout } from '../actions/layout';
+import { dispatchHideLayout, dispatchShowLayout } from '../actions/layout';
+import { dispatchLogin } from '../actions/auth';
 
 const LoginPage = (props) => {
   const dispatch = useDispatch();
@@ -19,22 +24,13 @@ const LoginPage = (props) => {
     window.location.href = process.env.REACT_APP_AUTH;
   };
   const responseGoogle = (reponse) => {
-    console.log('reponse', reponse);
-    console.log('profileObj', reponse.profileObj);
-    console.log('accessToken', reponse.accessToken);
-
-
-    authApi.login(reponse.accessToken).then((userLogin) => {
+    authApi.login(reponse).then((userLogin) => {
       const userInfo = jwtDecode(userLogin.data.access_token);
-      console.log('userLogin', userLogin);
-      console.log('userInfo', userInfo);
-
-
-      // localStorage.setItem('expresIn', userInfo.exp * 1000);
-      // Cookies.set('access-token', userLogin.data.access_token, { secure: false, path: '/' });
-      // dispatchShowLayout(dispatch);
-      // dispatchLogin(dispatch, { ...userInfo, role: 'normal' });
-      // props.history.push('/project');
+      localStorage.setItem('expresIn', userInfo.exp * 1000);
+      Cookies.set('access-token', userLogin.data.access_token, { secure: false, path: '/' });
+      dispatchShowLayout(dispatch);
+      dispatchLogin(dispatch, { ...userInfo });
+      props.history.push('/project');
     });
   };
 
